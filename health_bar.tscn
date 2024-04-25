@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://bjln7kkve4d5a"]
+
+[ext_resource type="Script" path="res://health_bar.gd" id="1_msr36"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rprwy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mafq4"]
+bg_color = Color(0, 0.67451, 0, 1)
+
+[node name="ProgressBar" type="ProgressBar"]
+offset_right = 4.0
+offset_bottom = 27.0
+theme_override_styles/background = SubResource("StyleBoxFlat_rprwy")
+theme_override_styles/fill = SubResource("StyleBoxFlat_mafq4")
+show_percentage = false
+script = ExtResource("1_msr36")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Health: "

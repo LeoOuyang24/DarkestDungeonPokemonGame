@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://b47h1xhj5vu6o"]
+
+[ext_resource type="Script" path="res://start_battle.gd" id="1_56l4h"]
+[ext_resource type="PackedScene" uid="uid://b3hux6c6p4pfu" path="res://BattleUI.tscn" id="5_4xqqh"]
+
+[node name="Battle" type="Node2D"]
+script = ExtResource("1_56l4h")
+
+[node name="BattleUI" parent="." instance=ExtResource("5_4xqqh")]
+
+[editable path="BattleUI"]

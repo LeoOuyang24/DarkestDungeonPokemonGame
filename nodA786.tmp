@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://b47h1xhj5vu6o"]
+
+[ext_resource type="Script" path="res://start_battle.gd" id="1_56l4h"]
+[ext_resource type="Script" path="res://Player.gd" id="3_k5y8n"]
+[ext_resource type="SpriteFrames" uid="uid://c6o5dtok81efx" path="res://sprites/dialga.tres" id="4_0m0t1"]
+[ext_resource type="Script" path="res://BattleLog.gd" id="4_dlffe"]
+[ext_resource type="Script" path="res://Enemy.gd" id="4_vc3cb"]
+
+[node name="Battle" type="Node2D"]
+script = ExtResource("1_56l4h")
+
+[node name="BattleLog" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+offset_left = 291.0
+offset_top = 406.0
+offset_right = 617.0
+offset_bottom = 577.0
+script = ExtResource("4_dlffe")
+
+[node name="Ally1" type="Node2D" parent="."]
+script = ExtResource("3_k5y8n")
+health = 100
+sprite = ExtResource("4_0m0t1")
+
+[node name="Enemy1" type="Node2D" parent="."]
+script = ExtResource("4_vc3cb")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqsfei63od030"]
+
+[ext_resource type="Script" path="res://CreatureSlot.gd" id="1_renfr"]
+[ext_resource type="PackedScene" uid="uid://bjln7kkve4d5a" path="res://health_bar.tscn" id="2_li7vh"]
+
+[node name="CreatureSlot" type="Node2D"]
+script = ExtResource("1_renfr")
+metadata/_edit_horizontal_guides_ = [-64.0]
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(-2.27374e-13, -4.54747e-13)
+scale = Vector2(2.7234, 2)
+
+[node name="HealthBar" parent="." instance=ExtResource("2_li7vh")]
+offset_left = -64.0
+offset_top = 72.0
+offset_right = 64.0
+offset_bottom = 99.0
+
+[node name="Label" parent="HealthBar" index="0"]
+text = ""
+
+[editable path="HealthBar"]

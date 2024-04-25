@@ -1,0 +1,96 @@
+[gd_scene load_steps=4 format=3 uid="uid://b3hux6c6p4pfu"]
+
+[ext_resource type="Script" path="res://BattleUI.gd" id="1_0uu34"]
+[ext_resource type="PackedScene" uid="uid://bqsfei63od030" path="res://CreatureSlot.tscn" id="2_xe4qy"]
+[ext_resource type="Script" path="res://BattleLog.gd" id="2_xhj7n"]
+
+[node name="BattleUI" type="Node2D"]
+script = ExtResource("1_0uu34")
+
+[node name="BattleSpriteRect" type="ReferenceRect" parent="."]
+offset_left = 448.0
+offset_top = 128.0
+offset_right = 704.0
+offset_bottom = 256.0
+editor_only = false
+
+[node name="AllyRow" type="ReferenceRect" parent="."]
+offset_top = 192.0
+offset_right = 408.0
+offset_bottom = 192.0
+editor_only = false
+
+[node name="Ally3" parent="AllyRow" instance=ExtResource("2_xe4qy")]
+position = Vector2(192, 0)
+
+[node name="Ally4" parent="AllyRow" instance=ExtResource("2_xe4qy")]
+position = Vector2(64, 0)
+
+[node name="Ally2" parent="AllyRow" instance=ExtResource("2_xe4qy")]
+position = Vector2(320, 0)
+
+[node name="Ally1" parent="AllyRow" instance=ExtResource("2_xe4qy")]
+position = Vector2(448, 0)
+
+[node name="EnemyRow" type="ReferenceRect" parent="."]
+offset_left = 744.0
+offset_top = 192.0
+offset_right = 1152.0
+offset_bottom = 192.0
+editor_only = false
+
+[node name="BattleSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(611, 198.5)
+scale = Vector2(0.962264, 0.710345)
+animation = &""
+
+[node name="BattleLog" type="RichTextLabel" parent="."]
+offset_left = 416.0
+offset_top = 392.0
+offset_right = 742.0
+offset_bottom = 563.0
+script = ExtResource("2_xhj7n")
+
+[node name="Moves" type="ReferenceRect" parent="."]
+offset_left = 320.0
+offset_top = 448.0
+offset_right = 832.0
+offset_bottom = 648.0
+
+[node name="Button" type="Button" parent="Moves"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.031
+anchor_bottom = 0.04
+offset_left = 40.0
+offset_right = 176.128
+offset_bottom = 72.0
+
+[node name="Button3" type="Button" parent="Moves"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.031
+anchor_bottom = 0.04
+offset_left = 40.0
+offset_top = 104.0
+offset_right = 176.128
+offset_bottom = 176.0
+
+[node name="Button2" type="Button" parent="Moves"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.031
+anchor_bottom = 0.04
+offset_left = 312.0
+offset_right = 448.128
+offset_bottom = 72.0
+
+[node name="Button4" type="Button" parent="Moves"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.031
+anchor_bottom = 0.04
+offset_left = 312.0
+offset_top = 104.0
+offset_right = 448.128
+offset_bottom = 176.0

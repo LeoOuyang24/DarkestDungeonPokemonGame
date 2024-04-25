@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://t78pd47fgiha"]
+
+[ext_resource type="Script" path="res://SpriteLoader.gd" id="1_i58v8"]
+
+[node name="SpriteLoader" type="Node"]
+script = ExtResource("1_i58v8")
