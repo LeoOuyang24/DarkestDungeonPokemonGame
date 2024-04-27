@@ -1,4 +1,4 @@
-extends Node2D
+class_name CreatureSlot extends Button
 
 #represents the visual representation of a creature on the battlefield
 
@@ -6,6 +6,7 @@ extends Node2D
 @onready var HealthBar = $HealthBar;
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	#icon = load("res://sprites/dialga.png")
 	pass # Replace with function body.
 
 

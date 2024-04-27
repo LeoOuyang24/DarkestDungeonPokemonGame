@@ -52,14 +52,15 @@ func _ready():
 	for i in range(Battlefield.maxEnemies):
 		var slot = creatureSlot.instantiate();
 		slot.position = getCreaturePos(i,false)
-		slot.position = Vector2(0,0)
-		print(slot.position)
 		EnemyRow.add_child(slot);
 		enemies.push_back(slot)
 		
 	#REFACTOR: Change it so both allies and enemies are dynamically allocated or allocated as part of the scene
 	#just be consistent!
 	for i in range(Battlefield.maxAllies):
+		var slot = creatureSlot.instantiate();
+		slot.position = getCreaturePos(i,true)
+		AllyRow.add_child(slot);
 		AllyRow.get_child(i).Sprite.flip_h = true;
 		allies.push_back(AllyRow.get_child(i))
 	changeState(States.SELECTING_TARGET)
