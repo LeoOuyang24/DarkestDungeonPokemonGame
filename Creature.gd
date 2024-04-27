@@ -34,6 +34,7 @@ static func create( sprite_path:String, maxHealth_:int, name_:String):
 	creature.spriteFrame = SpriteLoader.get_sprite(sprite_path)
 	creature.creatureName = name_;
 	creature.baseMaxHealth = maxHealth_;
+	creature.health = maxHealth_;
 	return creature;	
 
 func _ready():

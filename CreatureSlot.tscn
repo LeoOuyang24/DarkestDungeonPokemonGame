@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bqsfei63od030"]
+[gd_scene load_steps=4 format=3 uid="uid://bqsfei63od030"]
 
 [ext_resource type="Script" path="res://CreatureSlot.gd" id="1_renfr"]
 [ext_resource type="PackedScene" uid="uid://bjln7kkve4d5a" path="res://health_bar.tscn" id="2_li7vh"]
 [ext_resource type="Script" path="res://Anime.gd" id="3_q1p6q"]
-[ext_resource type="SpriteFrames" uid="uid://c6o5dtok81efx" path="res://sprites/dialga.tres" id="4_bcan1"]
 
 [node name="Button" type="Button"]
 offset_left = -64.0
@@ -11,11 +10,6 @@ offset_top = -64.0
 offset_right = 64.0
 offset_bottom = 64.0
 script = ExtResource("1_renfr")
-
-[node name="Sprite" type="AnimatedSprite2D" parent="."]
-visible = false
-position = Vector2(-64, -64)
-scale = Vector2(2.7234, 2)
 
 [node name="HealthBar" parent="." instance=ExtResource("2_li7vh")]
 layout_mode = 0
@@ -26,11 +20,10 @@ offset_bottom = 155.0
 [node name="Label" parent="HealthBar" index="0"]
 text = ""
 
-[node name="Anime" type="TextureRect" parent="."]
+[node name="Sprite" type="TextureRect" parent="."]
 layout_mode = 0
 offset_right = 128.0
 offset_bottom = 128.0
 script = ExtResource("3_q1p6q")
-frames = ExtResource("4_bcan1")
 
 [editable path="HealthBar"]

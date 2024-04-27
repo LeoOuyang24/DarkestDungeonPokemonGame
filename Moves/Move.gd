@@ -40,11 +40,7 @@ func createMoveSequence(user,move, targets):
 	)); 
 	
 	sequence.append_array(postMoveSequence(user,move,targets))
-	
-	sequence.push_back(SequenceUnit.createSequenceUnit(func(d,b):
-		b.advanceState();
-		return true;
-		))
+
 	return sequence;
 	
 #sequence that renders an animation

@@ -1,6 +1,5 @@
 class_name Tackle extends Move
 
-static var Creature = preload("res://Creature.gd");
 # Called when the node enters the scene tree for the first time.
 func _init():
 	moveName = "Tackle"

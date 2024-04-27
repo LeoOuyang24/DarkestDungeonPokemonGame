@@ -8,6 +8,10 @@ extends Node2D
 
 @onready var Moves = [$Moves/Button, $Moves/Button2, $Moves/Button3, $Moves/Button4]
 
+#signal for when targets have been selected
+signal targets_selected(move,targets)
+
+#easy to access, onready list of our CreatureSlots
 var enemies = []
 var allies = []
 
@@ -19,25 +23,33 @@ enum States{
 	ENEMY_TURN
 }
 
-var state:States = States.SELECTING_TARGET;
+var currentMove=null;
+var targetsNeeded = 1;
+var targets = []
+
+var state:States = States.SELECTING_MOVE;
 
 func addAttacksToUI(creature:Creature):
 	for i in range(len(creature.attacks)):
 		var butt = Moves[i]
+		butt.text = creature.attacks[i].moveName
 		butt.pressed.connect(func (): 
-			print("ASDF")
-			#processMove(creature,[enemies[0]],creature.attacks[i])
+			if state==States.SELECTING_MOVE:
+				currentMove = creature.attacks[i];
+				changeState(States.SELECTING_TARGET)
 			)
 
 func changeState(newState:States):
 	state = newState;
 	if state == States.SELECTING_MOVE:
-		for i in Moves:
-			i.set_visible(true);
+		print("CHANGED")
+		#for i in Moves:
+			#i.set_visible(true);
 	else:
-		for i in Moves:
-			i.set_visible(false);
+		#for i in Moves:
+			#i.set_visible(false);
 		if newState == States.SELECTING_TARGET:
+			BattleLog.set_text("Choose a target!")
 			for i in enemies:
 				var tween = create_tween().set_loops();
 				var sprite = i.Sprite
@@ -46,24 +58,39 @@ func changeState(newState:States):
 					tween.tween_property(sprite,"modulate",Color.WHITE,1)
 		
 
+func addTarget(slot:CreatureSlot):
+	if state == States.SELECTING_TARGET:
+		targets.push_back(slot.creature);
+		if (targets.size() >= targetsNeeded):
+			targets_selected.emit(currentMove,targets)
+			changeState(States.ENEMY_TURN);
+		
+#adds a new slot
+#really should only be called in _ready()
+func addSlot(isAlly:bool):
+	var slot = creatureSlot.instantiate();
+	slot.pressed.connect(func():
+		addTarget(slot);
+			);
+	var array = allies if isAlly else enemies
+	slot.position = getCreaturePos(array.size(), isAlly)
+	array.push_back(slot);
+	if isAlly:
+		AllyRow.add_child(slot)
+		slot.Sprite.set_flip_h(true);
+	else:
+		EnemyRow.add_child(slot)
+	
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	for i in range(Battlefield.maxEnemies):
-		var slot = creatureSlot.instantiate();
-		slot.position = getCreaturePos(i,false)
-		EnemyRow.add_child(slot);
-		enemies.push_back(slot)
+		addSlot(false);
 		
 	#REFACTOR: Change it so both allies and enemies are dynamically allocated or allocated as part of the scene
 	#just be consistent!
 	for i in range(Battlefield.maxAllies):
-		var slot = creatureSlot.instantiate();
-		slot.position = getCreaturePos(i,true)
-		AllyRow.add_child(slot);
-		AllyRow.get_child(i).Sprite.flip_h = true;
-		allies.push_back(AllyRow.get_child(i))
-	changeState(States.SELECTING_TARGET)
+		addSlot(true)
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -103,9 +130,9 @@ func addCreature(creature:Creature, index:int, isAlly: bool):
 	else:
 		array = enemies;
 	if index < array.size() && array[index]:
-		array[index].Sprite.set_sprite_frames(creature.spriteFrame);
-		array[index].Sprite.play();
+		array[index].Sprite.frames=creature.spriteFrame;
 		array[index].position = getCreaturePos(index,isAlly);
+		array[index].setCreature( creature);
 	
 #set a move's animation
 func setBattleSprite(sprite:SpriteFrames) -> void:

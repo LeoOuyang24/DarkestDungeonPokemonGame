@@ -18,7 +18,8 @@ var sequencer = []; #list of sequence units
 
 enum BATTLE_STATES {
 	PLAYER_TURN,
-	ENEMY_TURN
+	ENEMY_TURN,
+	BATTLE
 	}
 	
 var state = BATTLE_STATES.PLAYER_TURN;
@@ -37,6 +38,7 @@ func _init():
 func advanceState():
 	setState((state + 1)%(BATTLE_STATES.size()));
 	
+#REFACTOR: Uselss function, get rid of
 func setBattleText(text:String):
 	BattleUI.BattleLog.set_text(text)
 	
@@ -82,18 +84,21 @@ func _ready():
 	player.setAttacks([Tackle.new(),HyperBeam.new(),NastyPlot.new()]);
 	addCreature(player,0,true);
 	
-	addCreature(Creature.create("dialga",100,"Player"),1,true);
+	#addCreature(Creature.create("dialga",100,"Player"),1,true);
 	
 	var enemy = Creature.create("magikarp",100,"Enemy");
 	enemy.setAttacks([Splash.new()])
 	addCreature(enemy,0,false);
 	
-	var enemy2 = Creature.create("magikarp",100,"Enemy");
-	enemy2.setAttacks([Tackle.new()])
+	#var enemy2 = Creature.create("magikarp",100,"Enemy");
+	#enemy2.setAttacks([Tackle.new()])
 	#enemy2.speed = 100;
-	addCreature(enemy2,1,false);
+	#addCreature(enemy2,1,false);
 
 	BattleUI.addAttacksToUI(player);
+	BattleUI.targets_selected.connect(func (move,targets):
+		setState(BATTLE_STATES.ENEMY_TURN)
+		processMove(player,targets,move));
 	#tween.tween_callback(allies[0].Sprite.queue_free)
 
 
@@ -109,19 +114,20 @@ func setBattleSprite(sprite:SpriteFrames) -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-
-	if (len(sequencer) > 0):
-		if sequencer[len(sequencer)  - 1].run(delta,self): #if we are done with this unit ...
-			sequencer.pop_back(); #...remove it
-	else:
-		if (state == BATTLE_STATES.ENEMY_TURN):
+	if (state == BATTLE_STATES.BATTLE ):
+		if sequencer.size() > 0:
+			if sequencer[len(sequencer)  - 1].run(delta,self): #if we are done with this unit ...
+				sequencer.pop_back(); #...remove it
+		else:
+			print(sequencer.size())
+			setState(BATTLE_STATES.PLAYER_TURN)
+	elif (state == BATTLE_STATES.ENEMY_TURN):
 			for i in enemies:
 				if i:
-					moveQueue.insert(i)
-			for i in moveQueue.data:	
-				processMove(i,allies,Creature.AI(i,enemies,allies));
-			state = BATTLE_STATES.PLAYER_TURN;
-	pass
+					#moveQueue.insert(i)
+			#for i in moveQueue.data:	
+					processMove(i,allies,Creature.AI(i,enemies,allies));
+			setState(BATTLE_STATES.BATTLE);
 			
 #add a move to the sequence
 func processMove(user,targets,move):
