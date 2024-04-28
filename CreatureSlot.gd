@@ -2,7 +2,7 @@ class_name CreatureSlot extends Button
 
 #represents the visual representation of a creature on the battlefield
 
-@onready var Sprite = $Sprite
+@onready var Sprite:Anime = $Sprite
 @onready var HealthBar = $HealthBar;
 
 #a reference to the creature we are referring to
@@ -10,7 +10,9 @@ var creature:Creature = null
 
 func setCreature(creature:Creature):
 	self.creature = creature;
-	HealthBar.set_value(creature.getHealth())
+	if creature:
+		HealthBar.set_value(creature.getHealth())
+		Sprite.frames = creature.spriteFrame;
 	
 func getCreature():
 	return self.creature

@@ -9,7 +9,7 @@ extends Node2D
 @onready var Moves = [$Moves/Button, $Moves/Button2, $Moves/Button3, $Moves/Button4]
 
 #signal for when targets have been selected
-signal targets_selected(move,targets)
+signal targets_selected(user,targets, move)
 
 #easy to access, onready list of our CreatureSlots
 var enemies = []
@@ -23,21 +23,37 @@ enum States{
 	ENEMY_TURN
 }
 
+var currentCreature:Creature= null;
 var currentMove=null;
 var targetsNeeded = 1;
 var targets = []
 
 @export var state:States = States.SELECTING_MOVE;
 
+#change our variables based on the state of the battlefield
+func setBattleState(state:Battlefield):
+	if self.currentCreature != state.getCurrentCreature():
+		self.currentCreature = state.getCurrentCreature();
+		if self.currentCreature:
+			addAttacksToUI(self.currentCreature)
+	var lambda = func (array,isAlly):
+		for i in range(array.size()):
+			if i >= array.size():
+				addSlot(isAlly);
+			addCreature(array[i],i,isAlly);
+	
+	#add allies to our slot
+	lambda.call(state.allies,true)
+	
+	#add enemies to our slots
+	lambda.call(state.enemies,false)
+	
+
+
 func addAttacksToUI(creature:Creature):
 	for i in range(len(creature.attacks)):
 		var butt = Moves[i]
 		butt.text = creature.attacks[i].moveName;
-		var _conn = butt.pressed.get_connections();
-		if _conn:
-			print_debug("reset button connections")
-			for _c in _conn:
-				butt.pressed.disconnect(_c["callable"]);
 		butt.pressed.connect(func (): 
 			if state==States.SELECTING_MOVE:
 				currentMove = creature.attacks[i];
@@ -47,7 +63,7 @@ func addAttacksToUI(creature:Creature):
 func changeState(newState:States):
 	state = newState;
 	if state == States.SELECTING_MOVE:
-		print("CHANGED")
+		BattleLog.set_text("Choose a move!")
 		#for i in Moves:
 			#i.set_visible(true);
 	else:
@@ -68,11 +84,10 @@ func addTarget(slot:CreatureSlot):
 	if state == States.SELECTING_TARGET:
 		targets.push_back(slot.creature);
 		if (targets.size() >= targetsNeeded):
-			targets_selected.emit(currentMove,targets)
-			changeState(States.ENEMY_TURN);
+			targets_selected.emit(currentCreature,targets,currentMove)
+			changeState(States.SELECTING_MOVE);
 		
 #adds a new slot
-#really should only be called in _ready()
 func addSlot(isAlly:bool):
 	var slot = creatureSlot.instantiate();
 	slot.pressed.connect(func():
@@ -136,10 +151,9 @@ func addCreature(creature:Creature, index:int, isAlly: bool):
 		array = allies;
 	else:
 		array = enemies;
-	if index < array.size() && array[index]:
-		array[index].Sprite.frames=creature.spriteFrame;
-		array[index].position = getCreaturePos(index,isAlly);
-		array[index].setCreature( creature);
+	if (array[index].creature != creature):
+		if index < array.size() && array[index]:
+			array[index].setCreature( creature);
 	
 #set a move's animation
 func setBattleSprite(sprite:SpriteFrames) -> void:
