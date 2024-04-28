@@ -18,7 +18,7 @@ var sequencer = []; #list of sequence units
 
 enum BATTLE_STATES {
 	PLAYER_TURN,
-	ENEMY_TURN,
+  ENEMY_TURN,
 	BATTLE
 	}
 	
@@ -35,6 +35,7 @@ func _init():
 	enemies.resize(maxEnemies);
 	enemies.fill(null)
 	
+
 func getCurrentCreature():
 	if currentCreature < allies.size() && currentCreature>=0:
 		return allies[currentCreature]
@@ -64,19 +65,28 @@ func addCreature(creature:Creature, index:int, isAlly:bool):
 	if index >= 0 && index < max && row[index] == null:
 		row[index] = creature;
 
-	add_child(creature);
+func removeCreature(creature:Creature):
+	var creatureType = creature.creatureName
+	print(creatureType)
+	if(creatureType == "Enemy"):
+		print("Removing creature:", creatureType)
+		enemies.erase(creature)
+	elif(creatureType == "Player"):
+		allies.erase(creature)
+		print("Player removed")
 
 func _ready():
 	
 		# Register signal handler for the end of targeting process,
 	# which handles creature damage and
 	BattleUI.targets_selected.connect(handlePlayerMove);
-	
+
 	var player = Creature.create("dialga",100,"Player")
 
 	player.setAttacks([Tackle.new(),HyperBeam.new(),NastyPlot.new()]);
 	addCreature(player,0,true);
 	
+
 	var player2 = Creature.create("dialga",100,"Player")
 	player2.setAttacks([Tackle.new()])
 	addCreature(player2,1,true);
@@ -108,7 +118,7 @@ func _process(delta):
 		$BattleUI/DebugStartBattleState.set_text(
 			 _statedebugstr % [BATTLE_STATES.keys()[state], BattleUI.States.keys()[BattleUI.state]]
 		);
-		
+
 	if (state == BATTLE_STATES.BATTLE):
 		if sequencer.size() > 0:
 			if sequencer[len(sequencer)  - 1].run(delta,self): #if we are done with this unit ...
@@ -122,6 +132,7 @@ func _process(delta):
 		# add attacks to UI and set BattleUI to move selection state.
 		# Register signal handler for the end of the targeting process, which will handle creature damage and requeueing the current creature.
 		# Meanwhile, set state to PLAYER_WAIT so that the battle doesn't advance without player input.
+
 		#elif (state == BATTLE_STATES.PLAYER_WAIT)
 		
 		# On enemy move:
@@ -131,7 +142,6 @@ func _process(delta):
 		for i in enemies:
 			if i:
 				addMoveToQueue(i,allies,Creature.AI(i,enemies,allies))
-				#processMove(i,allies,Creature.AI(i,enemies,allies));
 		setState(BATTLE_STATES.BATTLE)
 	BattleUI.setBattleState(self);
 

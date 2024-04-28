@@ -75,6 +75,7 @@ func setAttacks(attacks_):
 func takeDamage(damage):
 	damage = max(damage,0); #ensure damage is not negative
 	setHealth(max(health - damage,0)) 
+		
 	
 #use the move
 func useMove(move,targets):
@@ -88,5 +89,4 @@ static func AI(user,allies, targets):
 		return user.attacks[randi()%len(user.attacks)]
 	return null
 		#user.attacks[randi()%len(user.attacks)].move(user,[targets[0]])
-
 		
