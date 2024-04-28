@@ -65,15 +65,13 @@ func addCreature(creature:Creature, index:int, isAlly:bool):
 	if index >= 0 && index < max && row[index] == null:
 		row[index] = creature;
 
-func removeCreature(creature:Creature):
-	var creatureType = creature.creatureName
-	print(creatureType)
-	if(creatureType == "Enemy"):
-		print("Removing creature:", creatureType)
-		enemies.erase(creature)
-	elif(creatureType == "Player"):
-		allies.erase(creature)
-		print("Player removed")
+func removeCreature(index:int, isAlly:bool):
+	var array = allies if isAlly else enemies;
+	if index < array.size() && index >= 0 && array[index]:
+		addSequence(SequenceUnit.createDeathSequence(array[index]));
+		array[index] = null
+
+		
 
 func _ready():
 	
@@ -118,16 +116,36 @@ func _process(delta):
 		$BattleUI/DebugStartBattleState.set_text(
 			 _statedebugstr % [BATTLE_STATES.keys()[state], BattleUI.States.keys()[BattleUI.state]]
 		);
+				
 
 	if (state == BATTLE_STATES.BATTLE):
 		if sequencer.size() > 0:
 			if sequencer[len(sequencer)  - 1].run(delta,self): #if we are done with this unit ...
 				sequencer.pop_back(); #...remove it
+		#finished processing a move
 		else:
+
+
+			#check if there's more moves to process
 			if moveQueue.data.size() > 0:
+				#add it to sequence
 				moveQueue.pop();
+			#all moves have been processed, back to player turn
 			else:
 				setState(BATTLE_STATES.PLAYER_TURN)
+						#check if any creatures have died between moves
+			var found = false
+			var lambda = func(array,isAlly):
+				for i in range(array.size()):
+					if (array[i] && !array[i].isAlive()):
+						found = true
+						removeCreature(i,isAlly)
+						print(sequencer.size())
+						
+			lambda.call(allies,true);
+			lambda.call(enemies,false);
+		
+
 		# On player move:
 		# add attacks to UI and set BattleUI to move selection state.
 		# Register signal handler for the end of the targeting process, which will handle creature damage and requeueing the current creature.
@@ -162,10 +180,15 @@ func handlePlayerMove(user, targets,move):
 		setState(BATTLE_STATES.ENEMY_TURN);
 		currentCreature = 0;
 
+func addSequence(sequence):
+	#copy the array in reverse order, because popping from the back is easier than popping from the front
+	for i in range(len(sequence) - 1, -1,-1):
+		sequencer.append(sequence[i])
+
 #add a move to the sequence
 func processMove(user,targets,move):
 	#var sequence = SequenceUnit.createMoveSequence(user,move,targets)
 	var sequence = move.createMoveSequence(user,move,targets)
-	#copy the array in reverse order, because popping from the back is easier than popping from the front
-	for i in range(len(sequence) - 1, -1,-1):
-		sequencer.append(sequence[i])
+	addSequence(sequence);
+
+

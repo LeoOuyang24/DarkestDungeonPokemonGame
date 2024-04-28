@@ -32,8 +32,9 @@ func insert(creature:Creature, callable:Callable):
 #call the next callable
 func pop():
 	if data.size() > 0:
-		print(data[data.size()-1])
-		data[data.size() - 1][1].call();
+		#only add the move if the creature is still alive
+		if data[data.size() - 1][0].isAlive():
+			data[data.size() - 1][1].call();
 		data.pop_back();
 	
 

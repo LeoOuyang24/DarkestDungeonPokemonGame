@@ -55,6 +55,11 @@ static func createAnimationUnit(sprite:SpriteFrames):
 		
 	return unit;
 
+static func createDeathSequence(creature:Creature):
+	var sequence = []
+	sequence.push_back(createTextUnit(creature.getName() + " has been exterminated!"))
+	return sequence;
+
 #constructs a whole Sequence (list of SequenceUnits) that describe a move
 static func createMoveSequence(user,move, targets):
 	var sequence = []

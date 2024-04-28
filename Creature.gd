@@ -69,6 +69,9 @@ func getMaxHealth():
 func getHealth():
 	return health;
 
+func isAlive():
+	return getHealth() > 0
+
 func setAttacks(attacks_):
 	attacks = attacks_.slice(0,min(maxAttacks,len(attacks_)),1,true); #deep copy the first 4 attacks, or fewer if fewer were provided
 #used for dealing damage. Do not use as setter for modifying health. 
