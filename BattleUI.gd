@@ -27,12 +27,17 @@ var currentMove=null;
 var targetsNeeded = 1;
 var targets = []
 
-var state:States = States.SELECTING_MOVE;
+@export var state:States = States.SELECTING_MOVE;
 
 func addAttacksToUI(creature:Creature):
 	for i in range(len(creature.attacks)):
 		var butt = Moves[i]
-		butt.text = creature.attacks[i].moveName
+		butt.text = creature.attacks[i].moveName;
+		var _conn = butt.pressed.get_connections();
+		if _conn:
+			print_debug("reset button connections")
+			for _c in _conn:
+				butt.pressed.disconnect(_c["callable"]);
 		butt.pressed.connect(func (): 
 			if state==States.SELECTING_MOVE:
 				currentMove = creature.attacks[i];
@@ -50,6 +55,7 @@ func changeState(newState:States):
 			#i.set_visible(false);
 		if newState == States.SELECTING_TARGET:
 			BattleLog.set_text("Choose a target!")
+			targets = []
 			for i in enemies:
 				var tween = create_tween().set_loops();
 				var sprite = i.Sprite
@@ -95,6 +101,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	#$DebugState.text = BattleState.
 	pass
 	#if state == States.SELECTING_TARGET:
 

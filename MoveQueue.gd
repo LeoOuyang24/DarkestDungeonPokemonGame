@@ -1,4 +1,4 @@
-class_name MoveQueue extends Object
+class_name MoveQueue extends Node
 
 
 #the underlying data storage
@@ -16,12 +16,14 @@ func find(creature:Creature):
 	return 0 #binary search crashes if array is empty
 
 func insert(creature:Creature):
-	var index = find(creature);
+	#var index = find(creature);
 	#omega inefficient but Godot doesn't have binary trees ARRGHGHGGHGHG 		
-	data.insert(index,creature)
+	#data.insert(index,creature)
+	#TODO speed calc
+	#just push to back for now
+	data.push_back(creature)
 
 #clear all contents
 func clear():
 	data.clear()
-
 #to update creatures' positions, remove from the queue and then insert
