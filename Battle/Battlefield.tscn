@@ -1,14 +1,14 @@
 [gd_scene load_steps=4 format=3 uid="uid://b47h1xhj5vu6o"]
 
-[ext_resource type="Script" path="res://start_battle.gd" id="1_56l4h"]
-[ext_resource type="PackedScene" uid="uid://b3hux6c6p4pfu" path="res://BattleUI.tscn" id="5_4xqqh"]
+[ext_resource type="Script" path="res://Battle/start_battle.gd" id="1_crdht"]
+[ext_resource type="PackedScene" uid="uid://b3hux6c6p4pfu" path="res://Battle/UI/BattleUI.tscn" id="2_r4k38"]
 
 [sub_resource type="Theme" id="Theme_ak2lg"]
 
 [node name="Battle" type="Node2D"]
-script = ExtResource("1_56l4h")
+script = ExtResource("1_crdht")
 
-[node name="BattleUI" parent="." instance=ExtResource("5_4xqqh")]
+[node name="BattleUI" parent="." instance=ExtResource("2_r4k38")]
 
 [node name="DebugStartBattleState" type="RichTextLabel" parent="BattleUI"]
 offset_left = 303.0

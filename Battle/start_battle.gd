@@ -79,21 +79,21 @@ func _ready():
 	# which handles creature damage and
 	BattleUI.targets_selected.connect(handlePlayerMove);
 
-	var player = Creature.create("dialga",100,"Player")
+	var player = Creature.create("spritesheets/creatures/dialga",100,"Player")
 
 	player.setAttacks([Tackle.new(),HyperBeam.new(),NastyPlot.new()]);
 	addCreature(player,0,true);
 	
 
-	var player2 = Creature.create("dialga",100,"Player")
+	var player2 = Creature.create("spritesheets/creatures/dialga",100,"Player")
 	player2.setAttacks([Tackle.new()])
 	addCreature(player2,1,true);
 	
-	var enemy = Creature.create("magikarp",100,"Enemy");
+	var enemy = Creature.create("spritesheets/creatures/magikarp",100,"Enemy");
 	enemy.setAttacks([Splash.new()])
 	addCreature(enemy,0,false);
 	
-	var enemy2 = Creature.create("magikarp",100,"Enemy");
+	var enemy2 = Creature.create("spritesheets/creatures/magikarp",100,"Enemy");
 	enemy2.setAttacks([Tackle.new()])
 	enemy2.speed = 100;
 	addCreature(enemy2,1,false);
@@ -124,8 +124,6 @@ func _process(delta):
 				sequencer.pop_back(); #...remove it
 		#finished processing a move
 		else:
-
-
 			#check if there's more moves to process
 			if moveQueue.data.size() > 0:
 				#add it to sequence
@@ -140,7 +138,6 @@ func _process(delta):
 					if (array[i] && !array[i].isAlive()):
 						found = true
 						removeCreature(i,isAlly)
-						print(sequencer.size())
 						
 			lambda.call(allies,true);
 			lambda.call(enemies,false);

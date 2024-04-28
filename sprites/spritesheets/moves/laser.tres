@@ -1,6 +1,6 @@
 [gd_resource type="SpriteFrames" load_steps=14 format=3 uid="uid://cicbxo7do5f5m"]
 
-[ext_resource type="Texture2D" uid="uid://b10ry2dy1ed5l" path="res://sprites/laser.png" id="1_nmr80"]
+[ext_resource type="Texture2D" uid="uid://b10ry2dy1ed5l" path="res://sprites/spritesheets/moves/laser.png" id="1_nmr80"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_048xn"]
 atlas = ExtResource("1_nmr80")

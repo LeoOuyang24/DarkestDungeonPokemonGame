@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bvbdlbmbntfy3"
-path="res://.godot/imported/magikarp.png-d71450f62a6e360614f0d1d8c6a8f28b.ctex"
+uid="uid://bu1ccxs75no1p"
+path="res://.godot/imported/flamethrower.png-d30b588b660d2565ee0b7ac6f4de4197.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/magikarp.png"
-dest_files=["res://.godot/imported/magikarp.png-d71450f62a6e360614f0d1d8c6a8f28b.ctex"]
+source_file="res://sprites/spritesheets/moves/flamethrower.png"
+dest_files=["res://.godot/imported/flamethrower.png-d30b588b660d2565ee0b7ac6f4de4197.ctex"]
 
 [params]
 

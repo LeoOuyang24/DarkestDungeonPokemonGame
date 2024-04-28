@@ -1,6 +1,6 @@
 [gd_resource type="SpriteFrames" load_steps=123 format=3 uid="uid://byb3md4dln8xp"]
 
-[ext_resource type="Texture2D" uid="uid://bvbdlbmbntfy3" path="res://sprites/magikarp.png" id="1_0kdh4"]
+[ext_resource type="Texture2D" uid="uid://bvbdlbmbntfy3" path="res://sprites/spritesheets/creatures/magikarp.png" id="1_0kdh4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ghok7"]
 atlas = ExtResource("1_0kdh4")

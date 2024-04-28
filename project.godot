@@ -11,13 +11,13 @@ config_version=5
 [application]
 
 config/name="NotAVirus"
-run/main_scene="res://Battlefield.tscn"
+run/main_scene="res://Battle/Battlefield.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-SpriteLoader="*res://SpriteLoader.tscn"
+SpriteLoader="*res://sprites/SpriteLoader.tscn"
 
 [dotnet]
 

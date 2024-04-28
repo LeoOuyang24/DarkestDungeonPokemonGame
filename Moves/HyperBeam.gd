@@ -11,7 +11,7 @@ func _init():
 	
 func moveAnimationSequence(user, move, targets):
 	var sequence = [];
-	var unit = SequenceUnit.createAnimationUnit(SpriteLoader.get_sprite("laser"));
+	var unit = SequenceUnit.createAnimationUnit(SpriteLoader.get_sprite("spritesheets/moves/laser"));
 	
 	sequence.append( unit)
 	return sequence;

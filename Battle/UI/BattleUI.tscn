@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b3hux6c6p4pfu"]
 
-[ext_resource type="Script" path="res://BattleUI.gd" id="1_0uu34"]
-[ext_resource type="Script" path="res://BattleLog.gd" id="2_xhj7n"]
+[ext_resource type="Script" path="res://Battle/UI/BattleUI.gd" id="1_0uu34"]
+[ext_resource type="Script" path="res://Battle/UI/BattleLog.gd" id="2_ggcmx"]
 
 [node name="BattleUI" type="Node2D"]
 script = ExtResource("1_0uu34")
@@ -36,7 +36,7 @@ offset_left = 416.0
 offset_top = 392.0
 offset_right = 742.0
 offset_bottom = 563.0
-script = ExtResource("2_xhj7n")
+script = ExtResource("2_ggcmx")
 
 [node name="Moves" type="ReferenceRect" parent="."]
 offset_left = 320.0

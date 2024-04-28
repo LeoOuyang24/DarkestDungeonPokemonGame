@@ -15,7 +15,7 @@ signal targets_selected(user,targets, move)
 var enemies = []
 var allies = []
 
-var creatureSlot = preload("res://CreatureSlot.tscn")
+var creatureSlot = preload("./CreatureSlot.tscn")
 
 enum States{
 	SELECTING_MOVE,

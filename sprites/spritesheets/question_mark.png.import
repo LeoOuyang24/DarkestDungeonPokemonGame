@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://jg22a1e71vxi"
+path="res://.godot/imported/question_mark.png-46296bcdd0afa7a3ba7681c2f671d6dc.image"
+
+[deps]
+
+source_file="res://sprites/spritesheets/question_mark.png"
+dest_files=["res://.godot/imported/question_mark.png-46296bcdd0afa7a3ba7681c2f671d6dc.image"]
+
+[params]
+
