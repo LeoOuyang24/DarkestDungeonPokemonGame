@@ -77,12 +77,8 @@ func takeDamage(damage):
 	setHealth(max(health - damage,0)) 
 	
 #use the move
-#also updates the battle
 func useMove(move,targets):
 	move.move(self,targets)
-	#var battle = get_tree().root.find_child("Battle",true,false)
-	#if battle:
-		#battle.processMove(self,targets,move)
 			
 #given a creature, its allies, and its targets,
 #run the AI for the creature

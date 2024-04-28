@@ -1,29 +1,43 @@
 class_name MoveQueue extends Node
 
 
-#the underlying data storage
-var data:Array = [];
 
-#compares 2 creatures to see which one is slower
-#speed ties are broken by whoever was added first
-func _compare(c1:Creature, c2:Creature):
-	return c1.getSpeed() < c2.getSpeed();
+#the actual move units
+#Holds a bunch of "Pairs", the first element is the user of the move
+# the 2nd element is a Callable that assembles the move sequence when called with no parameters
+#the pairs are actually arrays with 2 elements (I HATE GODOT)
+#this list is sorted from lowest to highest speed
+#so to use it in order, you have to go from end to the beginning
+#this is slighly more efficient since popping back is faster than popping first
+var data = [];
 
-#given a priority, finds the index the creature belongs in
-func find(creature:Creature):
-	if data.size() > 0:
-		return data.bsearch_custom(creature, self._compare)
-	return 0 #binary search crashes if array is empty
-
-func insert(creature:Creature):
+#insert a move. 
+func insert(creature:Creature, callable:Callable):
 	#var index = find(creature);
 	#omega inefficient but Godot doesn't have binary trees ARRGHGHGGHGHG 		
-	#data.insert(index,creature)
-	#TODO speed calc
-	#just push to back for now
-	data.push_back(creature)
+
+	var found = false;
+	for i in range(data.size()):
+		#>= creates a "first come first serve" tie breaker.
+		#if 2 moves have the same speed, the one that was added first comes first
+		if data[i][0].getSpeed() >= creature.getSpeed():
+			data.insert(i,[creature,callable])
+			found = true;
+			break;
+	#if we never inserted, this is the new fastest move
+	if !found:
+		data.insert(data.size(),[creature,callable])
+		
+
+#call the next callable
+func pop():
+	if data.size() > 0:
+		print(data[data.size()-1])
+		data[data.size() - 1][1].call();
+		data.pop_back();
+	
 
 #clear all contents
 func clear():
 	data.clear()
-#to update creatures' positions, remove from the queue and then insert
+
