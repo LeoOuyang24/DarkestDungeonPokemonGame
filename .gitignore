@@ -1,0 +1,4 @@
+.cache/
+.godot/
+.vscode/
+*.tmp
