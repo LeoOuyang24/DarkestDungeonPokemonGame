@@ -74,6 +74,16 @@ func addCreature(creature:Creature, index:int, isAlly:bool):
 		if sprite:
 			sprite.flip_h = true;
 
+func removeCreature(creature:Creature):
+	var creatureType = creature.creatureName
+	print(creatureType)
+	if(creatureType == "Enemy"):
+		print("Removing creature:", creatureType)
+		enemies.erase(creature)
+	elif(creatureType == "Player"):
+		allies.erase(creature)
+		print("Player removed")
+
 func _ready():
 	
 	var player = Creature.create("dialga",100,"Player")
@@ -118,6 +128,16 @@ func _process(delta):
 		if sequencer.size() > 0:
 			if sequencer[len(sequencer)  - 1].run(delta,self): #if we are done with this unit ...
 				sequencer.pop_back(); #...remove it
+			for i in allies.size():
+				if(allies[i] == null):
+					break
+				elif(allies[i].getHealth() == 0):
+					removeCreature(allies[i])
+			for i in enemies.size():
+				if(enemies[i] == null):
+					break
+				elif(enemies[i].getHealth() == 0):
+					removeCreature(enemies[i])		
 		else:
 			print_debug("anim sequencer empty, get next unit")
 			var next_creature = moveQueue.data.front();
