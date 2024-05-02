@@ -2,8 +2,8 @@ class_name Creature extends Node2D
 #A Creature is any entity with up to 4 attacks
 
 
-const maxAttacks = 4;
-var attacks = []
+const maxMoves = 4;
+var moves = []
 
 var baseMaxHealth = 1;
 var baseDefense = 1; #by default, we set defense to 1, so we avoid divide by 0 errors in the dealDamage function
@@ -61,7 +61,6 @@ func getSpeed():
 #setter for health
 func setHealth(health_):
 	health = health_
-
 	
 func getMaxHealth():
 	return (1+ (level-1)*levelAmount)*baseMaxHealth;
@@ -72,8 +71,8 @@ func getHealth():
 func isAlive():
 	return getHealth() > 0
 
-func setAttacks(attacks_):
-	attacks = attacks_.slice(0,min(maxAttacks,len(attacks_)),1,true); #deep copy the first 4 attacks, or fewer if fewer were provided
+func setMoves(attacks_):
+	moves = attacks_.slice(0,min(maxMoves,len(attacks_)),1,true); #deep copy the first 4 attacks, or fewer if fewer were provided
 #used for dealing damage. Do not use as setter for modifying health. 
 func takeDamage(damage):
 	damage = max(damage,0); #ensure damage is not negative
@@ -83,13 +82,18 @@ func takeDamage(damage):
 #use the move
 func useMove(move,targets):
 	move.move(self,targets)
+	
+func getMove(index):
+	return moves[index];
+func getRandomMove():
+	return moves[randi()%moves.size()]
 			
 #given a creature, its allies, and its targets,
 #run the AI for the creature
 #return the move it would use
-static func AI(user,allies, targets):
-	if len(user.attacks) > 0 and len(targets) > 0:
-		return user.attacks[randi()%len(user.attacks)]
+static func AI(user,allies, targets) -> MoveRecord:
+	if len(user.moves) > 0 and len(targets) > 0:
+		return MoveRecord.new(user,[targets[0]],user.getRandomMove())
 	return null
 		#user.attacks[randi()%len(user.attacks)].move(user,[targets[0]])
 		

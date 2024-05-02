@@ -16,12 +16,9 @@ func moveAnimationSequence(user, move, targets):
 	var unit = SequenceUnit.new();
 	var pos = user.position;
 	
-	unit.callable = func (delta, battleState):
-		user.position += delta*Vector2(1000,0);
-		if unit.timePassed():
-			user.position = pos;
+	unit.callable = func (d,b,u):
 			return true;
-		return false;
+
 		
 	sequence.append( unit)
 	return sequence;

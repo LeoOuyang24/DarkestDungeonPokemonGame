@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://b47h1xhj5vu6o"]
 
-[ext_resource type="Script" path="res://Battle/start_battle.gd" id="1_crdht"]
+[ext_resource type="Script" path="res://Battle/Battlefield.gd" id="1_crdht"]
 [ext_resource type="PackedScene" uid="uid://b3hux6c6p4pfu" path="res://Battle/UI/BattleUI.tscn" id="2_r4k38"]
 
 [sub_resource type="Theme" id="Theme_ak2lg"]
@@ -9,6 +9,7 @@
 script = ExtResource("1_crdht")
 
 [node name="BattleUI" parent="." instance=ExtResource("2_r4k38")]
+state = null
 
 [node name="DebugStartBattleState" type="RichTextLabel" parent="BattleUI"]
 offset_left = 303.0

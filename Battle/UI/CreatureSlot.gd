@@ -5,6 +5,7 @@ class_name CreatureSlot extends Button
 @onready var Sprite:Anime = $Sprite
 @onready var HealthBar = $HealthBar;
 
+var tween = null
 #a reference to the creature we are referring to
 var creature:Creature = null
 
@@ -18,9 +19,15 @@ func getCreature():
 	return self.creature
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	tween = create_tween();
 	#icon = load("res://sprites/dialga.png")
 	pass # Replace with function body.
 
+#gets and restarts the animation
+func getTween():
+	tween.kill();
+	tween = create_tween()
+	return tween;
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

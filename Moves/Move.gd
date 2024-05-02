@@ -29,12 +29,12 @@ func getButton(pos):
 	return button;
 	
 #constructs a whole Sequence (list of SequenceUnits) that describe a move
-func createMoveSequence(user,move, targets):
+func createMoveSequence(user, targets, move):
 	var sequence = []
 	sequence.push_back( SequenceUnit.createTextUnit(user.getName() + " used " + move.getMoveName() + "!")); #say whos doing the  move
 	sequence.append_array(moveAnimationSequence(user,move,targets))
 	
-	sequence.push_back(SequenceUnit.createSequenceUnit(func (d,b) : #do the move
+	sequence.push_back(SequenceUnit.createSequenceUnit(func (d,b,u) : #do the move
 		user.useMove(move,targets)
 		return true
 	)); 

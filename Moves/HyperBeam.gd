@@ -21,7 +21,7 @@ func move(ally, enemies):
 	if len(enemies) > 0: #just to be safe, make sure we are actually targeting something
 		Creature.dealDamage(ally,enemies[0],150); #realistically the player should only be targeting one enemy, but even if they target multiple, we only hit the first
 	super.move(ally,enemies)
-	pass
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass

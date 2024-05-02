@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://b3hux6c6p4pfu"]
+[gd_scene load_steps=4 format=3 uid="uid://b3hux6c6p4pfu"]
 
 [ext_resource type="Script" path="res://Battle/UI/BattleUI.gd" id="1_0uu34"]
 [ext_resource type="Script" path="res://Battle/UI/BattleLog.gd" id="2_ggcmx"]
+[ext_resource type="PackedScene" uid="uid://bgy4kes6sp7tp" path="res://Battle/UI/EndScreen.tscn" id="3_1dct8"]
 
 [node name="BattleUI" type="Node2D"]
 script = ExtResource("1_0uu34")
@@ -81,3 +82,6 @@ offset_left = 312.0
 offset_top = 104.0
 offset_right = 448.128
 offset_bottom = 176.0
+
+[node name="EndScreen" parent="." instance=ExtResource("3_1dct8")]
+visible = false

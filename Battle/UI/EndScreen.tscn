@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgy4kes6sp7tp"]
+
+[sub_resource type="FontFile" id="FontFile_2geh4"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/100/0 = Vector2(0, 0)
+cache/0/100/0/ascent = 0.0
+cache/0/100/0/descent = 0.0
+cache/0/100/0/underline_position = 0.0
+cache/0/100/0/underline_thickness = 0.0
+cache/0/100/0/scale = 1.0
+cache/0/100/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/100/0/kerning_overrides/100/0 = Vector2(0, 0)
+
+[node name="EndScreen" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 1120.0
+offset_bottom = 600.0
+color = Color(0.439216, 0.427451, 0.407843, 1)
+
+[node name="Label" type="Label" parent="ColorRect"]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 104.0
+offset_right = 961.0
+offset_bottom = 424.0
+theme_override_fonts/font = SubResource("FontFile_2geh4")
+theme_override_font_sizes/font_size = 100
+text = "YOU WON!"
+horizontal_alignment = 1
+vertical_alignment = 1
