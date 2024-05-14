@@ -46,9 +46,38 @@ func createMoveSequence(user, targets, move):
 #sequence that renders an animation
 #usually this is just the animation of the move but it could be other things, like moving the user forward as part of the tackle animation
 func moveAnimationSequence(user, move, targets):
-	return []
+	return basicMoveAnimationSequence(user,move,targets)
 #sequence to call after a move has done
 #this is usually used to print things like "Its super effective!"
 func postMoveSequence(user, move, targets):
 	return [];
+	
+#animation that moves the user forward up to the first target
+static func basicMoveAnimationSequence( user, move, targets, spriteFrame = SpriteLoader.getSprite("spritesheets/moves/" + move.getMoveName())):
+	if targets.size() > 0 && spriteFrame:
+		var sequence = []
+		sequence.append(SequenceUnit.createSequenceUnit(func (d,b,u):
+			var slot = u.getCreatureSlot(user)
+			var targetSlot = u.getCreatureSlot(targets[0])
+			if slot && targetSlot:
+				if slot.get_global_rect().intersects(targetSlot.get_global_rect(),true):
+					return true;
+				else:
+					slot.global_position += .1*(targetSlot.global_position - slot.global_position)
+			return false;))
+	
+		sequence.append(SequenceUnit.createSequenceUnit(func (d,b,u):
+			u.setBattleSprite(spriteFrame,u.getCreatureSlot(targets[0]).get_global_position())
+			return true
+			))
+
+		sequence.append(SequenceUnit.createSequenceUnit(func (d,b,u):
+			if u.BattleSprite.getFramesProgress() == 1:
+				u.resetCreatureSlot(user)
+				u.stopBattleSprite()
+				return true
+			return false;	
+			))
+		return sequence
+	return []
 	

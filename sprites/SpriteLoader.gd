@@ -13,11 +13,16 @@ func _process(delta):
 #maps filepaths to loaded sprites
 var sprites = {}
 
-func get_sprite(str:String) -> SpriteFrames:
+func getSprite(str:String) -> SpriteFrames:
 	var sprite = load("res://sprites" + "/" + str + ".tres")
 	if sprite:
 		return sprite;
 	else:
-		push_error("failed to load spritesheet for " + str);
-		return null
+		#try again with all lowercase
+		sprite = load("res://sprites" + "/" + str.to_lower() + ".tres")
+		if sprite:
+			return sprite
+		else:
+			push_error("failed to load spritesheet for " + str);
+			return null
 	

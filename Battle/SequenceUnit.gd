@@ -56,6 +56,7 @@ static func createDeathSequence(creature:Creature):
 	sequence.push_back(createTextUnit(creature.getName() + " has been exterminated!"))
 	sequence.push_back(createSequenceUnit(func(d,b,u):
 		b.removeCreature(creature);
+		u.removeCreature(creature);
 		return true
 		))
 	return sequence;

@@ -10,33 +10,49 @@ class_name MoveQueue extends Node
 #this is slighly more efficient since popping back is faster than popping first
 var data = [];
 
-#insert a move. 
-func insert(moveInfo:MoveRecord):
+func remove(moveInfo:MoveRecord):
+	data.erase(moveInfo);
+
+#insert a move. returning the index
+func insert(moveInfo:MoveRecord) -> int:
 	#omega inefficient but Godot doesn't have binary trees ARRGHGHGGHGHG 		
-	var found = false;
 	for i in range(data.size()):
 		#>= creates a "first come first serve" tie breaker.
 		#if 2 moves have the same speed, the one that was added first comes first
 		if data[i].user.getSpeed() >=moveInfo.user.getSpeed():
 			data.insert(i,moveInfo)
-			found = true;
-			break;
+			return i;
 	#if we never inserted, this is the new fastest move
-	if !found:
-		data.insert(data.size(),moveInfo)
+	data.insert(data.size(),moveInfo)
+	return data.size() - 1;
 		
-
-#call the next callable
-func pop():
+#returns an array of creatures in the queue, in the order they'd move
+#this is sorted from first to move to last to move
+func getCreatures():
+	var arr = [];
+	for i in range(data.size(),0,-1):
+		arr.push_back(data[i-1].user);
+	return arr;
+	
+	
+func top():
+	if data.size() > 0:
+		return data[-1]
+	return null
+	
+#return the next sequence
+func topSequence():
 	var returnVal = null;
 	if data.size() > 0:
-		#only add the move if the creature is still alive
+		#only do the move if the creature is still alive
 		if data[data.size() - 1].user.isAlive():
 			returnVal = data[data.size() - 1].getSequence();
-		data.pop_back();
 	return returnVal;
-
 	
+func pop():
+	if data.size() > 0:
+		data.pop_back()
+
 
 #clear all contents
 func clear():

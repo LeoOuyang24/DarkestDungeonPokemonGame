@@ -9,12 +9,12 @@ func _init():
 	moveName="Hyper Beam"
 	
 	
-func moveAnimationSequence(user, move, targets):
-	var sequence = [];
-	var unit = SequenceUnit.createAnimationUnit(SpriteLoader.get_sprite("spritesheets/moves/laser"));
-	
-	sequence.append( unit)
-	return sequence;
+#func moveAnimationSequence(user, move, targets):
+	#var sequence = [];
+	#var unit = SequenceUnit.createAnimationUnit(SpriteLoader.get_sprite("spritesheets/moves/laser"));
+	#
+	#sequence.append( unit)
+	#return sequence;
 	
 	
 func move(ally, enemies):

@@ -11,11 +11,14 @@ const maxEnemies = 4;
 
 var allies = []
 var enemies = []
+#map of each creature to the record of what move they are using
 var movesSelected = {};
 
 var moveQueue = MoveQueue.new();
 
 signal creature_died(creature:Creature);
+signal add_move_queue(record:MoveRecord, index:int);
+signal remove_move_queue(record:MoveRecord);
 
 enum BATTLE_STATES {
 	PLAYER_TURN,
@@ -95,7 +98,8 @@ func removeCreature(creature:Creature):
 		for i in range(creatures.size()):
 			if creatures[i] == creature:
 				creatures[i] = null
-				movesSelected.erase(creature);
+				if movesSelected.get(creature):
+					removeMoveFromQueue(movesSelected[creature]);
 				return true;
 		)
 
@@ -103,7 +107,10 @@ func _ready():
 	pass
 
 func newTurn():
-	currentCreature = 0;
+	for i in range(allies.size()):
+		if allies[i]:
+			currentCreature = i;
+			break;
 	clearMovesSelected()
 	
 	for i in enemies:
@@ -113,13 +120,11 @@ func newTurn():
 #check if any creatures have died between moves
 #emitting a signal if yes
 func checkForDeath():
-
 	#I have to pass this in as an Array otherwise the lambda captures it by
 	#value as opposed to by reference
 	var found = [false]
 	var lambda = func(array,isAlly):
 		for i in range(array.size()):
-			
 			if (array[i] && !array[i].isAlive()):
 				found[0] = true
 				creature_died.emit(array[i]);
@@ -131,9 +136,26 @@ func checkForDeath():
 #add a move to the move queue
 func addMoveToQueue(record:MoveRecord):
 	if record.user:
-		moveQueue.insert(record);
 		movesSelected[record.user] = record;
+		#insert the move and emit signal of its index
+		add_move_queue.emit(record,moveQueue.data.size() - moveQueue.insert(record));
+		
+func removeMoveFromQueue(record:MoveRecord):
+	if movesSelected[record.user]:
+		#slightly more efficient to pop if we can
+		if record == moveQueue.top():
+			moveQueue.pop();
+		else:
+			moveQueue.remove(record)
+		movesSelected.erase(record.user)
+		remove_move_queue.emit(record);
 
+#remove the topmost move and return the next move 
+func popAndTop():
+	if moveQueue.top():
+		removeMoveFromQueue(moveQueue.top())
+		return moveQueue.topSequence();
+	return null
 #returns whether all players have selected a move
 func allMovesProcessed():
 	for i in allies:

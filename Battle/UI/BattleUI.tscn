@@ -1,47 +1,44 @@
-[gd_scene load_steps=4 format=3 uid="uid://b3hux6c6p4pfu"]
+[gd_scene load_steps=6 format=3 uid="uid://b3hux6c6p4pfu"]
 
 [ext_resource type="Script" path="res://Battle/UI/BattleUI.gd" id="1_0uu34"]
 [ext_resource type="Script" path="res://Battle/UI/BattleLog.gd" id="2_ggcmx"]
 [ext_resource type="PackedScene" uid="uid://bgy4kes6sp7tp" path="res://Battle/UI/EndScreen.tscn" id="3_1dct8"]
+[ext_resource type="Texture2D" uid="uid://dyec0s7b32bjh" path="res://sprites/backgrounds/church.png" id="4_g8wya"]
+[ext_resource type="Script" path="res://sprites/Anime.gd" id="5_33c7b"]
 
 [node name="BattleUI" type="Node2D"]
 script = ExtResource("1_0uu34")
 
 [node name="BattleSpriteRect" type="ReferenceRect" parent="."]
-offset_left = 448.0
-offset_top = 128.0
-offset_right = 704.0
-offset_bottom = 256.0
+offset_left = 512.0
+offset_top = 192.0
+offset_right = 640.0
+offset_bottom = 320.0
 editor_only = false
 
 [node name="AllyRow" type="ReferenceRect" parent="."]
-offset_top = 192.0
-offset_right = 408.0
-offset_bottom = 192.0
+offset_top = 224.0
+offset_right = 504.0
+offset_bottom = 224.0
 editor_only = false
 
 [node name="EnemyRow" type="ReferenceRect" parent="."]
-offset_left = 744.0
-offset_top = 192.0
+offset_left = 656.0
+offset_top = 224.0
 offset_right = 1152.0
-offset_bottom = 192.0
+offset_bottom = 224.0
 editor_only = false
 
-[node name="BattleSprite" type="AnimatedSprite2D" parent="."]
-position = Vector2(611, 198.5)
-scale = Vector2(0.962264, 0.710345)
-animation = &""
-
 [node name="BattleLog" type="RichTextLabel" parent="."]
-offset_left = 416.0
-offset_top = 392.0
-offset_right = 742.0
-offset_bottom = 563.0
+offset_left = 448.0
+offset_top = 424.0
+offset_right = 744.0
+offset_bottom = 448.0
 script = ExtResource("2_ggcmx")
 
 [node name="Moves" type="ReferenceRect" parent="."]
 offset_left = 320.0
-offset_top = 448.0
+offset_top = 464.0
 offset_right = 832.0
 offset_bottom = 648.0
 
@@ -85,3 +82,23 @@ offset_bottom = 176.0
 
 [node name="EndScreen" parent="." instance=ExtResource("3_1dct8")]
 visible = false
+
+[node name="TurnQueue" type="ReferenceRect" parent="."]
+offset_left = 384.0
+offset_top = 64.0
+offset_right = 832.0
+offset_bottom = 128.0
+editor_only = false
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(576, 228)
+scale = Vector2(0.6, 0.633333)
+texture = ExtResource("4_g8wya")
+
+[node name="BattleSprite" type="TextureRect" parent="."]
+offset_left = 512.0
+offset_top = 192.0
+offset_right = 640.0
+offset_bottom = 320.0
+script = ExtResource("5_33c7b")

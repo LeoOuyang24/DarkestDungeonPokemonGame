@@ -1,8 +1,11 @@
-class_name Tackle extends Move
+class_name Bite extends Move
 
+
+var texture = Anime.new()
 # Called when the node enters the scene tree for the first time.
 func _init():
-	moveName = "Tackle"
+	moveName = "Bite"
+	texture.frames = load("res://sprites/spritesheets/moves/bite.tres")
 	pass # Replace with function body.
 
 func move(ally, enemies):
@@ -10,18 +13,6 @@ func move(ally, enemies):
 		Creature.dealDamage(ally,enemies[0],40); #realistically the player should only be targeting one enemy, but even if they target multiple, we only hit the first
 	super.move(ally,enemies)
 	pass
-
-func moveAnimationSequence(user, move, targets):
-	var sequence = [];
-	var unit = SequenceUnit.new();
-	var pos = user.position;
-	
-	unit.callable = func (d,b,u):
-			return true;
-
-		
-	sequence.append( unit)
-	return sequence;
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass

@@ -1,0 +1,39 @@
+[gd_resource type="SpriteFrames" load_steps=6 format=3 uid="uid://bssre1ok1vt7t"]
+
+[ext_resource type="Texture2D" uid="uid://dwdh6at56syvu" path="res://sprites/spritesheets/moves/bite.png" id="1_1aun3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bsauv"]
+atlas = ExtResource("1_1aun3")
+region = Rect2(0, 0, 94, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1p2uf"]
+atlas = ExtResource("1_1aun3")
+region = Rect2(94, 0, 94, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x3m3s"]
+atlas = ExtResource("1_1aun3")
+region = Rect2(188, 0, 94, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ujjhp"]
+atlas = ExtResource("1_1aun3")
+region = Rect2(94, 100, 94, 100)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bsauv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1p2uf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x3m3s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ujjhp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]

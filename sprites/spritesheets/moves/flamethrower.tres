@@ -153,6 +153,6 @@ animations = [{
 "texture": SubResource("AtlasTexture_jhgl7")
 }],
 "loop": true,
-"name": &"new_animation",
+"name": &"default",
 "speed": 5.0
 }]

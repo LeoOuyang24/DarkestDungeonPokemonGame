@@ -1,4 +1,4 @@
-class_name Creature extends Node2D
+class_name Creature extends Object
 #A Creature is any entity with up to 4 attacks
 
 
@@ -27,11 +27,12 @@ static var levelAmount = .04; #the amount our stats increase by per level
 
 # "a" deals damage to "b", based on attack and defense stats. "damage" is the base damage
 static func dealDamage(a,b, damage):
-	b.takeDamage((a.getAttack()/b.getDefense())*damage); 
+	if a && b:
+		b.takeDamage((a.getAttack()/b.getDefense())*damage); 
 
 static func create( sprite_path:String, maxHealth_:int, name_:String):
 	var creature = Creature.new();
-	creature.spriteFrame = SpriteLoader.get_sprite(sprite_path)
+	creature.spriteFrame = SpriteLoader.getSprite(sprite_path)
 	creature.creatureName = name_;
 	creature.baseMaxHealth = maxHealth_;
 	creature.health = maxHealth_;

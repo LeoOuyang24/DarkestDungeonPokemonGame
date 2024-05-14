@@ -14,6 +14,7 @@ func setCreature(creature:Creature):
 	if creature:
 		HealthBar.set_value(creature.getHealth())
 		Sprite.frames = creature.spriteFrame;
+		set_visible(true)
 	
 func getCreature():
 	return self.creature
@@ -36,4 +37,6 @@ func _process(delta):
 	else:
 		#refactor maybe: instead of doing this every frame, maybe do it when the health changes?
 		HealthBar.set_value(creature.getHealth())
+
+
 

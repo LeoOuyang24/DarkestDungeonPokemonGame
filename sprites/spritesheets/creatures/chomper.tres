@@ -1,0 +1,67 @@
+[gd_resource type="SpriteFrames" load_steps=10 format=3 uid="uid://c6bcp5k5sipe4"]
+
+[ext_resource type="Texture2D" uid="uid://2hs88yq1cwxj" path="res://sprites/spritesheets/creatures/chomper.png" id="1_t3mnr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_br7gi"]
+atlas = ExtResource("1_t3mnr")
+region = Rect2(0, 0, 102, 102)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vb2dn"]
+atlas = ExtResource("1_t3mnr")
+region = Rect2(102, 0, 102, 102)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_apmsi"]
+atlas = ExtResource("1_t3mnr")
+region = Rect2(204, 0, 102, 102)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bklsu"]
+atlas = ExtResource("1_t3mnr")
+region = Rect2(0, 102, 102, 102)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bd5dj"]
+atlas = ExtResource("1_t3mnr")
+region = Rect2(102, 102, 102, 102)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oa8qk"]
+atlas = ExtResource("1_t3mnr")
+region = Rect2(204, 102, 102, 102)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qdp5x"]
+atlas = ExtResource("1_t3mnr")
+region = Rect2(0, 204, 102, 102)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qow5i"]
+atlas = ExtResource("1_t3mnr")
+region = Rect2(102, 204, 102, 102)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_br7gi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vb2dn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_apmsi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bklsu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bd5dj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oa8qk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qdp5x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qow5i")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

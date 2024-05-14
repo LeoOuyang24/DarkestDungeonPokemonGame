@@ -3,4 +3,4 @@
 .godot/
 .vscode/
 *.tmp
-
+*.import

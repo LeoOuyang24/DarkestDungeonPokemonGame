@@ -26,21 +26,33 @@ var targets = []
 func _ready():
 	UI.target_selected.connect(handleTargetSelect)
 	UI.move_selected.connect(handleMoveSelect)
-		
+	
+	BattleSim.add_move_queue.connect(func (record:MoveRecord, index:int):
+		UI.addCreatureToQueue(record.user,index))
+	BattleSim.remove_move_queue.connect(func (record:MoveRecord):
+		UI.removeCreatureFromQueue(record.user));
 	BattleSim.creature_died.connect(handleDeath)
-		
+
+	test();
+
+	newTurn();
+	pass # Replace with function body.
+
+func test():
 	if testing:
-		var ally1 = Creature.create("spritesheets/creatures/dialga",100,"Dialga")
-		var ally2 = Creature.create("spritesheets/creatures/dialga",100,"Dialga")
+		var ally1 = Creature.create("spritesheets/creatures/chomper",100,"Chomper 1")
+		var ally2 = Creature.create("spritesheets/creatures/chomper",100,"Chomper 2")
 		
-		ally1.setMoves([Tackle.new(),HyperBeam.new()]);
-		ally2.setMoves([NastyPlot.new(),Splash.new(),HyperBeam.new()]);
+		ally2.speed = 11;
 		
-		var enemy1 = Creature.create("spritesheets/creatures/magikarp",100,"Magikarp")
-		var enemy2 = Creature.create("spritesheets/creatures/magikarp",100,"Magikarp")
+		ally1.setMoves([Bite.new(),HyperBeam.new()]);
+		ally2.setMoves([NastyPlot.new(),Bite.new(),HyperBeam.new()]);
 		
-		enemy1.setMoves([Splash.new()]);
-		enemy2.setMoves([Tackle.new()]);
+		var enemy1 = Creature.create("spritesheets/creatures/dreemer",100,"Dreemer 1")
+		var enemy2 = Creature.create("spritesheets/creatures/dreemer",100,"Dreemer 2")
+		
+		enemy1.setMoves([Bite.new()]);
+		enemy2.setMoves([Bite.new()]);
 		enemy2.speed = 10;
 		
 		createBattle(
@@ -52,8 +64,6 @@ func _ready():
 				enemy1,
 				enemy2
 			] );
-	
-	pass # Replace with function body.
 
 func handleTargetSelect(target):
 		if state == BATTLE_STATES.SELECTING_TARGET:
@@ -87,6 +97,10 @@ func changeState(state):
 	elif self.state == BATTLE_STATES.SELECTING_TARGET:
 		UI.choosingTargets(true)
 		UI.setBattleText("Choose targets!");
+	elif self.state == BATTLE_STATES.BATTLE:
+		var nextMove = BattleSim.moveQueue.topSequence()
+		if nextMove:
+			sequencer.insert(nextMove);	
 
 func isPlayerTurn():
 	return state != BATTLE_STATES.BATTLE && state != BATTLE_STATES.DONE;
@@ -114,7 +128,10 @@ func _process(delta):
 			else:
 				#check if anyone died
 				if !BattleSim.checkForDeath():
-					var nextMove = BattleSim.moveQueue.pop()
+					#remove the old move
+					
+					#get the next move
+					var nextMove = BattleSim.popAndTop()
 					if nextMove:
 						sequencer.insert(nextMove);
 					else:
