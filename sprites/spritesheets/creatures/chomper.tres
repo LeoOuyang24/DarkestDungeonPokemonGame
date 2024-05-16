@@ -1,6 +1,7 @@
-[gd_resource type="SpriteFrames" load_steps=10 format=3 uid="uid://c6bcp5k5sipe4"]
+[gd_resource type="SpriteFrames" load_steps=11 format=3 uid="uid://c6bcp5k5sipe4"]
 
 [ext_resource type="Texture2D" uid="uid://2hs88yq1cwxj" path="res://sprites/spritesheets/creatures/chomper.png" id="1_t3mnr"]
+[ext_resource type="Texture2D" uid="uid://b6b0vu4jgbmqh" path="res://sprites/spritesheets/creatures/chompe_reel.png" id="2_r7keu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_br7gi"]
 atlas = ExtResource("1_t3mnr")
@@ -63,5 +64,13 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_r7keu")
+}],
+"loop": true,
+"name": &"hurt",
 "speed": 5.0
 }]

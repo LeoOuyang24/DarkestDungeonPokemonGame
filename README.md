@@ -102,3 +102,12 @@ These creatures have their own type weaknesses, kind of like Pokemon types.
 
 For example, `Biological` creatures normally take extra `burn` damage. So if you hit a `Biological` horror with `corrosive` then `burn`
 they'd take a ton of damage, kind of like a 4x super effective hit in Pokemon.
+
+## Lore
+The lore is loosely based off Lovecraft's "The Nameless City" where the protagonist discovers an ancient civilization that long predates our known history. Our lore will be similar. 
+
+The Womb of God is the final bastion of a long ancient race known as the "Axiomics" to the scientific community. Their name stems from the fact that they seem to be "essential" to life as we know it, like how axioms are the basis of all theorems in a system of logic.
+
+The Axiomics are incapable of reproducing and built their civilization on the search of a way to create more of themselves, or more specifically, they studied how information can pass through time. The many creatures we see in the Womb of God are their creations. Eventually, they came upon the DNA model of life which was incredibly effective, far more than they could have ever anticipated. A breach in their lab caused these first primitive forms of life to leak onto the environment eventually becoming the dominant forms of life we know now, including diseases that ravaged the ancient race. 
+
+The Womb of God is the laboratory where it all began and the final unbreached location. The Axiomics have taken refuge in the final deepest floor of the building. 

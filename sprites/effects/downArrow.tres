@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://chq40k2u8eqp3"]
+
+[ext_resource type="Texture2D" uid="uid://8mftfnv476oo" path="res://sprites/effects/downArrow.png" id="1_nmxdh"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_nmxdh")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

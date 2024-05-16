@@ -19,6 +19,10 @@ func play(frames_:SpriteFrames = null):
 	if frames:
 		start = Time.get_ticks_msec();
 	
+#change the currentAnimation
+func changeAnimation(newAnimation:String):
+	if frames.get_animation_names().find(newAnimation) != -1:
+		currentAnimation = newAnimation;
 	
 #return frame at index
 #accounts for index being out of range
@@ -28,7 +32,7 @@ func getFrameAtIndex(index:int):
 	return null
 	
 #convert ticks (milliseconds) passed to the index of the frame
-func framesToIndex(ticks:int):
+func ticksToIndex(ticks:int):
 	if frames:
 		return int(ticks/1000.0*frames.get_animation_speed(currentAnimation))%(frames.get_frame_count(currentAnimation))
 	return -1;
@@ -36,7 +40,7 @@ func framesToIndex(ticks:int):
 #return the frame after "ticks" milliseconds
 func getFrameAfterTime(ticks:int):
 	if frames:
-		return getFrameAtIndex(framesToIndex(ticks));
+		return getFrameAtIndex(ticksToIndex(ticks));
 	return null
 	
 #get the amount of milliseconds we've run for
@@ -55,12 +59,13 @@ func getFramesProgress():
 	if frames:
 		var framesCount = frames.get_frame_count(currentAnimation) - 1;
 		if framesCount > 1:
-			return float(framesToIndex(getRuntime()))/(framesCount);
+			return float(ticksToIndex(getRuntime()))/(framesCount);
 		return 1;
 	else:
 		return -1;
 	
 func _process(delta):
+	set_stretch_mode(STRETCH_KEEP)
 	if frames:
 		set_texture(getCurrentFrame());
 	

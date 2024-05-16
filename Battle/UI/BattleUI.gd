@@ -144,7 +144,7 @@ func addSlot(isAlly:bool):
 	creatureSlots.push_back(slot);
 	if isAlly:
 		AllyRow.add_child(slot)
-		#slot.Sprite.set_flip_h(true);
+		slot.Sprite.set_flip_h(true);
 	else:
 		EnemyRow.add_child(slot)
 	
@@ -166,6 +166,8 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+	#var camera = get_viewport().get_camera_2d()
+	#lerp(camera.offset.x,0,1)
 	#if state == States.SELECTING_TARGET:
 
 	

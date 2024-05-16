@@ -36,7 +36,8 @@ func done():
 
 func run(delta, battlefield:Battlefield, UI:BattleUI):
 	if sequences.size() > 0:
-		if sequences[-1][curUnit].run(delta,battlefield, UI): #if we are done with this unit ...
+		var result = sequences[-1][curUnit].run(delta,battlefield, UI)
+		if result == SequenceUnit.RETURN_VALS.DONE: #if we are done with this unit ...
 			if curUnit >= sequences[-1].size() - 1:
 				#done with this sequence, set up for the next one
 				sequences.pop_back();
@@ -44,3 +45,9 @@ func run(delta, battlefield:Battlefield, UI:BattleUI):
 			else:
 				#advance to the next unit
 				curUnit += 1;
+		elif result == SequenceUnit.RETURN_VALS.TERMINATE:
+			sequences.pop_back();
+			curUnit = 0;
+				
+
+

@@ -44,9 +44,7 @@ func top():
 func topSequence():
 	var returnVal = null;
 	if data.size() > 0:
-		#only do the move if the creature is still alive
-		if data[data.size() - 1].user.isAlive():
-			returnVal = data[data.size() - 1].getSequence();
+		returnVal = data[data.size() - 1].getSequence();
 	return returnVal;
 	
 func pop():

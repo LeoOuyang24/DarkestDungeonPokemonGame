@@ -1,4 +1,4 @@
-extends Node2D
+class_name BattleManager extends Node2D
 
 #facilitates communication between Battlefield and BattleUI
 
@@ -45,7 +45,7 @@ func test():
 		
 		ally2.speed = 11;
 		
-		ally1.setMoves([Bite.new(),HyperBeam.new()]);
+		ally1.setMoves([Bite.new(),HyperBeam.new(),NastyPlot.new()]);
 		ally2.setMoves([NastyPlot.new(),Bite.new(),HyperBeam.new()]);
 		
 		var enemy1 = Creature.create("spritesheets/creatures/dreemer",100,"Dreemer 1")
