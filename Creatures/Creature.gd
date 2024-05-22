@@ -94,7 +94,7 @@ func getRandomMove():
 #return the move it would use
 static func AI(user,allies, targets) -> MoveRecord:
 	if len(user.moves) > 0 and len(targets) > 0:
-		return MoveRecord.new(user,[targets[0]],user.getRandomMove())
+		return MoveRecord.new(user,user.getRandomMove(),[targets[0]])
 	return null
 		#user.attacks[randi()%len(user.attacks)].move(user,[targets[0]])
 		

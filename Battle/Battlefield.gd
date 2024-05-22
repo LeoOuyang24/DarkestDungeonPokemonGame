@@ -78,6 +78,34 @@ func getCurrentCreature():
 func setState(state_):
 	state = state_
 
+#true if creature is an ally
+#false if creature is an enemy or doesn't exist
+func isCreatureFriendly(creature:Creature):
+	for i in allies:
+		if i == creature:
+			return true
+	return false
+
+#get index of creature, -1 if can't be found
+func getCreatureIndex(creature:Creature,isAlly:bool):
+	if isAlly:
+		for i in range(allies.size()):
+			if creature == allies[i]:
+				return i
+	else:
+		for i in range(enemies.size()):
+			if creature == enemies[i]:
+				return i
+				
+	return -1;
+
+#move a creature to "index"
+#this will override the prexisting creature
+func moveCreature(creature:Creature,  index:int, isAlly:bool):
+	removeCreature(creature,false)
+	addCreature(creature,index,isAlly)
+	#print(allies)
+	#addCreature(creature,index,isAlly)
 
 func addCreature(creature:Creature, index:int, isAlly:bool):
 	var row = null; #array of creatures, either the enemies or allies
@@ -89,16 +117,16 @@ func addCreature(creature:Creature, index:int, isAlly:bool):
 		row = enemies;
 		max = maxEnemies;
 	
-	if index >= 0 && index < max && row[index] == null:
+	if index >= 0 && index < max:
 		row[index] = creature;
 				
-
-func removeCreature(creature:Creature):
+#remove the creature, maybe remove it from the move queue
+func removeCreature(creature:Creature, removeMoveToo:bool = true):
 	processAllCreatures(func(creatures, isAlly):
 		for i in range(creatures.size()):
 			if creatures[i] == creature:
 				creatures[i] = null
-				if movesSelected.get(creature):
+				if removeMoveToo && movesSelected.get(creature):
 					removeMoveFromQueue(movesSelected[creature]);
 				return true;
 		)
@@ -131,11 +159,21 @@ func checkForDeath():
 	processAllCreatures(lambda)
 	return found[0]
 
-
+func dealDamage(damage:int, target:Creature,attacker:Creature):
+	# "a" deals damage to "b", based on attack and defense stats. "damage" is the base damage
+	target.takeDamage((attacker.getAttack()/target.getDefense())*damage);
 
 #add a move to the move queue
 func addMoveToQueue(record:MoveRecord):
 	if record.user:
+		var preselected = record.move.getPreselectedTargets(); #get preselected targets and add them to our targets
+		for i in preselected[0 if isCreatureFriendly(record.user) else 1]:
+			if allies[i]:
+				record.targets.push_back(allies[i]);
+		for i in preselected[1 if isCreatureFriendly(record.user) else 0]:
+			if enemies[i]:
+				record.targets.push_back(enemies[i]);
+				
 		movesSelected[record.user] = record;
 		#insert the move and emit signal of its index
 		add_move_queue.emit(record,moveQueue.data.size() - moveQueue.insert(record));
@@ -166,12 +204,12 @@ func allMovesProcessed():
 func clearMovesSelected():
 	movesSelected.clear();
 
-func handlePlayerMove(user, targets,move):
-	addMoveToQueue(MoveRecord.new(user,targets,move))
+func handlePlayerMove(user, move, targets):
+	addMoveToQueue(MoveRecord.new(user,move,targets))
 	#whether or not theres another ally that hasn't taken a turn yet
 
 	for i in range(0,allies.size()):
-		if allies[i]:
+		if allies[i] && !movesSelected.get(allies[i]):
 			currentCreature = i;
 
 

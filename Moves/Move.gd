@@ -4,6 +4,29 @@ class_name Move extends Object
 #the name of the move
 var moveName = "move"
 
+#number of targets
+#not necessarily the number of targets that actually get hit but the number of targets
+#that the player has to manually choose
+var targets:int = 0; 
+
+#what can we target? Only allies? Only enemies?
+enum TARGETING_CRITERIA
+{
+	ONLY_ALLIES,
+	ONLY_ENEMIES,
+	ALLIES_AND_ENEMIES
+}
+
+var targetingCriteria:TARGETING_CRITERIA = TARGETING_CRITERIA.ONLY_ENEMIES
+
+#based on the friendliness of the target and user, determine if the target is valid
+static func isTargetValid(targetingCriteria:TARGETING_CRITERIA, areWeFriendly:bool, isTargetFriendly:bool):
+	if targetingCriteria == TARGETING_CRITERIA.ALLIES_AND_ENEMIES:
+		return true
+	if areWeFriendly == isTargetFriendly:
+		return targetingCriteria == TARGETING_CRITERIA.ONLY_ALLIES
+	return targetingCriteria == TARGETING_CRITERIA.ONLY_ENEMIES
+
 func getMoveName():
 	return moveName
 
@@ -12,8 +35,7 @@ func getMoveName():
 #enemies is a list (potentially empty) of targets
 func move(ally, enemies):
 	pass;
-	
-	
+
 #return a button that represents this Move
 func getButton(pos):
 	var button = Button.new();
@@ -28,14 +50,29 @@ func getButton(pos):
 
 	return button;
 	
+#some moves always hit the same targets. (ie, always hitting the front 2 targets)
+#this returns the an array with two elements:
+#the first array is the indicies of the allies we want to hit
+#and the 2nd array is the indicies of the enemies we want to hit
+#this is relative to the user so if the user is an enemy, the first array would 
+#refer to the enemis and the 2nd would refer to the allies
+func getPreselectedTargets():	
+	var preselected = [[],[]];
+	return preselected;
+#creates a sequence that does the actual move
+func doMoveSequence(user,move,targets):
+	return [SequenceUnit.createSequenceUnit(func (d,b,u) : #do the move
+		user.useMove(move,targets)
+		return SequenceUnit.RETURN_VALS.DONE
+	)]
 #constructs a whole Sequence (list of SequenceUnits) that describe a move
-func createMoveSequence(user, targets, move):
+func createMoveSequence(user, move,targets):
 	var sequence = []
 	sequence.push_back( SequenceUnit.createTextUnit(user.getName() + " used " + move.getMoveName() + "!")); #say whos doing the  move
 
 	sequence.push_back(SequenceUnit.createSequenceUnit(func (d,b,u):
-		if !targets.reduce(func (accum, target):
-			return accum || target.isAlive()
+		if targets.size() > 0 && !targets.reduce(func (accum, target):
+			return accum || (target && target.isAlive())
 			,false):
 				return SequenceUnit.RETURN_VALS.TERMINATE
 		return SequenceUnit.RETURN_VALS.DONE	
@@ -43,15 +80,12 @@ func createMoveSequence(user, targets, move):
 
 	sequence.append_array(moveAnimationSequence(user,move,targets))
 	
-	sequence.push_back(SequenceUnit.createSequenceUnit(func (d,b,u) : #do the move
-		user.useMove(move,targets)
-		return SequenceUnit.RETURN_VALS.DONE
-	)); 
+	sequence.append_array(doMoveSequence(user,move,targets))
 	
 	sequence.append_array(postMoveSequence(user,move,targets))
 
 	return sequence;
-	
+
 #sequence that renders an animation
 #usually this is just the animation of the move but it could be other things, like moving the user forward as part of the tackle animation
 func moveAnimationSequence(user, move, targets):
@@ -62,7 +96,7 @@ func postMoveSequence(user, move, targets):
 	return [];
 	
 #animation that moves the user forward up to the first target
-static func basicMoveAnimationSequence( user, move, targets, spriteFrame = SpriteLoader.getSprite("spritesheets/moves/" + move.getMoveName())):
+func basicMoveAnimationSequence( user, move, targets, spriteFrame = SpriteLoader.getSprite("spritesheets/moves/" + move.getMoveName())):
 	if targets.size() > 0 && spriteFrame:
 		var sequence = []
 		sequence.append(SequenceUnit.createSequenceUnit(func (d,b,u):
@@ -77,6 +111,8 @@ static func basicMoveAnimationSequence( user, move, targets, spriteFrame = Sprit
 	
 		sequence.append(SequenceUnit.createSequenceUnit(func (d,b,u):
 			u.setBattleSprite(spriteFrame,u.getCreatureSlot(targets[0]).get_global_position())
+			if !b.isCreatureFriendly(user):
+				u.BattleSprite.flip_h = true
 			for i in targets:
 				var target = u.getCreatureSlot(i);
 				target.Sprite.changeAnimation("hurt"); 
@@ -85,8 +121,9 @@ static func basicMoveAnimationSequence( user, move, targets, spriteFrame = Sprit
 
 		sequence.append(SequenceUnit.createSequenceUnit(func (d,b,u):
 			if u.BattleSprite.getFramesProgress() == 1:
-				u.resetCreatureSlot(user)
+				u.resetCreatureSlotPos(user)
 				u.stopBattleSprite()
+				u.BattleSprite.flip_h = false
 				for i in targets:
 					var target = u.getCreatureSlot(i);
 					target.Sprite.changeAnimation("default"); 

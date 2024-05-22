@@ -9,7 +9,7 @@ func _init():
 	moveName = "Nasty Plot"
 
 func moveAnimationSequence(user, move, targets):
-	return Move.createBoostStatsSequence(targets, true);
+	return Move.createBoostStatsSequence([user], true);
 	
 func postMoveSequence(user, move, targets):
 	return [SequenceUnit.createTextUnit(user.getName() + "\'s Attack rose 2 stages!")]

@@ -8,7 +8,7 @@ class_name BattleUI extends Node2D
 @onready var EndScreen = $EndScreen
 @onready var TurnQueue = $TurnQueue
 
-@onready var Moves = [$Moves/Button, $Moves/Button2, $Moves/Button3, $Moves/Button4]
+@onready var Moves = [$Moves/Button, $Moves/Button2, $Moves/Button3, $Moves/Button4, $Moves/PassButton]
 
 #signal for when targets have been selected
 signal target_selected(target)
@@ -18,6 +18,9 @@ signal target_selected(target)
 signal move_selected(move)
 
 #easy to access, onready list of our CreatureSlots
+#0-maxAllies is the indicies of the allies
+#maxAllies - maxAllies + maxEnemies is the indicies of the enemies
+#so the index 0 enemy would be at index maxAllies 
 var creatureSlots = []
 
 var queueSlots = []
@@ -52,8 +55,10 @@ func addAttacksToUI(creature:Creature):
 		var butt = Moves[i]
 		if i < creature.moves.size():
 			butt.text = creature.getMove(i).getMoveName();
-		else:
-			butt.text = "";
+		elif i < Creature.maxMoves:
+			#if this creature is missing a move
+			#we gotta make sure it's within Creature.maxMoves because the passButton is always out of range
+			butt.text = ""
 
 #get teh creatureslot corresponding to the given creature
 func getCreatureSlot(creature:Creature):
@@ -109,15 +114,16 @@ func addCreatureToQueue(creature:Creature, index:int):
 
 
 #toggle target choosing (flashing black and white) on/off
-func choosingTargets(flash:bool):
-	for i in range(Battlefield.maxAllies,creatureSlots.size()):
+func choosingTargets(flash:bool,targets:Move.TARGETING_CRITERIA = Move.TARGETING_CRITERIA.ONLY_ENEMIES):
+	for i in range(0,creatureSlots.size()):
 		var tween = creatureSlots[i].getTween().set_loops();
 		var sprite = creatureSlots[i].Sprite
-		if sprite && flash:
+		#only turn on flashing if the target is valid (an ally for an only ally move, an enemy for an only enemy move, etc)
+		if sprite && flash && Move.isTargetValid(targets,true, i < Battlefield.maxAllies):
 			tween.tween_property(sprite, "modulate", Color.BLACK, 1)
 			tween.tween_property(sprite,"modulate",Color.WHITE,1)
 
-
+		#if "flash" is false, turn off the flashing for all creatures
 		else:
 			sprite.set("modulate",Color.WHITE)
 			tween.kill();
@@ -151,8 +157,6 @@ func addSlot(isAlly:bool):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	#REFACTOR: Change it so both allies and enemies are dynamically allocated or allocated as part of the scene
-	#just be consistent!
 	for i in range(Battlefield.maxAllies):
 		addSlot(true)
 	for i in range(Battlefield.maxEnemies):
@@ -211,14 +215,18 @@ func getCreaturePos(index:int):
 	#set creature position in the battle field
 	return Vector2(rect.size.x*boolin + rect.size.x/max*(convertIndex(index)+boolin)*(-1 if isAlly else 1),
 	0);
-	
-#reset position of a creatureSlot
-func resetCreatureSlot(creature:Creature):
-	getCreatureSlot(creature).position = getCreaturePos(getCreatureIndex(creature));
+
+
+#get position of a creatureSlot
+func getSlotPos(creature:Creature):
+	return getCreaturePos(getCreatureIndex(creature));
+
+func resetCreatureSlotPos(creature:Creature):
+	getCreatureSlot(creature).position = getSlotPos(creature)
 
 func addCreature(creature:Creature, index:int, isAlly: bool):
 	var convIndex = getIndex(index,isAlly)
-	if (creatureSlots[convIndex].creature != creature):
+	if (creatureSlots[convIndex].getCreature() != creature):
 		if convIndex < creatureSlots.size() && creatureSlots[convIndex]:
 			creatureSlots[convIndex].setCreature( creature);
 
