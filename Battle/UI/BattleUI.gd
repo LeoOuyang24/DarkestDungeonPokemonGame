@@ -17,6 +17,9 @@ signal target_selected(target)
 #emits the index, this way we don't have to reconnect the button
 signal move_selected(move)
 
+#finish up this battle
+signal battle_finished()
+
 #easy to access, onready list of our CreatureSlots
 #0-maxAllies is the indicies of the allies
 #maxAllies - maxAllies + maxEnemies is the indicies of the enemies
@@ -33,22 +36,16 @@ enum States{
 	ENEMY_TURN
 }
 
+
 @export var state:States = States.SELECTING_MOVE;
 
 #change our variables based on the state of the battlefield
 func setBattleState(state:Battlefield):
 	if state.getCurrentCreature():
 		addAttacksToUI(state.getCurrentCreature())
-	var lambda = func (array,isAlly):
-		for i in range(array.size()):
-			addCreature(array[i],i,isAlly);
-	
-	#add allies to our slot
-	lambda.call(state.allies,true)
-	
-	#add enemies to our slots
-	lambda.call(state.enemies,false)
-	
+	for i in range(state.creatures.size()):
+		addCreature(state.creatures[i],i);
+
 
 func addAttacksToUI(creature:Creature):
 	for i in range(Moves.size()):
@@ -135,18 +132,19 @@ func choosingTargets(flash:bool,targets:Move.TARGETING_CRITERIA = Move.TARGETING
 
 		
 
-func addTarget(slot:CreatureSlot):
-	target_selected.emit(slot.creature)
+func addTarget(index:int):
+	target_selected.emit(index)
 			#BattleSim.handlePlayerMove(currentCreature,targets,currentMove)
 		
 #adds a new slot
 func addSlot(isAlly:bool):
 	var slot = creatureSlot.instantiate();
+	var index = creatureSlots.size()
 	slot.pressed.connect(func():
-		addTarget(slot);
+		addTarget(index);
 			);
 
-	slot.position = getCreaturePos(creatureSlots.size())
+	slot.position = getCreaturePos(index)
 	creatureSlots.push_back(slot);
 	if isAlly:
 		AllyRow.add_child(slot)
@@ -182,15 +180,6 @@ func getMoveRect(index):
 			, screenRect.end.y - screenRect.size.y/3 + screenRect.size.y/8*(index/2));
 	
 
-#convert an index from 0 - maxAllies or 0-maxEnemies to the actual index in 
-#creatureSlots
-func getIndex(index:int, isAlly:bool):
-	return index + Battlefield.maxAllies*(int(!isAlly))
-
-#reverse the operation of getIndex
-func convertIndex(index:int):
-	return index - Battlefield.maxAllies*(int(index >= Battlefield.maxAllies))
-
 #index of the creature,
 #-1 if not found
 func getCreatureIndex(creature:Creature):
@@ -198,6 +187,15 @@ func getCreatureIndex(creature:Creature):
 		if creatureSlots[i].getCreature() == creature:
 			return i;
 	return -1
+
+func getCreature(index:int):
+	if index < 0 || index >= creatureSlots.size():
+		return null
+	return creatureSlots[index].getCreature()
+
+#convert from an index to an index relative to the ally/enemy side
+func convertIndex(index:int):
+	return index if index < Battlefield.maxAllies else index - Battlefield.maxAllies
 
 #return the creature's position on the screen based on its index
 func getCreaturePos(index:int):
@@ -213,7 +211,7 @@ func getCreaturePos(index:int):
 	
 	var boolin = (1 if isAlly else 0)
 	#set creature position in the battle field
-	return Vector2(rect.size.x*boolin + rect.size.x/max*(convertIndex(index)+boolin)*(-1 if isAlly else 1),
+	return Vector2(rect.size.x*boolin + (rect.size.x*2)/max*(convertIndex(index)+boolin)*(-1 if isAlly else 1),
 	0);
 
 
@@ -224,11 +222,10 @@ func getSlotPos(creature:Creature):
 func resetCreatureSlotPos(creature:Creature):
 	getCreatureSlot(creature).position = getSlotPos(creature)
 
-func addCreature(creature:Creature, index:int, isAlly: bool):
-	var convIndex = getIndex(index,isAlly)
-	if (creatureSlots[convIndex].getCreature() != creature):
-		if convIndex < creatureSlots.size() && creatureSlots[convIndex]:
-			creatureSlots[convIndex].setCreature( creature);
+func addCreature(creature:Creature, index:int):
+	if (creatureSlots[index].getCreature() != creature):
+		if index < creatureSlots.size() && creatureSlots[index]:
+			creatureSlots[index].setCreature( creature);
 
 			
 func setBattleText(str:String):
@@ -246,3 +243,13 @@ func stopBattleSprite():
 	if BattleSprite:
 		BattleSprite.visible = false;
 		
+
+
+func _on_button_pressed():
+	battle_finished.emit()
+	pass # Replace with function body.
+	
+func reset():
+	EndScreen.set_visible(false);
+	for i in creatureSlots:
+		i.setCreature(null)

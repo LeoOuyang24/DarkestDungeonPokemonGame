@@ -5,7 +5,7 @@ var texture = Anime.new()
 # Called when the node enters the scene tree for the first time.
 func _init():
 	moveName = "Bite"
-	targets = 1;
+	setManualTargets(1)
 	texture.frames = load("res://sprites/spritesheets/moves/bite.tres")
 	pass # Replace with function body.
 

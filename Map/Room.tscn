@@ -3,10 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://dc25w0ser263v" path="res://sprites/map/enemy_room.png" id="1_4awlq"]
 [ext_resource type="Script" path="res://Map/Room.gd" id="1_78lvt"]
 
-[node name="Room" type="Node2D"]
+[node name="TextureButton" type="TextureButton"]
+offset_right = 20.0
+offset_bottom = 20.0
+texture_normal = ExtResource("1_4awlq")
 script = ExtResource("1_78lvt")
-
-[node name="Sprite" type="TextureRect" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
-texture = ExtResource("1_4awlq")

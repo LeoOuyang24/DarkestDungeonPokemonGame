@@ -6,7 +6,8 @@ func _ready():
 	pass # Replace with function body.
 	
 func _init():
-	targets = 0;
+	manualTargets = 0;
+	totalTargets = 2
 	moveName="Hyper Beam"
 	
 	
@@ -17,8 +18,15 @@ func _init():
 	#sequence.append( unit)
 	#return sequence;
 	
-func getPreselectedTargets():
-	return [[],[0,1]];
+func getPreselectedTargets(allies:Array,enemies:Array):
+	var targetsArr = []
+	for i in enemies:
+		if i:
+			targetsArr.push_back(i)
+		if targetsArr.size() >= 2:
+			break;
+	return targetsArr;
+
 	
 func move(user, targets):
 	for i in targets:

@@ -4,7 +4,7 @@ class_name MoveRecord extends Object
 
 var move:Move = null #the move
 var user:Creature = null #user of the move
-var targets:Array = [] #array of creatures that are the target
+var targets:Array = [] #indicies of creatures that are the target
 
 func _init( user:Creature, move:Move, targets:Array):
 	self.move = move;

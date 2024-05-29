@@ -30,12 +30,16 @@ static func dealDamage(a,b, damage):
 	if a && b:
 		b.takeDamage((a.getAttack()/b.getDefense())*damage); 
 
-static func create( sprite_path:String, maxHealth_:int, name_:String):
+static var count = 0;
+
+static func create( sprite_path:String, maxHealth_:int, name_:String, moves_:Array = []):
+
 	var creature = Creature.new();
 	creature.spriteFrame = SpriteLoader.getSprite(sprite_path)
 	creature.creatureName = name_;
 	creature.baseMaxHealth = maxHealth_;
 	creature.health = maxHealth_;
+	creature.setMoves(moves_)
 	return creature;	
 
 func _ready():
@@ -92,9 +96,24 @@ func getRandomMove():
 #given a creature, its allies, and its targets,
 #run the AI for the creature
 #return the move it would use
-static func AI(user,allies, targets) -> MoveRecord:
-	if len(user.moves) > 0 and len(targets) > 0:
-		return MoveRecord.new(user,user.getRandomMove(),[targets[0]])
+static func AI(user,allies,enemies) -> MoveRecord:
+	if len(user.moves) > 0 and len(enemies) > 0:
+		var move = user.getRandomMove()
+		var targets = []
+		var targetingCriteria = move.getTargetingCriteria()
+		for i in move.getNumOfTargets():
+			var targetArray = null
+			if targetingCriteria == Move.TARGETING_CRITERIA.ONLY_ENEMIES:
+				targetArray = enemies
+			elif targetingCriteria == Move.TARGETING_CRITERIA.ONLY_ALLIES:
+				targetArray = allies
+			elif targetingCriteria == Move.TARGETING_CRITERIA.ALLIES_AND_ENEMIES:
+				targetArray = allies + enemies
+			var chosen = -1
+			while (chosen == -1 || targetArray[chosen] == null || targets.find(chosen) != -1) && targets.size()< targetArray.size():
+				chosen = randi()%targetArray.size()
+			targets.push_back(chosen)
+			return MoveRecord.new(user,move,targets)
 	return null
 		#user.attacks[randi()%len(user.attacks)].move(user,[targets[0]])
 		

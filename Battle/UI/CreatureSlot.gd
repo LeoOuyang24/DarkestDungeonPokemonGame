@@ -13,6 +13,7 @@ func setCreature(creature:Creature):
 	self.creature = creature;
 	if creature:
 		HealthBar.set_value(creature.getHealth())
+		HealthBar.set_max(creature.getMaxHealth())
 		Sprite.frames = creature.spriteFrame;
 		set_visible(true)
 	

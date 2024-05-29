@@ -5,6 +5,8 @@ class_name BattleManager extends Node2D
 @onready var BattleSim = Battlefield.new();
 @onready var UI = $BattleUI
 
+signal battle_finished;
+
 var sequencer = Sequencer.new();
 
 enum BATTLE_STATES {
@@ -13,6 +15,8 @@ enum BATTLE_STATES {
 	BATTLE,
 	DONE
 	}
+	
+	
 	
 var state:BATTLE_STATES = BATTLE_STATES.SELECTING_MOVE;
 
@@ -26,6 +30,11 @@ var targets = []
 func _ready():
 	UI.target_selected.connect(handleTargetSelect)
 	UI.move_selected.connect(handleMoveSelect)
+	UI.battle_finished.connect(func ():
+		reset()
+		battle_finished.emit()
+		)
+	
 	
 	BattleSim.add_move_queue.connect(func (record:MoveRecord, index:int):
 		UI.addCreatureToQueue(record.user,index))
@@ -33,50 +42,49 @@ func _ready():
 		UI.removeCreatureFromQueue(record.user));
 	BattleSim.creature_died.connect(handleDeath)
 
-	test();
+	if testing:
+		test();
 
-	newTurn();
 	pass # Replace with function body.
 
 func test():
-	if testing:
-		var ally1 = Creature.create("spritesheets/creatures/chomper",100,"Chomper 1")
-		var ally2 = Creature.create("spritesheets/creatures/chomper",100,"Chomper 2")
-		var ally3 = Creature.create("spritesheets/creatures/player",300,"Player")
-		
-		
-		ally2.speed = 11;
-		ally3.speed = 12;
-		
-		ally1.setMoves([Bite.new(),HyperBeam.new(),NastyPlot.new()]);
-		ally2.setMoves([NastyPlot.new(),Bite.new(),HyperBeam.new()]);
-		ally3.setMoves([SwapPos.new()])
-		
-		var enemy1 = Creature.create("spritesheets/creatures/dreemer",100,"Dreemer 1")
-		var enemy2 = Creature.create("spritesheets/creatures/dreemer",100,"Dreemer 2")
-		
-		enemy1.setMoves([HyperBeam.new()]);
-		enemy2.setMoves([Bite.new()]);
-		enemy2.speed = 10;
-		
-		createBattle(
-			[
-				ally1,
-				ally2,
-				ally3
-			],
-			[
-				enemy1,
-				enemy2
-			] );
+	var ally1 = Creature.create("spritesheets/creatures/chomper",100,"Chomper 1")
+	var ally2 = Creature.create("spritesheets/creatures/chomper",100,"Chomper 2")
+	var ally3 = Creature.create("spritesheets/creatures/player",200,"Player")
+	
+	
+	ally2.speed = 11;
+	ally3.speed = 12;
+	
+	ally1.setMoves([Bite.new(),HyperBeam.new(),NastyPlot.new()]);
+	ally2.setMoves([NastyPlot.new(),Bite.new(),HyperBeam.new()]);
+	ally3.setMoves([SwapPos.new()])
+	
+	var enemy1 = Creature.create("spritesheets/creatures/dreemer",100,"Dreemer 1")
+	var enemy2 = Creature.create("spritesheets/creatures/dreemer",100,"Dreemer 2")
+	
+	enemy1.setMoves([HyperBeam.new()]);
+	enemy2.setMoves([Bite.new()]);
+	enemy2.speed = 10;
+	
+	createBattle(
+		[
+			ally1,
+			ally2
+		],
+		[
+			enemy1,
+			enemy2
+		] );
 
-func handleTargetSelect(target):
-		if state == BATTLE_STATES.SELECTING_TARGET:
-			if target && currentMove.isTargetValid(currentMove.targetingCriteria,true,BattleSim.isCreatureFriendly(target)):
-				targets.push_back(target);
-			if targets.size() >= targetsNeeded:
-				BattleSim.handlePlayerMove(BattleSim.getCurrentCreature(),currentMove,targets)
-				changeState(BATTLE_STATES.SELECTING_MOVE)
+func handleTargetSelect(index):
+	if state == BATTLE_STATES.SELECTING_TARGET:
+		var target = BattleSim.getCreature(index)
+		if target && currentMove.isTargetValid(currentMove.targetingCriteria,true,BattleSim.isCreatureFriendly(target)):
+			targets.push_back(index);
+		if targets.size() >= targetsNeeded:
+			BattleSim.handlePlayerMove(BattleSim.getCurrentCreature(),currentMove,targets)
+			changeState(BATTLE_STATES.SELECTING_MOVE)
 
 func handleMoveSelect(moveIndex):
 		if state == BATTLE_STATES.SELECTING_MOVE:
@@ -90,19 +98,19 @@ func handleMoveSelect(moveIndex):
 					currentMove = move;
 				else:
 					return #creature has less than max moves and we hit a blank button, do nothing
-			targetsNeeded = currentMove.targets;
+			targetsNeeded = currentMove.getNumOfTargets();
 			changeState(BATTLE_STATES.SELECTING_TARGET)
 			if targetsNeeded == 0:
-				handleTargetSelect(null)
+				handleTargetSelect(-1)
 
 func handleDeath(creature):
 	sequencer.insert(SequenceUnit.createDeathSequence(creature))
 
 func createBattle(allies, enemies):
 	for i in range(allies.size()):
-		BattleSim.addCreature(allies[i],i,true);
+		BattleSim.addCreature(allies[i],i);
 	for i in range(enemies.size()):
-		BattleSim.addCreature(enemies[i],i,false);
+		BattleSim.addCreature(enemies[i],i + Battlefield.maxAllies);
 
 func changeState(state):
 	self.state = state;
@@ -127,6 +135,11 @@ func newTurn():
 	else:
 		changeState(BATTLE_STATES.SELECTING_MOVE);
 		BattleSim.newTurn();
+
+func reset():
+	UI.reset();
+	BattleSim.reset();
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

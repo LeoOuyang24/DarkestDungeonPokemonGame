@@ -4,7 +4,7 @@ class_name SwapPos extends Move
 
 func _init():
 	moveName = "Tactic: Swap"
-	targets = 1
+	setManualTargets(1)
 	targetingCriteria=Move.TARGETING_CRITERIA.ONLY_ALLIES
 
 func moveAnimationSequence(user, move, targets):
@@ -24,9 +24,10 @@ func moveAnimationSequence(user, move, targets):
 				enemySlot.Sprite.global_position = enemySlot.global_position
 				var friendly = b.isCreatureFriendly(user)
 
-				var oldIndex = b.getCreatureIndex(user,friendly)
-				b.moveCreature(user,b.getCreatureIndex(targets[0],friendly),friendly)
-				b.moveCreature(targets[0],oldIndex,friendly)
+				var oldIndex = b.getCreatureIndex(user)
+				b.moveCreature(user,b.getCreatureIndex(targets[0]))
+				b.moveCreature(targets[0],oldIndex)
+				print(user," ", targets[0])
 				#print(slot.creature,u.creatureSlots[2].creature)
 				#enemySlot.setCreature(user)
 

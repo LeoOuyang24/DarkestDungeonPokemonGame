@@ -65,7 +65,7 @@ func getFramesProgress():
 		return -1;
 	
 func _process(delta):
-	set_stretch_mode(STRETCH_KEEP)
+	#set_stretch_mode(STRETCH_KEEP)
 	if frames:
 		set_texture(getCurrentFrame());
 	

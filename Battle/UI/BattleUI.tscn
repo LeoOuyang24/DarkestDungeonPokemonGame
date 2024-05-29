@@ -3,83 +3,82 @@
 [ext_resource type="Script" path="res://Battle/UI/BattleUI.gd" id="1_0uu34"]
 [ext_resource type="Script" path="res://Battle/UI/BattleLog.gd" id="2_ggcmx"]
 [ext_resource type="PackedScene" uid="uid://bgy4kes6sp7tp" path="res://Battle/UI/EndScreen.tscn" id="3_1dct8"]
-[ext_resource type="Texture2D" uid="uid://dyec0s7b32bjh" path="res://sprites/backgrounds/church.png" id="4_g8wya"]
+[ext_resource type="Texture2D" uid="uid://doa8qmpktc7nm" path="res://sprites/backgrounds/floor1_mural1.webp" id="4_jhpo6"]
 [ext_resource type="Script" path="res://sprites/Anime.gd" id="5_33c7b"]
 
 [node name="BattleUI" type="Node2D"]
 script = ExtResource("1_0uu34")
-state = null
 
 [node name="BattleSpriteRect" type="ReferenceRect" parent="."]
 offset_left = 512.0
 offset_top = 192.0
 offset_right = 640.0
 offset_bottom = 320.0
-editor_only = false
 
 [node name="AllyRow" type="ReferenceRect" parent="."]
-offset_top = 224.0
-offset_right = 504.0
-offset_bottom = 224.0
-editor_only = false
+offset_left = 456.0
+offset_top = 712.0
+offset_right = 960.0
+offset_bottom = 896.0
 
 [node name="EnemyRow" type="ReferenceRect" parent="."]
-offset_left = 656.0
-offset_top = 224.0
-offset_right = 1152.0
-offset_bottom = 224.0
-editor_only = false
+offset_left = 1088.0
+offset_top = 704.0
+offset_right = 1600.0
+offset_bottom = 896.0
 
 [node name="BattleLog" type="RichTextLabel" parent="."]
-offset_left = 448.0
-offset_top = 424.0
-offset_right = 744.0
-offset_bottom = 448.0
+offset_left = 880.0
+offset_top = 872.0
+offset_right = 1176.0
+offset_bottom = 896.0
 script = ExtResource("2_ggcmx")
 
 [node name="Moves" type="ReferenceRect" parent="."]
-offset_left = 320.0
-offset_top = 464.0
-offset_right = 832.0
-offset_bottom = 648.0
+offset_left = 768.0
+offset_top = 896.0
+offset_right = 1280.0
+offset_bottom = 1080.0
 
 [node name="Button" type="Button" parent="Moves"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.031
 anchor_bottom = 0.04
-offset_left = 40.0
-offset_right = 176.128
-offset_bottom = 72.0
+offset_left = 136.0
+offset_top = 24.0
+offset_right = 208.128
+offset_bottom = 63.64
 
 [node name="Button3" type="Button" parent="Moves"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.031
 anchor_bottom = 0.04
-offset_left = 40.0
-offset_top = 104.0
-offset_right = 176.128
-offset_bottom = 176.0
+offset_left = 136.0
+offset_top = 112.0
+offset_right = 208.128
+offset_bottom = 151.64
 
 [node name="Button2" type="Button" parent="Moves"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.031
 anchor_bottom = 0.04
-offset_left = 312.0
-offset_right = 448.128
-offset_bottom = 72.0
+offset_left = 256.0
+offset_top = 24.0
+offset_right = 328.128
+offset_bottom = 64.64
 
 [node name="Button4" type="Button" parent="Moves"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.031
 anchor_bottom = 0.04
-offset_left = 312.0
-offset_top = 104.0
-offset_right = 448.128
-offset_bottom = 176.0
+offset_left = 256.0
+offset_top = 112.0
+offset_right = 328.128
+offset_bottom = 152.64
 
 [node name="PassButton" type="Button" parent="Moves"]
 layout_mode = 0
@@ -92,19 +91,13 @@ text = "Pass
 
 [node name="EndScreen" parent="." instance=ExtResource("3_1dct8")]
 visible = false
-
-[node name="TurnQueue" type="ReferenceRect" parent="."]
-offset_left = 384.0
-offset_top = 64.0
-offset_right = 832.0
-offset_bottom = 128.0
-editor_only = false
+position = Vector2(440, 192)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = -1
-position = Vector2(576, 228)
-scale = Vector2(0.6, 0.633333)
-texture = ExtResource("4_g8wya")
+position = Vector2(968, 450)
+scale = Vector2(1.61209, 1.33134)
+texture = ExtResource("4_jhpo6")
 
 [node name="BattleSprite" type="TextureRect" parent="."]
 offset_left = 512.0
@@ -112,3 +105,14 @@ offset_top = 192.0
 offset_right = 640.0
 offset_bottom = 320.0
 script = ExtResource("5_33c7b")
+
+[node name="TurnQueue" type="ColorRect" parent="."]
+offset_left = 816.0
+offset_top = 296.0
+offset_right = 1304.0
+offset_bottom = 392.0
+color = Color(0, 0, 0, 0.639216)
+
+[connection signal="pressed" from="EndScreen/Button" to="." method="_on_button_pressed"]
+
+[editable path="EndScreen"]
