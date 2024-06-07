@@ -8,6 +8,8 @@ var start:int = 0;
 
 func setSprite(frames:SpriteFrames):
 	self.frames = frames;
+	self.size = frames.get_frame_texture(currentAnimation,0).get_size()
+	print(frames, " ",self.custom_minimum_size, " ", frames.get_frame_texture(currentAnimation,0).get_size())
 
 func getSprite():
 	return frames;
@@ -64,8 +66,11 @@ func getFramesProgress():
 	else:
 		return -1;
 	
+func _init():
+	set_stretch_mode(STRETCH_KEEP)
+
 func _process(delta):
-	#set_stretch_mode(STRETCH_KEEP)
+
 	if frames:
 		set_texture(getCurrentFrame());
 	

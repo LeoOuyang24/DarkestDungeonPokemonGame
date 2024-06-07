@@ -15,6 +15,12 @@ func setCreature(creature:Creature):
 		HealthBar.set_value(creature.getHealth())
 		HealthBar.set_max(creature.getMaxHealth())
 		Sprite.frames = creature.spriteFrame;
+		#Sprite.set_stretch_mode(Anime.STRETCH_SCALE)
+		#set_size(get_size()*10)
+		#if creature.getName() == "Dreamer":
+			#
+			#Sprite.size *= 1.5;
+			#print(Sprite.get_rect())
 		set_visible(true)
 	
 func getCreature():

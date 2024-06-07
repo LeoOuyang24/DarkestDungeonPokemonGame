@@ -9,7 +9,10 @@ var baseMaxHealth = 1;
 var baseDefense = 1; #by default, we set defense to 1, so we avoid divide by 0 errors in the dealDamage function
 var baseAttack = 1;
 
+#is the player character
+var isPlayer = false
 
+var isFriendly = false
 
 #REFACTOR: Need a getter/setter. Probalby shoudl make a Stat class unifying the base state, current stat, and the stage boosts
 var attackStages = 0; #increased stat boost stages
@@ -33,7 +36,6 @@ static func dealDamage(a,b, damage):
 static var count = 0;
 
 static func create( sprite_path:String, maxHealth_:int, name_:String, moves_:Array = []):
-
 	var creature = Creature.new();
 	creature.spriteFrame = SpriteLoader.getSprite(sprite_path)
 	creature.creatureName = name_;
@@ -42,11 +44,35 @@ static func create( sprite_path:String, maxHealth_:int, name_:String, moves_:Arr
 	creature.setMoves(moves_)
 	return creature;	
 
+#load from json
+static func loadJSON(file_path:String):
+	var json = JSON.new()
+	var file = FileAccess.open(file_path,FileAccess.READ)
+	if file:
+		var error = json.parse(file.get_as_text())
+		if error == OK:
+			var creature = Creature.create("spritesheets/creatures/" + json.data.sprite if json.data.get("sprite") else "spritesheets/creatures/invalid",
+							json.data.baseHealth if json.data.get("baseHealth") else 1,
+							json.data.name if json.data.get("name") else "Creature",
+							json.data.startMoves.map(func (moveName): return load("res://Moves/" + moveName + ".gd").new()) if json.data.get("startMoves") else []) 
+			return creature
+		else:
+			print("Error parsing Creature JSON, ",file_path,"\nError: ",json.get_error_message()," on line ",json.get_error_line())
+	else:
+		printerr("Creature JSON, " + file_path + " could not be opened!!\nError: " + error_string(FileAccess.get_open_error()));
+	return null
+
 func _ready():
 	setHealth(getMaxHealth())
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+
+func isPlayerCreature():
+	return isPlayer
+
+func getIsFriendly():
+	return isFriendly || isPlayerCreature()
 
 func getName():
 	return creatureName;
@@ -89,6 +115,8 @@ func useMove(move,targets):
 	move.move(self,targets)
 	
 func getMove(index):
+	if index < 0 || index >= moves.size():
+		return null
 	return moves[index];
 func getRandomMove():
 	return moves[randi()%moves.size()]
@@ -113,7 +141,7 @@ static func AI(user,allies,enemies) -> MoveRecord:
 			while (chosen == -1 || targetArray[chosen] == null || targets.find(chosen) != -1) && targets.size()< targetArray.size():
 				chosen = randi()%targetArray.size()
 			targets.push_back(chosen)
-			return MoveRecord.new(user,move,targets)
+		return MoveRecord.new(user,move,targets)
 	return null
 		#user.attacks[randi()%len(user.attacks)].move(user,[targets[0]])
 		

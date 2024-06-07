@@ -17,12 +17,18 @@ enum RETURN_VALS{
 #(delta, battleState, battleUI) -> RETURN_VALS
 var callable  = null; 
 var timeStart = -1; #ms we started at
-	
-func run(delta, battleState, UI):
+#sometimes it's more convenient to directly interface with the BattleManager rather than the battleState and UI
+#set this true and the callable function will instead take in delta and BattleManager
+#(delta,BattleManager) -> RETURN_VALS
+var usesManager = false;
+
+func run(delta, battleManager):
 	if self.timeStart == -1:
 		self.timeStart = Time.get_ticks_msec()
 	if callable:
-		return callable.call(delta,battleState, UI)
+		if usesManager:
+			return callable.call(delta,battleManager)
+		return callable.call(delta,battleManager.BattleSim, battleManager.UI)
 	return RETURN_VALS.DONE;
 
 #if we have run for "duration" ms, return true
@@ -31,9 +37,10 @@ func timePassed(duration:int = standardUnitTime) -> bool:
 	 
 
 #factory function
-static func createSequenceUnit(callable:Callable):
+static func createSequenceUnit(callable:Callable, usesManager:bool = false):
 	var unit = SequenceUnit.new();
 	unit.callable = callable;
+	unit.usesManager = usesManager;
 	return unit;
 
 #constructs a SequenceUnit that displays some text in the battlelog
@@ -69,6 +76,14 @@ static func createDeathSequence(creature:Creature):
 		))
 	return sequence;
 
+static func createPlayerDeathSequence(creature:Creature):
+	var sequence = []
+	sequence.push_back(createTextUnit(creature.getName() + " has died!"))
+	sequence.push_back(createSequenceUnit(func (d,m):
+		m.changeState(BattleManager.BATTLE_STATES.WE_LOST)
+		return RETURN_VALS.DONE
+		,true))
+	return sequence
 
 
 #constructs a whole Sequence (list of SequenceUnits) that describe a move

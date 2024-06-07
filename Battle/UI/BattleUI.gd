@@ -57,12 +57,21 @@ func addAttacksToUI(creature:Creature):
 			#we gotta make sure it's within Creature.maxMoves because the passButton is always out of range
 			butt.text = ""
 
-#get teh creatureslot corresponding to the given creature
-func getCreatureSlot(creature:Creature):
-	for i in creatureSlots:
-		if i.getCreature() == creature:
-			return i;
+#get teh creatureslot corresponding to the given creature or index
+func getCreatureSlot(creature):
+	if creature is Creature:
+		for i in creatureSlots:
+			if i.getCreature() == creature:
+				return i;
+	elif creature is int:
+		return getCreatureSlotByIndex(creature)
 	return null
+	
+#TODO: Can probably delete this function since the previous function is supposed to accoutn for it
+func getCreatureSlotByIndex(index:int):
+	if index <0 && index >= creatureSlots.size():
+		return null
+	return creatureSlots[index]
 
 func removeCreature(creature:Creature):
 	var index = -1;
@@ -160,7 +169,7 @@ func _ready():
 	for i in range(Battlefield.maxEnemies):
 		addSlot(false);
 	for i in range(Moves.size()):
-		Moves[i].pressed.connect(func (): 
+		Moves[i].pressed.connect(func ():
 			move_selected.emit(i)
 			)
 	pass # Replace with function body.
@@ -243,6 +252,10 @@ func stopBattleSprite():
 	if BattleSprite:
 		BattleSprite.visible = false;
 		
+
+func setEndScreen(won:bool):
+	EndScreen.setBattleResult(won)
+	EndScreen.set_visible(true)
 
 
 func _on_button_pressed():

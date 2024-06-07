@@ -34,10 +34,10 @@ func insertUrgent(sequence:Array):
 func done():
 	return sequences.size() == 0	
 
-func run(delta, battlefield:Battlefield, UI:BattleUI):
+func run(delta, battleManager:BattleManager):
 	if sequences.size() > 0:
 			#get the result, or default to DONE if there are no sequence Units
-			var result = sequences[-1][curUnit].run(delta,battlefield, UI) if sequences[-1].size() > 0 else SequenceUnit.RETURN_VALS.DONE
+			var result = sequences[-1][curUnit].run(delta,battleManager) if sequences[-1].size() > 0 else SequenceUnit.RETURN_VALS.DONE
 			if result == SequenceUnit.RETURN_VALS.DONE: #if we are done with this unit ...
 				if curUnit >= sequences[-1].size() - 1:
 					#done with this sequence, set up for the next one

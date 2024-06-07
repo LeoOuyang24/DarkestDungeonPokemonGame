@@ -32,23 +32,44 @@ func generate():
 			row.push_back(room);
 		if i > 0:
 			for j in row:
-				var line = Line2D.new();
-				add_child(line);
-				
-				line.width = 5;
-				var a = j.get_global_rect().get_center()
 				var neighbor =rooms[-1][rng.randi_range(0,rooms[-1].size() - 1)]
-				var b = neighbor.get_global_rect().get_center()
 				routes[[neighbor,j]] = true
-				line.add_point(a + 0.1*Vector2(b - a))
-				line.add_point(b + 0.1*Vector2(a - b))
 		rooms.push_back(row)
 
 
+func _draw():
+	const ROOM_SPACING = 20
+	const DOT_SPACING = 20
+	const DOT_SIZE = 5
+	for i in routes:
+		var p1 = i[0].get_rect().get_center()
+		var p2 = i[1].get_rect().get_center()
+
+		var normal = (p2 - p1).normalized()
+		p1 += ROOM_SPACING*normal;
+		p2 -= ROOM_SPACING*normal;
+		
+		var cur = p1
+		while cur.x < p2.x:
+			var end =  cur + (DOT_SIZE)*normal
+			draw_line(cur, end,Color.WHITE,5)
+			cur = end + DOT_SPACING*normal
+		pass
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	generate()
+	reset()
 	pass # Replace with function body.
+
+#reset the map, only call this after this is already in the node tree
+func reset():
+	#TODO: This sucks lmao
+	routes = {}
+	rooms = []
+	
+	generate()
+	queue_redraw()
+	currentColumn = 0 
+	currentRoom = -1
 
 func getCurrentRoom():
 	return rooms[currentColumn][currentRoom]

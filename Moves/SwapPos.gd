@@ -25,9 +25,8 @@ func moveAnimationSequence(user, move, targets):
 				var friendly = b.isCreatureFriendly(user)
 
 				var oldIndex = b.getCreatureIndex(user)
-				b.moveCreature(user,b.getCreatureIndex(targets[0]))
-				b.moveCreature(targets[0],oldIndex)
-				print(user," ", targets[0])
+				b.swapCreature(oldIndex,targets[0])
+				#b.moveCreature(targets[0],oldIndex)
 				#print(slot.creature,u.creatureSlots[2].creature)
 				#enemySlot.setCreature(user)
 

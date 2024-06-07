@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Battle/UI/BattleUI.gd" id="1_0uu34"]
 [ext_resource type="Script" path="res://Battle/UI/BattleLog.gd" id="2_ggcmx"]
 [ext_resource type="PackedScene" uid="uid://bgy4kes6sp7tp" path="res://Battle/UI/EndScreen.tscn" id="3_1dct8"]
-[ext_resource type="Texture2D" uid="uid://doa8qmpktc7nm" path="res://sprites/backgrounds/floor1_mural1.webp" id="4_jhpo6"]
+[ext_resource type="Texture2D" uid="uid://b1vyxaevceywg" path="res://sprites/backgrounds/bg.png" id="4_ul5b1"]
 [ext_resource type="Script" path="res://sprites/Anime.gd" id="5_33c7b"]
 
 [node name="BattleUI" type="Node2D"]
@@ -17,15 +17,15 @@ offset_bottom = 320.0
 
 [node name="AllyRow" type="ReferenceRect" parent="."]
 offset_left = 456.0
-offset_top = 712.0
+offset_top = 722.0
 offset_right = 960.0
-offset_bottom = 896.0
+offset_bottom = 906.0
 
 [node name="EnemyRow" type="ReferenceRect" parent="."]
 offset_left = 1088.0
-offset_top = 704.0
+offset_top = 713.0
 offset_right = 1600.0
-offset_bottom = 896.0
+offset_bottom = 905.0
 
 [node name="BattleLog" type="RichTextLabel" parent="."]
 offset_left = 880.0
@@ -36,9 +36,9 @@ script = ExtResource("2_ggcmx")
 
 [node name="Moves" type="ReferenceRect" parent="."]
 offset_left = 768.0
-offset_top = 896.0
+offset_top = 920.0
 offset_right = 1280.0
-offset_bottom = 1080.0
+offset_bottom = 1104.0
 
 [node name="Button" type="Button" parent="Moves"]
 layout_mode = 1
@@ -95,9 +95,9 @@ position = Vector2(440, 192)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = -1
-position = Vector2(968, 450)
-scale = Vector2(1.61209, 1.33134)
-texture = ExtResource("4_jhpo6")
+position = Vector2(950.197, 544.538)
+scale = Vector2(1.00188, 1.02123)
+texture = ExtResource("4_ul5b1")
 
 [node name="BattleSprite" type="TextureRect" parent="."]
 offset_left = 512.0

@@ -84,18 +84,20 @@ func getCreatureIndex(creature:Creature):
 				
 	return -1;
 
-#move a creature to "index"
-#this will override the prexisting creature
-func moveCreature(creature:Creature,  index:int):
-	removeCreature(creature,false)
-	addCreature(creature,index)
+#swap creatures at the two indicies
+func swapCreature(index1:int, index2:int):
+	var creature = getCreature(index2)
+	addCreature(getCreature(index1),index2)
+	addCreature(creature,index1)
 	#print(allies)
 	#addCreature(creature,index,isAlly)
 
 func addCreature(creature:Creature, index:int):
 	if index >= 0 && index < creatures.size():
 		creatures[index] = creature;
-				
+		if creature:
+			creature.isFriendly = (index < maxAllies)
+
 #remove the creature, maybe remove it from the move queue
 func removeCreature(creature:Creature, removeMoveToo:bool = true):
 	for i in range(creatures.size()):
@@ -108,17 +110,24 @@ func removeCreature(creature:Creature, removeMoveToo:bool = true):
 func _ready():
 	pass
 
-func getAllies():
-	var allies = []
-	for i in range(0,maxAllies):
-		allies.push_back(creatures[i])
-	return allies
+#return allies based on if the creature is friendly or not
+func getAllies(isFriendly:bool = true):
+	if isFriendly:
+		var allies = []
+		for i in range(maxAllies - 1,-1,-1):
+			allies.push_back(creatures[i])
+		return allies
+	else:
+		return getEnemies(true)
 	
-func getEnemies():
-	var enemies = []
-	for i in range(creatures.size()-1,maxAllies-1,-1):
-		enemies.push_back(creatures[i])
-	return enemies	
+func getEnemies(isFriendly:bool = true):
+	if isFriendly:
+		var enemies = []
+		for i in range(maxAllies,creatures.size(),1):
+			enemies.push_back(creatures[i])
+		return enemies	
+	else:
+		return getAllies(true)
 
 func newTurn():
 	for i in range(maxAllies):
@@ -152,7 +161,6 @@ func dealDamage(damage:int, target:Creature,attacker:Creature):
 func addMoveToQueue(record:MoveRecord):
 	if record.user:
 		#var preselected = record.move.getPreselectedTargets(allies,enemies); #get preselected targets and add them to our targets
-			
 		#record.targets.append_array(preselected)
 		movesSelected[record.user] = record;
 		#insert the move and emit signal of its index

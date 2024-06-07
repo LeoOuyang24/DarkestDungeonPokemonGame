@@ -6,6 +6,7 @@
 script = ExtResource("1_e1usi")
 
 [node name="Background" type="ColorRect" parent="."]
+z_index = -1
 offset_right = 1920.0
 offset_bottom = 1080.0
 color = Color(0, 0, 0, 1)

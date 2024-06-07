@@ -3,6 +3,8 @@ extends Node2D
 @onready var Battle = $BattleManager
 @onready var Map = $Map
 
+var PlayerState:Player = Player.new()
+
 #used to track game state
 
 # Called when the node enters the scene tree for the first time.
@@ -34,21 +36,21 @@ func _on_map_room_selected(room):
 	
 	var ally1 = Creature.create("spritesheets/creatures/chomper",100,"Chomper 1")
 	var ally2 = Creature.create("spritesheets/creatures/chomper",100,"Chomper 2")
-	var ally3 = Creature.create("spritesheets/creatures/player",200,"Player")
 	
 	
 	ally2.speed = 11;
-	ally3.speed = 12;
 	
-	ally1.setMoves([Bite.new(),HyperBeam.new(),NastyPlot.new()]);
-	ally2.setMoves([NastyPlot.new(),Bite.new(),HyperBeam.new()]);
-	ally3.setMoves([SwapPos.new()])
+	ally1.setMoves([Bite.new(),Slash.new(),Grow.new()]);
+	ally2.setMoves([Bite.new(),Slash.new(),Grow.new()]);
 	
-	Battle.createBattle([ally1,ally2,ally3],room.getRoomInfo().getEnemies())
+	Battle.createBattle(PlayerState.getPlayer(),[ally1,ally2],room.getRoomInfo().getEnemies())
 	Battle.newTurn()
 	pass # Replace with function body.
 
 
-func _on_battle_manager_battle_finished():
+func _on_battle_manager_battle_finished(won:bool):
+	if !won:
+		PlayerState.reset()
+		Map.reset()
 	swapToScene(Map)
 	pass # Replace with function body.

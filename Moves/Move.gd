@@ -13,6 +13,7 @@ var manualTargets:int = 0;
 var totalTargets:int = 0; 
 
 #what can we target? Only allies? Only enemies?
+#this only applies to manually targeting
 enum TARGETING_CRITERIA
 {
 	ONLY_ALLIES,
@@ -35,8 +36,9 @@ func getMoveName():
 
 #the actual move
 #ally is the guy doing the move
-#enemies is a list (potentially empty) of targets
-func move(ally, enemies):
+#enemies is a (potentially empty) list of target indicies
+#battlefield is a Battlefield instance that simulates the battle
+func move(ally, enemies, battlefield):
 	pass;
 
 #return a button that represents this Move
@@ -77,30 +79,31 @@ func getPreselectedTargets(allies:Array,enemies:Array):
 #creates a sequence that does the actual move
 func doMoveSequence(user,move,targets):
 	return [SequenceUnit.createSequenceUnit(func (d,b,u) : #do the move
-		user.useMove(move,targets)
+		move.move(user,targets,b)
 		return SequenceUnit.RETURN_VALS.DONE
 	)]
 #constructs a whole Sequence (list of SequenceUnits) that describe a move
 func createMoveSequence(user, move,targetIndicies):
 	var sequence = []
 	
-	var targets = []
+	var targets = targetIndicies
 	#convert our targets from array of indicies to array of Creatures
-	sequence.push_back(SequenceUnit.createSequenceUnit(func (d,b,u):
-		for i in targetIndicies:
-			targets.push_back(b.getCreature(i));
-		var friendly = b.isCreatureFriendly(user)
-		var allies = b.getAllies() if friendly else b.getEnemies()
-		var enemies = b.getEnemies() if friendly else b.getAllies()
-		targets.append_array(move.getPreselectedTargets(allies,enemies))
-		return SequenceUnit.RETURN_VALS.DONE
-		))
+	#sequence.push_back(SequenceUnit.createSequenceUnit(func (d,b,u):
+		#targets = targetIndicies
+		#var friendly = b.isCreatureFriendly(user)
+		#var allies = b.getAllies() if friendly else b.getEnemies()
+		#var enemies = b.getEnemies() if friendly else b.getAllies()
+		#targets.append_array(move.getPreselectedTargets(allies,enemies)) #add preselected targets
+		#print(targets)
+		#return SequenceUnit.RETURN_VALS.DONE
+		#))
 	
 	sequence.push_back( SequenceUnit.createTextUnit(user.getName() + " used " + move.getMoveName() + "!")); #say whos doing the  move
 
 
 	sequence.push_back(SequenceUnit.createSequenceUnit(func (d,b,u):
-		if totalTargets > 0 && !targets.reduce(func (accum, target):
+		if totalTargets > 0 && !targets.reduce(func (accum, index):
+			var target = b.getCreature(index);
 			return accum || (target && target.isAlive())
 			,false):
 				return SequenceUnit.RETURN_VALS.TERMINATE
@@ -124,27 +127,28 @@ func moveAnimationSequence(user, move, targets):
 func postMoveSequence(user, move, targets):
 	return [];
 	
+static func moveTowards(slot, targetSlot):
+	if slot && targetSlot:
+		if slot.get_global_rect().intersects(targetSlot.get_global_rect(),true):
+			return SequenceUnit.RETURN_VALS.DONE;
+		else:
+			slot.global_position += .1*(targetSlot.global_position - slot.global_position)
+	return SequenceUnit.RETURN_VALS.NOT_DONE
+	
 #animation that moves the user forward up to the first target
 func basicMoveAnimationSequence( user, move, targets, spriteFrame = SpriteLoader.getSprite("spritesheets/moves/" + move.getMoveName())):
 	var sequence = []
 	sequence.append(SequenceUnit.createSequenceUnit(func (d,b,u):
 		var slot = u.getCreatureSlot(user)
-		var targetSlot = u.getCreatureSlot(targets[0])
-		if slot && targetSlot:
-			if slot.get_global_rect().intersects(targetSlot.get_global_rect(),true):
-				return SequenceUnit.RETURN_VALS.DONE;
-			else:
-				slot.global_position += .1*(targetSlot.global_position - slot.global_position)
-		else:
-			printerr("Move animation didn't work, one of the targetes is null: ", slot, " ", targetSlot)
-		return SequenceUnit.RETURN_VALS.NOT_DONE;))
+		var targetSlot = u.getCreatureSlotByIndex(targets[0])
+		return Move.moveTowards(slot,targetSlot)))
 
 	sequence.append(SequenceUnit.createSequenceUnit(func (d,b,u):
 		u.setBattleSprite(spriteFrame,u.getCreatureSlot(targets[0]).get_global_position())
 		if !b.isCreatureFriendly(user):
 			u.BattleSprite.flip_h = true
 		for i in targets:
-			var target = u.getCreatureSlot(i);
+			var target = u.getCreatureSlotByIndex(i);
 			target.Sprite.changeAnimation("hurt"); 
 		return SequenceUnit.RETURN_VALS.DONE
 		))
@@ -188,4 +192,9 @@ static func createBoostStatsSequence(creatures:Array, goingUp:bool):
 		return SequenceUnit.RETURN_VALS.DONE if closure[0] else SequenceUnit.RETURN_VALS.NOT_DONE
 		))
 	return sequence
+	
+static func createSwapPosSequence(arr:Array):
+	
+	pass
+	
 	

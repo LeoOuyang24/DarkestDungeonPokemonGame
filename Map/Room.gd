@@ -26,7 +26,7 @@ var roomInfo:RoomInfo = null
 func _ready():
 	roomInfo = RoomInfo.new()
 	roomInfo.enemies = [Creature.create("spritesheets/creatures/dreemer",100,"Dreemer 1",[Bite.new()]),
-	Creature.create("spritesheets/creatures/dreemer",100,"Dreemer 1",[Bite.new()])]
+	Creature.create("spritesheets/creatures/dreemer",100,"Dreemer 1",[Slash.new()])]
 	pressed.connect(func():
 		new_room.emit(self)
 		)
