@@ -1,0 +1,15 @@
+{
+	"sprite":"siren",
+	"baseHealth": 50,
+	"baseDefense": 10,
+	"baseAttack": 50,
+	"baseSpeed": 10,
+	"name": "Siren",
+	"startMoves": [
+		"Bite",
+		"Grow",
+		"Slash",
+		"Lure"
+	],
+	"levelMoves": []
+}

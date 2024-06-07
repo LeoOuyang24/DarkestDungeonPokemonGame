@@ -1,0 +1,14 @@
+{
+	"sprite": "chomper",
+	"baseHealth": 100,
+	"baseDefense": 10,
+	"baseAttack": 20,
+	"baseSpeed": 10,
+	"name": "Chomper",
+	"startMoves": [
+		"Bite",
+		"Grow",
+		"Slash"
+	],
+	"levelMoves": []
+}
