@@ -54,17 +54,19 @@ func test():
 	#var ally1 = Creature.loadJSON("res://Creatures/creatures_jsons/chomper.json")
 	#var ally2 = Creature.loadJSON("res://Creatures/creatures_jsons/chomper.json")
 	var ally1 = Creature.create("spritesheets/creatures/chomper",100,"Chomper 1",[Bite.new()])
-	var ally2 = Creature.create("spritesheets/creatures/chomper",100,"Chomper 2",[Slash.new(),Grow.new()])
+	var ally2 = Creature.create("spritesheets/creatures/siren",100,"Chomper 2",[Lure.new(),Slash.new(),Grow.new()])
 	var ally3 = Creature.create("spritesheets/creatures/player",200,"Player")
 	
 	
 	ally2.speed = 11;
 	
 	var enemy1 = Creature.create("spritesheets/creatures/dreemer",100,"Dreemer 1")
-	var enemy2 = Creature.create("spritesheets/creatures/dreemer",100,"Dreemer 2")
+	var enemy2 = Creature.create("spritesheets/creatures/siren",100,"Dreemer 2")
+	var enemy3 = Creature.create("spritesheets/creatures/chomper",100,"Comper 3")
 	
 	enemy1.setMoves([Slash.new()]);
 	enemy2.setMoves([Bite.new()]);
+	enemy3.setMoves([Lure.new()])
 	ally3.setMoves([SwapPos.new()])
 	enemy2.speed = 10;
 	
@@ -76,7 +78,9 @@ func test():
 		],
 		[
 			enemy1,
-			enemy2
+			enemy2,
+			null,
+			enemy3
 		] );
 
 func handleTargetSelect(index):
@@ -169,8 +173,8 @@ func _process(delta):
 				sequencer.run(delta,self);
 			else:
 				#check if anyone died
+				UI.resetAllSlotPos()
 				if !BattleSim.checkForDeath():
-					
 					#get the next move
 					var nextMove = BattleSim.popAndTop()
 					if nextMove != null:

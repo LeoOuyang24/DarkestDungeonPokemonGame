@@ -1,14 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://bqsfei63od030"]
+[gd_scene load_steps=6 format=3 uid="uid://bqsfei63od030"]
 
 [ext_resource type="Script" path="res://Battle/UI/CreatureSlot.gd" id="1_kmmwv"]
 [ext_resource type="PackedScene" uid="uid://bjln7kkve4d5a" path="res://Battle/UI/health_bar.tscn" id="2_1ocdj"]
-[ext_resource type="Script" path="res://sprites/Anime.gd" id="3_5vgb2"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_u5mq1"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v1eo0"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uhhqv"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c12df"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pb0ii"]
 
@@ -19,9 +14,7 @@ offset_left = -64.0
 offset_top = -64.0
 offset_right = 64.0
 offset_bottom = 64.0
-theme_override_styles/normal = SubResource("StyleBoxEmpty_u5mq1")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_v1eo0")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_uhhqv")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_c12df")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_pb0ii")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_yloso")
 script = ExtResource("1_kmmwv")
@@ -35,11 +28,7 @@ offset_bottom = 171.0
 [node name="Label" parent="HealthBar" index="0"]
 text = ""
 
-[node name="Sprite" type="TextureRect" parent="."]
-layout_mode = 0
-offset_right = 128.0
-offset_bottom = 128.0
-expand_mode = 3
-script = ExtResource("3_5vgb2")
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(64, 64)
 
 [editable path="HealthBar"]

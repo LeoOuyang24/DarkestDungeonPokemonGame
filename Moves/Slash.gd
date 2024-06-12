@@ -14,14 +14,13 @@ func moveAnimationSequence(user, move, targets):
 	var sequence = [];
 	var unit = SequenceUnit.createSequenceUnit(func (d,b,u):
 		var slot = u.getCreatureSlot(user)
-		var targetSlot = null
-		for i in b.getEnemies(user.getIsFriendly()):
-			if i:
-				targetSlot = u.getCreatureSlot(i)
+		var targetIndex = null
+		var enemies = b.getEnemies(user.getIsFriendly())
+		for i in range(enemies.size()):
+			if enemies[i]:
+				targetIndex = i
 				break
-		var val = Move.moveTowards(slot,targetSlot)
-		if val == SequenceUnit.RETURN_VALS.DONE:
-			u.resetCreatureSlotPos(user)
+		var val = Move.moveTowards(b.getCreatureIndex(user),targetIndex,u)
 		return val
 		
 		);

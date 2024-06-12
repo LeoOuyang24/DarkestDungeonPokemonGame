@@ -15,17 +15,14 @@ func moveAnimationSequence(user, move, targets):
 		if targets.size() > 0:
 			var enemySlot = u.getCreatureSlot(targets[0])
 			#print(slot.Sprite)
-			if abs(slot.Sprite.global_position.x-enemySlot.global_position.x) >= 0.1:
-				slot.Sprite.global_position += 0.1*(enemySlot.global_position - slot.global_position)
-				enemySlot.Sprite.global_position += 0.1*(slot.global_position - enemySlot.global_position)
+			var index = b.getCreatureIndex(user)
+			var result = Move.moveTowards(index,targets[0],u,true) 
+			if result == SequenceUnit.RETURN_VALS.DONE:
+				b.swapCreature(index,targets[0])
+				
+			elif result == SequenceUnit.RETURN_VALS.NOT_DONE:
+				Move.moveTowards(targets[0],index,u,true)
 				return SequenceUnit.RETURN_VALS.NOT_DONE
-			else:
-				slot.Sprite.global_position = slot.global_position
-				enemySlot.Sprite.global_position = enemySlot.global_position
-				var friendly = b.isCreatureFriendly(user)
-
-				var oldIndex = b.getCreatureIndex(user)
-				b.swapCreature(oldIndex,targets[0])
 				#b.moveCreature(targets[0],oldIndex)
 				#print(slot.creature,u.creatureSlots[2].creature)
 				#enemySlot.setCreature(user)

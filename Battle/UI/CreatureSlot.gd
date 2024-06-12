@@ -2,19 +2,20 @@ class_name CreatureSlot extends Button
 
 #represents the visual representation of a creature on the battlefield
 
-@onready var Sprite:Anime = $Sprite
+@onready var Sprite= $Sprite
 @onready var HealthBar = $HealthBar;
 
 var tween = null
 #a reference to the creature we are referring to
-var creature:Creature = null
+var creature:Creature = null 
 
 func setCreature(creature:Creature):
 	self.creature = creature;
 	if creature:
 		HealthBar.set_value(creature.getHealth())
 		HealthBar.set_max(creature.getMaxHealth())
-		Sprite.frames = creature.spriteFrame;
+		Sprite.sprite_frames = creature.spriteFrame;
+		Sprite.play()
 		#Sprite.set_stretch_mode(Anime.STRETCH_SCALE)
 		#set_size(get_size()*10)
 		#if creature.getName() == "Dreamer":
@@ -23,10 +24,18 @@ func setCreature(creature:Creature):
 			#print(Sprite.get_rect())
 		set_visible(true)
 	
+#useful if you want to apply a transform to Sprites
+func setTransform(transform:Transform2D):
+	Sprite.transform = transform
+	
+func getTransform():
+	return Sprite.transform
+
 func getCreature():
 	return self.creature
 # Called when the node enters the scene tree for the first time.
 func _ready():
+
 	tween = create_tween();
 	#icon = load("res://sprites/dialga.png")
 	pass # Replace with function body.

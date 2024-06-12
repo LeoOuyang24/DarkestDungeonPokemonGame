@@ -40,6 +40,14 @@ func _init():
 	creatures.resize(maxAllies + maxEnemies)
 	creatures.fill(null)
 
+
+#this function converts relative to absolute
+#friendly is "true" if "ind" is relative to allies, "false" if relative to enemies
+func relPosToAbs(ind:int, friendly:bool):
+	return (-1 if friendly else 1)*ind + maxAllies - int(friendly)
+	
+
+
 #return if battle is over
 func isDone() -> BATTLE_OUTCOME:
 	var found = false
@@ -115,7 +123,10 @@ func getAllies(isFriendly:bool = true):
 	if isFriendly:
 		var allies = []
 		for i in range(maxAllies - 1,-1,-1):
+			if (creatures[i]):
+				print(creatures[i].getName())
 			allies.push_back(creatures[i])
+		print("-------")
 		return allies
 	else:
 		return getEnemies(true)

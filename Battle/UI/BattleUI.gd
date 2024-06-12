@@ -44,7 +44,10 @@ func setBattleState(state:Battlefield):
 	if state.getCurrentCreature():
 		addAttacksToUI(state.getCurrentCreature())
 	for i in range(state.creatures.size()):
+		if state.creatures[i]:
+			print(state.creatures[i].getName())
 		addCreature(state.creatures[i],i);
+	print("----")
 
 
 func addAttacksToUI(creature:Creature):
@@ -86,7 +89,7 @@ func removeCreatureFromQueue(creature:Creature):
 		if queueSlots[i].getCreature() == creature:
 			var thisSlot = queueSlots[i]
 			var tween = thisSlot.getTween();
-			var height = thisSlot.Sprite.get_rect().size.y
+			var height = thisSlot.get_rect().size.y
 			tween.parallel().tween_property(thisSlot,"position",Vector2(thisSlot.position.x,height),1)
 			tween.parallel().tween_property(thisSlot.Sprite,"modulate",Color(0,0,0,-1),1)
 			tween.tween_callback(func ():
@@ -220,13 +223,20 @@ func getCreaturePos(index:int):
 	
 	var boolin = (1 if isAlly else 0)
 	#set creature position in the battle field
-	return Vector2(rect.size.x*boolin + (rect.size.x*2)/max*(convertIndex(index)+boolin)*(-1 if isAlly else 1),
-	0);
+	return Vector2((rect.size.x)/max*(convertIndex(index)+boolin),0)
 
+func getCreatureGlobalPos(ind:int):
+	var row = AllyRow if ind < Battlefield.maxAllies else EnemyRow
+	return row.get_global_position() + (getCreaturePos(ind))
 
 #get position of a creatureSlot
 func getSlotPos(creature:Creature):
 	return getCreaturePos(getCreatureIndex(creature));
+
+func resetAllSlotPos():
+	for i in range(creatureSlots.size()):
+		creatureSlots[i].position = getCreaturePos(i)
+		
 
 func resetCreatureSlotPos(creature:Creature):
 	getCreatureSlot(creature).position = getSlotPos(creature)

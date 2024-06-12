@@ -14,7 +14,7 @@ func _process(delta):
 	pass
 
 
-func move(user,enemies):
+func move(user,enemies,b):
 	pass;
 	
 func postMoveSequence(user,move, targets):

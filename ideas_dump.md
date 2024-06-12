@@ -6,9 +6,11 @@ just a document for me to write down some ideas.
 - Creature that resembles a floating rectangular brick structure with chains dangling down
 - Extremely overstatted creature with the downside of being asleep for one turn 
 - Creature that gets stronger ever turn it doesn't take damage
+- Creature that fills the "assassin" archetype: fast and strong but very fragile and can target specific enemies
 - Reptilian creature that can evolve infinitely
     - maybe the sprite changes as it evolves
 - rare sapient creatures:
+    - "Masked" Creature that after dropping below a certain health, reveals a face resembling the player's previous character. Can evolve into all other sapient creatures
     - creature that copies all stat changes, positive and negative, that are happening
     - creature that copies all healing done 
     - creature that copies the opposing creature in the same corresponding slot
@@ -26,4 +28,10 @@ Cooldowns: to prevent moves from being spammed (and to allow to us to create rea
 This will be referred to as a **limiting factor** for the rest of the document
 
 - Shoot: A very basic, moderate damage move that the player character can do. It doesn't do much damage and has a high limiting factor but is able to target any enemy regardless of position and is by far the most common way the player character can do damage.
+
+- Passive Moves: Passive, constant effects that take up the slot of a move but can't be eplicitly used
+
+#### Items
+Enhancer: doubles the effect of the items held by adjacent allies
+
 

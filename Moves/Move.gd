@@ -127,44 +127,53 @@ func moveAnimationSequence(user, move, targets):
 func postMoveSequence(user, move, targets):
 	return [];
 	
-static func moveTowards(slot, targetSlot):
-	if slot && targetSlot:
-		if slot.get_global_rect().intersects(targetSlot.get_global_rect(),true):
+#overlap is tru if you want the creatures to overlap
+static func moveTowards(index, targetIndex, ui:BattleUI, overlap:bool = false):
+	var slot = ui.getCreatureSlot(index)
+	if slot:
+		var startPos = ui.getCreatureGlobalPos(index)
+		var targetPos = ui.getCreatureGlobalPos(targetIndex)
+		var curPos = slot.get_global_position()
+		if (overlap && (curPos - targetPos).length() < 1) || (!overlap && slot.get_global_rect().intersects(ui.getCreatureSlotByIndex(targetIndex).get_global_rect(),true)):
 			return SequenceUnit.RETURN_VALS.DONE;
 		else:
-			slot.global_position += .1*(targetSlot.global_position - slot.global_position)
+			slot.global_position += .1*(targetPos - startPos)
+			#slot.setTransform(slot.getTransform().translated(.1*(targetPos - startPos)))
+	else:
+		return SequenceUnit.RETURN_VALS.DONE
 	return SequenceUnit.RETURN_VALS.NOT_DONE
 	
 #animation that moves the user forward up to the first target
 func basicMoveAnimationSequence( user, move, targets, spriteFrame = SpriteLoader.getSprite("spritesheets/moves/" + move.getMoveName())):
 	var sequence = []
-	sequence.append(SequenceUnit.createSequenceUnit(func (d,b,u):
-		var slot = u.getCreatureSlot(user)
-		var targetSlot = u.getCreatureSlotByIndex(targets[0])
-		return Move.moveTowards(slot,targetSlot)))
+	if targets.size():
+		sequence.append(SequenceUnit.createSequenceUnit(func (d,b,u):
+				return Move.moveTowards(b.getCreatureIndex(user),targets[0],u)))
 
-	sequence.append(SequenceUnit.createSequenceUnit(func (d,b,u):
-		u.setBattleSprite(spriteFrame,u.getCreatureSlot(targets[0]).get_global_position())
-		if !b.isCreatureFriendly(user):
-			u.BattleSprite.flip_h = true
-		for i in targets:
-			var target = u.getCreatureSlotByIndex(i);
-			target.Sprite.changeAnimation("hurt"); 
-		return SequenceUnit.RETURN_VALS.DONE
-		))
-
-	sequence.append(SequenceUnit.createSequenceUnit(func (d,b,u):
-		if u.BattleSprite.getFramesProgress() == 1:
-			u.resetCreatureSlotPos(user)
-			u.stopBattleSprite()
-			u.BattleSprite.flip_h = false
+		sequence.append(SequenceUnit.createSequenceUnit(func (d,b,u):
+			u.setBattleSprite(spriteFrame,u.getCreatureSlot(targets[0]).get_global_position())
+			if !b.isCreatureFriendly(user):
+				u.BattleSprite.flip_h = true
 			for i in targets:
-				var target = u.getCreatureSlot(i);
-				target.Sprite.changeAnimation("default"); 
+				var target = u.getCreatureSlotByIndex(i);
+				#target.Sprite.changeAnimation("hurt"); 
+				target.Sprite.play("hurt")
 			return SequenceUnit.RETURN_VALS.DONE
+			))
 
-		return SequenceUnit.RETURN_VALS.NOT_DONE;	
-		))
+		sequence.append(SequenceUnit.createSequenceUnit(func (d,b,u):
+			if u.BattleSprite.getFramesProgress() == 1:
+				#u.resetCreatureSlotPos(user)
+				u.stopBattleSprite()
+				u.BattleSprite.flip_h = false
+				for i in targets:
+					var target = u.getCreatureSlot(i);
+					#target.Sprite.changeAnimation("default"); 
+					target.Sprite.play("default")
+				return SequenceUnit.RETURN_VALS.DONE
+
+			return SequenceUnit.RETURN_VALS.NOT_DONE;	
+			))
 	return sequence
 	
 #visual effect for when stats change
