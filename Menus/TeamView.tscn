@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://csyroyi13nt66"]
+
+[ext_resource type="Script" path="res://Menus/TeamView.gd" id="1_womks"]
+[ext_resource type="PackedScene" uid="uid://bqsfei63od030" path="res://Battle/UI/CreatureSlot.tscn" id="2_cnmu6"]
+
+[node name="TeamView" type="Node2D"]
+script = ExtResource("1_womks")
+
+[node name="TeamSlotsRect" type="ReferenceRect" parent="."]
+offset_top = 192.0
+offset_right = 1192.0
+offset_bottom = 712.0
+editor_only = false
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -1
+offset_right = 1192.0
+offset_bottom = 712.0
+color = Color(0.054902, 0.2, 0.172549, 1)
+
+[node name="PlayerSlot" parent="." instance=ExtResource("2_cnmu6")]
+offset_left = 544.0
+offset_top = 0.0
+offset_right = 672.0
+offset_bottom = 128.0

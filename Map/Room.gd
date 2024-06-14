@@ -25,8 +25,9 @@ var roomInfo:RoomInfo = null
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	roomInfo = RoomInfo.new()
-	roomInfo.enemies = [Creature.create("spritesheets/creatures/dreemer",100,"Dreemer 1",[Bite.new()]),
-	Creature.create("spritesheets/creatures/dreemer",100,"Dreemer 1",[Slash.new()])]
+	roomInfo.enemies = []
+	for i in range(randi()%Battlefield.maxEnemies + 1):
+		roomInfo.enemies.push_back(CreatureLoader.getRandCreature())
 	pressed.connect(func():
 		new_room.emit(self)
 		)

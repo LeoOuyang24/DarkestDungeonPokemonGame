@@ -6,7 +6,7 @@ class_name Battlefield extends Node
 #null if we aren't showing player creature moves
 var currentCreature = 0;
 
-const maxAllies = 4;
+const maxAllies = 5;
 const maxEnemies = 4;
 
 var creatures = []
@@ -123,10 +123,7 @@ func getAllies(isFriendly:bool = true):
 	if isFriendly:
 		var allies = []
 		for i in range(maxAllies - 1,-1,-1):
-			if (creatures[i]):
-				print(creatures[i].getName())
 			allies.push_back(creatures[i])
-		print("-------")
 		return allies
 	else:
 		return getEnemies(true)

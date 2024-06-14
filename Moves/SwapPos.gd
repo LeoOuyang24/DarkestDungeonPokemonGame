@@ -18,19 +18,17 @@ func moveAnimationSequence(user, move, targets):
 			var index = b.getCreatureIndex(user)
 			var result = Move.moveTowards(index,targets[0],u,true) 
 			if result == SequenceUnit.RETURN_VALS.DONE:
-				b.swapCreature(index,targets[0])
-				
+				return SequenceUnit.RETURN_VALS.DONE
 			elif result == SequenceUnit.RETURN_VALS.NOT_DONE:
 				Move.moveTowards(targets[0],index,u,true)
 				return SequenceUnit.RETURN_VALS.NOT_DONE
-				#b.moveCreature(targets[0],oldIndex)
-				#print(slot.creature,u.creatureSlots[2].creature)
-				#enemySlot.setCreature(user)
-
 		return SequenceUnit.RETURN_VALS.DONE
 		))
 	
 	return sequence
+
+func move(user, targets, battlefield):
+	battlefield.swapCreature(battlefield.getCreatureIndex(user),targets[0])
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

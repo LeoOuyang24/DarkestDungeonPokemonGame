@@ -35,10 +35,10 @@ func getMoveName():
 	return moveName
 
 #the actual move
-#ally is the guy doing the move
+#user is the guy doing the move
 #enemies is a (potentially empty) list of target indicies
 #battlefield is a Battlefield instance that simulates the battle
-func move(ally, enemies, battlefield):
+func move(user, enemies, battlefield):
 	pass;
 
 #return a button that represents this Move

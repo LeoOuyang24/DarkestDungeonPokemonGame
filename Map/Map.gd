@@ -36,7 +36,6 @@ func generate():
 				routes[[neighbor,j]] = true
 		rooms.push_back(row)
 
-
 func _draw():
 	const ROOM_SPACING = 20
 	const DOT_SPACING = 20

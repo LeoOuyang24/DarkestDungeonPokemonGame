@@ -12,17 +12,17 @@ var creature:Creature = null
 func setCreature(creature:Creature):
 	self.creature = creature;
 	if creature:
-		HealthBar.set_value(creature.getHealth())
 		HealthBar.set_max(creature.getMaxHealth())
+		HealthBar.setHealth(creature.getHealth())
 		Sprite.sprite_frames = creature.spriteFrame;
 		Sprite.play()
-		#Sprite.set_stretch_mode(Anime.STRETCH_SCALE)
-		#set_size(get_size()*10)
-		#if creature.getName() == "Dreamer":
-			#
-			#Sprite.size *= 1.5;
-			#print(Sprite.get_rect())
 		set_visible(true)
+		
+		creature.took_damage.connect(func (dmg):
+			HealthBar.setHealth(creature.getHealth())
+			)
+	else:
+		set_visible(false)
 	
 #useful if you want to apply a transform to Sprites
 func setTransform(transform:Transform2D):
@@ -35,8 +35,8 @@ func getCreature():
 	return self.creature
 # Called when the node enters the scene tree for the first time.
 func _ready():
-
 	tween = create_tween();
+	setCreature(null)
 	#icon = load("res://sprites/dialga.png")
 	pass # Replace with function body.
 
@@ -46,13 +46,7 @@ func getTween():
 	tween = create_tween()
 	return tween;
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	if !creature:
-		set_visible(false)
-	else:
-		#refactor maybe: instead of doing this every frame, maybe do it when the health changes?
-		HealthBar.set_value(creature.getHealth())
+
 
 
 

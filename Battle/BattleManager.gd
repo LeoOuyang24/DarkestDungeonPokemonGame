@@ -53,16 +53,16 @@ func _ready():
 func test():
 	#var ally1 = Creature.loadJSON("res://Creatures/creatures_jsons/chomper.json")
 	#var ally2 = Creature.loadJSON("res://Creatures/creatures_jsons/chomper.json")
-	var ally1 = Creature.create("spritesheets/creatures/chomper",100,"Chomper 1",[Bite.new()])
-	var ally2 = Creature.create("spritesheets/creatures/siren",100,"Chomper 2",[Lure.new(),Slash.new(),Grow.new()])
-	var ally3 = Creature.create("spritesheets/creatures/player",200,"Player")
+	var ally1 = CreatureLoader.create("spritesheets/creatures/chomper",100,"Chomper 1",[Bite.new()])
+	var ally2 = CreatureLoader.create("spritesheets/creatures/siren",100,"Chomper 2",[Lure.new(),Slash.new(),Grow.new()])
+	var ally3 = CreatureLoader.create("spritesheets/creatures/player",200,"Player")
 	
 	
 	ally2.speed = 11;
 	
-	var enemy1 = Creature.create("spritesheets/creatures/dreemer",100,"Dreemer 1")
-	var enemy2 = Creature.create("spritesheets/creatures/siren",100,"Dreemer 2")
-	var enemy3 = Creature.create("spritesheets/creatures/chomper",100,"Comper 3")
+	var enemy1 = CreatureLoader.create("spritesheets/creatures/dreemer",100,"Dreemer 1")
+	var enemy2 = CreatureLoader.create("spritesheets/creatures/siren",100,"Dreemer 2")
+	var enemy3 = CreatureLoader.create("spritesheets/creatures/chomper",100,"Comper 3")
 	
 	enemy1.setMoves([Slash.new()]);
 	enemy2.setMoves([Bite.new()]);
@@ -120,9 +120,11 @@ func createBattle(player,allies,enemies):
 	playerCreature = player
 	allies = [player] + allies
 	for i in range(allies.size()):
-		BattleSim.addCreature(allies[i],i);
+		if allies[i] && allies[i].isAlive():
+			BattleSim.addCreature(allies[i],i);
 	for i in range(enemies.size()):
-		BattleSim.addCreature(enemies[i],i + Battlefield.maxAllies);
+		if enemies[i] && enemies[i].isAlive():
+			BattleSim.addCreature(enemies[i],i + Battlefield.maxAllies);
 
 func changeState(state):
 	self.state = state;

@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Battle/UI/CreatureSlot.gd" id="1_kmmwv"]
 [ext_resource type="PackedScene" uid="uid://bjln7kkve4d5a" path="res://Battle/UI/health_bar.tscn" id="2_1ocdj"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c12df"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_553v5"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pb0ii"]
 
@@ -14,7 +14,7 @@ offset_left = -64.0
 offset_top = -64.0
 offset_right = 64.0
 offset_bottom = 64.0
-theme_override_styles/normal = SubResource("StyleBoxEmpty_c12df")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_553v5")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_pb0ii")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_yloso")
 script = ExtResource("1_kmmwv")

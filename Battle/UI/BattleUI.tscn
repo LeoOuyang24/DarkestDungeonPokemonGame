@@ -16,10 +16,10 @@ offset_right = 640.0
 offset_bottom = 320.0
 
 [node name="AllyRow" type="ReferenceRect" parent="."]
-offset_left = 456.0
-offset_top = 722.0
+offset_left = 128.0
+offset_top = 712.0
 offset_right = 960.0
-offset_bottom = 906.0
+offset_bottom = 896.0
 
 [node name="EnemyRow" type="ReferenceRect" parent="."]
 offset_left = 1088.0

@@ -4,5 +4,8 @@
 	"baseDefense": 10,
 	"baseAttack": 20,
 	"baseSpeed": 10,
-	"name": "Dreamer"
+	"name": "Dreamer",
+	"startMoves": [
+		"Slash"
+	],
 }

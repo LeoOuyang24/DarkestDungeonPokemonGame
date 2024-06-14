@@ -44,10 +44,7 @@ func setBattleState(state:Battlefield):
 	if state.getCurrentCreature():
 		addAttacksToUI(state.getCurrentCreature())
 	for i in range(state.creatures.size()):
-		if state.creatures[i]:
-			print(state.creatures[i].getName())
 		addCreature(state.creatures[i],i);
-	print("----")
 
 
 func addAttacksToUI(creature:Creature):
@@ -223,7 +220,7 @@ func getCreaturePos(index:int):
 	
 	var boolin = (1 if isAlly else 0)
 	#set creature position in the battle field
-	return Vector2((rect.size.x)/max*(convertIndex(index)+boolin),0)
+	return Vector2((rect.size.x)/max*(convertIndex(index)),0)
 
 func getCreatureGlobalPos(ind:int):
 	var row = AllyRow if ind < Battlefield.maxAllies else EnemyRow
@@ -244,7 +241,7 @@ func resetCreatureSlotPos(creature:Creature):
 func addCreature(creature:Creature, index:int):
 	if (creatureSlots[index].getCreature() != creature):
 		if index < creatureSlots.size() && creatureSlots[index]:
-			creatureSlots[index].setCreature( creature);
+			creatureSlots[index].setCreature(creature);
 
 			
 func setBattleText(str:String):

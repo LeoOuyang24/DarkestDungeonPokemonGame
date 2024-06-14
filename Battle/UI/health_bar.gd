@@ -8,7 +8,10 @@ func _ready():
 	pass # Replace with function body.
 
 
+func setHealth(val:int):
+	set_value(val)
+	label.set_text("Health: " + str(get_value()));
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	label.set_text("Health: " + str(get_value()));
 	pass

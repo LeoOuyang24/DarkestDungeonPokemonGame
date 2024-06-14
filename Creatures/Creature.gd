@@ -1,6 +1,7 @@
 class_name Creature extends Object
 #A Creature is any entity with up to 4 attacks
 
+signal took_damage(amount)
 
 const maxMoves = 4;
 var moves = []
@@ -34,33 +35,6 @@ static func dealDamage(a,b, damage):
 		b.takeDamage((a.getAttack()/b.getDefense())*damage); 
 
 static var count = 0;
-
-static func create( sprite_path:String, maxHealth_:int, name_:String, moves_:Array = []):
-	var creature = Creature.new();
-	creature.spriteFrame = SpriteLoader.getSprite(sprite_path)
-	creature.creatureName = name_;
-	creature.baseMaxHealth = maxHealth_;
-	creature.health = maxHealth_;
-	creature.setMoves(moves_)
-	return creature;	
-
-#load from json
-static func loadJSON(file_path:String):
-	var json = JSON.new()
-	var file = FileAccess.open(file_path,FileAccess.READ)
-	if file:
-		var error = json.parse(file.get_as_text())
-		if error == OK:
-			var creature = Creature.create("spritesheets/creatures/" + json.data.sprite if json.data.get("sprite") else "spritesheets/creatures/invalid",
-							json.data.baseHealth if json.data.get("baseHealth") else 1,
-							json.data.name if json.data.get("name") else "Creature",
-							json.data.startMoves.map(func (moveName): return load("res://Moves/" + moveName + ".gd").new()) if json.data.get("startMoves") else []) 
-			return creature
-		else:
-			print("Error parsing Creature JSON, ",file_path,"\nError: ",json.get_error_message()," on line ",json.get_error_line())
-	else:
-		printerr("Creature JSON, " + file_path + " could not be opened!!\nError: " + error_string(FileAccess.get_open_error()));
-	return null
 
 func _ready():
 	setHealth(getMaxHealth())
@@ -107,8 +81,8 @@ func setMoves(attacks_):
 #used for dealing damage. Do not use as setter for modifying health. 
 func takeDamage(damage):
 	damage = max(damage,0); #ensure damage is not negative
-	setHealth(max(health - damage,0)) 
-		
+	setHealth(max(health - damage,0))
+	took_damage.emit(damage)
 	
 #use the move
 func useMove(move,targets):
