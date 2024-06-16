@@ -24,6 +24,7 @@ static func loadJSON(file_path:String):
 							json.data.baseHealth if json.data.get("baseHealth") else 1,
 							json.data.name if json.data.get("name") else "Creature",
 							json.data.startMoves.map(func (moveName): return load("res://Moves/" + moveName + ".gd").new()) if json.data.get("startMoves") else []) 
+			creature.flying = json.data.flying if json.data.get("flying") != null else false
 			return creature
 		else:
 			print("Error parsing Creature JSON, ",file_path,"\nError: ",json.get_error_message()," on line ",json.get_error_line())

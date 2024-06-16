@@ -8,6 +8,9 @@ func _ready():
 func _init():
 	moveName = "Lure"
 
+func moveAnimationSequence(user, move, targets):
+	pass
+
 func doMoveSequence(user, move, targets):
 	var arr = []
 	var stuff = {}

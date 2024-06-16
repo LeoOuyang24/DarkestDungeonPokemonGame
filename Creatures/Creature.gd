@@ -19,6 +19,8 @@ var isFriendly = false
 var attackStages = 0; #increased stat boost stages
 var defenseStages = 0; 
 
+#whether this creature needs to be rendered slightly higher becuase it flies
+var flying:bool = false
 
 var spriteFrame:SpriteFrames = null;
 

@@ -5,6 +5,8 @@ class_name CreatureSlot extends Button
 @onready var Sprite= $Sprite
 @onready var HealthBar = $HealthBar;
 
+const MAX_DIMEN = 200 #max size in either dimension a sprite can be
+
 var tween = null
 #a reference to the creature we are referring to
 var creature:Creature = null 
@@ -15,7 +17,14 @@ func setCreature(creature:Creature):
 		HealthBar.set_max(creature.getMaxHealth())
 		HealthBar.setHealth(creature.getHealth())
 		Sprite.sprite_frames = creature.spriteFrame;
+		
+		#make sure sprite isnt' too big
+		var vec2 = Sprite.sprite_frames.get_frame_texture("default",0).get_size()
+		var larger = max(vec2.x,vec2.y)
+		if larger >= MAX_DIMEN:
+			Sprite.scale = Vector2(MAX_DIMEN/larger,MAX_DIMEN/larger)
 		Sprite.play()
+		
 		set_visible(true)
 		
 		creature.took_damage.connect(func (dmg):

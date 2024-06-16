@@ -6,10 +6,11 @@ class_name Anime extends TextureRect
 #time we started at
 var start:int = 0; 
 
-func setSprite(frames:SpriteFrames):
-	self.frames = frames;
-	self.size = frames.get_frame_texture(currentAnimation,0).get_size()
-	print(frames, " ",self.custom_minimum_size, " ", frames.get_frame_texture(currentAnimation,0).get_size())
+func setSprite(newFrames:SpriteFrames):
+	var newSize = newFrames.get_frame_texture(currentAnimation,0).get_size()
+	self.frames = newFrames;
+	self.size = newSize
+
 
 func getSprite():
 	return frames;
@@ -67,10 +68,18 @@ func getFramesProgress():
 		return -1;
 	
 func _init():
-	set_stretch_mode(STRETCH_KEEP)
+	set_stretch_mode(STRETCH_KEEP_ASPECT)
+	set_expand_mode(EXPAND_IGNORE_SIZE)
+#set dimensions of rect
+func setSize(size:Vector2):
+	self.scale = Vector2(size.y/self.size.x,size.y/self.size.y)
 
 func _process(delta):
 
 	if frames:
 		set_texture(getCurrentFrame());
+		
+func _draw():
+	pass
+	#draw_texture_rect(get_texture(),get_global_rect(),true)
 	

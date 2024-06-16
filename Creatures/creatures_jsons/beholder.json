@@ -1,0 +1,12 @@
+{
+	"sprite":"beholder",
+	"baseHealth": 300,
+	"baseDefense": 10,
+	"baseAttack": 20,
+	"baseSpeed": 10,
+	"name": "Beholder",
+	"flying": true,
+	"startMoves": [
+		"Slash"
+	],
+}

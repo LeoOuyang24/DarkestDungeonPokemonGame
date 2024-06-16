@@ -5,6 +5,7 @@
 	"baseAttack": 20,
 	"baseSpeed": 10,
 	"name": "Chomper",
+	"flying": false,
 	"startMoves": [
 		"Bite",
 		"Grow",

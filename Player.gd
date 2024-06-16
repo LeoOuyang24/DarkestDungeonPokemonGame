@@ -32,7 +32,7 @@ func reset():
 	player = CreatureLoader.create("spritesheets/creatures/player",PLAYER_BASE_MAX_HEALTH,"Player",[SwapPos.new()])
 	player.isPlayer = true	
 	
-	var ally1 = CreatureLoader.create("spritesheets/creatures/chomper",100,"Chomper 1")
+	var ally1 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/beholder.json")
 	var ally2 = CreatureLoader.create("spritesheets/creatures/chomper",100,"Chomper 2")
 	
 	

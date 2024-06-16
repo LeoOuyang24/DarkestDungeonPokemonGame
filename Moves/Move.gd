@@ -9,8 +9,6 @@ var moveName = "move"
 #that the player has to manually choose
 var manualTargets:int = 0;
 
-#total number of targets, including targets the player doesn't have to choose
-var totalTargets:int = 0; 
 
 #what can we target? Only allies? Only enemies?
 #this only applies to manually targeting
@@ -58,22 +56,12 @@ func getButton(pos):
 func getNumOfTargets():
 	return manualTargets
 	
-func getNumOfTotalTargets():
-	return totalTargets
-	
-func setManualTargets(val:int):
-	manualTargets = val;
-	totalTargets = max(manualTargets,totalTargets)
-	
 func getTargetingCriteria():
 	return targetingCriteria
 	
 #some moves always hit the same targets. (ie, always hitting the front 2 targets)
 #this returns the an array of the creatures we always want to hit
-#we pass in the full creatures list. Say we want to always hit the front two targets. If the first
-#creature in our array is null, we need to actually calculate the front two targets.
-#both allies and enemies are organized from front most position to back
-func getPreselectedTargets(allies:Array,enemies:Array):	
+func getPreselectedTargets(user:Creature, battle:Battlefield):	
 	var preselected = [];
 	return preselected;
 #creates a sequence that does the actual move
@@ -87,22 +75,20 @@ func createMoveSequence(user, move,targetIndicies):
 	var sequence = []
 	
 	var targets = targetIndicies
-	#convert our targets from array of indicies to array of Creatures
-	#sequence.push_back(SequenceUnit.createSequenceUnit(func (d,b,u):
-		#targets = targetIndicies
-		#var friendly = b.isCreatureFriendly(user)
-		#var allies = b.getAllies() if friendly else b.getEnemies()
-		#var enemies = b.getEnemies() if friendly else b.getAllies()
-		#targets.append_array(move.getPreselectedTargets(allies,enemies)) #add preselected targets
-		#print(targets)
-		#return SequenceUnit.RETURN_VALS.DONE
-		#))
+
+	sequence.push_back(SequenceUnit.createSequenceUnit(func (d,b,u):
+		targets = targetIndicies
+		var preselect = move.getPreselectedTargets(user,b)
+
+		targets.append_array(preselect) #add preselected targets, converting all relative indices to absolute indices
+		return SequenceUnit.RETURN_VALS.DONE
+		))
 	
 	sequence.push_back( SequenceUnit.createTextUnit(user.getName() + " used " + move.getMoveName() + "!")); #say whos doing the  move
 
 
 	sequence.push_back(SequenceUnit.createSequenceUnit(func (d,b,u):
-		if totalTargets > 0 && !targets.reduce(func (accum, index):
+		if targets.size() > 0 && !targets.reduce(func (accum, index):
 			var target = b.getCreature(index);
 			return accum || (target && target.isAlive())
 			,false):
@@ -146,34 +132,33 @@ static func moveTowards(index, targetIndex, ui:BattleUI, overlap:bool = false):
 #animation that moves the user forward up to the first target
 func basicMoveAnimationSequence( user, move, targets, spriteFrame = SpriteLoader.getSprite("spritesheets/moves/" + move.getMoveName())):
 	var sequence = []
-	if targets.size():
-		sequence.append(SequenceUnit.createSequenceUnit(func (d,b,u):
-				return Move.moveTowards(b.getCreatureIndex(user),targets[0],u)))
+	sequence.append(SequenceUnit.createSequenceUnit(func (d,b,u):
+			return Move.moveTowards(b.getCreatureIndex(user),targets[0],u)))
 
-		sequence.append(SequenceUnit.createSequenceUnit(func (d,b,u):
-			u.setBattleSprite(spriteFrame,u.getCreatureSlot(targets[0]).get_global_position())
-			if !b.isCreatureFriendly(user):
-				u.BattleSprite.flip_h = true
+	sequence.append(SequenceUnit.createSequenceUnit(func (d,b,u):
+		u.setBattleSprite(spriteFrame,u.getCreatureSlot(targets[0]).get_global_rect().get_center())
+		if !b.isCreatureFriendly(user):
+			u.BattleSprite.flip_h = true
+		for i in targets:
+			var target = u.getCreatureSlotByIndex(i);
+			#target.Sprite.changeAnimation("hurt"); 
+			target.Sprite.play("hurt")
+		return SequenceUnit.RETURN_VALS.DONE
+		))
+
+	sequence.append(SequenceUnit.createSequenceUnit(func (d,b,u):
+		if u.BattleSprite.getFramesProgress() == 1:
+			#u.resetCreatureSlotPos(user)
+			u.stopBattleSprite()
+			u.BattleSprite.flip_h = false
 			for i in targets:
-				var target = u.getCreatureSlotByIndex(i);
-				#target.Sprite.changeAnimation("hurt"); 
-				target.Sprite.play("hurt")
+				var target = u.getCreatureSlot(i);
+				#target.Sprite.changeAnimation("default"); 
+				target.Sprite.play("default")
 			return SequenceUnit.RETURN_VALS.DONE
-			))
 
-		sequence.append(SequenceUnit.createSequenceUnit(func (d,b,u):
-			if u.BattleSprite.getFramesProgress() == 1:
-				#u.resetCreatureSlotPos(user)
-				u.stopBattleSprite()
-				u.BattleSprite.flip_h = false
-				for i in targets:
-					var target = u.getCreatureSlot(i);
-					#target.Sprite.changeAnimation("default"); 
-					target.Sprite.play("default")
-				return SequenceUnit.RETURN_VALS.DONE
-
-			return SequenceUnit.RETURN_VALS.NOT_DONE;	
-			))
+		return SequenceUnit.RETURN_VALS.NOT_DONE;	
+		))
 	return sequence
 	
 #visual effect for when stats change

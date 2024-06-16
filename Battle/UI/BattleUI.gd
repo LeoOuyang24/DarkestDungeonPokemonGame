@@ -242,6 +242,12 @@ func addCreature(creature:Creature, index:int):
 	if (creatureSlots[index].getCreature() != creature):
 		if index < creatureSlots.size() && creatureSlots[index]:
 			creatureSlots[index].setCreature(creature);
+			if creature:
+				print(creature.flying, " ", creatureSlots[index].Sprite.transform.origin)
+			if creature && creature.flying:
+				creatureSlots[index].Sprite.transform.origin.y = -50
+			else:
+				creatureSlots[index].Sprite.transform.origin.y = creatureSlots[index].get_rect().get_center().y
 
 			
 func setBattleText(str:String):
@@ -251,10 +257,12 @@ func setBattleText(str:String):
 func setBattleSprite(sprite:SpriteFrames,pos:Vector2=BattleSpriteRect.get_rect().get_center()) -> void:
 	BattleSprite.setSprite(sprite)
 
-	BattleSprite.set_global_position( pos)
+	BattleSprite.set_global_position( pos - BattleSprite.get_global_rect().size*0.5)
 	BattleSprite.play();
+	#BattleSprite.setSize(BattleSpriteRect.get_size())
 	BattleSprite.visible = true;
 
+	
 func stopBattleSprite():
 	if BattleSprite:
 		BattleSprite.visible = false;

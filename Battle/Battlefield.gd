@@ -43,7 +43,7 @@ func _init():
 
 #this function converts relative to absolute
 #friendly is "true" if "ind" is relative to allies, "false" if relative to enemies
-func relPosToAbs(ind:int, friendly:bool):
+static func relPosToAbs(ind:int, friendly:bool):
 	return (-1 if friendly else 1)*ind + maxAllies - int(friendly)
 	
 

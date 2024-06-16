@@ -4,7 +4,7 @@ class_name SwapPos extends Move
 
 func _init():
 	moveName = "Tactic: Swap"
-	setManualTargets(1)
+	manualTargets = 1
 	targetingCriteria=Move.TARGETING_CRITERIA.ONLY_ALLIES
 
 func moveAnimationSequence(user, move, targets):
