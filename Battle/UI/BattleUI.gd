@@ -242,8 +242,6 @@ func addCreature(creature:Creature, index:int):
 	if (creatureSlots[index].getCreature() != creature):
 		if index < creatureSlots.size() && creatureSlots[index]:
 			creatureSlots[index].setCreature(creature);
-			if creature:
-				print(creature.flying, " ", creatureSlots[index].Sprite.transform.origin)
 			if creature && creature.flying:
 				creatureSlots[index].Sprite.transform.origin.y = -50
 			else:

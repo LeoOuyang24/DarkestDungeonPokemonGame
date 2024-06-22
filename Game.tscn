@@ -1,12 +1,24 @@
 [gd_scene load_steps=5 format=3 uid="uid://d2hi4k6uyeill"]
 
 [ext_resource type="Script" path="res://Game.gd" id="1_c6sbs"]
-[ext_resource type="PackedScene" uid="uid://n6vt7e8d6yhm" path="res://Battle/BattleManager.tscn" id="2_6okp0"]
 [ext_resource type="PackedScene" uid="uid://cped8ka2riy3s" path="res://Map/Map.tscn" id="3_aqr5l"]
 [ext_resource type="PackedScene" uid="uid://csyroyi13nt66" path="res://Menus/TeamView.tscn" id="4_55i1y"]
+[ext_resource type="PackedScene" uid="uid://4iwnqm7b1q50" path="res://FadeOut.tscn" id="5_lq1s6"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_c6sbs")
+
+[node name="FadeOut" parent="." instance=ExtResource("5_lq1s6")]
+z_index = 5
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = -8.0
+offset_right = 1920.0
+offset_bottom = 1096.0
+grow_horizontal = 1
+grow_vertical = 1
+scale = Vector2(1, 1)
 
 [node name="TeamView" parent="." instance=ExtResource("4_55i1y")]
 z_index = 2
@@ -17,12 +29,4 @@ position = Vector2(16, 1136)
 [node name="Map" parent="Scenes" instance=ExtResource("3_aqr5l")]
 position = Vector2(1, 0)
 
-[node name="BattleManager" parent="Scenes" instance=ExtResource("2_6okp0")]
-testing = false
-
 [connection signal="room_selected" from="Scenes/Map" to="." method="_on_map_room_selected"]
-[connection signal="battle_finished" from="Scenes/BattleManager" to="." method="_on_battle_manager_battle_finished"]
-
-[editable path="Scenes/BattleManager"]
-[editable path="Scenes/BattleManager/BattleUI"]
-[editable path="Scenes/BattleManager/BattleUI/EndScreen"]

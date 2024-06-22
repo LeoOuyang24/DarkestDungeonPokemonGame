@@ -2,10 +2,10 @@ class_name BattleManager extends Node2D
 
 #facilitates communication between Battlefield and BattleUI
 
-@onready var BattleSim = Battlefield.new();
+var BattleSim = Battlefield.new();
 @onready var UI = $BattleUI
 
-signal battle_finished;
+signal room_finished;
 
 var sequencer = Sequencer.new();
 
@@ -28,14 +28,13 @@ var targets = []
 
 var playerCreature = null
 
-@export var testing = false;
+@export var testing:bool = false;
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	UI.target_selected.connect(handleTargetSelect)
 	UI.move_selected.connect(handleMoveSelect)
 	UI.battle_finished.connect(func ():
-		reset()
-		battle_finished.emit(self.state == BATTLE_STATES.WE_WON)
+		room_finished.emit()
 		)
 	
 	
@@ -47,8 +46,8 @@ func _ready():
 
 	if testing:
 		test();
-
-	pass # Replace with function body.
+		
+	newTurn()
 
 func test():
 	#var ally1 = Creature.loadJSON("res://Creatures/creatures_jsons/chomper.json")
@@ -112,13 +111,24 @@ func handleMoveSelect(moveIndex):
 
 func handleDeath(creature):
 	if creature.isPlayerCreature():
-		sequencer.insert(SequenceUnit.createPlayerDeathSequence(creature))
+		sequencer.insert(createPlayerDeathSequence(creature))
 	else:
 		sequencer.insert(SequenceUnit.createDeathSequence(creature))
 
+static func createPlayerDeathSequence(creature:Creature):
+	var sequence = []
+	sequence.push_back(SequenceUnit.createTextUnit(creature.getName() + " has died!"))
+	sequence.push_back(SequenceUnit.createSequenceUnit(func (d,m):
+		m.changeState(BattleManager.BATTLE_STATES.WE_LOST)
+		return SequenceUnit.RETURN_VALS.DONE
+		,true))
+	return sequence
+
 func createBattle(player,allies,enemies):
+
 	playerCreature = player
 	allies = [player] + allies
+	print(allies)
 	for i in range(allies.size()):
 		if allies[i] && allies[i].isAlive():
 			BattleSim.addCreature(allies[i],i);

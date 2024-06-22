@@ -23,7 +23,7 @@ func generate():
 		var row = []
 		var rowSize = rng.randi_range(minRowSize,maxRowSize) if i > 0 else 1
 		for j in range(rowSize):
-			var room = RoomScene.instantiate();
+			var room = Room.new(RoomInfo.new(RoomInfo.ROOM_TYPES.WELL if randi()%2 == 0 else RoomInfo.ROOM_TYPES.BATTLE))
 			room.new_room.connect(func(asdf):
 				processNewRoom(i,j))
 			add_child(room)
@@ -61,7 +61,6 @@ func _ready():
 
 #reset the map, only call this after this is already in the node tree
 func reset():
-	#TODO: This sucks lmao
 	routes = {}
 	rooms = []
 	
@@ -104,7 +103,7 @@ func setCurrentRoom(colNum,roomNum):
 		for i in getAdjacentRooms(colNum,roomNum):
 			i.changeState(Room.VISITED_STATE.UNVISITED)
 			
-		room_selected.emit(rooms[colNum][roomNum])
+		room_selected.emit(rooms[colNum][roomNum].getRoomInfo())
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

@@ -1,6 +1,5 @@
 class_name Room extends TextureButton
 
-@onready var Sprite = $Sprite;
 
 signal new_room(room)
 
@@ -22,16 +21,18 @@ var roomNum = 0;
 
 var roomInfo:RoomInfo = null
 
+func _init(info:RoomInfo):
+	roomInfo = info
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	roomInfo = RoomInfo.new()
-	roomInfo.enemies = []
-	for i in range(randi()%Battlefield.maxEnemies + 1):
-		roomInfo.enemies.push_back(CreatureLoader.getRandCreature())
-	pressed.connect(func():
-		new_room.emit(self)
-		)
+	if roomInfo:
+		texture_normal = roomInfo.getTexture()
+	
 	changeState(VISITED_STATE.INACCESSIBLE)
+	pressed.connect(func():
+		new_room.emit(roomInfo)
+	)
 	pass # Replace with function body.
 
 func getColNum():

@@ -23,6 +23,8 @@ func setCreature(creature:Creature):
 		var larger = max(vec2.x,vec2.y)
 		if larger >= MAX_DIMEN:
 			Sprite.scale = Vector2(MAX_DIMEN/larger,MAX_DIMEN/larger)
+		else:
+			Sprite.scale = Vector2(1,1)
 		Sprite.play()
 		
 		set_visible(true)

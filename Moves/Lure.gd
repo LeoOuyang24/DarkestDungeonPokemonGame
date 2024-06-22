@@ -9,6 +9,7 @@ func _init():
 	moveName = "Lure"
 
 func moveAnimationSequence(user, move, targets):
+	return []
 	pass
 
 func doMoveSequence(user, move, targets):

@@ -67,7 +67,8 @@ func getSpeed():
 
 #setter for health
 func setHealth(health_):
-	health = health_
+	if (isAlive()):
+		health = min(max(0,health_),getMaxHealth())
 	
 func getMaxHealth():
 	return (1+ (level-1)*levelAmount)*baseMaxHealth;
