@@ -4,17 +4,22 @@ class_name Game extends Node2D
 @onready var Map = $Scenes/Map
 @onready var TeamView = $TeamView
 @onready var FadeOut = $FadeOut
+@onready var DNACounter = $DNACounter/Label
 
 var showTeam = false
 var curScene = null
 
-static var PlayerState:Player = Player.new()
 
+static var PlayerState:Player = Player.new()
+static var GameState:GlobalGameState = GlobalGameState.new()
 #used to track game state
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	GameState.DNA_changed.connect(func(amount):
+		DNACounter.set_text(str(GameState.getDNA()))
+		)
 	swapToScene(Map)
 	pass # Replace with function body.
 
@@ -23,22 +28,21 @@ func _ready():
 func _process(delta):
 	pass
 
+
 #switch to scene, deleting the previous current scene if necessary
-
 func swapToScene(scene:Node2D):
-
 	Scenes.remove_child(curScene)
 	Scenes.add_child(scene)
 	curScene = scene
 
 #same as swapToScene except we do the fadeout animation
 func swapToSceneWithFade(scene:Node2D):
-	FadeOut.play(true)
+	FadeOut.play()
 	await FadeOut.transition_finished	
 	
 	swapToScene(scene)
 	
-	FadeOut.play()
+	FadeOut.play(true)
 	await FadeOut.transition_finished
 
 	

@@ -1,7 +1,20 @@
-[gd_scene load_steps=6 format=3 uid="uid://bqsfei63od030"]
+[gd_scene load_steps=11 format=3 uid="uid://bqsfei63od030"]
 
 [ext_resource type="Script" path="res://Battle/UI/CreatureSlot.gd" id="1_kmmwv"]
 [ext_resource type="PackedScene" uid="uid://bjln7kkve4d5a" path="res://Battle/UI/health_bar.tscn" id="2_1ocdj"]
+[ext_resource type="SpriteFrames" uid="uid://c6bcp5k5sipe4" path="res://sprites/spritesheets/creatures/chomper.tres" id="3_fq64i"]
+[ext_resource type="Texture2D" uid="uid://dkm5fbovv5fr" path="res://sprites/icons/speed_icon.png" id="5_p6tri"]
+[ext_resource type="Texture2D" uid="uid://c1u1tuqrcdmmc" path="res://sprites/icons/claw_icon.png" id="6_tf2ss"]
+[ext_resource type="Texture2D" uid="uid://cfqgl40ppp05u" path="res://sprites/icons/heart_icon.png" id="7_57i0h"]
+
+[sub_resource type="Theme" id="Theme_0s4jo"]
+/colors/asdf = Color(0, 0, 0, 1)
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/font_sizes/font_size = 32
+Label/colors/font_color = Color(0.996078, 0.878431, 0.752941, 1)
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/constants/outline_size = 3
+Label/font_sizes/font_size = 32
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_553v5"]
 
@@ -10,19 +23,22 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yloso"]
 
 [node name="Button" type="Button"]
-offset_left = -64.0
-offset_top = -64.0
-offset_right = 64.0
-offset_bottom = 64.0
+offset_left = 904.0
+offset_top = 512.0
+offset_right = 1032.0
+offset_bottom = 640.0
+theme = SubResource("Theme_0s4jo")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_553v5")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_pb0ii")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_yloso")
 script = ExtResource("1_kmmwv")
+testing = true
 
 [node name="HealthBar" parent="." instance=ExtResource("2_1ocdj")]
+visible = false
 layout_mode = 0
 offset_top = 144.0
-offset_right = 128.0
+offset_right = 80.0
 offset_bottom = 171.0
 
 [node name="Label" parent="HealthBar" index="0"]
@@ -30,5 +46,62 @@ text = ""
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(64, 64)
+sprite_frames = ExtResource("3_fq64i")
+
+[node name="Icons" type="ReferenceRect" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 112.0
+offset_right = 128.0
+offset_bottom = 152.0
+
+[node name="HealthIcon" type="TextureRect" parent="Icons"]
+layout_mode = 0
+offset_left = 40.0
+offset_right = 80.0
+offset_bottom = 32.0
+texture = ExtResource("7_57i0h")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="Icons/HealthIcon"]
+layout_mode = 0
+offset_left = 8.0
+offset_right = 48.0
+offset_bottom = 23.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+
+[node name="SpeedIcon" type="TextureRect" parent="Icons"]
+layout_mode = 0
+offset_left = -8.0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("5_p6tri")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="Icons/SpeedIcon"]
+layout_mode = 0
+offset_left = 16.0
+offset_right = 56.0
+offset_bottom = 28.0
+text = "
+"
+
+[node name="AttackIcon" type="TextureRect" parent="Icons"]
+layout_mode = 0
+offset_left = 88.0
+offset_right = 120.0
+offset_bottom = 32.0
+texture = ExtResource("6_tf2ss")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="Icons/AttackIcon"]
+layout_mode = 0
+offset_left = 8.0
+offset_right = 48.0
+offset_bottom = 23.0
 
 [editable path="HealthBar"]

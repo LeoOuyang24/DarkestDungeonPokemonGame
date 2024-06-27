@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://d2hi4k6uyeill"]
+[gd_scene load_steps=6 format=3 uid="uid://d2hi4k6uyeill"]
 
 [ext_resource type="Script" path="res://Game.gd" id="1_c6sbs"]
 [ext_resource type="PackedScene" uid="uid://cped8ka2riy3s" path="res://Map/Map.tscn" id="3_aqr5l"]
 [ext_resource type="PackedScene" uid="uid://csyroyi13nt66" path="res://Menus/TeamView.tscn" id="4_55i1y"]
+[ext_resource type="Texture2D" uid="uid://q5ilukk8h66k" path="res://sprites/icons/dna_icon.png" id="5_hauwm"]
 [ext_resource type="PackedScene" uid="uid://4iwnqm7b1q50" path="res://FadeOut.tscn" id="5_lq1s6"]
 
 [node name="Game" type="Node2D"]
@@ -28,5 +29,19 @@ position = Vector2(16, 1136)
 
 [node name="Map" parent="Scenes" instance=ExtResource("3_aqr5l")]
 position = Vector2(1, 0)
+
+[node name="DNACounter" type="Sprite2D" parent="."]
+position = Vector2(1640, 104)
+scale = Vector2(0.5, 0.451515)
+texture = ExtResource("5_hauwm")
+
+[node name="Label" type="Label" parent="DNACounter"]
+offset_left = 32.0
+offset_top = -24.0
+offset_right = 160.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(1, 0.690196, 0.533333, 1)
+theme_override_font_sizes/font_size = 40
+text = "10000"
 
 [connection signal="room_selected" from="Scenes/Map" to="." method="_on_map_room_selected"]

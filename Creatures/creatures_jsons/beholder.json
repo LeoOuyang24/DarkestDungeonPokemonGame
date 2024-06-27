@@ -1,9 +1,8 @@
 {
 	"sprite":"beholder",
-	"baseHealth": 300,
-	"baseDefense": 10,
-	"baseAttack": 20,
-	"baseSpeed": 10,
+	"baseHealth": 40,
+	"baseAttack": 5,
+	"baseSpeed": 5,
 	"name": "Beholder",
 	"flying": true,
 	"startMoves": [

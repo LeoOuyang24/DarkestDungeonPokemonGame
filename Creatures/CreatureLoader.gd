@@ -4,25 +4,19 @@ class_name CreatureLoader extends Object
 
 static var CreatureJSONDir = "res://Creatures/creatures_jsons/"
 
-static func create( sprite_path:String, maxHealth_:int, name_:String, moves_:Array = []):
-	var creature = Creature.new();
-	creature.spriteFrame = SpriteLoader.getSprite(sprite_path)
-	creature.creatureName = name_;
-	creature.baseMaxHealth = maxHealth_;
-	creature.health = maxHealth_;
-	creature.setMoves(moves_)
-	return creature;	
-
 #load from json
-static func loadJSON(file_path:String):
+static func loadJSON(file_path:String, startingLevel:int = 1) -> Creature:
 	var json = JSON.new()
 	var file = FileAccess.open(file_path,FileAccess.READ)
 	if file:
 		var error = json.parse(file.get_as_text())
 		if error == OK:
-			var creature = CreatureLoader.create("spritesheets/creatures/" + json.data.sprite if json.data.get("sprite") else "spritesheets/creatures/invalid",
+			var creature = Creature.new("spritesheets/creatures/" + json.data.sprite if json.data.get("sprite") else "spritesheets/creatures/invalid",
 							json.data.baseHealth if json.data.get("baseHealth") else 1,
+							 json.data.baseAttack if json.data.get("baseAttack") else 1,
+							json.data.baseSpeed if json.data.get("baseSpeed") else 1,
 							json.data.name if json.data.get("name") else "Creature",
+							startingLevel,
 							json.data.startMoves.map(func (moveName): return load("res://Moves/" + moveName + ".gd").new()) if json.data.get("startMoves") else []) 
 			creature.flying = json.data.flying if json.data.get("flying") != null else false
 			return creature

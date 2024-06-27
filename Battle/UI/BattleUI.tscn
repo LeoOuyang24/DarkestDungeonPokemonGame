@@ -3,9 +3,9 @@
 [ext_resource type="Script" path="res://Battle/UI/BattleUI.gd" id="1_0uu34"]
 [ext_resource type="Script" path="res://Battle/UI/BattleLog.gd" id="2_ggcmx"]
 [ext_resource type="PackedScene" uid="uid://bgy4kes6sp7tp" path="res://Battle/UI/EndScreen.tscn" id="3_1dct8"]
+[ext_resource type="Script" path="res://Battle/UI/MoveButton.gd" id="3_lohjo"]
 [ext_resource type="Texture2D" uid="uid://b1vyxaevceywg" path="res://sprites/backgrounds/bg.png" id="4_ul5b1"]
 [ext_resource type="Script" path="res://sprites/Anime.gd" id="5_33c7b"]
-[ext_resource type="SpriteFrames" uid="uid://dbajfcl0lny7y" path="res://sprites/spritesheets/moves/slash.tres" id="6_3iytm"]
 
 [node name="BattleUI" type="Node2D"]
 script = ExtResource("1_0uu34")
@@ -51,6 +51,7 @@ offset_left = 136.0
 offset_top = 24.0
 offset_right = 208.128
 offset_bottom = 63.64
+script = ExtResource("3_lohjo")
 
 [node name="Button3" type="Button" parent="Moves"]
 layout_mode = 1
@@ -61,6 +62,7 @@ offset_left = 136.0
 offset_top = 112.0
 offset_right = 208.128
 offset_bottom = 151.64
+script = ExtResource("3_lohjo")
 
 [node name="Button2" type="Button" parent="Moves"]
 layout_mode = 1
@@ -71,6 +73,7 @@ offset_left = 256.0
 offset_top = 24.0
 offset_right = 328.128
 offset_bottom = 64.64
+script = ExtResource("3_lohjo")
 
 [node name="Button4" type="Button" parent="Moves"]
 layout_mode = 1
@@ -81,6 +84,7 @@ offset_left = 256.0
 offset_top = 112.0
 offset_right = 328.128
 offset_bottom = 152.64
+script = ExtResource("3_lohjo")
 
 [node name="PassButton" type="Button" parent="Moves"]
 layout_mode = 0
@@ -90,10 +94,7 @@ offset_right = 720.0
 offset_bottom = 112.0
 text = "Pass
 "
-
-[node name="EndScreen" parent="." instance=ExtResource("3_1dct8")]
-visible = false
-position = Vector2(440, 192)
+script = ExtResource("3_lohjo")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = -1
@@ -107,7 +108,6 @@ offset_top = 80.0
 offset_right = 552.0
 offset_bottom = 208.0
 script = ExtResource("5_33c7b")
-frames = ExtResource("6_3iytm")
 
 [node name="TurnQueue" type="ColorRect" parent="."]
 offset_left = 816.0
@@ -116,6 +116,6 @@ offset_right = 1304.0
 offset_bottom = 392.0
 color = Color(0, 0, 0, 0.639216)
 
-[connection signal="pressed" from="EndScreen/Button" to="." method="_on_button_pressed"]
-
-[editable path="EndScreen"]
+[node name="EndScreen" parent="." instance=ExtResource("3_1dct8")]
+visible = false
+position = Vector2(416, 192)

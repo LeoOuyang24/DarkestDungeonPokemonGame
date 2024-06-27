@@ -88,3 +88,11 @@ The creatures in the Womb of God were the Ancients' creations.
 - Should we incorporate other methods of information passing down, i.e. passing down ideas culturally or through teaching
     - Should we stick with purely biological methods?
 - What were the Ancients trying to communicate?
+
+### Other Lore Ideas
+- Crowhurst was going to try and win the race to sail around the world but it quickly became apparent that he was not gonna survive. To save face, his plan was to sneak in behind the other competitors, losing the race but still pretending to finish. He had fabricated his captain's log and had hoped that being in last place would bring enough obscurity to conceal his lies. Indeed one sailor did finish but Crowhurst and the remaining competitor were still in the running for the shortest actual time spent. But then, the remaining competitor sunk, which meant Crowhurst won by default. Ironically this was terrible because it meant his fake logs would be scrutinized and he'd be found out; him winning was the worst fate possible. Instead of finishing, he drifted into sea and ultimately disappeared. 
+	- The cruel irony of this story is inspirational
+
+- Mortuary note: 
+	HERE LIES ASDF
+	researcher, husband, liar

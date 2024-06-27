@@ -2,44 +2,43 @@ class_name Player extends Node
 
 #stores player state
 
-const PLAYER_BASE_MAX_HEALTH = 200
+const PLAYER_BASE_MAX_HEALTH:int = 20
+const PLAYER_BASE_ATTACK:int = 5
+const PLAYER_BASE_SPEED:int = 5
 
 var player:Creature = null
 var team:Array = []
+
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
 
-func _init():
+func _init() -> void:
 	reset()
 	
-func getPlayer():
+func getPlayer() -> Creature:
 	return player
 
-func getTeam():
+func getTeam() -> Array:
 	return team
 
 #returns true if the player is dead
 func isPlayerDead():
 	return player && !player.isAlive();
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 #reset player state
-func reset():
-	player = CreatureLoader.create("spritesheets/creatures/player",PLAYER_BASE_MAX_HEALTH,"Player",[SwapPos.new()])
+func reset() -> void:
+	player = Creature.new("spritesheets/creatures/player",PLAYER_BASE_MAX_HEALTH,PLAYER_BASE_ATTACK,PLAYER_BASE_SPEED,"Player",5,[SwapPos.new()])
 	player.isPlayer = true	
 	
 	var ally1 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/beholder.json")
-	var ally2 = CreatureLoader.create("spritesheets/creatures/chomper",100,"Chomper 2")
+	var ally2 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/silent.json")
 	
-	
-	ally2.speed = 11;
 	
 	ally1.setMoves([Bite.new(),Slash.new(),Grow.new()]);
 	ally2.setMoves([Bite.new(),Slash.new(),Grow.new()]);
 	
 	team = [ally1,ally2,CreatureLoader.loadJSON("res://Creatures/creatures_jsons/siren.json"),CreatureLoader.loadJSON("res://Creatures/creatures_jsons/dreemer.json") ]
-	team[1].setHealth(0)	
+

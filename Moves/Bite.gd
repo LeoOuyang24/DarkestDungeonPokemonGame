@@ -11,7 +11,8 @@ func _init():
 
 func move(ally, enemies, battlefield):
 	if len(enemies) > 0: #just to be safe, make sure we are actually targeting something
-		Creature.dealDamage(ally,battlefield.getCreature(enemies[0]),40); #realistically the player should only be targeting one enemy, but even if they target multiple, we only hit the first
+
+		Creature.dealDamage(ally,battlefield.getCreature(enemies[0]),ally.getAttack()); #realistically the player should only be targeting one enemy, but even if they target multiple, we only hit the first
 	super.move(ally,enemies,battlefield)
 	pass
 	

@@ -1,0 +1,171 @@
+[gd_scene load_steps=10 format=3 uid="uid://dw4eh0gjt84fe"]
+
+[ext_resource type="Script" path="res://Menus/CreatureSummary.gd" id="1_6r03a"]
+[ext_resource type="Script" path="res://sprites/Anime.gd" id="1_g5kkb"]
+[ext_resource type="SpriteFrames" uid="uid://c6bcp5k5sipe4" path="res://sprites/spritesheets/creatures/chomper.tres" id="2_ebsrt"]
+[ext_resource type="Texture2D" uid="uid://c1u1tuqrcdmmc" path="res://sprites/icons/claw_icon.png" id="3_ffpxe"]
+[ext_resource type="PackedScene" uid="uid://cd45jqff33kg0" path="res://Menus/StatBar.tscn" id="4_qu7fa"]
+[ext_resource type="Texture2D" uid="uid://dkm5fbovv5fr" path="res://sprites/icons/speed_icon.png" id="4_xyj4n"]
+[ext_resource type="Script" path="res://Battle/UI/MoveButton.gd" id="6_sv18f"]
+[ext_resource type="Texture2D" uid="uid://q5ilukk8h66k" path="res://sprites/icons/dna_icon.png" id="8_3dyu0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kujuv"]
+bg_color = Color(0.478431, 0.666667, 0.286275, 1)
+
+[node name="CreatureSummary" type="Node2D"]
+script = ExtResource("1_6r03a")
+
+[node name="Window" type="ColorRect" parent="."]
+offset_left = 384.0
+offset_top = 192.0
+offset_right = 1664.0
+offset_bottom = 896.0
+color = Color(0.345098, 0.345098, 0.345098, 1)
+
+[node name="Stats" type="ColorRect" parent="Window"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 64.0
+offset_right = 960.0
+offset_bottom = 256.0
+color = Color(0.67451, 0.462745, 0.388235, 1)
+
+[node name="Name" type="RichTextLabel" parent="Window/Stats"]
+layout_mode = 0
+offset_left = 208.0
+offset_top = 32.0
+offset_right = 320.0
+offset_bottom = 224.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Level 1
+Chomper"
+
+[node name="Control" type="Control" parent="Window/Stats"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 344.0
+offset_top = 32.0
+offset_right = 384.0
+offset_bottom = 72.0
+
+[node name="Health" parent="Window/Stats/Control" instance=ExtResource("4_qu7fa")]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Attack" parent="Window/Stats/Control" instance=ExtResource("4_qu7fa")]
+offset_left = 0.0
+offset_top = 64.0
+offset_right = 40.0
+offset_bottom = 104.0
+BarColor = Color(1, 0, 0, 1)
+Sprite = ExtResource("3_ffpxe")
+
+[node name="Speed" parent="Window/Stats/Control" instance=ExtResource("4_qu7fa")]
+offset_left = 0.0
+offset_top = 128.0
+offset_right = 40.0
+offset_bottom = 168.0
+BarColor = Color(0, 1, 1, 1)
+Sprite = ExtResource("4_xyj4n")
+
+[node name="Line2D" type="Line2D" parent="Window/Stats/Control"]
+position = Vector2(40, -32)
+points = PackedVector2Array(0, 0, 0, 192)
+width = 5.0
+
+[node name="Anime" type="TextureRect" parent="Window/Stats"]
+z_index = 1
+layout_mode = 0
+offset_right = 192.0
+offset_bottom = 176.0
+script = ExtResource("1_g5kkb")
+frames = ExtResource("2_ebsrt")
+
+[node name="Moves" type="ReferenceRect" parent="Window"]
+layout_mode = 0
+offset_left = -88.0
+offset_top = 384.0
+offset_right = 296.0
+offset_bottom = 656.0
+scale = Vector2(1.5, 1.5)
+
+[node name="Button" type="Button" parent="Window/Moves"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.031
+anchor_bottom = 0.04
+offset_left = 136.0
+offset_top = 24.0
+offset_right = 208.128
+offset_bottom = 63.64
+script = ExtResource("6_sv18f")
+
+[node name="Button3" type="Button" parent="Window/Moves"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.031
+anchor_bottom = 0.04
+offset_left = 136.0
+offset_top = 112.0
+offset_right = 208.128
+offset_bottom = 151.64
+script = ExtResource("6_sv18f")
+
+[node name="Button2" type="Button" parent="Window/Moves"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.031
+anchor_bottom = 0.04
+offset_left = 256.0
+offset_top = 24.0
+offset_right = 328.128
+offset_bottom = 64.64
+script = ExtResource("6_sv18f")
+
+[node name="Button4" type="Button" parent="Window/Moves"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.031
+anchor_bottom = 0.04
+offset_left = 256.0
+offset_top = 112.0
+offset_right = 328.128
+offset_bottom = 152.64
+script = ExtResource("6_sv18f")
+
+[node name="LevelUp" type="Button" parent="Window"]
+layout_mode = 0
+offset_left = 832.0
+offset_top = 472.0
+offset_right = 1024.0
+offset_bottom = 568.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_kujuv")
+text = "
+"
+
+[node name="Label" type="Label" parent="Window/LevelUp"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 16.0
+offset_right = 131.0
+offset_bottom = 39.0
+text = "Level Up"
+
+[node name="Sprite2D" type="Sprite2D" parent="Window/LevelUp"]
+position = Vector2(40, 64)
+scale = Vector2(0.271429, 0.257576)
+texture = ExtResource("8_3dyu0")
+
+[node name="Label2" type="Label" parent="Window/LevelUp"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 52.0
+offset_right = 96.0
+offset_bottom = 75.0
+text = "10"
+
+[connection signal="mouse_entered" from="Window/LevelUp" to="." method="onHover"]
+[connection signal="mouse_exited" from="Window/LevelUp" to="." method="offHover"]
+[connection signal="pressed" from="Window/LevelUp" to="." method="levelUp"]

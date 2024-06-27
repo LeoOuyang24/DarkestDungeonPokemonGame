@@ -1,0 +1,54 @@
+[gd_scene load_steps=4 format=3 uid="uid://cd45jqff33kg0"]
+
+[ext_resource type="Texture2D" uid="uid://cfqgl40ppp05u" path="res://sprites/icons/heart_icon.png" id="1_6thjs"]
+[ext_resource type="Script" path="res://Menus/StatBar.gd" id="2_eu0au"]
+
+[sub_resource type="Theme" id="Theme_1q0n1"]
+default_font_size = 200
+RichTextLabel/font_sizes/normal_font_size = 16
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 256.0
+offset_top = 144.0
+offset_right = 296.0
+offset_bottom = 184.0
+theme = SubResource("Theme_1q0n1")
+script = ExtResource("2_eu0au")
+Sprite = ExtResource("1_6thjs")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 40.0
+offset_top = -32.0
+offset_right = 48.0
+offset_bottom = 24.0
+color = Color(0, 1, 0, 1)
+
+[node name="Icon" type="Sprite2D" parent="."]
+scale = Vector2(0.139197, 0.116962)
+
+[node name="Labels" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 48.0
+offset_top = -16.0
+offset_right = 88.0
+offset_bottom = 24.0
+
+[node name="Bonuses" type="RichTextLabel" parent="Labels"]
+visible = false
+layout_mode = 0
+offset_left = 40.0
+offset_right = 80.0
+offset_bottom = 40.0
+theme_override_colors/default_color = Color(0, 1, 0, 1)
+text = "+1
+"
+
+[node name="Label" type="RichTextLabel" parent="Labels"]
+layout_mode = 0
+offset_left = 8.0
+offset_right = 48.0
+offset_bottom = 48.0
+text = "10"

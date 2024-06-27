@@ -8,7 +8,8 @@ class_name BattleUI extends Node2D
 @onready var EndScreen = $EndScreen
 @onready var TurnQueue = $TurnQueue
 
-@onready var Moves = [$Moves/Button, $Moves/Button2, $Moves/Button3, $Moves/Button4, $Moves/PassButton]
+@onready var Moves = [$Moves/Button, $Moves/Button2, $Moves/Button3, $Moves/Button4] 
+@onready var PassButton = $Moves/PassButton
 
 #signal for when targets have been selected
 signal target_selected(target)
@@ -48,14 +49,8 @@ func setBattleState(state:Battlefield):
 
 
 func addAttacksToUI(creature:Creature):
-	for i in range(Moves.size()):
-		var butt = Moves[i]
-		if i < creature.moves.size():
-			butt.text = creature.getMove(i).getMoveName();
-		elif i < Creature.maxMoves:
-			#if this creature is missing a move
-			#we gotta make sure it's within Creature.maxMoves because the passButton is always out of range
-			butt.text = ""
+	for i in range(Creature.maxMoves):
+		Moves[i].setMove(creature.getMove(i))
 
 #get teh creatureslot corresponding to the given creature or index
 func getCreatureSlot(creature):
@@ -169,9 +164,18 @@ func _ready():
 	for i in range(Battlefield.maxEnemies):
 		addSlot(false);
 	for i in range(Moves.size()):
-		Moves[i].pressed.connect(func ():
-			move_selected.emit(i)
+		Moves[i].move_selected.connect(func (move):
+			move_selected.emit(move)
 			)
+	
+	PassButton.setMove(PassTurn.new())
+	PassButton.move_selected.connect(func (move):
+		move_selected.emit(move)
+		)
+	
+	EndScreen.EndButton.pressed.connect(func():
+		battle_finished.emit()
+		)		
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -243,9 +247,10 @@ func addCreature(creature:Creature, index:int):
 		if index < creatureSlots.size() && creatureSlots[index]:
 			creatureSlots[index].setCreature(creature);
 			if creature && creature.flying:
-				creatureSlots[index].Sprite.transform.origin.y = -50
-			else:
-				creatureSlots[index].Sprite.transform.origin.y = creatureSlots[index].get_rect().get_center().y
+				creatureSlots[index].setTransform(creatureSlots[index].getTransform().translated(Vector2(0,-50)))
+				#creatureSlots[index].Sprite.transform.origin.y = -50
+			#else:
+				#creatureSlots[index].Sprite.transform.origin.y = creatureSlots[index].get_rect().get_center().y
 
 			
 func setBattleText(str:String):
@@ -265,10 +270,13 @@ func stopBattleSprite():
 	if BattleSprite:
 		BattleSprite.visible = false;
 		
-
-func setEndScreen(won:bool):
-	EndScreen.setBattleResult(won)
+#set the end screen,
+#dna is the amount of dna we won as a result of winning the battle
+func setEndScreen(won:bool,rewards:Rewards = null):
+	EndScreen.setBattleResult(won,rewards)
 	EndScreen.set_visible(true)
+	
+	
 
 
 func _on_button_pressed():

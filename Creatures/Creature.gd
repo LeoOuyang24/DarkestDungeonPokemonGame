@@ -1,23 +1,21 @@
 class_name Creature extends Object
 #A Creature is any entity with up to 4 attacks
 
-signal took_damage(amount)
+#signal for when health changes
+#emits the amount it changed by as well as the new value
+signal health_changed(amount, newHealth)
 
 const maxMoves = 4;
 var moves = []
 
-var baseMaxHealth = 1;
-var baseDefense = 1; #by default, we set defense to 1, so we avoid divide by 0 errors in the dealDamage function
-var baseAttack = 1;
+var health:Stat = null
+var attack:Stat = null
+var speed:Stat = null
 
 #is the player character
 var isPlayer = false
 
 var isFriendly = false
-
-#REFACTOR: Need a getter/setter. Probalby shoudl make a Stat class unifying the base state, current stat, and the stage boosts
-var attackStages = 0; #increased stat boost stages
-var defenseStages = 0; 
 
 #whether this creature needs to be rendered slightly higher becuase it flies
 var flying:bool = false
@@ -26,23 +24,50 @@ var spriteFrame:SpriteFrames = null;
 
 var creatureName = "Creature"
 
-var health:int = 0;
 
 var level = 1;
-static var levelAmount = .04; #the amount our stats increase by per level
 
 # "a" deals damage to "b", based on attack and defense stats. "damage" is the base damage
 static func dealDamage(a,b, damage):
 	if a && b:
-		b.takeDamage((a.getAttack()/b.getDefense())*damage); 
+		b.takeDamage(damage); 
 
 static var count = 0;
+
+func _init( sprite_path:String, maxHealth_:int,baseAttack_:int,baseSpeed_:int, name_:String, levels:int = 1, moves_:Array = []) -> void:
+	spriteFrame = SpriteLoader.getSprite(sprite_path)
+	creatureName = name_;
+	
+	level = levels
+	
+	health = Stat.new(maxHealth_);
+	attack = Stat.new(baseAttack_);
+	speed = Stat.new(baseSpeed_);
+	
+	health.resetStat(level)
+	attack.resetStat(level)
+	speed.resetStat(level)
+	
+	setMoves(moves_)
 
 func _ready():
 	setHealth(getMaxHealth())
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+
+func getLevel() -> int:
+	return level
+
+#get the hypothetical stats at a given level
+func getStatsAtLevel(level:int = getLevel()) -> Dictionary:
+	var stats = {				
+			"health":health.getBaseStat(level),
+			"attack":attack.getBaseStat(level),
+			"speed":speed.getBaseStat(level)}
+	return stats
+func levelUp() -> void:
+	level += 1
 
 func isPlayerCreature():
 	return isPlayer
@@ -53,39 +78,44 @@ func getIsFriendly():
 func getName():
 	return creatureName;
 
-#calculate how much defense we have
-func getDefense():
-	return (1 + level*levelAmount)*baseDefense;
 
-#calculate how much attack we have
-func getAttack():
-	return (1 + level*levelAmount + attackStages*1.5)*baseAttack;
-
-var speed = 10;
-func getSpeed():
-	return speed;
-
-#setter for health
-func setHealth(health_):
-	if (isAlive()):
-		health = min(max(0,health_),getMaxHealth())
+func getBaseAttack() -> int:
+	return attack.getBaseStat(level);
 	
-func getMaxHealth():
-	return (1+ (level-1)*levelAmount)*baseMaxHealth;
+#get how much attack we currently have
+#you should probably never call this (or getSpeed()) outside of battle since attack and speed
+#reset to base values outside of battle
+func getAttack() -> int:
+	return attack.getStat()
+	
+func getBaseSpeed() -> int:
+	return speed.getBaseStat(level);
 
-func getHealth():
-	return health;
+func getSpeed() -> int:
+	return speed.getStat();
+
+func getMaxHealth() -> int:
+	return health.getBaseStat(level);
+
+func getHealth() -> int:
+	return health.getStat();
+	
+func setHealth(amount:int) -> void:
+	health.changeStat(min(amount,getMaxHealth())) #ensure our health never goes above max
+
 
 func isAlive():
 	return getHealth() > 0
 
 func setMoves(attacks_):
 	moves = attacks_.slice(0,min(maxMoves,len(attacks_)),1,true); #deep copy the first 4 attacks, or fewer if fewer were provided
+
 #used for dealing damage. Do not use as setter for modifying health. 
 func takeDamage(damage):
-	damage = max(damage,0); #ensure damage is not negative
-	setHealth(max(health - damage,0))
-	took_damage.emit(damage)
+
+	damage = max(damage,1); #ensure damage is at least 1
+	setHealth(getHealth() - damage)
+	health_changed.emit(damage,getHealth())
 	
 #use the move
 func useMove(move,targets):

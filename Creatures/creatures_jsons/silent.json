@@ -1,14 +1,14 @@
 {
-	"sprite":"siren",
+	"sprite": "silent",
 	"baseHealth": 5,
-	"baseAttack": 3,
+	"baseAttack": 5,
 	"baseSpeed": 5,
-	"name": "Siren",
+	"name": "Silent",
+	"flying": false,
 	"startMoves": [
 		"Bite",
 		"Grow",
-		"Slash",
-		"Lure"
+		"Slash"
 	],
 	"levelMoves": []
 }
