@@ -7,8 +7,7 @@
 	"flying": false,
 	"startMoves": [
 		"Bite",
-		"Grow",
-		"Slash"
+		"Grow"
 	],
-	"levelMoves": []
+	"levelMoves": [	"Slash", "Lure"]
 }

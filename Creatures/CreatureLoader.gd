@@ -4,6 +4,9 @@ class_name CreatureLoader extends Object
 
 static var CreatureJSONDir = "res://Creatures/creatures_jsons/"
 
+static func loadMove(moveName:String) -> Move:
+	return load("res://Moves/" + moveName + ".gd").new()
+
 #load from json
 static func loadJSON(file_path:String, startingLevel:int = 1) -> Creature:
 	var json = JSON.new()
@@ -17,7 +20,9 @@ static func loadJSON(file_path:String, startingLevel:int = 1) -> Creature:
 							json.data.baseSpeed if json.data.get("baseSpeed") else 1,
 							json.data.name if json.data.get("name") else "Creature",
 							startingLevel,
-							json.data.startMoves.map(func (moveName): return load("res://Moves/" + moveName + ".gd").new()) if json.data.get("startMoves") else []) 
+							json.data.startMoves.map(func (moveName:String): return loadMove(moveName)) if json.data.get("startMoves") else [],
+							json.data.levelMoves.map(func (moveName:String): return loadMove(moveName)) if json.data.get("levelMoves") else []
+							) 
 			creature.flying = json.data.flying if json.data.get("flying") != null else false
 			return creature
 		else:

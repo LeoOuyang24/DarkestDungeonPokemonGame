@@ -14,5 +14,8 @@ func setMove(move:Move) -> void:
 	else:
 		self.text = ""
 	
+func getMove() -> Move:
+	return move
+	
 func _pressed() -> void:
 	move_selected.emit(move)

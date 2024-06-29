@@ -9,7 +9,7 @@ var start:int = 0;
 func setSprite(newFrames:SpriteFrames):
 	var newSize = newFrames.get_frame_texture(currentAnimation,0).get_size()
 	self.frames = newFrames;
-	self.size = newSize
+	#self.size = newSize
 
 
 func getSprite():

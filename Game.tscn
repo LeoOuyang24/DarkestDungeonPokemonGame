@@ -10,6 +10,7 @@
 script = ExtResource("1_c6sbs")
 
 [node name="FadeOut" parent="." instance=ExtResource("5_lq1s6")]
+modulate = Color(0, 0, 0, 0)
 z_index = 5
 anchors_preset = 0
 anchor_right = 0.0
@@ -45,3 +46,5 @@ theme_override_font_sizes/font_size = 40
 text = "10000"
 
 [connection signal="room_selected" from="Scenes/Map" to="." method="_on_map_room_selected"]
+
+[editable path="FadeOut"]
