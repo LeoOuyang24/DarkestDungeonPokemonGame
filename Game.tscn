@@ -1,16 +1,20 @@
-[gd_scene load_steps=6 format=3 uid="uid://d2hi4k6uyeill"]
+[gd_scene load_steps=7 format=3 uid="uid://d2hi4k6uyeill"]
 
 [ext_resource type="Script" path="res://Game.gd" id="1_c6sbs"]
 [ext_resource type="PackedScene" uid="uid://cped8ka2riy3s" path="res://Map/Map.tscn" id="3_aqr5l"]
 [ext_resource type="PackedScene" uid="uid://csyroyi13nt66" path="res://Menus/TeamView.tscn" id="4_55i1y"]
 [ext_resource type="Texture2D" uid="uid://q5ilukk8h66k" path="res://sprites/icons/dna_icon.png" id="5_hauwm"]
 [ext_resource type="PackedScene" uid="uid://4iwnqm7b1q50" path="res://FadeOut.tscn" id="5_lq1s6"]
+[ext_resource type="PackedScene" uid="uid://dw4eh0gjt84fe" path="res://Menus/CreatureSummary.tscn" id="6_8p2fd"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_c6sbs")
 
+[node name="TeamView" parent="." instance=ExtResource("4_55i1y")]
+z_index = 2
+position = Vector2(16, 1136)
+
 [node name="FadeOut" parent="." instance=ExtResource("5_lq1s6")]
-modulate = Color(0, 0, 0, 0)
 z_index = 5
 anchors_preset = 0
 anchor_right = 0.0
@@ -22,21 +26,19 @@ grow_horizontal = 1
 grow_vertical = 1
 scale = Vector2(1, 1)
 
-[node name="TeamView" parent="." instance=ExtResource("4_55i1y")]
-z_index = 2
-position = Vector2(16, 1136)
-
 [node name="Scenes" type="Node" parent="."]
 
 [node name="Map" parent="Scenes" instance=ExtResource("3_aqr5l")]
 position = Vector2(1, 0)
 
 [node name="DNACounter" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(1640, 104)
 scale = Vector2(0.5, 0.451515)
 texture = ExtResource("5_hauwm")
 
 [node name="Label" type="Label" parent="DNACounter"]
+visible = false
 offset_left = 32.0
 offset_top = -24.0
 offset_right = 160.0
@@ -44,6 +46,9 @@ offset_bottom = 40.0
 theme_override_colors/font_color = Color(1, 0.690196, 0.533333, 1)
 theme_override_font_sizes/font_size = 40
 text = "10000"
+
+[node name="CreatureSummary" parent="." instance=ExtResource("6_8p2fd")]
+visible = false
 
 [connection signal="room_selected" from="Scenes/Map" to="." method="_on_map_room_selected"]
 

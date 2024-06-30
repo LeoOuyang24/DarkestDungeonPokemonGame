@@ -7,9 +7,8 @@
 bg_color = Color(0.352941, 0.352941, 0.352941, 1)
 
 [node name="TeamViewSlot" type="Node"]
-script = ExtResource("1_q3h1k")
 
 [node name="Button" parent="." instance=ExtResource("2_877em")]
 theme_override_styles/normal = SubResource("StyleBoxFlat_oow2y")
 script = ExtResource("1_q3h1k")
-theme_override_styles/normal = SubResource("StyleBoxFlat_oow2y")
+testing = false

@@ -76,7 +76,7 @@ func showTeamView():
 	var time = 0.5
 	if showTeam:
 		TeamView.updateTeamSlots(PlayerState.getPlayer(),PlayerState.getTeam())
-		tween.tween_property(TeamView, "position",Vector2(TeamView.position.x,0),0.25)
+		tween.tween_property(TeamView, "position",Vector2(TeamView.position.x,0.1*get_viewport().get_visible_rect().size.y),0.25)
 	else:
 		tween.tween_property(TeamView, "position",Vector2(TeamView.position.x,get_viewport().get_visible_rect().size.y),0.25)
 

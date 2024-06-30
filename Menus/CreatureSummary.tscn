@@ -83,20 +83,22 @@ script = ExtResource("1_g5kkb")
 
 [node name="LevelUp" type="Button" parent="Window"]
 layout_mode = 0
-offset_left = 976.0
-offset_top = 488.0
-offset_right = 1168.0
+offset_left = 917.0
+offset_top = 451.0
+offset_right = 1124.0
 offset_bottom = 584.0
 theme_override_styles/normal = SubResource("StyleBoxFlat_kujuv")
 text = "
 "
 
-[node name="Label" type="Label" parent="Window/LevelUp"]
+[node name="Label" type="RichTextLabel" parent="Window/LevelUp"]
 layout_mode = 0
-offset_left = 64.0
-offset_top = 16.0
-offset_right = 131.0
-offset_bottom = 39.0
+offset_left = 40.0
+offset_top = 14.0
+offset_right = 227.0
+offset_bottom = 74.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 30
 text = "Level Up"
 
 [node name="DNAIcon" type="Sprite2D" parent="Window/LevelUp"]
@@ -105,12 +107,13 @@ scale = Vector2(0.271429, 0.257576)
 texture = ExtResource("8_3dyu0")
 offset = Vector2(10, 0)
 
-[node name="Cost" type="Label" parent="Window/LevelUp"]
+[node name="Cost" type="RichTextLabel" parent="Window/LevelUp"]
 layout_mode = 0
 offset_left = 88.0
 offset_top = 56.0
-offset_right = 128.0
-offset_bottom = 79.0
+offset_right = 150.0
+offset_bottom = 103.0
+theme_override_font_sizes/normal_font_size = 30
 text = "10"
 
 [node name="LearnNewMove" parent="Window" instance=ExtResource("8_i1cfh")]

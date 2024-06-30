@@ -12,7 +12,7 @@ var creature:Creature = null
 @onready var LearnNewMove = $Window/LearnNewMove
 
 @onready var LevelUpButton:Button = $Window/LevelUp
-@onready var LevelUpCost:Label = $Window/LevelUp/Cost
+@onready var LevelUpCost:RichTextLabel = $Window/LevelUp/Cost
 @onready var Name:RichTextLabel = $Window/Stats/Name
 
 
@@ -79,9 +79,10 @@ func getLevelUpCost() -> int:
 	return creature.getLevel() if creature else 0
 		
 func levelUp():
-	Game.GameState.setDNA(Game.GameState.getDNA() - getLevelUpCost())
-	creature.levelUp()
-	updateCreature()
+	if creature:
+		Game.GameState.setDNA(Game.GameState.getDNA() - getLevelUpCost())
+		creature.levelUp()
+		updateCreature()
 	pass
 
 

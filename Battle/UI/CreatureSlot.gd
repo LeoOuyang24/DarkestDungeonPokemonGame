@@ -17,6 +17,13 @@ var tween = null
 #a reference to the creature we are referring to
 var creature:Creature = null 
 
+func setSize(size:Vector2) -> void:
+	Sprite.scale = size/get_size()
+
+func setHeight(height:int) -> void:
+	#setSize(Vector2(size.x,height))
+	Sprite.scale = (Vector2(0,0))
+
 func setCreature(creature:Creature):
 	self.creature = creature;
 	if creature:
@@ -82,8 +89,3 @@ func getTween():
 	tween.kill();
 	tween = create_tween()
 	return tween;
-
-
-
-
-

@@ -40,6 +40,7 @@ func addBigBoost(amount:int = 1):
 	
 func addBaseStat(amount:int) -> void:
 	baseStat += amount
+	changeStat(getStat() + amount)
 	stat_changed.emit(amount,baseStat)
 
 #change our stat	

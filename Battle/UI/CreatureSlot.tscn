@@ -16,7 +16,7 @@ Label/colors/font_outline_color = Color(0, 0, 0, 1)
 Label/constants/outline_size = 3
 Label/font_sizes/font_size = 32
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_553v5"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gsolc"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pb0ii"]
 
@@ -28,7 +28,7 @@ offset_top = 512.0
 offset_right = 1032.0
 offset_bottom = 640.0
 theme = SubResource("Theme_0s4jo")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_553v5")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_gsolc")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_pb0ii")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_yloso")
 script = ExtResource("1_kmmwv")
@@ -86,8 +86,6 @@ layout_mode = 0
 offset_left = 16.0
 offset_right = 56.0
 offset_bottom = 28.0
-text = "
-"
 
 [node name="AttackIcon" type="TextureRect" parent="Icons"]
 layout_mode = 0

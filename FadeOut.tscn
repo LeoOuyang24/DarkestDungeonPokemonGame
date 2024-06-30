@@ -31,6 +31,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(10.4692, 8.93412)
+mouse_filter = 2
 color = Color(0, 0, 0, 1)
 script = ExtResource("1_1qdes")
 
