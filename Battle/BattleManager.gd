@@ -29,13 +29,14 @@ var targets = []
 var playerCreature = null
 
 @export var testing:bool = false;
+
+var reward:Rewards = null
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	UI.target_selected.connect(handleTargetSelect)
 	UI.move_selected.connect(handleMoveSelect)
-	UI.battle_finished.connect(func ():
-		room_finished.emit()
-		)
+	UI.battle_finished.connect(battleFinished)
 	
 	
 	BattleSim.add_move_queue.connect(func (record:MoveRecord, index:int):
@@ -50,18 +51,15 @@ func _ready():
 	newTurn()
 
 func test():
-	#var ally1 = Creature.loadJSON("res://Creatures/creatures_jsons/chomper.json")
-	#var ally2 = Creature.loadJSON("res://Creatures/creatures_jsons/chomper.json")
-	var ally1 = CreatureLoader.create("spritesheets/creatures/chomper",100,"Chomper 1",[Bite.new()])
-	var ally2 = CreatureLoader.create("spritesheets/creatures/siren",100,"Chomper 2",[Lure.new(),Slash.new(),Grow.new()])
-	var ally3 = CreatureLoader.create("spritesheets/creatures/player",200,"Player")
-	
+	var ally1 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json")
+	var ally2 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json")
+	var ally3 = Player.new().getPlayer()
 	
 	ally2.speed = 11;
 	
-	var enemy1 = CreatureLoader.create("spritesheets/creatures/dreemer",100,"Dreemer 1")
-	var enemy2 = CreatureLoader.create("spritesheets/creatures/siren",100,"Dreemer 2")
-	var enemy3 = CreatureLoader.create("spritesheets/creatures/chomper",100,"Comper 3")
+	var enemy1 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/dreemer.json")
+	var enemy2 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/siren.json")
+	var enemy3 = CreatureLoader.loadJSON("res://Creatures/creautres_jsons/silent.json")
 	
 	enemy1.setMoves([Slash.new()]);
 	enemy2.setMoves([Bite.new()]);
@@ -92,18 +90,16 @@ func handleTargetSelect(index):
 			#BattleSim.addMoveToQueue(MoveRecord.new(BattleSim.getCurrentCreature(),currentMove,targets))
 			changeState(BATTLE_STATES.SELECTING_MOVE)
 
-func handleMoveSelect(moveIndex):
+func handleMoveSelect(move):
 		if state == BATTLE_STATES.SELECTING_MOVE:
 			#if invalid index, choose the pass turn move
 			#this happens when we press the pass button as well
-			if moveIndex == Creature.maxMoves: 
-				currentMove = PassTurn.new();
+			#var move = BattleSim.getCurrentCreature().getMove(moveIndex)
+			print(move)
+			if move:
+				currentMove = move;
 			else:
-				var move = BattleSim.getCurrentCreature().getMove(moveIndex)
-				if move:
-					currentMove = move;
-				else:
-					return #creature has less than max moves and we hit a blank button, do nothing
+				return #creature has less than max moves and we hit a blank button, do nothing
 			targetsNeeded = currentMove.getNumOfTargets();
 			changeState(BATTLE_STATES.SELECTING_TARGET)
 			if targetsNeeded == 0:
@@ -128,7 +124,6 @@ func createBattle(player,allies,enemies):
 
 	playerCreature = player
 	allies = [player] + allies
-	print(allies)
 	for i in range(allies.size()):
 		if allies[i] && allies[i].isAlive():
 			BattleSim.addCreature(allies[i],i);
@@ -152,7 +147,8 @@ func changeState(state):
 	elif self.state == BATTLE_STATES.WE_LOST:
 		UI.setEndScreen(false)
 	elif self.state == BATTLE_STATES.WE_WON:
-		UI.setEndScreen(true)
+		reward = Rewards.new(5)
+		UI.setEndScreen(true,reward)
 
 func isPlayerTurn():
 	return state != BATTLE_STATES.BATTLE && state != BATTLE_STATES.DONE;
@@ -197,3 +193,12 @@ func _process(delta):
 		pass;
 	pass
 
+func battleFinished():
+	if state == BATTLE_STATES.WE_WON:
+		Game.GameState.setDNA(Game.GameState.getDNA() + reward.getDNA())
+	room_finished.emit()
+	
+func _input(event):
+	if event is InputEventKey and event.pressed:
+		if event.keycode == KEY_BACKSLASH:
+			changeState(BATTLE_STATES.WE_WON)

@@ -45,7 +45,7 @@ func move(user, targets, battlefield):
 	for i in targets:
 		var target = battlefield.getCreature(i)
 		if target:
-			Creature.dealDamage(user,target,30);
+			Creature.dealDamage(user,target,user.getAttack()/2);
 		
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

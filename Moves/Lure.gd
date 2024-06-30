@@ -8,6 +8,9 @@ func _ready():
 func _init():
 	moveName = "Lure"
 
+func getPreselectedTargets(user:Creature, battle:Battlefield):	
+	return battle.getEnemies(user.getIsFriendly());
+
 func moveAnimationSequence(user, move, targets):
 	return []
 	pass
@@ -16,7 +19,7 @@ func doMoveSequence(user, move, targets):
 	var arr = []
 	var stuff = {}
 	arr.push_back(SequenceUnit.createSequenceUnit(func (d,b,u):
-		stuff.enemies = b.getEnemies(user.getIsFriendly())
+		stuff.enemies = targets
 		for i in range(stuff.enemies.size()-1,-1,-1):
 			if stuff.enemies[i]:
 				stuff.backMost = i

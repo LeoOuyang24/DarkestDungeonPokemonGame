@@ -1,15 +1,13 @@
 {
 	"sprite": "chomper",
-	"baseHealth": 100,
-	"baseDefense": 10,
-	"baseAttack": 20,
-	"baseSpeed": 10,
+	"baseHealth": 10,
+	"baseAttack": 3,
+	"baseSpeed": 3,
 	"name": "Chomper",
 	"flying": false,
 	"startMoves": [
 		"Bite",
-		"Grow",
-		"Slash"
+		"Grow"
 	],
-	"levelMoves": []
+	"levelMoves": [	"Slash", "Lure"]
 }

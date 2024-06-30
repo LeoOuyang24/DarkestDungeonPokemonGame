@@ -9,7 +9,7 @@ var start:int = 0;
 func setSprite(newFrames:SpriteFrames):
 	var newSize = newFrames.get_frame_texture(currentAnimation,0).get_size()
 	self.frames = newFrames;
-	self.size = newSize
+	#self.size = newSize
 
 
 func getSprite():
@@ -75,11 +75,8 @@ func setSize(size:Vector2):
 	self.scale = Vector2(size.y/self.size.x,size.y/self.size.y)
 
 func _process(delta):
-
 	if frames:
 		set_texture(getCurrentFrame());
 		
-func _draw():
-	pass
-	#draw_texture_rect(get_texture(),get_global_rect(),true)
+
 	

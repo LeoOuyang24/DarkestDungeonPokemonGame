@@ -9,6 +9,10 @@ var moveName = "move"
 #that the player has to manually choose
 var manualTargets:int = 0;
 
+#true if this move affects other creatures besides the user
+#useful for calculating if a move's lack of targets is due to it not needing targets
+#or because there are no valid targets
+var requiresTargets:bool = true;
 
 #what can we target? Only allies? Only enemies?
 #this only applies to manually targeting
@@ -88,10 +92,10 @@ func createMoveSequence(user, move,targetIndicies):
 
 
 	sequence.push_back(SequenceUnit.createSequenceUnit(func (d,b,u):
-		if targets.size() > 0 && !targets.reduce(func (accum, index):
+		if (manualTargets == 0 && targets.size() == 0 && requiresTargets) || (manualTargets > 0 && targets.size() > 0 && !targets.reduce(func (accum, index):
 			var target = b.getCreature(index);
 			return accum || (target && target.isAlive())
-			,false):
+			,false)):
 				return SequenceUnit.RETURN_VALS.TERMINATE
 		return SequenceUnit.RETURN_VALS.DONE	
 		))
