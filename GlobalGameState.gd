@@ -5,7 +5,10 @@ class_name GlobalGameState extends Object
 signal DNA_changed(amount)
 
 #amount of DNA we have
-var DNA:int = 100
+var DNA:int = 0
+
+func _init() -> void:
+	setDNA(5)
 
 func getDNA() -> int:
 	return DNA

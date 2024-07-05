@@ -28,6 +28,9 @@ func _init():
 	#sequence.append( unit)
 	#return sequence;
 	
+func runAnimation(user:Creature, enemies: Array, UI:BattleUI,battlefield:Battlefield) -> void:
+	await MoveAnimations.genericAttackAnimation(user,enemies,UI,self)
+	
 func getPreselectedTargets(user:Creature, battle:Battlefield):
 	var enemies = battle.getEnemies(user.getIsFriendly())
 	var targetsArr = []

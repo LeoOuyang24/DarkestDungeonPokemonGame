@@ -5,5 +5,7 @@
 
 [node name="BattleManager" type="Node2D"]
 script = ExtResource("1_ikfqa")
+testing = null
 
 [node name="BattleUI" parent="." instance=ExtResource("2_06xco")]
+state = null

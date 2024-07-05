@@ -2,6 +2,8 @@ class_name CreatureLoader extends Object
 
 #handles loading Creatures
 
+static var SpriteSheetsDir = "spritesheets/creatures/"
+
 static var CreatureJSONDir = "res://Creatures/creatures_jsons/"
 
 static func loadMove(moveName:String) -> Move:
@@ -11,10 +13,12 @@ static func loadMove(moveName:String) -> Move:
 static func loadJSON(file_path:String, startingLevel:int = 1) -> Creature:
 	var json = JSON.new()
 	var file = FileAccess.open(file_path,FileAccess.READ)
+	file = FileAccess.open(CreatureJSONDir + file_path,FileAccess.READ) if !file else file #if the file couldn't be found, maybe the path was only the filename and not the absolute path
+	file = FileAccess.open(CreatureJSONDir + file_path+".json",FileAccess.READ) if !file else file #if the file couldn't be found, maybe the path was only the creature name and not the filename nor abolute path
 	if file:
 		var error = json.parse(file.get_as_text())
 		if error == OK:
-			var creature = Creature.new("spritesheets/creatures/" + json.data.sprite if json.data.get("sprite") else "spritesheets/creatures/invalid",
+			var creature = Creature.new(SpriteSheetsDir + json.data.sprite if json.data.get("sprite") else "spritesheets/creatures/invalid",
 							json.data.baseHealth if json.data.get("baseHealth") else 1,
 							 json.data.baseAttack if json.data.get("baseAttack") else 1,
 							json.data.baseSpeed if json.data.get("baseSpeed") else 1,

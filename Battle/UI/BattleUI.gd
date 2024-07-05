@@ -25,6 +25,8 @@ signal battle_finished()
 #0-maxAllies is the indicies of the allies
 #maxAllies - maxAllies + maxEnemies is the indicies of the enemies
 #so the index 0 enemy would be at index maxAllies 
+#this array is ordered the exact same way it is in Battlefield, however, the visual positions will change
+#based on what is in front and what is in the back
 var creatureSlots = []
 
 var queueSlots = []
@@ -73,6 +75,7 @@ func removeCreature(creature:Creature):
 	for i in range(creatureSlots.size()):
 		if creatureSlots[i].getCreature() == creature:
 			creatureSlots[i].setCreature(null)
+			creatureSlots[i].set_visible(false)
 			index = i;
 	
 
@@ -191,7 +194,6 @@ func getMoveRect(index):
 	var screenRect = get_viewport_rect();
 	return Vector2(screenRect.get_center().x - screenRect.size.x/8 + screenRect.size.x/8*(index%2)
 			, screenRect.end.y - screenRect.size.y/3 + screenRect.size.y/8*(index/2));
-	
 
 #index of the creature,
 #-1 if not found
@@ -206,10 +208,6 @@ func getCreature(index:int):
 		return null
 	return creatureSlots[index].getCreature()
 
-#convert from an index to an index relative to the ally/enemy side
-func convertIndex(index:int):
-	return index if index < Battlefield.maxAllies else index - Battlefield.maxAllies
-
 #return the creature's position on the screen based on its index
 func getCreaturePos(index:int):
 	var rect = null; #rectangle we are trying to render to
@@ -223,8 +221,11 @@ func getCreaturePos(index:int):
 		rect = EnemyRow.get_rect();
 	
 	var boolin = (1 if isAlly else 0)
-	#set creature position in the battle field
-	return Vector2((rect.size.x)/max*(convertIndex(index)),0)
+
+	index = index - Battlefield.maxAllies*int(!isAlly)
+	if isAlly:
+		index = Battlefield.maxAllies - 1- index #have to flip index in order 
+	return Vector2((rect.size.x)/max*(index),0)
 
 func getCreatureGlobalPos(ind:int):
 	var row = AllyRow if ind < Battlefield.maxAllies else EnemyRow
@@ -251,19 +252,20 @@ func addCreature(creature:Creature, index:int):
 				#creatureSlots[index].Sprite.transform.origin.y = -50
 			#else:
 				#creatureSlots[index].Sprite.transform.origin.y = creatureSlots[index].get_rect().get_center().y
-
+	creatureSlots[index].visible = (creature != null)
 			
 func setBattleText(str:String):
 	BattleLog.set_text(str);
 
 #set a move's animation
 func setBattleSprite(sprite:SpriteFrames,pos:Vector2=BattleSpriteRect.get_rect().get_center()) -> void:
-	BattleSprite.setSprite(sprite)
+	if sprite:
+		BattleSprite.setSprite(sprite)
 
-	BattleSprite.set_global_position( pos - BattleSprite.get_global_rect().size*0.5)
-	BattleSprite.play();
-	#BattleSprite.setSize(BattleSpriteRect.get_size())
-	BattleSprite.visible = true;
+		BattleSprite.set_global_position( pos - BattleSprite.get_global_rect().size*0.5)
+		BattleSprite.play();
+		#BattleSprite.setSize(BattleSpriteRect.get_size())
+		BattleSprite.visible = true;
 
 	
 func stopBattleSprite():

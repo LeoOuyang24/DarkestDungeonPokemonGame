@@ -8,12 +8,20 @@ func _ready():
 func _init():
 	moveName = "Grow"
 	requiresTargets = false
-
-func moveAnimationSequence(user, move, targets):
-	return Move.createBoostStatsSequence([user], true);
 	
-func postMoveSequence(user, move, targets):
-	return [SequenceUnit.createTextUnit(user.getName() + "\'s Attack doubled!")]
+func getPostMoveMessage(user:Creature, targets:Array) -> String:
+	return user.getName() + "'s attack doubled!"
+	
+func runAnimation(user,targets,UI,battlefield:Battlefield):
+	var slot = UI.getCreatureSlot(user)
+	var tween = slot.getTween()
+	UI.setBattleSprite(SpriteLoader.getSprite("effects/upArrow"),slot.get_global_position())
+	tween.tween_property(UI.BattleSprite,"modulate",Color(0,0,0,-1),1)
+	tween.tween_callback(func():
+		UI.BattleSprite.modulate = Color.WHITE;
+		UI.stopBattleSprite();
+		)	
+	await tween.finished
 	
 func move(user,targets, battlefield):
 	user.attack.changeStat(user.getAttack()*2)

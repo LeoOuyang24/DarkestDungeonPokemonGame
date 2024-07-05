@@ -32,6 +32,12 @@ var playerCreature = null
 
 var reward:Rewards = null
 
+func getBattleSim() -> Battlefield:
+	return BattleSim
+	
+func getBattleUI() -> BattleUI:
+	return UI
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	UI.target_selected.connect(handleTargetSelect)
@@ -39,9 +45,9 @@ func _ready():
 	UI.battle_finished.connect(battleFinished)
 	
 	
-	BattleSim.add_move_queue.connect(func (record:MoveRecord, index:int):
+	BattleSim.add_move_queue.connect(func (record:Move.MoveRecord, index:int):
 		UI.addCreatureToQueue(record.user,index))
-	BattleSim.remove_move_queue.connect(func (record:MoveRecord):
+	BattleSim.remove_move_queue.connect(func (record:Move.MoveRecord):
 		UI.removeCreatureFromQueue(record.user));
 	BattleSim.creature_died.connect(handleDeath)
 
@@ -95,7 +101,6 @@ func handleMoveSelect(move):
 			#if invalid index, choose the pass turn move
 			#this happens when we press the pass button as well
 			#var move = BattleSim.getCurrentCreature().getMove(moveIndex)
-			print(move)
 			if move:
 				currentMove = move;
 			else:
@@ -141,9 +146,7 @@ func changeState(state):
 		UI.choosingTargets(true,currentMove.targetingCriteria)
 		UI.setBattleText("Choose targets!");
 	elif self.state == BATTLE_STATES.BATTLE:
-		var nextMove = BattleSim.moveQueue.topSequence()
-		if nextMove:
-			sequencer.insert(nextMove);	
+		await runBattle()
 	elif self.state == BATTLE_STATES.WE_LOST:
 		UI.setEndScreen(false)
 	elif self.state == BATTLE_STATES.WE_WON:
@@ -166,32 +169,74 @@ func reset():
 	BattleSim.reset();
 	pass
 
+func runMove(user:Creature,move:Move,targets:Array) -> void:
+
+	targets.append_array(move.getPreselectedTargets(user,BattleSim))
+	UI.setBattleText(user.getName() + " used " + move.getMoveName() + "!")
+	await get_tree().create_timer(1).timeout
+	
+	await move.runAnimation(user,targets,UI,BattleSim)
+	
+	move.move(user,targets,BattleSim)
+	
+	if move.getPostMessage(user,targets) != "":
+		UI.setBattleText(move.getPostMessage(user,targets))
+		await get_tree().create_timer(1).timeout
+
+func runDeath(dead:Creature) -> void:
+	UI.setBattleText(dead.getName() + " died.")
+	await get_tree().create_timer(1).timeout
+	
+	UI.removeCreature(dead)
+	BattleSim.removeCreature(dead)
+	
+
+var curMove:Move.MoveRecord = null
+
+func runBattle():
+	curMove = BattleSim.popAndTop()
+
+	while curMove:
+		await runMove(curMove.user,curMove.move,curMove.targets)
+		UI.resetAllSlotPos()
+		var dead = BattleSim.checkForDeath()
+		while dead != -1:
+			await runDeath(BattleSim.getCreature(dead))
+			dead = BattleSim.checkForDeath()
+		curMove = BattleSim.popAndTop()	
+		
+	newTurn();	
+
+
+
+	changeState(BATTLE_STATES.SELECTING_MOVE)
+	
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	UI.setBattleState(BattleSim);
 	if isPlayerTurn():
 		if BattleSim.allMovesProcessed():
 			changeState(BATTLE_STATES.BATTLE)
-		pass;
-	else:
-		if state == BATTLE_STATES.DONE:
-			UI.EndScreen.set_visible(true)
-		else:
-			if !sequencer.done():
-				sequencer.run(delta,self);
-			else:
-				#check if anyone died
-				UI.resetAllSlotPos()
-				if !BattleSim.checkForDeath():
-					#get the next move
-					var nextMove = BattleSim.popAndTop()
-					if nextMove != null:
-						sequencer.insert(nextMove);
-					else:
-						#no more moves to do
-						newTurn();
-		pass;
-	pass
+	#else:
+		#if state == BATTLE_STATES.DONE:
+			#UI.EndScreen.set_visible(true)
+		#else:
+			#if curMove:
+				#await runMove(curMove.user,curMove.move,curMove.targets)
+			#UI.resetAllSlotPos()
+			#
+			##check if anyone died
+			#if !BattleSim.checkForDeath():
+				##get the next move
+				#var nextMove = BattleSim.popAndTop()
+				#if nextMove != null:
+					#curMove = nextMove
+				#else:
+					##no more moves to do
+					#newTurn();
+		#pass;
+	#pass
 
 func battleFinished():
 	if state == BATTLE_STATES.WE_WON:

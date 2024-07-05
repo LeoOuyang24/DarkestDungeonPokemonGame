@@ -9,13 +9,14 @@ func _init():
 
 	pass # Replace with function body.
 
-func move(ally, enemies, battlefield):
+func move(user:Creature, enemies:Array, battlefield):
 	if len(enemies) > 0: #just to be safe, make sure we are actually targeting something
 
-		Creature.dealDamage(ally,battlefield.getCreature(enemies[0]),ally.getAttack()); #realistically the player should only be targeting one enemy, but even if they target multiple, we only hit the first
-	super.move(ally,enemies,battlefield)
+		Creature.dealDamage(user,battlefield.getCreature(enemies[0]),user.getAttack()); #realistically the player should only be targeting one enemy, but even if they target multiple, we only hit the first
 	pass
 	
+func runAnimation(user:Creature, targets:Array, UI:BattleUI,battlefield:Battlefield) -> void:
+	await MoveAnimations.genericAttackAnimation(user,targets,UI,self)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

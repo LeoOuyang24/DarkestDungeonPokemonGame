@@ -5,6 +5,6 @@ class_name PassTurn extends Move
 func _init():
 	moveName = "Pass Turn"
 
-func createMoveSequence(user, move,targets):
+func createMoveSequence(user, move,targets,battlefield:Battlefield):
 	return []
 

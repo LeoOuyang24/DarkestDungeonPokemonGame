@@ -4,8 +4,10 @@ class_name CreatureSlot extends Button
 
 @export var testing:bool = false
 
-@onready var Sprite= $Sprite
+
+@onready var Sprite:AnimatedSprite2D = $Sprite
 @onready var HealthBar = $HealthBar;
+@onready var Animations = $Animations;
 
 @onready var HealthIcon = $Icons/HealthIcon/Label
 @onready var SpeedIcon = $Icons/SpeedIcon/Label
@@ -17,35 +19,30 @@ var tween = null
 #a reference to the creature we are referring to
 var creature:Creature = null 
 
-func setSize(size:Vector2) -> void:
-	Sprite.scale = size/get_size()
+func setSprite(spriteFrames:SpriteFrames) -> void:
+	Sprite.sprite_frames = spriteFrames;
+	
+	#make sure sprite isnt' too big
+	var vec2 = Sprite.sprite_frames.get_frame_texture("default",0).get_size()
+	var larger = max(vec2.x,vec2.y)
+	if larger >= MAX_DIMEN:
+		Sprite.scale = Vector2(MAX_DIMEN/larger,MAX_DIMEN/larger)
+	else:
+		Sprite.scale = Vector2(1,1)
 
-func setHeight(height:int) -> void:
-	#setSize(Vector2(size.x,height))
-	Sprite.scale = (Vector2(0,0))
+	#adjust position so sprite doesn't block the healthbar
+	setTransform(getTransform().translated(Vector2(0,-max(0,Sprite.position.y + Sprite.scale.y*vec2.y/2  - (HealthBar.position.y - HEALTH_MARGIN )))))
+
+	Sprite.play()
 
 func setCreature(creature:Creature):
 	self.creature = creature;
 	if creature:
-		HealthBar.set_max(creature.getMaxHealth())
-		HealthBar.setHealth(creature.getHealth())
-		Sprite.sprite_frames = creature.spriteFrame;
-		
-		#make sure sprite isnt' too big
-		var vec2 = Sprite.sprite_frames.get_frame_texture("default",0).get_size()
-		var larger = max(vec2.x,vec2.y)
-		if larger >= MAX_DIMEN:
-			Sprite.scale = Vector2(MAX_DIMEN/larger,MAX_DIMEN/larger)
-		else:
-			Sprite.scale = Vector2(1,1)
-
-		#adjust position so sprite doesn't block the healthbar
-		setTransform(getTransform().translated(Vector2(0,-max(0,Sprite.position.y + Sprite.scale.y*vec2.y/2  - (HealthBar.position.y - HEALTH_MARGIN )))))
-
-		Sprite.play()
-		
-		set_visible(true)
-		
+		setSprite(creature.spriteFrame)
+		#set_visible(true)
+		if (HealthBar):
+			HealthBar.set_max(creature.getMaxHealth())
+			HealthBar.setHealth(creature.getHealth())
 		creature.health.stat_changed.connect(func (dmg,newHealth):
 			HealthIcon.set_text(str(newHealth))
 			)
@@ -61,9 +58,16 @@ func setCreature(creature:Creature):
 		AttackIcon.set_text(str(creature.getAttack()))
 		SpeedIcon.set_text(str(creature.getSpeed()))
 		
-		
-	else:
-		set_visible(false)
+		creature.health_changed.connect(tookDamage)
+	#else:
+		#set_visible(false)
+	
+func tookDamage(_damage:int,_newHealth:int) -> void:
+	Animations.play("hurt")
+	
+func setAnimation(string:String) -> void:
+	if Sprite and Sprite.sprite_frames and Sprite.sprite_frames.has_animation(string):
+		Sprite.set_animation(string)
 	
 #useful if you want to apply a transform to Sprites
 func setTransform(transform:Transform2D):
@@ -81,6 +85,7 @@ func _ready():
 	
 	if testing:
 		setCreature(CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json"))
+	
 	#icon = load("res://sprites/dialga.png")
 	pass # Replace with function body.
 

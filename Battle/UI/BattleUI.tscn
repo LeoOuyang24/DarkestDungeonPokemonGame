@@ -9,6 +9,7 @@
 
 [node name="BattleUI" type="Node2D"]
 script = ExtResource("1_0uu34")
+state = null
 
 [node name="BattleSpriteRect" type="ReferenceRect" parent="."]
 offset_left = 512.0
@@ -105,8 +106,8 @@ texture = ExtResource("4_ul5b1")
 [node name="BattleSprite" type="TextureRect" parent="."]
 offset_left = 424.0
 offset_top = 80.0
-offset_right = 552.0
-offset_bottom = 208.0
+offset_right = 766.0
+offset_bottom = 443.0
 script = ExtResource("5_33c7b")
 
 [node name="TurnQueue" type="ColorRect" parent="."]

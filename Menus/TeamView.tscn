@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://csyroyi13nt66"]
+[gd_scene load_steps=5 format=3 uid="uid://csyroyi13nt66"]
 
 [ext_resource type="Script" path="res://Menus/TeamView.gd" id="1_womks"]
 [ext_resource type="PackedScene" uid="uid://bqsfei63od030" path="res://Battle/UI/CreatureSlot.tscn" id="2_cnmu6"]
 [ext_resource type="PackedScene" uid="uid://dw4eh0gjt84fe" path="res://Menus/CreatureSummary.tscn" id="3_lyigu"]
+[ext_resource type="PackedScene" uid="uid://bw6j6bvjpxcit" path="res://Menus/CreateHorror.tscn" id="4_yluxj"]
 
 [node name="TeamView" type="Node2D"]
 script = ExtResource("1_womks")
@@ -13,10 +14,9 @@ position = Vector2(18, 227)
 scale = Vector2(0.54, 0.54)
 
 [node name="TeamSlotsRect" type="ReferenceRect" parent="."]
-offset_left = 2.0
-offset_top = 121.0
-offset_right = 1126.0
-offset_bottom = 326.0
+offset_top = 123.0
+offset_right = 1124.0
+offset_bottom = 328.0
 
 [node name="ColorRect" type="ColorRect" parent="."]
 z_index = -1
@@ -32,3 +32,11 @@ offset_top = 0.0
 offset_right = 208.0
 offset_bottom = 128.0
 testing = false
+
+[node name="CreateHorror" parent="." instance=ExtResource("4_yluxj")]
+offset_left = 2.0
+offset_top = 329.0
+offset_right = 1125.0
+offset_bottom = 712.0
+
+[connection signal="horror_created" from="CreateHorror" to="." method="_on_create_horror_horror_created"]

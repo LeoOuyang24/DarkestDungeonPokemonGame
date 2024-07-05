@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bqsfei63od030"]
+[gd_scene load_steps=13 format=3 uid="uid://bqsfei63od030"]
 
 [ext_resource type="Script" path="res://Battle/UI/CreatureSlot.gd" id="1_kmmwv"]
 [ext_resource type="PackedScene" uid="uid://bjln7kkve4d5a" path="res://Battle/UI/health_bar.tscn" id="2_1ocdj"]
@@ -21,6 +21,27 @@ Label/font_sizes/font_size = 32
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pb0ii"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yloso"]
+
+[sub_resource type="Animation" id="Animation_d5gto"]
+resource_name = "hurt"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2kvni"]
+_data = {
+"hurt": SubResource("Animation_d5gto")
+}
 
 [node name="Button" type="Button"]
 offset_left = 904.0
@@ -101,5 +122,10 @@ layout_mode = 0
 offset_left = 8.0
 offset_right = 48.0
 offset_bottom = 23.0
+
+[node name="Animations" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_2kvni")
+}
 
 [editable path="HealthBar"]

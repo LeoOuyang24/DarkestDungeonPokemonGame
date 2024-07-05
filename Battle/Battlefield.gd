@@ -9,6 +9,9 @@ var currentCreature = 0;
 const maxAllies = 5;
 const maxEnemies = 4;
 
+#the list of creatures
+#the way this is set up is a bit weird but intentional. The idea is that lower index = closer to the front
+#as a result, the format is frontMost ally -> backMost ally -> frontMost enemy -> backMost enemy
 var creatures = []
 #map of each creature to the record of what move they are using
 var movesSelected = {};
@@ -16,8 +19,8 @@ var movesSelected = {};
 var moveQueue = MoveQueue.new();
 
 signal creature_died(creature:Creature);
-signal add_move_queue(record:MoveRecord, index:int);
-signal remove_move_queue(record:MoveRecord);
+signal add_move_queue(record:Move.MoveRecord, index:int);
+signal remove_move_queue(record:Move.MoveRecord);
 
 enum BATTLE_STATES {
 	PLAYER_TURN,
@@ -44,7 +47,7 @@ func _init():
 #this function converts relative to absolute
 #friendly is "true" if "ind" is relative to allies, "false" if relative to enemies
 static func relPosToAbs(ind:int, friendly:bool):
-	return (-1 if friendly else 1)*ind + maxAllies - int(friendly)
+	return ind + int(!friendly)*maxAllies
 	
 
 
@@ -122,7 +125,7 @@ func _ready():
 func getAllies(isFriendly:bool = true):
 	if isFriendly:
 		var allies = []
-		for i in range(maxAllies - 1,-1,-1):
+		for i in range(maxAllies):
 			allies.push_back(creatures[i])
 		return allies
 	else:
@@ -148,25 +151,24 @@ func newTurn():
 		if creatures[i]:
 			addMoveToQueue(Creature.AI(creatures[i],getEnemies(),getAllies()));
 
-#check if any creatures have died between moves
-#emitting a signal if yes
-func checkForDeath():
+#returning the index of the first dead creature if any or -1 if none
+func checkForDeath() -> int:
 	#I have to pass this in as an Array otherwise the lambda captures it by
 	#value as opposed to by reference
 	var found = false
 	for i in range(creatures.size()):
 		if (creatures[i] && !creatures[i].isAlive()):
-			found = true
-			creature_died.emit(creatures[i]);
+			return i
+			
 
-	return found
+	return -1
 
 func dealDamage(damage:int, target:Creature,attacker:Creature):
 	# "a" deals damage to "b", based on attack and defense stats. "damage" is the base damage
 	target.takeDamage((attacker.getAttack()/target.getDefense())*damage);
 
 #add a move to the move queue
-func addMoveToQueue(record:MoveRecord):
+func addMoveToQueue(record:Move.MoveRecord):
 	if record.user:
 		#var preselected = record.move.getPreselectedTargets(allies,enemies); #get preselected targets and add them to our targets
 		#record.targets.append_array(preselected)
@@ -174,7 +176,7 @@ func addMoveToQueue(record:MoveRecord):
 		#insert the move and emit signal of its index
 		add_move_queue.emit(record,moveQueue.data.size() - moveQueue.insert(record));
 		
-func removeMoveFromQueue(record:MoveRecord):
+func removeMoveFromQueue(record:Move.MoveRecord):
 	if movesSelected[record.user]:
 		#slightly more efficient to pop if we can
 		if record == moveQueue.top():
@@ -186,9 +188,10 @@ func removeMoveFromQueue(record:MoveRecord):
 
 #remove the topmost move and return the next move 
 func popAndTop():
-	if moveQueue.top():
-		removeMoveFromQueue(moveQueue.top())
-		return moveQueue.topSequence();
+	var top = moveQueue.top()
+	if top:
+		removeMoveFromQueue(top)
+		return top;
 	return null
 #returns whether all players have selected a move
 func allMovesProcessed():
@@ -201,7 +204,7 @@ func clearMovesSelected():
 	movesSelected.clear();
 
 func handlePlayerMove(user, move, targets):
-	addMoveToQueue(MoveRecord.new(user,move,targets))
+	addMoveToQueue(Move.MoveRecord.new(user,move,targets))
 	#whether or not theres another ally that hasn't taken a turn yet
 
 	for i in range(0,maxAllies):

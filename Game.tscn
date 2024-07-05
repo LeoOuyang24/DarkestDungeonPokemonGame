@@ -32,13 +32,11 @@ scale = Vector2(1, 1)
 position = Vector2(1, 0)
 
 [node name="DNACounter" type="Sprite2D" parent="."]
-visible = false
 position = Vector2(1640, 104)
 scale = Vector2(0.5, 0.451515)
 texture = ExtResource("5_hauwm")
 
 [node name="Label" type="Label" parent="DNACounter"]
-visible = false
 offset_left = 32.0
 offset_top = -24.0
 offset_right = 160.0
@@ -51,5 +49,3 @@ text = "10000"
 visible = false
 
 [connection signal="room_selected" from="Scenes/Map" to="." method="_on_map_room_selected"]
-
-[editable path="FadeOut"]

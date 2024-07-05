@@ -3,7 +3,7 @@ class_name Creature extends Object
 
 #signal for when health changes
 #emits the amount it changed by as well as the new value
-signal health_changed(amount, newHealth)
+signal health_changed(amount:int, newHealth:int)
 
 signal leveled_up()
 signal big_boosted(amountLeft) #signal for when we big boost a stat, with the amount of boosts left emitted as well
@@ -86,7 +86,7 @@ func _init( sprite_path:String, maxHealth_:int,baseAttack_:int,baseSpeed_:int, n
 	maxLevelUpMoves = levelUpMoves.size()
 
 func _ready():
-	setHealth(getMaxHealth())
+	setStat(STATS.HEALTH,getMaxHealth())
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	pass
@@ -156,7 +156,10 @@ func getBaseStat(stat:STATS) -> int:
 func setStat(stat:STATS,amount:int) -> void:
 	var statTracker:Stat = getStatTracker(stat)
 	if statTracker:
+		var changedAmount = amount - statTracker.getStat()
 		statTracker.changeStat(amount)
+		if statTracker == health:
+			health_changed.emit(changedAmount,amount)
 
 func bigBoostStat(stat:STATS) -> void:
 	#this function will apply a big boost to the given stat. Note that it does NOT check if a big boost
@@ -187,10 +190,6 @@ func getMaxHealth() -> int:
 
 func getHealth() -> int:
 	return health.getStat();
-	
-func setHealth(amount:int) -> void:
-	health.changeStat(min(amount,getMaxHealth())) #ensure our health never goes above max
-
 
 func isAlive():
 	return getHealth() > 0
@@ -202,8 +201,8 @@ func setMoves(attacks_):
 func takeDamage(damage):
 
 	damage = max(damage,1); #ensure damage is at least 1
-	setHealth(getHealth() - damage)
-	health_changed.emit(damage,getHealth())
+	setStat(STATS.HEALTH,getHealth() - damage)
+
 	
 #use the move
 func useMove(move,targets):
@@ -219,7 +218,7 @@ func getRandomMove():
 #given a creature, its allies, and its targets,
 #run the AI for the creature
 #return the move it would use
-static func AI(user,allies,enemies) -> MoveRecord:
+static func AI(user,allies,enemies) -> Move.MoveRecord:
 	if len(user.moves) > 0 and len(enemies) > 0:
 		var move = user.getRandomMove()
 		var targets = []
@@ -236,7 +235,7 @@ static func AI(user,allies,enemies) -> MoveRecord:
 			while (chosen == -1 || targetArray[chosen] == null || targets.find(chosen) != -1) && targets.size()< targetArray.size():
 				chosen = randi()%targetArray.size()
 			targets.push_back(chosen)
-		return MoveRecord.new(user,move,targets)
+		return Move.MoveRecord.new(user,move,targets)
 	return null
 		#user.attacks[randi()%len(user.attacks)].move(user,[targets[0]])
 		

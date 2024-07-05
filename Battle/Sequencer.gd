@@ -19,19 +19,6 @@ func insert(sequence:Array):
 	#always insert out sequences at the beginning
 	sequences.insert(0, sequence)
 	
-#TODO: I've literally never used this, maybe it's time I remove it LMAO
-func insertUrgent(sequence:Array):
-	#insert a sequence "urgently" allowing it to run as soon as possible without interrupting
-	#our current sequence. This is either the 2nd-to-last element (2nd in the queue)
-	#if there is a sequence running, or last element (1st in the queue) if the current
-	#sequence hasn't started running
-	var index = 0;
-	if sequences.size() > 0:
-		if curUnit == 0:
-			index = sequences.size() ;
-		else:
-			index = sequences.size() - 1;
-	sequences.insert(index,sequence);
 func done():
 	return sequences.size() == 0	
 
@@ -52,4 +39,19 @@ func run(delta, obj):
 				curUnit = 0;
 				
 
+func runAsync(delta, obj:BattleManager):
+	if sequences.size() > 0:
+		#get the result, or default to DONE if there are no sequence Units
+		var result = sequences[-1][curUnit].run(delta,obj) if sequences[-1].size() > 0 else SequenceUnit.RETURN_VALS.DONE
+		if result == SequenceUnit.RETURN_VALS.DONE: #if we are done with this unit ...
+			if curUnit >= sequences[-1].size() - 1:
+				#done with this sequence, set up for the next one
+				sequences.pop_back();
+				curUnit = 0;
+			else:
+				#advance to the next unit
+				curUnit += 1;
+		elif result == SequenceUnit.RETURN_VALS.TERMINATE:
+			sequences.pop_back();
+			curUnit = 0;
 
