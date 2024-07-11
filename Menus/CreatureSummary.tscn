@@ -1,11 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://dw4eh0gjt84fe"]
+[gd_scene load_steps=8 format=3 uid="uid://dw4eh0gjt84fe"]
 
 [ext_resource type="Script" path="res://Menus/CreatureSummary.gd" id="1_6r03a"]
 [ext_resource type="Script" path="res://sprites/Anime.gd" id="1_g5kkb"]
 [ext_resource type="Texture2D" uid="uid://c1u1tuqrcdmmc" path="res://sprites/icons/claw_icon.png" id="3_ffpxe"]
 [ext_resource type="PackedScene" uid="uid://cd45jqff33kg0" path="res://Menus/StatBar.tscn" id="4_qu7fa"]
 [ext_resource type="Texture2D" uid="uid://dkm5fbovv5fr" path="res://sprites/icons/speed_icon.png" id="4_xyj4n"]
-[ext_resource type="Texture2D" uid="uid://q5ilukk8h66k" path="res://sprites/icons/dna_icon.png" id="8_3dyu0"]
 [ext_resource type="PackedScene" uid="uid://r8n1fpesak6r" path="res://Menus/LearnNewMove.tscn" id="8_i1cfh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kujuv"]
@@ -101,20 +100,14 @@ mouse_filter = 2
 theme_override_font_sizes/normal_font_size = 30
 text = "Level Up"
 
-[node name="DNAIcon" type="Sprite2D" parent="Window/LevelUp"]
-position = Vector2(60, 64)
-scale = Vector2(0.271429, 0.257576)
-texture = ExtResource("8_3dyu0")
-offset = Vector2(10, 0)
-
 [node name="Cost" type="RichTextLabel" parent="Window/LevelUp"]
 layout_mode = 0
-offset_left = 88.0
-offset_top = 56.0
-offset_right = 150.0
-offset_bottom = 103.0
+offset_left = 59.0
+offset_top = 61.0
+offset_right = 202.0
+offset_bottom = 227.0
 theme_override_font_sizes/normal_font_size = 30
-text = "10"
+bbcode_enabled = true
 
 [node name="LearnNewMove" parent="Window" instance=ExtResource("8_i1cfh")]
 offset_left = 8.0

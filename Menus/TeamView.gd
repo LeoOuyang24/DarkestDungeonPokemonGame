@@ -1,10 +1,9 @@
 extends Node2D
 
-@onready var TeamSlotsRect = $TeamSlotsRect
-@onready var PlayerSlot = $PlayerSlot
+@onready var TeamSlotsRect = $Window/TeamSlotsRect
 @onready var TeamSlots = []
-@onready var CreatureSummary = $CreatureSummary
-@onready var CreateHorror = $CreateHorror
+@onready var CreatureSummary = $Window/CreatureSummary
+@onready var CreateHorror = $Window/CreateHorror
 
 var CreatureSlotScene = preload("res://Battle/UI/CreatureSlot.tscn")
 
@@ -46,12 +45,13 @@ func addTeamSlot():
 	#TODO: Maybe change this to not have to hardcode the icons?
 	#maybe create a TeamViewSlot scene
 	slot.set_script(load("res://Menus/TeamViewSlot.gd"))
-	slot.get_node("Icons").set_visible(false)
-	slot.pressed.connect(func():
-		viewSummary(slot)
-		)
+	#slot.get_node("Icons").set_visible(false)
+
 	TeamSlots.push_back(slot)
 	TeamSlotsRect.add_child(slot)
+	slot.getConnection().connect(func():
+		viewSummary(slot)
+		)
 
 	
 func viewSummary(teamSlot:CreatureSlot):

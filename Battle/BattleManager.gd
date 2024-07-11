@@ -30,6 +30,9 @@ var playerCreature = null
 
 @export var testing:bool = false;
 
+#current move being run
+var curMove:Move.MoveRecord = null
+
 var reward:Rewards = null
 
 func getBattleSim() -> Battlefield:
@@ -61,17 +64,11 @@ func test():
 	var ally2 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json")
 	var ally3 = Player.new().getPlayer()
 	
-	ally2.speed = 11;
 	
 	var enemy1 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/dreemer.json")
 	var enemy2 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/siren.json")
-	var enemy3 = CreatureLoader.loadJSON("res://Creatures/creautres_jsons/silent.json")
+	var enemy3 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/silent.json")
 	
-	enemy1.setMoves([Slash.new()]);
-	enemy2.setMoves([Bite.new()]);
-	enemy3.setMoves([Lure.new()])
-	ally3.setMoves([SwapPos.new()])
-	enemy2.speed = 10;
 	
 	createBattle(
 		ally3,
@@ -189,13 +186,10 @@ func runDeath(dead:Creature) -> void:
 	
 	UI.removeCreature(dead)
 	BattleSim.removeCreature(dead)
-	
 
-var curMove:Move.MoveRecord = null
 
 func runBattle():
 	curMove = BattleSim.popAndTop()
-
 	while curMove:
 		await runMove(curMove.user,curMove.move,curMove.targets)
 		UI.resetAllSlotPos()
@@ -204,6 +198,7 @@ func runBattle():
 			await runDeath(BattleSim.getCreature(dead))
 			dead = BattleSim.checkForDeath()
 		curMove = BattleSim.popAndTop()	
+
 		
 	newTurn();	
 

@@ -1,0 +1,125 @@
+[gd_scene load_steps=6 format=3 uid="uid://r8n1fpesak6r"]
+
+[ext_resource type="Script" path="res://Menus/LearnNewMove.gd" id="1_4fl2n"]
+[ext_resource type="Texture2D" uid="uid://jjclmd1ee8cj" path="res://sprites/effects/upArrow.png" id="1_8xwyf"]
+[ext_resource type="Script" path="res://Battle/UI/MoveButton.gd" id="2_lpgbc"]
+
+[sub_resource type="Animation" id="Animation_3uda2"]
+resource_name = "new_animation"
+length = 0.5
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -10), Vector2(0, 10)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gyhqp"]
+_data = {
+"new_animation": SubResource("Animation_3uda2")
+}
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 560.0
+offset_top = 192.0
+offset_right = 1192.0
+offset_bottom = 416.0
+scale = Vector2(1.5, 1.5)
+script = ExtResource("1_4fl2n")
+
+[node name="Moves" type="Control" parent="."]
+anchors_preset = 0
+
+[node name="Button" type="Button" parent="Moves"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.031
+anchor_bottom = 0.04
+offset_left = 48.0
+offset_right = 136.0
+offset_bottom = 64.0
+script = ExtResource("2_lpgbc")
+
+[node name="Button3" type="Button" parent="Moves"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.031
+anchor_bottom = 0.04
+offset_left = 48.0
+offset_top = 104.0
+offset_right = 136.0
+offset_bottom = 168.0
+script = ExtResource("2_lpgbc")
+
+[node name="Button2" type="Button" parent="Moves"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.031
+anchor_bottom = 0.04
+offset_left = 240.0
+offset_right = 328.0
+offset_bottom = 65.0
+script = ExtResource("2_lpgbc")
+
+[node name="Button4" type="Button" parent="Moves"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.031
+anchor_bottom = 0.04
+offset_left = 240.0
+offset_top = 104.0
+offset_right = 328.0
+offset_bottom = 168.0
+script = ExtResource("2_lpgbc")
+
+[node name="NewMove" type="ColorRect" parent="."]
+offset_left = 456.0
+offset_right = 552.0
+offset_bottom = 64.0
+color = Color(0.254902, 0.254902, 0.254902, 1)
+
+[node name="ArrowSprite" type="Sprite2D" parent="NewMove"]
+position = Vector2(-69.4999, 80)
+rotation = -1.5708
+scale = Vector2(0.60111, 0.628367)
+texture = ExtResource("1_8xwyf")
+offset = Vector2(0, -1.38672)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="NewMove/ArrowSprite"]
+libraries = {
+"": SubResource("AnimationLibrary_gyhqp")
+}
+autoplay = "new_animation"
+
+[node name="Confirm" type="Button" parent="NewMove"]
+layout_mode = 0
+offset_left = 16.3333
+offset_top = 106.333
+offset_right = 87.3333
+offset_bottom = 137.333
+disabled = true
+text = "Confirm"
+
+[node name="Pending" type="Button" parent="NewMove"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.031
+anchor_bottom = 0.04
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 88.024
+offset_bottom = 55.44
+script = ExtResource("2_lpgbc")
+
+[node name="LearnNewMove" type="Node2D" parent="NewMove"]
+
+[connection signal="pressed" from="NewMove/Confirm" to="." method="_on_confirm_pressed"]

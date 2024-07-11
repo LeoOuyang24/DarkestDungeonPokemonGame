@@ -77,7 +77,10 @@ func _init():
 	
 #set dimensions of the sprite
 func setSize(size:Vector2):
-	self.scale = Vector2(size.y/self.size.x,size.y/self.size.y)
+	self.size = size
+
+func getFrameSize(frame:int = 0,animation:StringName = "default") -> Vector2:
+	return frames.get_frame_texture(animation,frame).get_size()
 
 func _process(delta):
 	if frames:

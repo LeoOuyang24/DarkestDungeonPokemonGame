@@ -9,7 +9,6 @@
 
 [node name="BattleUI" type="Node2D"]
 script = ExtResource("1_0uu34")
-state = null
 
 [node name="BattleSpriteRect" type="ReferenceRect" parent="."]
 offset_left = 512.0
@@ -42,6 +41,7 @@ offset_left = 768.0
 offset_top = 920.0
 offset_right = 1280.0
 offset_bottom = 1104.0
+mouse_filter = 2
 
 [node name="Button" type="Button" parent="Moves"]
 layout_mode = 1

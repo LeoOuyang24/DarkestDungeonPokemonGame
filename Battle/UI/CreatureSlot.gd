@@ -1,13 +1,13 @@
-class_name CreatureSlot extends Button
+class_name CreatureSlot extends Control
 
 #represents the visual representation of a creature on the battlefield
 
 @export var testing:bool = false
 
 
-@onready var Sprite:AnimatedSprite2D = $Sprite
+@onready var Sprite = $Button
 @onready var HealthBar = $HealthBar;
-@onready var Animations = $Animations;
+@onready var Animations = $Button/Animations;
 
 @onready var HealthIcon = $Icons/HealthIcon/Label
 @onready var SpeedIcon = $Icons/SpeedIcon/Label
@@ -19,21 +19,27 @@ var tween = null
 #a reference to the creature we are referring to
 var creature:Creature = null 
 
+func getConnection()-> Signal:
+	return Sprite.pressed
+
+#overrides the AnimatedButton setSprite
 func setSprite(spriteFrames:SpriteFrames) -> void:
-	Sprite.sprite_frames = spriteFrames;
+	Sprite.setSprite(spriteFrames)
+	#Sprite.sprite_frames = spriteFrames;
 	
 	#make sure sprite isnt' too big
-	var vec2 = Sprite.sprite_frames.get_frame_texture("default",0).get_size()
+	var vec2 = Sprite.sprite.getFrameSize()
 	var larger = max(vec2.x,vec2.y)
 	if larger >= MAX_DIMEN:
-		Sprite.scale = Vector2(MAX_DIMEN/larger,MAX_DIMEN/larger)
-	else:
-		Sprite.scale = Vector2(1,1)
+		#Sprite.scale = Vector2(MAX_DIMEN/larger,MAX_DIMEN/larger)
+		Sprite.setSize(Vector2(MAX_DIMEN,MAX_DIMEN))
+	#else:
+		#Sprite.scale = Vector2(1,1)
+	#adjust position so sprite doesn't block the stats
+	#I feel like there's an easier way to do this but I don't know it lmao
+	#grow direction didn't work for me
+	Sprite.position.y = -Sprite.size.y
 
-	#adjust position so sprite doesn't block the healthbar
-	setTransform(getTransform().translated(Vector2(0,-max(0,Sprite.position.y + Sprite.scale.y*vec2.y/2  - (HealthBar.position.y - HEALTH_MARGIN )))))
-
-	Sprite.play()
 
 func setCreature(creature:Creature):
 	self.creature = creature;
@@ -58,23 +64,19 @@ func setCreature(creature:Creature):
 		AttackIcon.set_text(str(creature.getAttack()))
 		SpeedIcon.set_text(str(creature.getSpeed()))
 		
-		creature.health_changed.connect(tookDamage)
+		creature.health_changed.connect(healthChanged)
+		
+		Sprite.sprite.flip_h = creature.getIsFriendly()
 	#else:
 		#set_visible(false)
 	
-func tookDamage(_damage:int,_newHealth:int) -> void:
-	Animations.play("hurt")
+func healthChanged(damage:int,_newHealth:int) -> void:
+	if (damage < 0):
+		Animations.play("hurt")
+		
 	
 func setAnimation(string:String) -> void:
-	if Sprite and Sprite.sprite_frames and Sprite.sprite_frames.has_animation(string):
-		Sprite.set_animation(string)
-	
-#useful if you want to apply a transform to Sprites
-func setTransform(transform:Transform2D):
-	Sprite.transform = transform
-	
-func getTransform():
-	return Sprite.transform
+	Sprite.changeAnimation(string)
 
 func getCreature():
 	return self.creature
@@ -84,8 +86,9 @@ func _ready():
 	setCreature(null)
 	
 	if testing:
-		setCreature(CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json"))
-	
+		setCreature(CreatureLoader.loadJSON("res://Creatures/creatures_jsons/silent.json"))
+	#setSize(Vector2(100,100))
+	#Sprite.setSize(Vector2(50,50))
 	#icon = load("res://sprites/dialga.png")
 	pass # Replace with function body.
 

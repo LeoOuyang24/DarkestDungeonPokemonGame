@@ -23,7 +23,9 @@ func _ready():
 	Health.setMaxWidth(statRect.global_position.x + statRect.size.x - Health.Bar.global_position.x)
 	Attack.setMaxWidth(statRect.global_position.x + statRect.size.x - Attack.Bar.global_position.x)
 	Speed.setMaxWidth(statRect.global_position.x + statRect.size.x - Speed.Bar.global_position.x)
-	
+	#[img width="20%"][/img]10
+	LevelUpCost.add_image(load("res://sprites/icons/dna_icon.png"),20,0,Color(1, 1, 1, 1),5,Rect2(0, 0, 0, 0), null,false,"Level up your creature at the cost of DNA",true)
+	LevelUpCost.append_text("0")
 	#setCreature(CreatureLoader.loadJSON("res://Creatures/creatures_jsons/beholder.json"))
 	pass # Replace with function body.
 	
@@ -46,7 +48,8 @@ func setCreature(creature:Creature) -> void:
 	
 func updateCreature() -> void:
 #	update the level up cost
-	LevelUpCost.set_text(str(getLevelUpCost()))	
+	LevelUpCost.append_text(str(getLevelUpCost()))
+	print(LevelUpCost.text)	
 	if getLevelUpCost() > Game.GameState.getDNA():
 		LevelUpButton.disabled = true
 	else:
