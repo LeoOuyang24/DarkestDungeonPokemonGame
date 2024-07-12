@@ -10,11 +10,11 @@ class_name MoveQueue extends Node
 #this is slighly more efficient since popping back is faster than popping first
 var data = [];
 
-func remove(moveInfo:MoveRecord):
+func remove(moveInfo:Move.MoveRecord):
 	data.erase(moveInfo);
 
 #insert a move. returning the index
-func insert(moveInfo:MoveRecord) -> int:
+func insert(moveInfo:Move.MoveRecord) -> int:
 	#omega inefficient but Godot doesn't have binary trees ARRGHGHGGHGHG 		
 	for i in range(data.size()):
 		#>= creates a "first come first serve" tie breaker.
@@ -44,7 +44,7 @@ func top():
 func topSequence():
 	var returnVal = null;
 	if data.size() > 0:
-		returnVal = data[data.size() - 1].getSequence();
+		returnVal = data[data.size() - 1];
 	return returnVal;
 	
 func pop():

@@ -41,6 +41,7 @@ offset_left = 768.0
 offset_top = 920.0
 offset_right = 1280.0
 offset_bottom = 1104.0
+mouse_filter = 2
 
 [node name="Button" type="Button" parent="Moves"]
 layout_mode = 1
@@ -105,8 +106,8 @@ texture = ExtResource("4_ul5b1")
 [node name="BattleSprite" type="TextureRect" parent="."]
 offset_left = 424.0
 offset_top = 80.0
-offset_right = 552.0
-offset_bottom = 208.0
+offset_right = 766.0
+offset_bottom = 443.0
 script = ExtResource("5_33c7b")
 
 [node name="TurnQueue" type="ColorRect" parent="."]

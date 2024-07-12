@@ -1,14 +1,19 @@
 extends Node2D
 
-@onready var TeamSlotsRect = $TeamSlotsRect
-@onready var PlayerSlot = $PlayerSlot
+@onready var TeamSlotsRect = $Window/TeamSlotsRect
 @onready var TeamSlots = []
-@onready var CreatureSummary = $CreatureSummary
+@onready var CreatureSummary = $Window/CreatureSummary
+@onready var CreateHorror = $Window/CreateHorror
 
 var CreatureSlotScene = preload("res://Battle/UI/CreatureSlot.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	for i in range(Battlefield.maxAllies):
+		addTeamSlot()
+	Game.PlayerState.team_changed.connect(func ():
+		updateTeamSlots(Game.PlayerState.getPlayer(),Game.PlayerState.getTeam())
+		)
 	pass # Replace with function body.
 
 #update the team state
@@ -19,13 +24,9 @@ func updateTeamSlots(player,allies):
 	#PlayerSlot.setCreature(player)
 	#add allies, adding any necessary slots in the process
 	allies = [player] + allies
-	for i in range(allies.size()):
-		if i>= TeamSlots.size():
-			addTeamSlot()
-		TeamSlots[i].setCreature(allies[i])
-	#remove any excess slots
-	for i in range(TeamSlots.size() - allies.size()):
-		TeamSlots[i].remove_at(allies.size() + i)
+	for i in range(TeamSlots.size()):
+		var creature = allies[i] if i < allies.size() else null
+		TeamSlots[i].setCreature(creature)
 	
 #add a new teamslot
 #adds to the end of TeamSlots
@@ -41,22 +42,33 @@ func addTeamSlot():
 	
 	slot.position = Vector2(slotPadding*2*(TeamSlots.size()), 
 							topMargin)
+	#TODO: Maybe change this to not have to hardcode the icons?
+	#maybe create a TeamViewSlot scene
 	slot.set_script(load("res://Menus/TeamViewSlot.gd"))
-	slot.pressed.connect(func():
-		viewSummary(slot)
-		)
+	#slot.get_node("Icons").set_visible(false)
+
 	TeamSlots.push_back(slot)
 	TeamSlotsRect.add_child(slot)
+	slot.getConnection().connect(func():
+		viewSummary(slot)
+		)
 
 	
 func viewSummary(teamSlot:CreatureSlot):
 	if teamSlot.getCreature():
+		CreateHorror.visible = false
 		CreatureSummary.visible = true
 		CreatureSummary.setCreature(teamSlot.getCreature())
 	else:
+		CreateHorror.visible = true
 		CreatureSummary.visible = false
 	
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+
+
+func _on_create_horror_horror_created(creature):
+	Game.PlayerState.addCreatureToTeam(creature)
+	pass # Replace with function body.

@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://bw6j6bvjpxcit"]
+
+[ext_resource type="Script" path="res://Menus/CreateHorror.gd" id="1_e0tjc"]
+
+[node name="CreateHorror" type="ColorRect"]
+z_index = -1
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 1275.0
+offset_bottom = 699.0
+mouse_filter = 2
+color = Color(0.188235, 0.188235, 0.188235, 1)
+script = ExtResource("1_e0tjc")

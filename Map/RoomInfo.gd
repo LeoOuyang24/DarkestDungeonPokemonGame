@@ -27,8 +27,9 @@ func _init(newRoomType = ROOM_TYPES.BATTLE):
 	match newRoomType:
 		ROOM_TYPES.BATTLE:
 			spritePath = "res://sprites/map/enemy_room.png"
-			for i in range(randi()%Battlefield.maxEnemies + 1):
-				enemies.push_back(CreatureLoader.getRandCreature())
+			#for i in range(randi()%Battlefield.maxEnemies + 1):
+				#enemies.push_back(CreatureLoader.getRandCreature())
+			enemies = [CreatureLoader.loadJSON("chomper"),CreatureLoader.loadJSON("silent"),null,CreatureLoader.loadJSON("beholder")]
 		ROOM_TYPES.WELL:
 			spritePath = "res://sprites/map/well_icon.png"
 			pass

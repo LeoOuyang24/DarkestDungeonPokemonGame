@@ -8,48 +8,67 @@ func _ready():
 func _init():
 	moveName = "Lure"
 
+#our targets are all non-null enemies
 func getPreselectedTargets(user:Creature, battle:Battlefield):	
-	return battle.getEnemies(user.getIsFriendly());
-
-func moveAnimationSequence(user, move, targets):
-	return []
-	pass
-
-func doMoveSequence(user, move, targets):
-	var arr = []
-	var stuff = {}
-	arr.push_back(SequenceUnit.createSequenceUnit(func (d,b,u):
-		stuff.enemies = targets
-		for i in range(stuff.enemies.size()-1,-1,-1):
-			if stuff.enemies[i]:
-				stuff.backMost = i
-				break
-		for i in range(stuff.enemies.size()):
-			if stuff.enemies[i]:
-				stuff.frontMost = i
-				break
-		return SequenceUnit.RETURN_VALS.DONE))
+	var allEnemies = battle.getEnemies(user.getIsFriendly());
+	var targets = []
+	for i in range(allEnemies.size()):
+		if allEnemies[i]:
+			targets.push_back(battle.relPosToAbs(i,!user.getIsFriendly()))
+	return targets
 		
-	arr.push_back(SequenceUnit.createSequenceUnit(func (d,b,u):
-				var curIndex = stuff.backMost
-				var loop = func (i): #idk how to explain this lol. It basically lets us loop through all the enemies
-					return i%(stuff.backMost - stuff.frontMost + 1) + stuff.frontMost
-				var weDone = false
-				while stuff.enemies[loop.call(curIndex)]:#loop until an enemy moves into an empty space
-					var absIndex = b.relPosToAbs(loop.call(curIndex),!user.getIsFriendly())
-					var nextAbs = b.relPosToAbs(loop.call(curIndex+1),!user.getIsFriendly())
-					var returnVal = Move.moveTowards(absIndex,nextAbs,u,true)
-					if (returnVal == SequenceUnit.RETURN_VALS.DONE): #if done with moving animation
-						b.swapCreature(absIndex,b.relPosToAbs(stuff.backMost,!user.getIsFriendly()))
-						weDone = true
-					curIndex += 1
-					if (loop.call(curIndex) == stuff.backMost):
-						break
-				#print(stuff.backMost," ", loop.call(curIndex + 1))
-				if (weDone && stuff.backMost > loop.call(curIndex)): #if done with moving animation
-					b.swapCreature(b.relPosToAbs(stuff.backMost,!user.getIsFriendly()),b.relPosToAbs(loop.call(curIndex ),!user.getIsFriendly()))
-				return SequenceUnit.RETURN_VALS.DONE if weDone else SequenceUnit.RETURN_VALS.NOT_DONE))			
-	return arr
+		
+#the way lure works requires us to process our targets in a very specific way.
+#this function makes it so that when we do the processing first in "runAnimation" and then in "move"
+#the code is DRY. We could bypass this by simply baking the move funtionality into the "runAnimation"
+#but for now I want to keep move animations and the acutal move function contained in their own functions
+func processTargets(enemies:Array, battlefield:Battlefield,lambda:Callable) -> void:
+	var backMost = enemies[-1] #index of the rear-most enemy
+	var frontMost = enemies[0] #index of the front-most enemy
+
+	var loop = func (i): #basically converts an creature slot index to an index within the range of "frontMost" - "backMost"
+				return (i - frontMost)%(backMost - frontMost + 1) + frontMost
+	var curIndex = backMost
+
+	while battlefield.getCreature(curIndex):#loop until an enemy moves into an empty space
+		var nextIndex = loop.call(curIndex+1)
+		lambda.call(curIndex,nextIndex)
+
+		if nextIndex == backMost: #this occurs if we have gone through all creatures and none of them were null
+			break
+		else:
+			curIndex = nextIndex	
+	
+#visually swap the creatures around
+func runAnimation(user:Creature,enemies:Array,UI:BattleUI,battlefield:Battlefield):
+	#tracks the last tween made so we can await it
+	#by making it an object/hash table, the variable can be modified by the function we pass into "processTargets"
+	var lastTween = {} 
+	var time = 0.25
+	processTargets(enemies,battlefield,func(curIndex,nextIndex):
+		var slot = UI.getCreatureSlot(curIndex)
+		var nextSlot = UI.getCreatureSlot(nextIndex)
+		var tween = slot.getTween().tween_property(slot,"global_position",nextSlot.global_position,time)
+		lastTween.tween = tween
+		)
+
+	await lastTween.tween.finished
+	
+#actually swap the creatures around
+func move(user:Creature,enemies:Array,battle:Battlefield):
+	var reserve:Dictionary = {}
+	reserve.reserve = battle.getCreature(enemies[-1])
+
+	processTargets(enemies,battle,func(curIndex,nextIndex):
+		if reserve.reserve:
+			var temp:Creature = battle.getCreature(nextIndex)
+			battle.addCreature(reserve.reserve,nextIndex)
+			reserve.reserve = temp
+
+		)
+	#this is only true if there is a gap somewhere between the enemies (a null slot between the backmost and frontmost enemies)
+	if enemies.size() < enemies[-1] - enemies[0] + 1: 
+		battle.addCreature(null,enemies[-1])
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
