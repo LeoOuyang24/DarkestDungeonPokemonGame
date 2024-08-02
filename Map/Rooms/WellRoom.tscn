@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://dm5gsh3mg802h"]
+[gd_scene load_steps=5 format=3 uid="uid://dm5gsh3mg802h"]
 
 [ext_resource type="Texture2D" uid="uid://dd6jihljgpemy" path="res://sprites/backgrounds/well_background.png" id="1_3l7mv"]
 [ext_resource type="Script" path="res://Map/Rooms/WellRoom.gd" id="1_v6qic"]
+[ext_resource type="PackedScene" uid="uid://ch2yb5r50w7yo" path="res://Menus/RichButton.tscn" id="3_0d4si"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ce6o"]
-bg_color = Color(0, 0, 0, 1)
+[sub_resource type="Theme" id="Theme_8hc7r"]
+RichTextLabel/font_sizes/normal_font_size = 50
 
 [node name="WellRoom" type="Node2D"]
 script = ExtResource("1_v6qic")
@@ -23,38 +24,59 @@ offset_bottom = 1080.0
 mouse_filter = 2
 color = Color(0, 0, 0, 0.654902)
 
-[node name="Drink" type="Button" parent="InputMenu"]
+[node name="Drink" parent="InputMenu" instance=ExtResource("3_0d4si")]
 layout_mode = 0
-offset_left = 304.0
-offset_top = 520.0
-offset_right = 624.0
-offset_bottom = 672.0
+offset_left = 301.0
+offset_top = 523.0
+offset_right = 616.0
+offset_bottom = 670.0
 theme_override_font_sizes/font_size = 50
-theme_override_styles/normal = SubResource("StyleBoxFlat_7ce6o")
-text = "Drink"
 
-[node name="DeepDrink" type="Button" parent="InputMenu"]
+[node name="RichTextLabel" parent="InputMenu/Drink" index="0"]
+offset_left = -108.0
+offset_top = -57.0
+offset_right = 108.0
+offset_bottom = 57.0
+theme = SubResource("Theme_8hc7r")
+bbcode_enabled = true
+text = "[center]Drink
+[font_size=20][color=green]Restore 25% health to all alies[/color][/font_size][/center]"
+
+[node name="DeepDrink" parent="InputMenu" instance=ExtResource("3_0d4si")]
 layout_mode = 0
 offset_left = 696.0
-offset_top = 520.0
-offset_right = 1016.0
-offset_bottom = 672.0
-theme_override_font_sizes/font_size = 50
-theme_override_styles/normal = SubResource("StyleBoxFlat_7ce6o")
-text = "Drink
- Deeply"
+offset_top = 523.0
+offset_right = 1011.0
+offset_bottom = 670.0
 
-[node name="Study" type="Button" parent="InputMenu"]
+[node name="RichTextLabel" parent="InputMenu/DeepDrink" index="0"]
+offset_left = -158.0
+offset_top = -65.0
+offset_right = 158.0
+offset_bottom = 65.0
+theme = SubResource("Theme_8hc7r")
+theme_override_font_sizes/normal_font_size = 45
+bbcode_enabled = true
+text = "[center]Drink Deeply
+[font_size=20][color=green]Restore 50% health to yourself[/color][/font_size][/center]"
+
+[node name="Study" parent="InputMenu" instance=ExtResource("3_0d4si")]
 layout_mode = 0
-offset_left = 1080.0
-offset_top = 520.0
-offset_right = 1400.0
-offset_bottom = 672.0
-theme_override_font_sizes/font_size = 30
-theme_override_styles/normal = SubResource("StyleBoxFlat_7ce6o")
-text = "Study 
-the 
-Contents"
+offset_left = 1082.0
+offset_top = 522.0
+offset_right = 1397.0
+offset_bottom = 669.0
+theme_override_font_sizes/font_size = 50
+
+[node name="RichTextLabel" parent="InputMenu/Study" index="0"]
+offset_left = -108.0
+offset_top = -57.0
+offset_right = 108.0
+offset_bottom = 57.0
+theme = SubResource("Theme_8hc7r")
+bbcode_enabled = true
+text = "[center]Study
+[font_size=20][color=purple]Gain 10 DNA[/color][/font_size][/center]"
 
 [node name="ButtonsMenu" type="ReferenceRect" parent="InputMenu"]
 layout_mode = 0
@@ -74,4 +96,6 @@ mouse_filter = 2
 theme_override_font_sizes/normal_font_size = 32
 text = "You approach a foul smelling well."
 
-[connection signal="pressed" from="InputMenu/Drink" to="InputMenu" method="buttonPressed"]
+[editable path="InputMenu/Drink"]
+[editable path="InputMenu/DeepDrink"]
+[editable path="InputMenu/Study"]

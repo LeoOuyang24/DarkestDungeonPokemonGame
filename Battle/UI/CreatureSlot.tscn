@@ -1,14 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://bqsfei63od030"]
+[gd_scene load_steps=11 format=3 uid="uid://bqsfei63od030"]
 
 [ext_resource type="Script" path="res://Battle/UI/CreatureSlot.gd" id="1_kmmwv"]
 [ext_resource type="PackedScene" uid="uid://bjln7kkve4d5a" path="res://Battle/UI/health_bar.tscn" id="2_1ocdj"]
 [ext_resource type="Texture2D" uid="uid://dkm5fbovv5fr" path="res://sprites/icons/speed_icon.png" id="5_p6tri"]
-[ext_resource type="SpriteFrames" uid="uid://bpdgu318ejv40" path="res://sprites/spritesheets/creatures/silent.tres" id="6_1uliv"]
-[ext_resource type="Script" path="res://sprites/UI/AnimatedButton.gd" id="6_bkhu7"]
 [ext_resource type="Texture2D" uid="uid://c1u1tuqrcdmmc" path="res://sprites/icons/claw_icon.png" id="6_tf2ss"]
 [ext_resource type="Texture2D" uid="uid://cfqgl40ppp05u" path="res://sprites/icons/heart_icon.png" id="7_57i0h"]
 
-[sub_resource type="Animation" id="Animation_d5gto"]
+[sub_resource type="Animation" id="Animation_yci5t"]
 resource_name = "hurt"
 length = 0.4
 tracks/0/type = "value"
@@ -24,51 +22,110 @@ tracks/0/keys = {
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_2kvni"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6k17u"]
 _data = {
-"hurt": SubResource("Animation_d5gto")
+"hurt": SubResource("Animation_yci5t")
 }
 
-[node name="Control" type="Control"]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 744.0
-offset_top = 496.0
-offset_right = 744.0
-offset_bottom = 496.0
-size_flags_horizontal = 0
-mouse_filter = 2
+[sub_resource type="Theme" id="Theme_gsgrq"]
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/font_sizes/font_size = 40
+
+[sub_resource type="Animation" id="Animation_g1k0o"]
+resource_name = "hurt"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../DamageTicker:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(8, -16), Vector2(40, -56), Vector2(64, -80), Vector2(128, -40), Vector2(192, 112)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../DamageTicker:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pb7ge"]
+_data = {
+"hurt": SubResource("Animation_g1k0o")
+}
+
+[node name="Button" type="TextureButton"]
+offset_right = 200.0
+offset_bottom = 216.0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+ignore_texture_size = true
+stretch_mode = 4
 script = ExtResource("1_kmmwv")
-testing = true
 
-[node name="Button" type="TextureButton" parent="."]
+[node name="HealthBar" parent="." instance=ExtResource("2_1ocdj")]
 layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-grow_vertical = 0
-script = ExtResource("6_bkhu7")
-source = ExtResource("6_1uliv")
-
-[node name="Animations" type="AnimationPlayer" parent="Button"]
-root_node = NodePath("")
-libraries = {
-"": SubResource("AnimationLibrary_2kvni")
-}
-
-[node name="Icons" type="ReferenceRect" parent="."]
-layout_mode = 1
-anchors_preset = 12
+anchors_preset = 7
+anchor_left = 0.5
 anchor_top = 1.0
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
+offset_left = -68.0
+offset_top = 6.0
+offset_right = 68.0
+offset_bottom = 22.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="HealthIcon" type="TextureRect" parent="Icons"]
+[node name="Label" parent="HealthBar" index="0"]
+theme_override_font_sizes/font_size = 12
+text = "100"
+
+[node name="SpriteAnimations" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_6k17u")
+}
+
+[node name="Icons" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.78
+anchor_top = 0.76
+anchor_right = 0.78
+anchor_bottom = 0.76
+offset_left = 6.10352e-05
+offset_top = 1.52588e-05
+offset_right = 50.0001
+offset_bottom = 50.0
+size_flags_vertical = 3
+theme = SubResource("Theme_gsgrq")
+
+[node name="AttackIcon" type="TextureRect" parent="Icons"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+texture = ExtResource("6_tf2ss")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="Icons/AttackIcon"]
 layout_mode = 0
-offset_left = 40.0
-offset_right = 80.0
-offset_bottom = 32.0
+offset_left = 8.0
+offset_right = 48.0
+offset_bottom = 23.0
+
+[node name="HealthIcon" type="TextureRect" parent="Icons"]
+visible = false
+layout_mode = 2
 texture = ExtResource("7_57i0h")
 expand_mode = 2
 stretch_mode = 5
@@ -82,10 +139,9 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 
 [node name="SpeedIcon" type="TextureRect" parent="Icons"]
-layout_mode = 0
-offset_left = -8.0
-offset_right = 32.0
-offset_bottom = 32.0
+visible = false
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
 texture = ExtResource("5_p6tri")
 expand_mode = 2
 stretch_mode = 5
@@ -96,29 +152,28 @@ offset_left = 16.0
 offset_right = 56.0
 offset_bottom = 28.0
 
-[node name="AttackIcon" type="TextureRect" parent="Icons"]
-layout_mode = 0
-offset_left = 88.0
-offset_right = 120.0
-offset_bottom = 32.0
-texture = ExtResource("6_tf2ss")
-expand_mode = 2
-stretch_mode = 5
-
-[node name="Label" type="Label" parent="Icons/AttackIcon"]
-layout_mode = 0
-offset_left = 8.0
-offset_right = 48.0
-offset_bottom = 23.0
-
-[node name="HealthBar" parent="." instance=ExtResource("2_1ocdj")]
+[node name="DamageTicker" type="RichTextLabel" parent="."]
 visible = false
-offset_left = -58.0
-offset_top = 58.0
-offset_right = 22.0
-offset_bottom = 85.0
+layout_mode = 2
+offset_left = 226.72
+offset_top = 208.384
+offset_right = 306.72
+offset_bottom = 272.384
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "[color=red]-1[/color]"
 
-[node name="Label" parent="HealthBar" index="0"]
-text = ""
+[node name="Animation" type="AnimationPlayer" parent="DamageTicker"]
+root_node = NodePath("")
+libraries = {
+"": SubResource("AnimationLibrary_pb7ge")
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 2
+offset_left = 34.7199
+offset_top = 144.384
+offset_right = 114.72
+offset_bottom = 144.384
 
 [editable path="HealthBar"]

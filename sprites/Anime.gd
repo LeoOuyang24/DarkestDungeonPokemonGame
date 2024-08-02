@@ -9,9 +9,9 @@ signal looping() #when the animation loops
 var start:int = 0; 
 
 func setSprite(newFrames:SpriteFrames):
+	self.frames = newFrames;
 	if newFrames:
 		var newSize = newFrames.get_frame_texture(currentAnimation,0).get_size()
-		self.frames = newFrames;
 		set_texture(getCurrentFrame());
 		#self.size = newSize
 
@@ -80,7 +80,9 @@ func setSize(size:Vector2):
 	self.size = size
 
 func getFrameSize(frame:int = 0,animation:StringName = "default") -> Vector2:
-	return frames.get_frame_texture(animation,frame).get_size()
+	if frames:
+		return frames.get_frame_texture(animation,frame).get_size()
+	return Vector2(0,0)
 
 func _process(delta):
 	if frames:

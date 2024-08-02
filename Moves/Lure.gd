@@ -7,6 +7,7 @@ func _ready():
 
 func _init():
 	moveName = "Lure"
+	summary = "Bring the rearmost enemy to the front, pushing all other enemies back by one spot."
 
 #our targets are all non-null enemies
 func getPreselectedTargets(user:Creature, battle:Battlefield):	

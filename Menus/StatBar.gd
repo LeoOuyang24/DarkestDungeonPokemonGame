@@ -53,11 +53,10 @@ func setCreature(creature:Creature, stat:Creature.STATS):
 			BigBoost.set_visible(creature.getPendingBigBoosts()>0)
 			)
 	
-
+#set the maximum width our bar can grow to
 func setMaxWidth(maxWidth:int) -> void:
 	self.maxWidth = maxWidth
 	self.width = (maxWidth-10)/Creature.MAX_LEVEL
-	BigBoost.position = Vector2(Bar.position.x + width*(Creature.MAX_LEVEL + 10),StatLabel.position.y)
 
 func _ready():
 	Bar.color = BarColor

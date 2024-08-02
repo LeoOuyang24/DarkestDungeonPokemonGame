@@ -1,13 +1,14 @@
 class_name Bite extends Move
 
 
-var texture = Anime.new()
 # Called when the node enters the scene tree for the first time.
 func _init():
-	moveName = "Bite"
-	manualTargets = 1
-
+	super("Bite",0,1)
+	summary = "Deal 1x damage to frontmost target"
 	pass # Replace with function body.
+
+func getPreselectedTargets(user:Creature, battle:Battlefield):
+	return battle.getFrontMostCreatures(1,user.getIsFriendly())
 
 func move(user:Creature, enemies:Array, battlefield):
 	if len(enemies) > 0: #just to be safe, make sure we are actually targeting something

@@ -1,39 +1,59 @@
-class_name Room extends TextureButton
+class_name Room extends Area2D
 
+@onready var anime = $anime
+@onready var sprite = $Sprite2D
+@onready var shape = $CollisionShape2D
+
+var scene = preload("res://Map/Room.tscn")
 
 signal new_room(room)
 
 #represents whether or not a room has been visited
-enum VISITED_STATE
+enum ROOM_STATE
 {
-	UNVISITED, #unvisisted
+	ACCESSIBLE, #unvisisted but accessible
 	INACCESSIBLE, #unvisited and currently unreachable 
 	VISITED, #has been visited
 	CURRENT #is the room we are currently in
 }
 
-var visited:VISITED_STATE = VISITED_STATE.INACCESSIBLE;
+enum ROOM_TYPES
+{
+	BATTLE, #your standard fighting room
+	WELL
+}
 
+var visited:ROOM_STATE = ROOM_STATE.INACCESSIBLE;
+var roomType:ROOM_TYPES = ROOM_TYPES.BATTLE
 #column and room num of the room
 #basically coordinates on the map
 var colNum = 0;
 var roomNum = 0;
 
-var roomInfo:RoomInfo = null
+static func getRoomIcon(roomType:ROOM_TYPES):
+	var spritePath = ""
+	match roomType:
+		ROOM_TYPES.BATTLE:
+			spritePath = "res://sprites/map/enemy_room.png"
+		ROOM_TYPES.WELL:
+			spritePath = "res://sprites/map/well_room.png"
+			pass
+	var texture = load(spritePath)	
+	return texture
 
-func _init(info:RoomInfo):
-	roomInfo = info
+func setRoomType(roomType:ROOM_TYPES):
+	self.roomType = roomType
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	if roomInfo:
-		texture_normal = roomInfo.getTexture()
-	
-	changeState(VISITED_STATE.INACCESSIBLE)
-	pressed.connect(func():
-		new_room.emit(roomInfo)
-	)
-	pass # Replace with function body.
+	sprite.texture = getRoomIcon(roomType)
+	#pivot_offset = texture_normal.rec
+	changeState(ROOM_STATE.INACCESSIBLE)
+	#pressed.connect(func():
+		#new_room.emit(roomType)
+		#)
+
+
+func getRoomType() -> ROOM_TYPES:
+	return self.roomType
 
 func getColNum():
 	return colNum
@@ -41,25 +61,40 @@ func getColNum():
 func getRoomNum():
 	return roomNum
 
-func getRoomInfo():
-	return roomInfo
+func get_rect() -> Rect2:
+	return shape.get_shape().get_rect()
+
+func getState() -> ROOM_STATE:
+	return visited
 	
-func changeState(state:VISITED_STATE):
+func changeState(state:ROOM_STATE):
 	visited = state;
 	queue_redraw() #redraw
-	if visited == VISITED_STATE.INACCESSIBLE:
+	if visited == ROOM_STATE.INACCESSIBLE:
 		modulate = Color.DARK_GRAY
 	else:
 		modulate = Color.WHITE	
-	
+		
+	if visited == ROOM_STATE.ACCESSIBLE:
+		anime.play("accessible")
+	else:
+		anime.play("reset")
+		
 func _draw():
-
-	if visited == VISITED_STATE.CURRENT:
-		draw_arc(Vector2(size.x/2,size.y/2),10,0,TAU,1000,Color.WHITE)
-	elif visited == VISITED_STATE.VISITED:
-		draw_line(Vector2(0,0),size,Color.RED,3)
-		draw_line(Vector2(0,size.y),Vector2(size.x,0),Color.RED,3)
+	var rect = get_rect()
+	if visited == ROOM_STATE.CURRENT:
+		draw_arc(Vector2(0,0),10,0,TAU,1000,Color.WHITE)
+	elif visited == ROOM_STATE.VISITED:
+		draw_line(Vector2(0,0),rect.size,Color.RED,3)
+		draw_line(Vector2(0,rect.size.y),Vector2(rect.size.x,0),Color.RED,3)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+
+
+func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+	if not event.is_action_pressed("click"):
+		return
+	new_room.emit(roomType)
+	pass # Replace with function body.

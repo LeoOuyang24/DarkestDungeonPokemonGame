@@ -9,25 +9,29 @@ func _ready():
 	pass # Replace with function body.
 
 func createSlots():
-	var margin = Vector2(0.1*size.x,0.1*size.y)
+	var margin = Vector2(0.1*size.x,0.3*size.y)
 	var perRow = 7
 	var known = ["Beholder","Chomper","Silent"]#Game.PlayerState.scans
 	for i in range(known.size()):
 		var creature = CreatureLoader.loadJSON(CreatureLoader.CreatureJSONDir + known[i] + ".json")
-		var slot = AnimatedButton.new()
+		#var slot = AnimatedButton.new()
+		var slot = load("res://Battle/UI/CreatureSlot.tscn").instantiate()
+		add_child(slot)
 		#slot.setCreature(creature)
 		slot.position.x = margin.x*((i)%perRow + 1)
 		slot.position.y = margin.y*((i)/perRow + 1)
 		#anime.play()
-		slot.setSprite(creature.getSprite())
-		slot.setSize(Vector2(100,100))
+
+		slot.setCreature(creature)
+		#slot.Sprite.setSize(Vector2(10,100))
+		#slot.setSize(Vector2(100,100))
 		slot.pressed.connect(func():
 			horror_created.emit(creature)
 			)
-		slot.disabled = Game.GameState.getDNA() < 10
-		add_child(slot)
-		Game.GameState.DNA_changed.connect( func(amount):
-			slot.disabled = Game.GameState.getDNA() < 10
+		#slot.disabled = GameState.getDNA() < 10
+
+		GameState.DNA_changed.connect( func(amount):
+			slot.disabled = GameState.getDNA() < 10
 			)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

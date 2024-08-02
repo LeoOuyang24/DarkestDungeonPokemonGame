@@ -1,10 +1,85 @@
-[gd_scene load_steps=3 format=3 uid="uid://dcxd35pk0koet"]
+[gd_scene load_steps=7 format=3 uid="uid://b2gqho2xtjgek"]
 
 [ext_resource type="Texture2D" uid="uid://dc25w0ser263v" path="res://sprites/map/enemy_room.png" id="1_4awlq"]
 [ext_resource type="Script" path="res://Map/Room.gd" id="1_78lvt"]
 
-[node name="TextureButton" type="TextureButton"]
-offset_right = 20.0
-offset_bottom = 20.0
-texture_normal = ExtResource("1_4awlq")
+[sub_resource type="Animation" id="Animation_at4dd"]
+resource_name = "accessible"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(2, 2), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.785398, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_fmt5i"]
+resource_name = "reset"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0114p"]
+_data = {
+"accessible": SubResource("Animation_at4dd"),
+"reset": SubResource("Animation_fmt5i")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ufmqg"]
+
+[node name="Room" type="Area2D"]
+scale = Vector2(1.61615, 1.61615)
 script = ExtResource("1_78lvt")
+
+[node name="anime" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_0114p")
+}
+autoplay = "reset"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_4awlq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ufmqg")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]

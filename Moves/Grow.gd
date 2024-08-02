@@ -6,8 +6,9 @@ func _ready():
 	pass # Replace with function body.
 
 func _init():
-	moveName = "Grow"
+	super("Grow",0,1)
 	requiresTargets = false
+	summary = "Double user's attack"
 	
 func getPostMoveMessage(user:Creature, targets:Array) -> String:
 	return user.getName() + "'s attack doubled!"

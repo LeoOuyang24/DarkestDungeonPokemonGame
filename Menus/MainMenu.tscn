@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://cuxvfcka4wn1p"]
+
+[ext_resource type="FontFile" uid="uid://dgs200ax7el15" path="res://Fonts/Unutterable-rv3x8.ttf" id="1_o8hnq"]
+[ext_resource type="Script" path="res://Menus/MainMenu.gd" id="1_t8p8d"]
+
+[node name="MainMenu" type="ColorRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.121569, 0.168627, 0.0941176, 1)
+script = ExtResource("1_t8p8d")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -941.0
+offset_top = 151.0
+offset_right = 941.0
+offset_bottom = 697.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("1_o8hnq")
+theme_override_font_sizes/font_size = 250
+text = "Womb of God"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -102.0
+offset_top = -352.0
+offset_right = 102.0
+offset_bottom = -212.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("1_o8hnq")
+theme_override_font_sizes/font_size = 50
+text = "Play"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

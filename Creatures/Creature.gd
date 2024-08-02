@@ -51,9 +51,12 @@ enum STATS
 # "a" deals damage to "b", based on attack and defense stats. "damage" is the base damage
 static func dealDamage(a,b, damage):
 	if a && b:
-		b.takeDamage(damage); 
+		b.addHealth(-damage); 
 
 static var count = 0;
+
+func _to_string() -> String:
+	return "{ " + getName() + ", Health:" + str(getHealth()) + " Attack:" + str(getAttack()) + " Speed:" + str(getSpeed()) + " }"
 
 func _init( sprite_path:String, maxHealth_:int,baseAttack_:int,baseSpeed_:int, name_:String, levels:int = 1, moves_:Array = [], pendingMoves_:Array = []) -> void:
 	spriteFrame = SpriteLoader.getSprite(sprite_path)
@@ -65,8 +68,9 @@ func _init( sprite_path:String, maxHealth_:int,baseAttack_:int,baseSpeed_:int, n
 	attack = Stat.new(baseAttack_);
 	speed = Stat.new(baseSpeed_);
 	
-	health.stat_changed.connect(func (amount,_newVal):
+	health.stat_changed.connect(func (amount,newVal):
 		stat_changed.emit(STATS.HEALTH,amount)
+		health_changed.emit(amount,newVal)
 		)
 		
 	attack.stat_changed.connect(func (amount,_newVal):
@@ -194,14 +198,19 @@ func getHealth() -> int:
 func isAlive():
 	return getHealth() > 0
 
+#decrease cooldown for each move
+func tickMoves() -> void:
+	for i in moves:
+		i.decRemainingCD()
+	
 func setMoves(attacks_):
 	moves = attacks_.slice(0,min(maxMoves,len(attacks_)),1,true); #deep copy the first 4 attacks, or fewer if fewer were provided
 
-#used for dealing damage. Do not use as setter for modifying health. 
-func takeDamage(damage):
-
-	damage = max(damage,1); #ensure damage is at least 1
-	setStat(STATS.HEALTH,getHealth() - damage)
+#used for dealing damage/healing. Do not use as setter for modifying health. 
+func addHealth(amount:int):
+	if amount < 0:	
+		amount = min(amount,-1); #ensure damage is at least 1
+	setStat(STATS.HEALTH,getHealth() + amount)
 
 	
 #use the move

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://r8n1fpesak6r"]
+[gd_scene load_steps=6 format=3 uid="uid://c434ifxltx2da"]
 
 [ext_resource type="Script" path="res://Menus/LearnNewMove.gd" id="1_4fl2n"]
 [ext_resource type="Texture2D" uid="uid://jjclmd1ee8cj" path="res://sprites/effects/upArrow.png" id="1_8xwyf"]
@@ -82,6 +82,7 @@ offset_bottom = 168.0
 script = ExtResource("2_lpgbc")
 
 [node name="NewMove" type="ColorRect" parent="."]
+layout_mode = 0
 offset_left = 456.0
 offset_right = 552.0
 offset_bottom = 64.0

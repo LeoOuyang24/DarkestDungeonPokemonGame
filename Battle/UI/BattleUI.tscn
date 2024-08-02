@@ -1,11 +1,17 @@
-[gd_scene load_steps=7 format=3 uid="uid://b3hux6c6p4pfu"]
+[gd_scene load_steps=8 format=3 uid="uid://b3hux6c6p4pfu"]
 
 [ext_resource type="Script" path="res://Battle/UI/BattleUI.gd" id="1_0uu34"]
-[ext_resource type="Script" path="res://Battle/UI/BattleLog.gd" id="2_ggcmx"]
 [ext_resource type="PackedScene" uid="uid://bgy4kes6sp7tp" path="res://Battle/UI/EndScreen.tscn" id="3_1dct8"]
 [ext_resource type="Script" path="res://Battle/UI/MoveButton.gd" id="3_lohjo"]
+[ext_resource type="Script" path="res://sprites/Anime.gd" id="4_tevqn"]
 [ext_resource type="Texture2D" uid="uid://b1vyxaevceywg" path="res://sprites/backgrounds/bg.png" id="4_ul5b1"]
-[ext_resource type="Script" path="res://sprites/Anime.gd" id="5_33c7b"]
+
+[sub_resource type="Gradient" id="Gradient_7mkyu"]
+colors = PackedColorArray(0, 1, 1, 0.733333, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_05pyf"]
+gradient = SubResource("Gradient_7mkyu")
+fill_from = Vector2(1, 1)
 
 [node name="BattleUI" type="Node2D"]
 script = ExtResource("1_0uu34")
@@ -17,30 +23,39 @@ offset_right = 640.0
 offset_bottom = 320.0
 editor_only = false
 
-[node name="AllyRow" type="ReferenceRect" parent="."]
-offset_left = 128.0
-offset_top = 712.0
-offset_right = 960.0
-offset_bottom = 896.0
+[node name="Rows" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_top = -132.0
+offset_right = 40.0
+offset_bottom = -92.0
 
-[node name="EnemyRow" type="ReferenceRect" parent="."]
+[node name="EnemyRow" type="HBoxContainer" parent="Rows"]
+layout_mode = 0
 offset_left = 1088.0
-offset_top = 713.0
+offset_top = 471.0
 offset_right = 1600.0
 offset_bottom = 905.0
 
+[node name="AllyRow" type="HBoxContainer" parent="Rows"]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 483.0
+offset_right = 960.0
+offset_bottom = 904.0
+alignment = 2
+
 [node name="BattleLog" type="RichTextLabel" parent="."]
 offset_left = 880.0
-offset_top = 872.0
+offset_top = 842.0
 offset_right = 1176.0
-offset_bottom = 896.0
-script = ExtResource("2_ggcmx")
+offset_bottom = 866.0
 
 [node name="Moves" type="ReferenceRect" parent="."]
 offset_left = 768.0
-offset_top = 920.0
+offset_top = 867.0
 offset_right = 1280.0
-offset_bottom = 1104.0
+offset_bottom = 1051.0
 mouse_filter = 2
 
 [node name="Button" type="Button" parent="Moves"]
@@ -98,7 +113,7 @@ text = "Pass
 script = ExtResource("3_lohjo")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-z_index = -1
+z_index = -2
 position = Vector2(950.197, 544.538)
 scale = Vector2(1.00188, 1.02123)
 texture = ExtResource("4_ul5b1")
@@ -108,15 +123,24 @@ offset_left = 424.0
 offset_top = 80.0
 offset_right = 766.0
 offset_bottom = 443.0
-script = ExtResource("5_33c7b")
+script = ExtResource("4_tevqn")
 
-[node name="TurnQueue" type="ColorRect" parent="."]
+[node name="TurnQueue" type="HBoxContainer" parent="."]
 offset_left = 816.0
 offset_top = 296.0
 offset_right = 1304.0
 offset_bottom = 392.0
-color = Color(0, 0, 0, 0.639216)
 
 [node name="EndScreen" parent="." instance=ExtResource("3_1dct8")]
 visible = false
 position = Vector2(416, 192)
+
+[node name="CurrentCreature" type="TextureRect" parent="."]
+z_index = -1
+offset_left = 130.0
+offset_top = 184.0
+offset_right = 330.0
+offset_bottom = 819.0
+texture = SubResource("GradientTexture2D_05pyf")
+expand_mode = 1
+stretch_mode = 6

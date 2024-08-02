@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cd45jqff33kg0"]
+[gd_scene load_steps=5 format=3 uid="uid://b6nxjul7v18y3"]
 
 [ext_resource type="Texture2D" uid="uid://cfqgl40ppp05u" path="res://sprites/icons/heart_icon.png" id="1_6thjs"]
 [ext_resource type="Script" path="res://Menus/StatBar.gd" id="2_eu0au"]
@@ -17,7 +17,6 @@ offset_right = 296.0
 offset_bottom = 184.0
 theme = SubResource("Theme_1q0n1")
 script = ExtResource("2_eu0au")
-BarColor = null
 Sprite = ExtResource("1_6thjs")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -43,9 +42,9 @@ text = "10[color=green]+1[/color]"
 [node name="BigBoost" type="TextureButton" parent="."]
 visible = false
 layout_mode = 0
-offset_left = 176.0
+offset_left = 629.0
 offset_top = -16.0
-offset_right = 200.0
+offset_right = 653.0
 offset_bottom = 16.0
 texture_normal = ExtResource("3_yi1xs")
 ignore_texture_size = true

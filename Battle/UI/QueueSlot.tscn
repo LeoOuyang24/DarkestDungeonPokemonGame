@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://bl3rf7csarlv0"]
+
+[ext_resource type="Script" path="res://Battle/UI/QueueSlot.gd" id="1_eb2sy"]
+
+[node name="QueueSlot" type="TextureButton"]
+custom_minimum_size = Vector2(100, 100)
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("1_eb2sy")
+
+[node name="Background" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.32549)
+
+[node name="SpeedCounter" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 77.0
+offset_right = 34.0
+offset_bottom = 103.0
+mouse_filter = 2
+text = "1"

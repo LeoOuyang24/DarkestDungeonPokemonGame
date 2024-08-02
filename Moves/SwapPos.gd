@@ -5,7 +5,9 @@ class_name SwapPos extends Move
 func _init():
 	moveName = "Tactic: Swap"
 	manualTargets = 1
+	baseCooldown = 3
 	targetingCriteria=Move.TARGETING_CRITERIA.ONLY_ALLIES
+	summary = "Swap position with an ally"
 
 func move(user:Creature, targets:Array, battlefield):
 	battlefield.swapCreature(battlefield.getCreatureIndex(user),targets[0])

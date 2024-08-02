@@ -1,32 +1,31 @@
-extends Node2D
+extends ColorRect
 
 var creature:Creature = null
 
 
-@onready var Sprite = $Window/Stats/Anime
-@onready var Stats = [$Window/Stats/Control/Health,$Window/Stats/Control/Attack,$Window/Stats/Control/Speed]
-@onready var Health:StatBar = $Window/Stats/Control/Health
-@onready var Attack:StatBar = $Window/Stats/Control/Attack
-@onready var Speed:StatBar = $Window/Stats/Control/Speed
+@onready var Sprite = $Stats/Anime
+@onready var Stats = [$Stats/Control/Health,$Stats/Control/Attack,$Stats/Control/Speed]
+@onready var Health:StatBar = $Stats/Control/Health
+@onready var Attack:StatBar = $Stats/Control/Attack
+@onready var Speed:StatBar = $Stats/Control/Speed
 
-@onready var LearnNewMove = $Window/LearnNewMove
+@onready var LearnNewMove = $LearnNewMove
 
-@onready var LevelUpButton:Button = $Window/LevelUp
-@onready var LevelUpCost:RichTextLabel = $Window/LevelUp/Cost
-@onready var Name:RichTextLabel = $Window/Stats/Name
+@onready var LevelUpButton:Button = $LevelUp
+@onready var Name:RichTextLabel = $Stats/Name
+
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var statRect = get_node("Window/Stats")
+	var statRect = get_node("Stats")
 	
 	Health.setMaxWidth(statRect.global_position.x + statRect.size.x - Health.Bar.global_position.x)
 	Attack.setMaxWidth(statRect.global_position.x + statRect.size.x - Attack.Bar.global_position.x)
 	Speed.setMaxWidth(statRect.global_position.x + statRect.size.x - Speed.Bar.global_position.x)
-	#[img width="20%"][/img]10
-	LevelUpCost.add_image(load("res://sprites/icons/dna_icon.png"),20,0,Color(1, 1, 1, 1),5,Rect2(0, 0, 0, 0), null,false,"Level up your creature at the cost of DNA",true)
-	LevelUpCost.append_text("0")
-	#setCreature(CreatureLoader.loadJSON("res://Creatures/creatures_jsons/beholder.json"))
+
+	setCreature(CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json"))
+
 	pass # Replace with function body.
 	
 #set the creature we are currently changing
@@ -36,10 +35,12 @@ func setCreature(creature:Creature) -> void:
 	if creature:
 		#add moves to UI
 		LearnNewMove.setMoves(creature)
-		
+		LevelUpButton.setCreature(creature)
 		#add stats to UI
 		for i in range(Stats.size()):
 			Stats[i].setCreature(creature,i)
+			
+		creature.leveled_up.connect(updateCreature)
 			
 		#add everything else to UI
 		updateCreature()
@@ -47,14 +48,8 @@ func setCreature(creature:Creature) -> void:
 
 	
 func updateCreature() -> void:
-#	update the level up cost
-	LevelUpCost.append_text(str(getLevelUpCost()))
-	print(LevelUpCost.text)	
-	if getLevelUpCost() > Game.GameState.getDNA():
-		LevelUpButton.disabled = true
-	else:
-		LevelUpButton.disabled = false
-	
+
+	#LevelUpCost.set_text(str(getLevelUpCost()))
 	#if we have the option of learning a new move, update
 	var nextMove = creature.getNextLevelUpMove()
 	if nextMove:
@@ -77,18 +72,6 @@ func offHover() -> void:
 		Attack.setBonus(0)
 		Speed.setBonus(0)
 		
-#how much dna it takes to level up
-func getLevelUpCost() -> int:
-	return creature.getLevel() if creature else 0
-		
-func levelUp():
-	if creature:
-		Game.GameState.setDNA(Game.GameState.getDNA() - getLevelUpCost())
-		creature.levelUp()
-		updateCreature()
-	pass
-
-
 func _on_learn_new_move_new_move_confirmed(moves:Array):
 	if creature:
 		creature.popNextLevelUpMove()

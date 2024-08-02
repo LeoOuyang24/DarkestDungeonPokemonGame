@@ -49,17 +49,17 @@ func _ready():
 			return DFAUnit.RETURN_VALS.DONE if menu.choiceMade != -1 else DFAUnit.RETURN_VALS.NOT_DONE
 			),
 		DFAUnit.new(func (d,r,m):
-			var player = Game.PlayerState.getPlayer()
+			var player = GameState.PlayerState.getPlayer()
 			match m.choiceMade:
 				0:
-					player.setHealth(player.getHealth() + 0.25*player.getMaxHealth())
-					var team = Game.PlayerState.getTeam()
+					player.setStat(Creature.STATS.HEALTH,player.getHealth() + 0.25*player.getMaxHealth())
+					var team = GameState.PlayerState.getTeam()
 					for i in team:
-						i.setHealth(i.getHealth() + 0.25*i.getMaxHealth())
+						i.setStat(Creature.STATS.HEALTH,i.getHealth() + 0.25*i.getMaxHealth())
 				1:
-					player.setHealth(player.getHealth() + 0.5*player.getMaxHealth())
+					player.setStat(Creature.STATS.HEALTH,player.getHealth() + 0.5*player.getMaxHealth())
 				2:
-					Game.GameState.setDNA(Game.GameState.getDNA() + 10)
+					GameState.setDNA(GameState.getDNA() + 10)
 					pass
 					
 			room_finished.emit()

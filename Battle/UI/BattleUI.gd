@@ -1,7 +1,7 @@
 class_name BattleUI extends Node2D
 
-@onready var AllyRow = $AllyRow 
-@onready var EnemyRow = $EnemyRow 
+@onready var AllyRow = $Rows/AllyRow 
+@onready var EnemyRow = $Rows/EnemyRow 
 @onready var BattleSprite = $BattleSprite 
 @onready var BattleSpriteRect = $BattleSpriteRect
 @onready var BattleLog = $BattleLog
@@ -10,6 +10,8 @@ class_name BattleUI extends Node2D
 
 @onready var Moves = [$Moves/Button, $Moves/Button2, $Moves/Button3, $Moves/Button4] 
 @onready var PassButton = $Moves/PassButton
+
+@onready var CurrentCreatureRect = $CurrentCreature
 
 #signal for when targets have been selected
 signal target_selected(target)
@@ -32,11 +34,12 @@ var creatureSlots = []
 #array of queue slot positions
 var queueSlots = []
 
-class QueueSlots:
-	var Sprite:Anime = Anime.new()
-	var creature:Creature = null
+#class QueueSlots:
+	#var Sprite:Anime = Anime.new()
+	#var creature:Creature = null
 
 var creatureSlot = preload("./CreatureSlot.tscn")
+var queueSlot = preload("./QueueSlot.tscn")
 
 enum States{
 	SELECTING_MOVE,
@@ -47,17 +50,31 @@ enum States{
 
 @export var state:States = States.SELECTING_MOVE;
 
-#change our variables based on the state of the battlefield
-func setBattleState(state:Battlefield):
-	if state.getCurrentCreature():
-		addAttacksToUI(state.getCurrentCreature())
+func newTurn():
+	resetAllSlotPos()
+	TurnQueue.queue_sort();
+
+#change our variables based on the state of the battlefield and whether or not it is the player's turn
+func setBattleState(state:Battlefield, playerTurn:bool):
+	updateQueue(state.getFullQueue())
 	for i in range(state.creatures.size()):
 		addCreature(state.creatures[i],i);
+	#if playerTurn && state.getCurrentCreature():
+	CurrentCreatureRect.visible = (playerTurn)
 
+
+func setCurrentCreature(creature:Creature):
+	if creature:
+		addAttacksToUI(creature)
+		var slot = getCreatureSlot(creature)
+		if slot:
+			#await AllyRow.sort_children
+			CurrentCreatureRect.global_position.x = slot.global_position.x
+			CurrentCreatureRect.size.x = slot.size.x
 
 func addAttacksToUI(creature:Creature):
 	for i in range(Creature.maxMoves):
-		Moves[i].setMove(creature.getMove(i))
+		Moves[i].setMove(creature.getMove(i) if creature else null)
 
 #get teh creatureslot corresponding to the given creature or index
 func getCreatureSlot(creature):
@@ -66,68 +83,65 @@ func getCreatureSlot(creature):
 			if i.getCreature() == creature:
 				return i;
 	elif creature is int:
-		return getCreatureSlotByIndex(creature)
+		if creature <0 && creature >= creatureSlots.size():
+			return null
+		return creatureSlots[creature]
 	return null
 	
-#TODO: Can probably delete this function since the previous function is supposed to accoutn for it
-func getCreatureSlotByIndex(index:int):
-	if index <0 && index >= creatureSlots.size():
-		return null
-	return creatureSlots[index]
 
-func removeCreature(creature:Creature):
-	var index = -1;
-	for i in range(creatureSlots.size()):
-		if creatureSlots[i].getCreature() == creature:
-			creatureSlots[i].setCreature(null)
-			creatureSlots[i].set_visible(false)
-			index = i;
-	
+func addCreature(creature:Creature, index:int):
+	if (creatureSlots[index].getCreature() != creature):
+		if index < creatureSlots.size() && creatureSlots[index]:
+			creatureSlots[index].setCreature(creature);
+			if creature && creature.flying:
+				#creatureSlots[index].setTransform(creatureSlots[index].getTransform().translated(Vector2(0,-50)))
+				
+				creatureSlots[index].offset_bottom = -50
+			#else:
+				#creatureSlots[index].Sprite.transform.origin.y = creatureSlots[index].get_rect().get_center().y
+	#creatureSlots[index].visible = (creature != null)
+
 
 func removeCreatureFromQueue(creature:Creature):
 	for i in range(queueSlots.size() - 1,-1,-1):
 		var tween = create_tween()
 		if queueSlots[i].creature == creature:
-			var thisSlot = queueSlots[i].Sprite
+			var thisSlot = queueSlots[i]
 			var height = thisSlot.get_rect().size.y
 			tween.parallel().tween_property(thisSlot,"position",Vector2(thisSlot.position.x,height),1)
-			tween.parallel().tween_property(thisSlot,"modulate",Color(0,0,0,-1),1)
+			tween.parallel().tween_property(thisSlot,"modulate",Color(0,0,0,0),1)
 			tween.tween_callback(func ():
-				thisSlot.queue_free(); #delete the slot
-				#queueSlots.pop_at(i)
+				thisSlot.setCreature(null)
+				thisSlot.modulate = Color(1,1,1,1)
 				)
-			queueSlots.pop_at(i)
 			break;
+		#else:
+			#var width = queueSlots[keys[i]].get_rect().size.x
+			#tween.tween_property(queueSlots[keys[i]],"position",Vector2((i-1)*width,0),0.5)
+
+func updateQueue(queue:Array):
+	for i in range(queueSlots.size()):
+		if i < queue.size():
+			queueSlots[i].setCreature(queue[i])
 		else:
-			var width = queueSlots[i].Sprite.get_rect().size.x
-			tween.tween_property(queueSlots[i].Sprite,"position",Vector2((i-1)*width,0),0.5)
+			queueSlots[i].setCreature(null)
 
 func addCreatureToQueue(creature:Creature, index:int):
 	if creature:
-		var slot = QueueSlots.new()
-		slot.creature = creature
-
-		queueSlots.insert(index,slot);
-		TurnQueue.add_child(slot.Sprite);
+		#var slot = queueSlot.instantiate()
+		queueSlots[index].setCreature(creature)
+		#TurnQueue.add_child(slot);
+		#AllyRow.add_child(slot)
+		#slot.setCreature(creature)
+		#var width = (slot.size.x)
+		#for i in range(index,queueSlots.size()):
+			#queueSlots[i].position = Vector2((i)*width,0);
 		
-		var scale = TurnQueue.get_rect().size.y;
-		slot.Sprite.setSize(Vector2(scale,scale))
-
-		slot.Sprite.setSprite(creature.getSprite())
-		#slot.setCreature(creature);
-		
-		var width = (slot.Sprite.size.x)
-		for i in range(index,queueSlots.size()):
-			queueSlots[i].Sprite.position = Vector2((i)*width,0);
-		
-
-
-
 #toggle target choosing (flashing black and white) on/off
 func choosingTargets(flash:bool,targets:Move.TARGETING_CRITERIA = Move.TARGETING_CRITERIA.ONLY_ENEMIES):
 	for i in range(0,creatureSlots.size()):
 		var tween = creatureSlots[i].getTween().set_loops();
-		var sprite = creatureSlots[i].Sprite
+		var sprite = creatureSlots[i]
 		#only turn on flashing if the target is valid (an ally for an only ally move, an enemy for an only enemy move, etc)
 		if sprite && flash && Move.isTargetValid(targets,true, i < Battlefield.maxAllies):
 			tween.tween_property(sprite, "modulate", Color.BLACK, 1)
@@ -152,20 +166,23 @@ func addTarget(index:int):
 #adds a new slot
 func addSlot(isAlly:bool):
 	var slot = creatureSlot.instantiate();
-	var index = creatureSlots.size()
-
-
-	slot.position = getCreaturePos(index)
-	creatureSlots.push_back(slot);
 	if isAlly:
+		#due to how the creature slots are set up in an Hbox, (lower index = further to the left)
+		#we have to flip the index if the creature is friendly. So we insert in the beginnign
+		#rather than the end. This makes it so that the newly created slot is the new front-most (right-most)
+		#slot with a 0 index.
+		creatureSlots.insert(0,slot);
+		var rect = ColorRect.new()
+		rect.custom_minimum_size = Vector2(100,100)
+		rect.color = Color(creatureSlots.size()/5.0,1,1,1)
+		#AllyRow.add_child(rect)
 		AllyRow.add_child(slot)
 		#slot.Sprite.set_flip_h(true);
 	else:
+		creatureSlots.push_back(slot)
 		EnemyRow.add_child(slot)
-		
-	slot.getConnection().connect(func():
-		addTarget(index);
-		);
+	#slot.position = getCreaturePos(index)
+
 	
 
 # Called when the node enters the scene tree for the first time.
@@ -174,6 +191,15 @@ func _ready():
 		addSlot(true)
 	for i in range(Battlefield.maxEnemies):
 		addSlot(false);
+	for i in range(creatureSlots.size()):
+		creatureSlots[i].pressed.connect(func():
+			addTarget(i);
+			);
+	for i in range(Battlefield.maxEnemies + Battlefield.maxAllies):
+		var slot = queueSlot.instantiate()
+		TurnQueue.add_child(slot);
+		queueSlots.push_back(slot)
+	
 	for i in range(Moves.size()):
 		Moves[i].move_selected.connect(func (move):
 			move_selected.emit(move)
@@ -188,14 +214,6 @@ func _ready():
 		battle_finished.emit()
 		)		
 	pass # Replace with function body.
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-	#var camera = get_viewport().get_camera_2d()
-	#lerp(camera.offset.x,0,1)
-	#if state == States.SELECTING_TARGET:
-
 	
 #return the position for each move button based on their index		
 func getMoveRect(index):
@@ -218,6 +236,7 @@ func getCreature(index:int):
 
 #return the creature's position on the screen based on its index
 func getCreaturePos(index:int):
+	const margin = 10
 	var rect = null; #rectangle we are trying to render to
 	var max = 1; #maximum number of creatures allowed in "row"
 	var isAlly = index < Battlefield.maxAllies; #true if this is an ally slot
@@ -230,10 +249,15 @@ func getCreaturePos(index:int):
 	
 	var boolin = (1 if isAlly else 0)
 
-	index = index - Battlefield.maxAllies*int(!isAlly)
+	#ordinal number
+	#index = index - Battlefield.maxAllies*int(!isAlly)
 	if isAlly:
 		index = Battlefield.maxAllies - 1- index #have to flip index in order 
-	return Vector2((rect.size.x)/max*(index),0.5*rect.size.y)
+	else:
+		index -= Battlefield.maxAllies
+	var origin = rect.size.x if isAlly else 0
+	return Vector2(origin + (10 + CreatureSlot.MAX_DIMEN)*index,rect.size.y)
+	#return Vector2(10*(index)+(rect.size.x)/max*(index),rect.size.y)
 
 func getCreatureGlobalPos(ind:int):
 	var row = AllyRow if ind < Battlefield.maxAllies else EnemyRow
@@ -244,24 +268,14 @@ func getSlotPos(creature:Creature):
 	return getCreaturePos(getCreatureIndex(creature));
 
 func resetAllSlotPos():
-	for i in range(creatureSlots.size()):
-		creatureSlots[i].position = getCreaturePos(i)
+	AllyRow.queue_sort()
+	EnemyRow.queue_sort()
+	#for i in range(creatureSlots.size()):
+		#creatureSlots[i].position = getCreaturePos(i)
 		
+#func resetCreatureSlotPos(creature:Creature):
+	#getCreatureSlot(creature).position = getSlotPos(creature)
 
-func resetCreatureSlotPos(creature:Creature):
-	getCreatureSlot(creature).position = getSlotPos(creature)
-
-func addCreature(creature:Creature, index:int):
-	if (creatureSlots[index].getCreature() != creature):
-		if index < creatureSlots.size() && creatureSlots[index]:
-			creatureSlots[index].setCreature(creature);
-			if creature && creature.flying:
-				#creatureSlots[index].setTransform(creatureSlots[index].getTransform().translated(Vector2(0,-50)))
-				
-				creatureSlots[index].Sprite.offset_bottom = -50
-			#else:
-				#creatureSlots[index].Sprite.transform.origin.y = creatureSlots[index].get_rect().get_center().y
-	creatureSlots[index].visible = (creature != null)
 			
 func setBattleText(str:String):
 	BattleLog.set_text(str);

@@ -2,11 +2,6 @@ class_name RoomInfo extends Object
 
 #struct that represents information of a room
 
-enum ROOM_TYPES
-{
-	BATTLE, #your standard fighting room
-	WELL
-}
 
 #enemies
 var enemies:Array = []

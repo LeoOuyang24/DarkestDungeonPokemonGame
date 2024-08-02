@@ -11,19 +11,19 @@ config_version=5
 [application]
 
 config/name="NotAVirus"
-run/main_scene="res://Battle/BattleManager.tscn"
+run/main_scene="res://Menus/MainMenu.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 SpriteLoader="*res://sprites/SpriteLoader.tscn"
+GameState="*res://GlobalGameState.tscn"
 
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/size/mode=2
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 

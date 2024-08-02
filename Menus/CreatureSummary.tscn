@@ -1,26 +1,26 @@
-[gd_scene load_steps=8 format=3 uid="uid://dw4eh0gjt84fe"]
+[gd_scene load_steps=10 format=3 uid="uid://cybp46vb5wblt"]
 
 [ext_resource type="Script" path="res://Menus/CreatureSummary.gd" id="1_6r03a"]
 [ext_resource type="Script" path="res://sprites/Anime.gd" id="1_g5kkb"]
 [ext_resource type="Texture2D" uid="uid://c1u1tuqrcdmmc" path="res://sprites/icons/claw_icon.png" id="3_ffpxe"]
-[ext_resource type="PackedScene" uid="uid://cd45jqff33kg0" path="res://Menus/StatBar.tscn" id="4_qu7fa"]
+[ext_resource type="PackedScene" uid="uid://b6nxjul7v18y3" path="res://Menus/StatBar.tscn" id="4_qu7fa"]
 [ext_resource type="Texture2D" uid="uid://dkm5fbovv5fr" path="res://sprites/icons/speed_icon.png" id="4_xyj4n"]
-[ext_resource type="PackedScene" uid="uid://r8n1fpesak6r" path="res://Menus/LearnNewMove.tscn" id="8_i1cfh"]
+[ext_resource type="Script" path="res://Menus/LevelUpButton.gd" id="6_2cbse"]
+[ext_resource type="Texture2D" uid="uid://q5ilukk8h66k" path="res://sprites/icons/dna_icon.png" id="6_cdg3m"]
+[ext_resource type="PackedScene" uid="uid://c434ifxltx2da" path="res://Menus/LearnNewMove.tscn" id="8_i1cfh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kujuv"]
 bg_color = Color(0.478431, 0.666667, 0.286275, 1)
 
-[node name="CreatureSummary" type="Node2D"]
-script = ExtResource("1_6r03a")
-
-[node name="Window" type="ColorRect" parent="."]
+[node name="Window" type="ColorRect"]
 offset_left = 384.0
 offset_top = 192.0
 offset_right = 1664.0
 offset_bottom = 896.0
 color = Color(0.345098, 0.345098, 0.345098, 1)
+script = ExtResource("1_6r03a")
 
-[node name="Stats" type="ColorRect" parent="Window"]
+[node name="Stats" type="ColorRect" parent="."]
 layout_mode = 0
 offset_left = 64.0
 offset_top = 64.0
@@ -28,7 +28,7 @@ offset_right = 1152.0
 offset_bottom = 256.0
 color = Color(0.67451, 0.462745, 0.388235, 1)
 
-[node name="Name" type="RichTextLabel" parent="Window/Stats"]
+[node name="Name" type="RichTextLabel" parent="Stats"]
 layout_mode = 0
 offset_left = 208.0
 offset_top = 32.0
@@ -38,7 +38,7 @@ theme_override_font_sizes/normal_font_size = 20
 text = "Level 1
 Chomper"
 
-[node name="Control" type="Control" parent="Window/Stats"]
+[node name="Control" type="Control" parent="Stats"]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 344.0
@@ -46,13 +46,13 @@ offset_top = 32.0
 offset_right = 384.0
 offset_bottom = 72.0
 
-[node name="Health" parent="Window/Stats/Control" instance=ExtResource("4_qu7fa")]
+[node name="Health" parent="Stats/Control" instance=ExtResource("4_qu7fa")]
 offset_left = 0.0
 offset_top = 0.0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Attack" parent="Window/Stats/Control" instance=ExtResource("4_qu7fa")]
+[node name="Attack" parent="Stats/Control" instance=ExtResource("4_qu7fa")]
 offset_left = 0.0
 offset_top = 64.0
 offset_right = 40.0
@@ -60,7 +60,7 @@ offset_bottom = 104.0
 BarColor = Color(1, 0, 0, 1)
 Sprite = ExtResource("3_ffpxe")
 
-[node name="Speed" parent="Window/Stats/Control" instance=ExtResource("4_qu7fa")]
+[node name="Speed" parent="Stats/Control" instance=ExtResource("4_qu7fa")]
 offset_left = 0.0
 offset_top = 128.0
 offset_right = 40.0
@@ -68,19 +68,19 @@ offset_bottom = 168.0
 BarColor = Color(0, 1, 1, 1)
 Sprite = ExtResource("4_xyj4n")
 
-[node name="Line2D" type="Line2D" parent="Window/Stats/Control"]
+[node name="Line2D" type="Line2D" parent="Stats/Control"]
 position = Vector2(40, -32)
 points = PackedVector2Array(0, 0, 0, 192)
 width = 5.0
 
-[node name="Anime" type="TextureRect" parent="Window/Stats"]
+[node name="Anime" type="TextureRect" parent="Stats"]
 z_index = 1
 layout_mode = 0
 offset_right = 192.0
 offset_bottom = 176.0
 script = ExtResource("1_g5kkb")
 
-[node name="LevelUp" type="Button" parent="Window"]
+[node name="LevelUp" type="Button" parent="."]
 layout_mode = 0
 offset_left = 917.0
 offset_top = 451.0
@@ -89,8 +89,9 @@ offset_bottom = 584.0
 theme_override_styles/normal = SubResource("StyleBoxFlat_kujuv")
 text = "
 "
+script = ExtResource("6_2cbse")
 
-[node name="Label" type="RichTextLabel" parent="Window/LevelUp"]
+[node name="Label" type="RichTextLabel" parent="LevelUp"]
 layout_mode = 0
 offset_left = 40.0
 offset_top = 14.0
@@ -100,22 +101,32 @@ mouse_filter = 2
 theme_override_font_sizes/normal_font_size = 30
 text = "Level Up"
 
-[node name="Cost" type="RichTextLabel" parent="Window/LevelUp"]
+[node name="Cost" type="RichTextLabel" parent="LevelUp"]
 layout_mode = 0
 offset_left = 59.0
 offset_top = 61.0
 offset_right = 202.0
 offset_bottom = 227.0
+mouse_filter = 2
 theme_override_font_sizes/normal_font_size = 30
 bbcode_enabled = true
 
-[node name="LearnNewMove" parent="Window" instance=ExtResource("8_i1cfh")]
+[node name="TextureRect" type="TextureRect" parent="LevelUp"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 63.0
+offset_right = 47.0
+offset_bottom = 103.0
+texture = ExtResource("6_cdg3m")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="LearnNewMove" parent="." instance=ExtResource("8_i1cfh")]
 offset_left = 8.0
 offset_top = 360.0
 offset_right = 640.0
 offset_bottom = 584.0
 
-[connection signal="mouse_entered" from="Window/LevelUp" to="." method="onHover"]
-[connection signal="mouse_exited" from="Window/LevelUp" to="." method="offHover"]
-[connection signal="pressed" from="Window/LevelUp" to="." method="levelUp"]
-[connection signal="new_move_confirmed" from="Window/LearnNewMove" to="." method="_on_learn_new_move_new_move_confirmed"]
+[connection signal="mouse_entered" from="LevelUp" to="." method="onHover"]
+[connection signal="mouse_exited" from="LevelUp" to="." method="offHover"]
+[connection signal="pressed" from="LevelUp" to="." method="levelUp"]

@@ -8,38 +8,13 @@ func _ready():
 func _init():
 	manualTargets = 0;
 	moveName="Slash"
-	
-	
-#func moveAnimationSequence(user, move, targets):
-	#var sequence = [];
-	#var unit = SequenceUnit.createSequenceUnit(func (d,b,u):
-		#var slot = u.getCreatureSlot(user)
-		#var targetIndex = null
-		#var enemies = b.getEnemies(user.getIsFriendly())
-		#for i in range(enemies.size()):
-			#if enemies[i]:
-				#targetIndex = i
-				#break
-		#var val = Move.moveTowards(b.getCreatureIndex(user),targetIndex,u)
-		#return val
-		#
-		#);
-	#
-	#sequence.append( unit)
-	#return sequence;
+	summary="Deal 0.5x damage to two frontmost targets"
 	
 func runAnimation(user:Creature, enemies: Array, UI:BattleUI,battlefield:Battlefield) -> void:
 	await MoveAnimations.genericAttackAnimation(user,enemies,UI,self)
 	
 func getPreselectedTargets(user:Creature, battle:Battlefield):
-	var enemies = battle.getEnemies(user.getIsFriendly())
-	var targetsArr = []
-	for i in range(enemies.size()):
-		if enemies[i]:
-			targetsArr.push_back(battle.relPosToAbs(i,enemies[i].getIsFriendly()))
-		if targetsArr.size() >= 2:
-			break;
-	return targetsArr;
+	return battle.getFrontMostCreatures(2,user.getIsFriendly())
 
 	
 func move(user, targets, battlefield):
