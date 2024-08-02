@@ -4,3 +4,6 @@
 .vscode/
 *.tmp
 *.import
+*.zip
+*.pck
+*.exe
