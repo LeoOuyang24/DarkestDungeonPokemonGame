@@ -82,8 +82,6 @@ func _on_map_room_selected(roomInfo):
 			push_error("Game.gd: Somehow, RoomInfo ROOM_TYPE was not matched!")
 	if newScene:
 		await swapToSceneWithFade(newScene)
-		if roomInfo == Room.ROOM_TYPES.BATTLE:
-			newScene.newTurn()
 
 func room_finished():
 	swapToSceneWithFade(Map)

@@ -18,8 +18,7 @@ class_name CreatureSlot extends AnimatedButton
 @onready var Ticker = $DamageTicker
 @onready var TickerAnimation = $DamageTicker/Animation
 
-const MAX_DIMEN = 200 #max size in either dimension a sprite can be
-const HEALTH_MARGIN = 15 #space from top of healthbar to bottom of sprite
+const MAX_DIMEN = 300 #max size in either dimension a sprite can be
 var tween = null
 #a reference to the creature we are referring to
 var creature:Creature = null 
@@ -38,7 +37,6 @@ func setSprite(spriteFrames:SpriteFrames) -> void:
 		else:
 			setSize(newsize)
 		custom_minimum_size = size
-
 
 func setCreature(creature:Creature):
 	self.creature = creature;
@@ -106,6 +104,6 @@ func _ready():
 
 #gets and restarts the animation
 func getTween():
-	tween.kill();
+	#tween.kill();
 	tween = create_tween()
 	return tween;

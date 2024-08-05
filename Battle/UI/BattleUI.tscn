@@ -136,6 +136,7 @@ visible = false
 position = Vector2(416, 192)
 
 [node name="CurrentCreature" type="TextureRect" parent="."]
+visible = false
 z_index = -1
 offset_left = 130.0
 offset_top = 184.0

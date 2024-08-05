@@ -3,7 +3,6 @@ class_name BattleUI extends Node2D
 @onready var AllyRow = $Rows/AllyRow 
 @onready var EnemyRow = $Rows/EnemyRow 
 @onready var BattleSprite = $BattleSprite 
-@onready var BattleSpriteRect = $BattleSpriteRect
 @onready var BattleLog = $BattleLog
 @onready var EndScreen = $EndScreen
 @onready var TurnQueue = $TurnQueue
@@ -11,7 +10,6 @@ class_name BattleUI extends Node2D
 @onready var Moves = [$Moves/Button, $Moves/Button2, $Moves/Button3, $Moves/Button4] 
 @onready var PassButton = $Moves/PassButton
 
-@onready var CurrentCreatureRect = $CurrentCreature
 
 #signal for when targets have been selected
 signal target_selected(target)
@@ -41,36 +39,32 @@ var queueSlots = []
 var creatureSlot = preload("./CreatureSlot.tscn")
 var queueSlot = preload("./QueueSlot.tscn")
 
-enum States{
-	SELECTING_MOVE,
-	SELECTING_TARGET,
-	ENEMY_TURN
-}
-
-
-@export var state:States = States.SELECTING_MOVE;
-
-func newTurn():
+func newTurn(state:Battlefield):
 	resetAllSlotPos()
 	TurnQueue.queue_sort();
+	updateQueue(state.getFullQueue())
+	setBattleState(state)
 
 #change our variables based on the state of the battlefield and whether or not it is the player's turn
-func setBattleState(state:Battlefield, playerTurn:bool):
-	updateQueue(state.getFullQueue())
+func setBattleState(state:Battlefield):
 	for i in range(state.creatures.size()):
 		addCreature(state.creatures[i],i);
 	#if playerTurn && state.getCurrentCreature():
-	CurrentCreatureRect.visible = (playerTurn)
 
+func resetSlotModulate():
+	for i in creatureSlots:
+		i.getTween()
+		i.modulate = Color.WHITE
+	
 
 func setCurrentCreature(creature:Creature):
 	if creature:
 		addAttacksToUI(creature)
-		var slot = getCreatureSlot(creature)
-		if slot:
-			#await AllyRow.sort_children
-			CurrentCreatureRect.global_position.x = slot.global_position.x
-			CurrentCreatureRect.size.x = slot.size.x
+		for i in range(0,Battlefield.maxAllies):
+			var slot = creatureSlots[i]
+			#var tween = slot.getTween()
+			if slot.creature && slot.creature != creature:
+				slot.modulate = Color(0.2,0.2,0.2,1)
 
 func addAttacksToUI(creature:Creature):
 	for i in range(Creature.maxMoves):
@@ -146,11 +140,10 @@ func choosingTargets(flash:bool,targets:Move.TARGETING_CRITERIA = Move.TARGETING
 		if sprite && flash && Move.isTargetValid(targets,true, i < Battlefield.maxAllies):
 			tween.tween_property(sprite, "modulate", Color.BLACK, 1)
 			tween.tween_property(sprite,"modulate",Color.WHITE,1)
-
-		#if "flash" is false, turn off the flashing for all creatures
-		else:
-			sprite.set("modulate",Color.WHITE)
-			tween.kill();
+		##if "flash" is false, turn off the flashing for all creatures
+		#else:
+			#sprite.set("modulate",Color.WHITE)
+			#tween.kill();
 #func changeState(newState:States):
 	#state = newState;
 	#if state == States.SELECTING_MOVE:
@@ -281,7 +274,7 @@ func setBattleText(str:String):
 	BattleLog.set_text(str);
 
 #set a move's animation
-func setBattleSprite(sprite:SpriteFrames,pos:Vector2=BattleSpriteRect.get_rect().get_center()) -> void:
+func setBattleSprite(sprite:SpriteFrames,pos:Vector2  ) -> void:
 	if sprite:
 		BattleSprite.setSprite(sprite)
 

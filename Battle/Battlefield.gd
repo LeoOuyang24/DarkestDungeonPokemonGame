@@ -55,7 +55,7 @@ func getCurrentCreature():
 
 func setCurrentCreature(creature:Creature):
 	currentCreature = creature
-	new_current_creature.emit(creature)
+	#new_current_creature.emit(creature)
 
 #true if creature is an ally
 #false if creature is an enemy or doesn't exist

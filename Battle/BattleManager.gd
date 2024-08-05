@@ -55,14 +55,13 @@ func _ready():
 		UI.removeCreatureFromQueue(record.user));
 	BattleSim.creature_died.connect(handleDeath)
 	BattleSim.creature_order_changed.connect(func(_added:bool):
-		UI.setBattleState(BattleSim,isPlayerTurn())
-		)
-	BattleSim.new_current_creature.connect(func(creature:Creature):
-		UI.setCurrentCreature(creature)
+		UI.setBattleState(BattleSim)
 		)
 
 	if testing:
 		test();
+	
+	newTurn()
 		
 
 func test():
@@ -94,10 +93,8 @@ func handleTargetSelect(index):
 		var target = BattleSim.getCreature(index)
 		if target && currentMove.isTargetValid(currentMove.targetingCriteria,true,BattleSim.isCreatureFriendly(target)):
 			targets.push_back(index);
-		if targets.size() >= targetsNeeded:
-			BattleSim.handlePlayerMove(BattleSim.getCurrentCreature(),currentMove,targets)
-			#BattleSim.addMoveToQueue(MoveRecord.new(BattleSim.getCurrentCreature(),currentMove,targets))
-			changeState(BATTLE_STATES.SELECTING_MOVE)
+			if targets.size() >= targetsNeeded:
+				handleMoveDone()
 
 func handleMoveSelect(move):
 		if state == BATTLE_STATES.SELECTING_MOVE:
@@ -109,10 +106,17 @@ func handleMoveSelect(move):
 			else:
 				return #creature has less than max moves and we hit a blank button, do nothing
 			targetsNeeded = currentMove.getNumOfTargets();
-			changeState(BATTLE_STATES.SELECTING_TARGET)
 			if targetsNeeded == 0:
-				handleTargetSelect(-1)
+				handleMoveDone()
+			else:
+				changeState(BATTLE_STATES.SELECTING_TARGET)
 
+#handle a move that has had targets selected
+func handleMoveDone():
+	BattleSim.handlePlayerMove(BattleSim.getCurrentCreature(),currentMove,targets)
+	#BattleSim.addMoveToQueue(MoveRecord.new(BattleSim.getCurrentCreature(),currentMove,targets))
+	changeState(BATTLE_STATES.SELECTING_MOVE)
+		
 func handleDeath(creature):
 	if creature.isPlayerCreature():
 		sequencer.insert(createPlayerDeathSequence(creature))
@@ -141,9 +145,11 @@ func createBattle(player,allies,enemies):
 
 func changeState(state):
 	self.state = state;
-	UI.setBattleState(BattleSim,isPlayerTurn());
+	#UI.setBattleState(BattleSim);
 	if self.state == BATTLE_STATES.SELECTING_MOVE:
+		UI.resetSlotModulate()
 		UI.choosingTargets(false);
+		UI.setCurrentCreature(BattleSim.getCurrentCreature())
 		UI.setBattleText("Choose a move!");
 		targets = [];
 	elif self.state == BATTLE_STATES.SELECTING_TARGET:
@@ -162,9 +168,10 @@ func isPlayerTurn():
 	return state == BATTLE_STATES.SELECTING_MOVE || state == BATTLE_STATES.SELECTING_TARGET;
 
 func newTurn():
-	changeState(BATTLE_STATES.SELECTING_MOVE);
 	BattleSim.newTurn();
-	UI.newTurn();
+	UI.newTurn(BattleSim);
+	
+	changeState(BATTLE_STATES.SELECTING_MOVE);
 
 func reset():
 	playerCreature = null

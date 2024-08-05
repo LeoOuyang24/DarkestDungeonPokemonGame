@@ -30,6 +30,8 @@ var creatureName = "Creature"
 
 var pendingBigBoosts:int = 0
 
+
+
 #moves that we earn through leveling up. 
 #Unlike pendingBigBoosts, this is filled in at _ready and only gets smaller as we level up
 var levelUpMoves:Array=[]
@@ -223,7 +225,8 @@ func getMove(index):
 	return moves[index];
 func getRandomMove():
 	return moves[randi()%moves.size()]
-			
+	
+	
 #given a creature, its allies, and its targets,
 #run the AI for the creature
 #return the move it would use
