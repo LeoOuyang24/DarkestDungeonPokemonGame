@@ -145,3 +145,8 @@ offset_bottom = 819.0
 texture = SubResource("GradientTexture2D_05pyf")
 expand_mode = 1
 stretch_mode = 6
+
+[connection signal="move_selected" from="Moves/Button" to="." method="_on_button_move_selected"]
+[connection signal="move_selected" from="Moves/Button3" to="." method="_on_button_move_selected"]
+[connection signal="move_selected" from="Moves/Button2" to="." method="_on_button_move_selected"]
+[connection signal="move_selected" from="Moves/Button4" to="." method="_on_button_move_selected"]

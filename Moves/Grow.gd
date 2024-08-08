@@ -7,7 +7,6 @@ func _ready():
 
 func _init():
 	super("Grow",0,1)
-	requiresTargets = false
 	summary = "Double user's attack"
 	
 func getPostMoveMessage(user:Creature, targets:Array) -> String:

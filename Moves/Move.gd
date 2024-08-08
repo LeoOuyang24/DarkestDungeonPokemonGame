@@ -13,10 +13,13 @@ class MoveRecord extends Object:
 	var user:Creature = null #user of the move
 	var targets:Array = [] #indicies of creatures that are the target
 
-	func _init( user:Creature, move:Move, targets:Array):
+	func _init( user:Creature = null, move:Move = null, targets:Array = []):
 		self.move = move;
 		self.user = user;
 		self.targets = targets;
+		
+	func copy() -> MoveRecord:
+		return MoveRecord.new(self.user,self.move,self.targets)
 
 #the name of the move
 var moveName:StringName = "move"
@@ -34,11 +37,6 @@ var cooldown:int = 0
 #not necessarily the number of targets that actually get hit but the number of targets
 #that the player has to manually choose
 var manualTargets:int = 0;
-
-#true if this move affects other creatures besides the user
-#useful for calculating if a move's lack of targets is due to it not needing targets
-#or because there are no valid targets
-var requiresTargets:bool = true;
 
 #what can we target? Only allies? Only enemies?
 #this only applies to manually targeting
@@ -83,6 +81,10 @@ func setCooldown(amount:int) -> void:
 #decrement the cooldown
 func decRemainingCD(amount:int = 1) -> void:
 	setCooldown(cooldown - amount)
+
+#return an array of things to format the summary string with
+func getModifiers(user:Creature) -> Array:
+	return []
 
 #do a move
 #anything that needs to be done that is universal to all moves (ie, setting the cooldown) is done here

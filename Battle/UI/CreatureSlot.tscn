@@ -1,10 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://bqsfei63od030"]
+[gd_scene load_steps=7 format=3 uid="uid://bqsfei63od030"]
 
 [ext_resource type="Script" path="res://Battle/UI/CreatureSlot.gd" id="1_kmmwv"]
 [ext_resource type="PackedScene" uid="uid://bjln7kkve4d5a" path="res://Battle/UI/health_bar.tscn" id="2_1ocdj"]
-[ext_resource type="Texture2D" uid="uid://dkm5fbovv5fr" path="res://sprites/icons/speed_icon.png" id="5_p6tri"]
-[ext_resource type="Texture2D" uid="uid://c1u1tuqrcdmmc" path="res://sprites/icons/claw_icon.png" id="6_tf2ss"]
-[ext_resource type="Texture2D" uid="uid://cfqgl40ppp05u" path="res://sprites/icons/heart_icon.png" id="7_57i0h"]
 
 [sub_resource type="Animation" id="Animation_yci5t"]
 resource_name = "hurt"
@@ -26,10 +23,6 @@ tracks/0/keys = {
 _data = {
 "hurt": SubResource("Animation_yci5t")
 }
-
-[sub_resource type="Theme" id="Theme_gsgrq"]
-Label/colors/font_color = Color(1, 1, 1, 1)
-Label/font_sizes/font_size = 40
 
 [sub_resource type="Animation" id="Animation_g1k0o"]
 resource_name = "hurt"
@@ -95,62 +88,6 @@ text = "100"
 libraries = {
 "": SubResource("AnimationLibrary_6k17u")
 }
-
-[node name="Icons" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.78
-anchor_top = 0.76
-anchor_right = 0.78
-anchor_bottom = 0.76
-offset_left = 6.10352e-05
-offset_top = 1.52588e-05
-offset_right = 50.0001
-offset_bottom = 50.0
-size_flags_vertical = 3
-theme = SubResource("Theme_gsgrq")
-
-[node name="AttackIcon" type="TextureRect" parent="Icons"]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-texture = ExtResource("6_tf2ss")
-expand_mode = 2
-stretch_mode = 5
-
-[node name="Label" type="Label" parent="Icons/AttackIcon"]
-layout_mode = 0
-offset_left = 8.0
-offset_right = 48.0
-offset_bottom = 23.0
-
-[node name="HealthIcon" type="TextureRect" parent="Icons"]
-visible = false
-layout_mode = 2
-texture = ExtResource("7_57i0h")
-expand_mode = 2
-stretch_mode = 5
-
-[node name="Label" type="Label" parent="Icons/HealthIcon"]
-layout_mode = 0
-offset_left = 8.0
-offset_right = 48.0
-offset_bottom = 23.0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-
-[node name="SpeedIcon" type="TextureRect" parent="Icons"]
-visible = false
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-texture = ExtResource("5_p6tri")
-expand_mode = 2
-stretch_mode = 5
-
-[node name="Label" type="Label" parent="Icons/SpeedIcon"]
-layout_mode = 0
-offset_left = 16.0
-offset_right = 56.0
-offset_bottom = 28.0
 
 [node name="DamageTicker" type="RichTextLabel" parent="."]
 visible = false

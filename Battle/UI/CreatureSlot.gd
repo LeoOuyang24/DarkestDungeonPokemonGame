@@ -10,10 +10,6 @@ class_name CreatureSlot extends AnimatedButton
 @onready var Animations = $SpriteAnimations;
 
 @onready var Icons = $Icons
-@onready var HealthIcon = Icons.get_node("HealthIcon/Label")
-@onready var SpeedIcon = Icons.get_node("SpeedIcon/Label")
-@onready var AttackIcon = Icons.get_node("AttackIcon/Label")
-@onready var Attack = Icons.get_node("AttackIcon")
 
 @onready var Ticker = $DamageTicker
 @onready var TickerAnimation = $DamageTicker/Animation
@@ -32,7 +28,6 @@ func setSprite(spriteFrames:SpriteFrames) -> void:
 		#make sure sprite isnt' too big
 		var larger = max(newsize.x,newsize.y)
 		if larger >= MAX_DIMEN:
-			#scale = Vector2(MAX_DIMEN/larger,MAX_DIMEN/larger)
 			setSize(Vector2(MAX_DIMEN,MAX_DIMEN))
 		else:
 			setSize(newsize)
@@ -43,33 +38,14 @@ func setCreature(creature:Creature):
 	if creature:
 		var sprite = creature.spriteFrame
 		setSprite(sprite)
-			
-		#set_visible(true)
 		if (HealthBar):
 			HealthBar.set_max(creature.getMaxHealth())
 			HealthBar.setHealth(creature.getHealth())
-		creature.health.stat_changed.connect(func (dmg,newHealth):
-			HealthIcon.set_text(str(newHealth))
-			)
-		creature.attack.stat_changed.connect(func(a,newAttack):
-			AttackIcon.set_text(str(newAttack))
-			)	
-		creature.speed.stat_changed.connect(func(a,newSpeed):
-			SpeedIcon.set_text(str(newSpeed))
-			)	
-		HealthIcon.set_text(str(creature.getHealth()))
-		AttackIcon.set_text(str(creature.getAttack()))
-		SpeedIcon.set_text(str(creature.getSpeed()))
-		
 		creature.health_changed.connect(healthChanged)
-		
 		set_flip_h( creature.getIsFriendly())
-		#position.x *= int(creature.getIsFriendly())*2-1
-		Icons.global_position.x = HealthBar.global_position.x + (HealthBar.size.x -Icons.size.x if creature.getIsFriendly() else 0)
-		Icons.global_position.y = HealthBar.global_position.y - Icons.size.y
 	else:
 		setSprite(null)
-	Attack.visible = creature != null
+		
 	HealthBar.visible = creature != null
 		
 	
@@ -90,20 +66,15 @@ func setAnimation(string:String) -> void:
 
 func getCreature():
 	return self.creature
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	tween = create_tween();
-	setCreature(null)
 	
+func _ready():
+	tween = getTween()
+	setCreature(null)
 	if testing:
 		setCreature(CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json"))
-	#setSize(Vector2(100,100))
-	#setSize(Vector2(50,50))
-	#icon = load("res://sprites/dialga.png")
-	pass # Replace with function body.
 
-#gets and restarts the animation
 func getTween():
-	#tween.kill();
+	if tween:
+		tween.kill()
 	tween = create_tween()
 	return tween;
