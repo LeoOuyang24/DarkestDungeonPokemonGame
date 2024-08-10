@@ -15,6 +15,9 @@ var inBattle:bool = false
 func initiate() -> void:
 	setDNA(15)
 
+func _ready() -> void:
+	initiate()
+
 func getDNA() -> int:
 	return DNA
 
@@ -27,3 +30,6 @@ func getInBattle() -> bool:
 
 func setInBattle(inBattle:bool) -> void:
 	self.inBattle = inBattle
+
+
+

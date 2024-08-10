@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cuxvfcka4wn1p"]
 
-[ext_resource type="FontFile" uid="uid://dgs200ax7el15" path="res://Fonts/Unutterable-rv3x8.ttf" id="1_o8hnq"]
+[ext_resource type="FontFile" uid="uid://bhijg3nwptqpm" path="res://Fonts/Unutterable-rv3x8.ttf" id="1_o8hnq"]
 [ext_resource type="Script" path="res://Menus/MainMenu.gd" id="1_t8p8d"]
 
 [node name="MainMenu" type="ColorRect"]

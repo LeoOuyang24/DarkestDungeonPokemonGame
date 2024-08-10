@@ -4,8 +4,11 @@ class_name Backstab extends Move
 # Called when the node enters the scene tree for the first time.
 func _init():
 	super("Backstab",0,1)
-	summary = "Deal 1.5x damage to rearmost target"
+	summary = "Deal %s damage to rearmost target"
 	pass # Replace with function body.
+
+func getModifiers(user:Creature) -> Array:
+	return [{"value":user.getAttack()*1.5,"color":Color.RED,"calc":"1.5x"}]
 
 func getPreselectedTargets(user:Creature, battle:Battlefield):
 	return battle.getFrontMostCreatures(-1,user.getIsFriendly())

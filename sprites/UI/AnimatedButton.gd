@@ -21,7 +21,7 @@ func changeAnimation(animation:String) -> void:
 	sprite.changeAnimation(animation)
 
 func setSize(size:Vector2):
-	#self.custom_minimum_size = size
+	self.custom_minimum_size = size
 	self.size = size
 	
 

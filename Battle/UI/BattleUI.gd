@@ -65,7 +65,7 @@ func setCurrentCreature(creature:Creature):
 
 func addAttacksToUI(creature:Creature):
 	for i in range(Creature.maxMoves):
-		Moves[i].setMove(creature.getMove(i) if creature else null)
+		Moves[i].setMove(creature.getMove(i) if creature else null,creature)
 
 #get teh creatureslot corresponding to the given creature or index
 func getCreatureSlot(creature):
@@ -160,7 +160,7 @@ func _ready():
 		TurnQueue.add_child(slot);
 		queueSlots.push_back(slot)
 	
-	PassButton.setMove(PassTurn.new())
+	PassButton.setMove(PassTurn.new(),null)
 	PassButton.move_selected.connect(func (move):
 		move_selected.emit(move)
 		)

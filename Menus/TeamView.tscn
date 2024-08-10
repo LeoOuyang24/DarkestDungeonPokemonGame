@@ -13,24 +13,6 @@ offset_bottom = 712.0
 color = Color(0.054902, 0.2, 0.172549, 1)
 script = ExtResource("1_womks")
 
-[node name="CreateHorror" parent="." instance=ExtResource("4_yluxj")]
-visible = false
-z_index = 0
-layout_mode = 0
-offset_left = 2.0
-offset_top = 329.0
-offset_right = 1125.0
-offset_bottom = 712.0
-
-[node name="CreatureSummary" parent="." instance=ExtResource("3_lyigu")]
-visible = false
-layout_mode = 0
-offset_left = 192.0
-offset_top = 256.0
-offset_right = 1472.0
-offset_bottom = 960.0
-scale = Vector2(0.6, 0.6)
-
 [node name="TeamSlotsRect" type="HBoxContainer" parent="."]
 layout_mode = 0
 offset_left = 112.0
@@ -42,24 +24,38 @@ theme_override_constants/separation = 100
 [node name="Slot1" parent="TeamSlotsRect" instance=ExtResource("4_hnygx")]
 layout_mode = 2
 script = ExtResource("5_3ydqy")
-testing = false
 
 [node name="Slot2" parent="TeamSlotsRect" instance=ExtResource("4_hnygx")]
 layout_mode = 2
 script = ExtResource("5_3ydqy")
-testing = false
 
 [node name="Slot3" parent="TeamSlotsRect" instance=ExtResource("4_hnygx")]
 layout_mode = 2
 script = ExtResource("5_3ydqy")
-testing = false
 
 [node name="Slot4" parent="TeamSlotsRect" instance=ExtResource("4_hnygx")]
 layout_mode = 2
 script = ExtResource("5_3ydqy")
-testing = false
 
 [node name="Slot5" parent="TeamSlotsRect" instance=ExtResource("4_hnygx")]
 layout_mode = 2
 script = ExtResource("5_3ydqy")
-testing = false
+
+[node name="CreatureSummary" parent="." instance=ExtResource("3_lyigu")]
+visible = false
+z_index = 1
+layout_mode = 2
+offset_left = 192.0
+offset_top = 256.0
+offset_right = 1472.0
+offset_bottom = 960.0
+scale = Vector2(0.6, 0.6)
+
+[node name="CreateHorror" parent="." instance=ExtResource("4_yluxj")]
+visible = false
+z_index = 0
+layout_mode = 0
+offset_left = 2.0
+offset_top = 329.0
+offset_right = 1125.0
+offset_bottom = 712.0

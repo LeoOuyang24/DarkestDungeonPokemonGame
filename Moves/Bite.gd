@@ -4,10 +4,11 @@ class_name Bite extends Move
 # Called when the node enters the scene tree for the first time.
 func _init():
 	super("Bite",0,1)
-	summary = "Deal {{9345}} damage to frontmost target"
+	summary = "Deal %s damage to frontmost target"
 	pass # Replace with function body.
 
-#func getModifers(user:Creature) -> Array:
+func getModifiers(user:Creature) -> Array:
+	return [{"value":user.getAttack(),"color":Color.RED,"calc":"1x"}]
 	#return [MoveButton.getCreatureStatUI(user,Creature.STATS.ATTACK)]
 
 func getPreselectedTargets(user:Creature, battle:Battlefield):

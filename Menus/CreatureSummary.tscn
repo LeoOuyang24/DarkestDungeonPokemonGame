@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" path="res://Menus/CreatureSummary.gd" id="1_6r03a"]
 [ext_resource type="Script" path="res://sprites/Anime.gd" id="1_g5kkb"]
-[ext_resource type="Texture2D" uid="uid://c1u1tuqrcdmmc" path="res://sprites/icons/claw_icon.png" id="3_ffpxe"]
+[ext_resource type="Texture2D" uid="uid://cp4s8dnh0c48e" path="res://sprites/icons/claw_icon.png" id="3_ffpxe"]
 [ext_resource type="PackedScene" uid="uid://b6nxjul7v18y3" path="res://Menus/StatBar.tscn" id="4_qu7fa"]
-[ext_resource type="Texture2D" uid="uid://dkm5fbovv5fr" path="res://sprites/icons/speed_icon.png" id="4_xyj4n"]
+[ext_resource type="Texture2D" uid="uid://ds2kw1pcwxvcn" path="res://sprites/icons/speed_icon.png" id="4_xyj4n"]
 [ext_resource type="Script" path="res://Menus/LevelUpButton.gd" id="6_2cbse"]
-[ext_resource type="Texture2D" uid="uid://q5ilukk8h66k" path="res://sprites/icons/dna_icon.png" id="6_cdg3m"]
+[ext_resource type="Texture2D" uid="uid://cgxsxxx5aw2nn" path="res://sprites/icons/dna_icon.png" id="6_cdg3m"]
 [ext_resource type="PackedScene" uid="uid://c434ifxltx2da" path="res://Menus/LearnNewMove.tscn" id="8_i1cfh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kujuv"]

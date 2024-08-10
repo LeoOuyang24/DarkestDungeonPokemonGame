@@ -24,14 +24,12 @@ func setSprite(spriteFrames:SpriteFrames) -> void:
 	super(spriteFrames)
 	if spriteFrames:
 		var newsize = sprite.getFrameSize()
-		custom_minimum_size = Vector2(0,0)
 		#make sure sprite isnt' too big
 		var larger = max(newsize.x,newsize.y)
 		if larger >= MAX_DIMEN:
 			setSize(Vector2(MAX_DIMEN,MAX_DIMEN))
 		else:
 			setSize(newsize)
-		custom_minimum_size = size
 
 func setCreature(creature:Creature):
 	self.creature = creature;

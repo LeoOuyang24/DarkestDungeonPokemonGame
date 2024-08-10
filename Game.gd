@@ -17,7 +17,7 @@ func _ready():
 	GameState.DNA_changed.connect(func(amount):
 		DNACounter.set_text(str(GameState.getDNA()))
 		)
-	GameState.initiate()
+	DNACounter.set_text(str(GameState.getDNA()))
 	Map.updateRooms() #this is called in two places, one here and one when the battle ends. It really should be added to a single function called "SwaptoMap" or something
 	swapToScene(Map)
 	pass # Replace with function body.

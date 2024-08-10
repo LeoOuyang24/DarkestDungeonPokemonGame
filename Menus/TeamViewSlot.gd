@@ -2,6 +2,7 @@ class_name TeamViewSlot extends CreatureSlot
 
 #renders a Creature in the team menu
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	flip_h = true
@@ -13,8 +14,10 @@ func setCreature(creature:Creature) -> void:
 		#var texture = load("res://sprites/UI/empty_creatureslot.tres")
 		#print(texture.get_frame_count("default"))
 		setSprite(load("res://sprites/UI/empty_creatureslot.tres"))
+
 		#Sprite.animation = "default"
 		#Sprite.play()
+	setSize(Vector2(100,100))
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
