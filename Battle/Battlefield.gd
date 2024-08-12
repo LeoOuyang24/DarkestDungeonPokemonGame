@@ -19,7 +19,6 @@ var creaturesNum:int = 0
 
 var moveQueue:MoveQueue = MoveQueue.new();
 
-signal creature_died(creature:Creature);
 signal add_move_queue(record:Move.MoveRecord, index:int);
 signal remove_move_queue(record:Move.MoveRecord);
 signal new_current_creature(creature:Creature)

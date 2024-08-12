@@ -42,7 +42,6 @@ func newTurn(state:Battlefield):
 func updateSlots(state:Battlefield):
 	for i in range(state.creatures.size()):
 		addCreature(state.creatures[i],i);
-	#if playerTurn && state.getCurrentCreature():
 
 #reset slot appearances
 func resetSlotUIs():

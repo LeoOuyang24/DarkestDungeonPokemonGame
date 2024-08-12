@@ -4,8 +4,10 @@ class_name Shoot extends Move
 # Called when the node enters the scene tree for the first time.
 func _init():
 	super("Shoot",1,10)
-	summary = "Deal 1x damage to a chosen target"
+	summary = "Deal %s damage to a chosen target"
 	pass # Replace with function body.
+func getModifiers(user:Creature) -> Array:
+	return [{"value":user.getAttack(),"color":Color.RED,"calc":"1x"}]
 
 func move(user:Creature, enemies:Array, battlefield):
 	if len(enemies) > 0: #just to be safe, make sure we are actually targeting something

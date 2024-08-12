@@ -8,6 +8,7 @@ func _ready():
 func _init():
 	super("Grow",0,1)
 	summary = "Double user's attack"
+
 	
 func getPostMoveMessage(user:Creature, targets:Array) -> String:
 	return user.getName() + "'s attack doubled!"

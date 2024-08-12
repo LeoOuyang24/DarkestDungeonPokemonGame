@@ -20,6 +20,8 @@ func setMove(move:Move,creature:Creature) -> void:
 		self.text = ""
 		set_tooltip_text("")
 	
+#makes the tooltip for each button, which changes dynamically 
+#ie, having more attack will change the damage number
 func _make_custom_tooltip(summary:String):
 	var label = RichTextLabel.new()
 	label.custom_minimum_size = Vector2(200,0)
@@ -29,20 +31,21 @@ func _make_custom_tooltip(summary:String):
 	if !move.isUsable():
 		label.append_text(str(move.getRemainingCD()) + " turns left before move can be used.")
 	else:
+		#get modifiers
 		var values = move.getModifiers(creature)
+		#convert each modifier to a string
+		#this is done by taking the value and adding in the color
+		#if the creature is null, we instead show a formula (1x damage, 2.5x damage, etc)
 		values = values.map(func(obj):
 			if creature:
 				var val:int = obj.value if obj.value else -1
 				var color:Color = obj.color if obj.color else Color.RED
-			
 				return ("[color=%s]%d[/color]") % [color.to_html(),val]
 			else:
 				return obj.calc
 				
 			)
 		label.text = move.summary % values
-		#label.push_font_size(15)
-
 	return label
 	
 func cdChanged(_amount:int,_newCD:int) -> void:
@@ -59,13 +62,4 @@ func getMove() -> Move:
 	
 func _pressed() -> void:
 	move_selected.emit(move)
-	
-#return the given creature's stat as a string, formatted the way it'd appear in the description
-static func getCreatureStatUI(creature:Creature, stat:Creature.STATS) -> String:
-	if creature:
-		var label = RichTextLabel.new()
-		label.push_color(Color.RED)
-		label.append_text(str(creature.getStat(stat)))
-		label.pop()
-		return label.text
-	return ""
+
