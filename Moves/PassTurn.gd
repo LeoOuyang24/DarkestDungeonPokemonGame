@@ -6,6 +6,5 @@ func _init():
 	moveName = "Pass Turn"
 	summary = "Skip the turn like the coward you are."
 
-func createMoveSequence(user, move,targets,battlefield:Battlefield):
-	return []
+
 

@@ -31,7 +31,12 @@ func setSprite(spriteFrames:SpriteFrames) -> void:
 		else:
 			setSize(newsize)
 
+func removeCreature():
+	if creature:
+		creature.health_changed.disconnect(healthChanged)
+		creature = null
 func setCreature(creature:Creature):
+	removeCreature()
 	self.creature = creature;
 	if creature:
 		var sprite = creature.spriteFrame
@@ -52,6 +57,9 @@ func healthChanged(damage:int,newHealth:int) -> void:
 		if (damage < 0):
 			Animations.play("hurt")
 		HealthBar.setHealth(newHealth)
+		if newHealth == 3 && creature.isPlayer:
+			print(creature)
+			print("ASDF")
 		Ticker.clear()
 		Ticker.push_color(Color.RED if damage < 0 else Color.GREEN) #if healing, text color is green
 		Ticker.append_text(("+" if damage > 0 else "") + str(damage)) #add a "+" sign if healing
@@ -70,6 +78,14 @@ func _ready():
 	setCreature(null)
 	if testing:
 		setCreature(CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json"))
+		
+	#for debugging purposes, clicking on a creature slot will print the creature
+	pressed.connect(func():
+		print(creature)
+		)
+
+func _to_string() -> String:
+	return "[Creature Slot: " + (creature.to_string() if creature else "null") + "]"
 
 func getTween():
 	if tween:

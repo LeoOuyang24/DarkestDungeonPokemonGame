@@ -18,19 +18,6 @@ func getPreselectedTargets(user:Creature, battle:Battlefield):
 			targetsArr.push_back(i)
 	return [battle.relPosToAbs(targetsArr[randi()%targetsArr.size()],!user.getIsFriendly())];
 
-func moveAnimationSequence(user, move, targets):
-	return [SequenceUnit.createSequenceUnit(func(d,b,u):
-		if targets.size() > 0:
-			var slot = u.getCreatureSlot(targets[0])
-			var tween = slot.getTween()
-			if !tween.is_running():
-				tween.tween_property(slot.Sprite,"modulate",Color.MAGENTA,1)
-				tween.tween_property(slot.Sprite,"modulate",Color.WHITE,1)
-			#await tween.finished
-			return SequenceUnit.RETURN_VALS.DONE if !tween.is_valid() else SequenceUnit.RETURN_VALS.NOT_DONE
-		return SequenceUnit.RETURN_VALS.DONE 
-		)]
-
 func runAnimation(user:Creature, targets:Array, u:BattleUI,battlefield:Battlefield) -> void:
 	var slot = u.getCreatureSlot(targets[0])
 	var tween = slot.getTween()

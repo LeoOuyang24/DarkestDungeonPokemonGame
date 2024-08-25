@@ -24,24 +24,36 @@ func remove(moveInfo:Move.MoveRecord):
 
 #insert a move. returning the index
 func insert(moveInfo:Move.MoveRecord) -> int:
+
+	addMove(moveInfo.user,moveInfo)
+	return updateSpot(moveInfo.user)
+	
+#change what move creature is going to use
+func addMove(creature:Creature,record:Move.MoveRecord) -> void:
+	movesSelected[creature] = record
+	
+#if creature is in movesSelected, update its position and return its position
+#-1 if creature is not in movesSelected
+func updateSpot(creature:Creature) -> int:
 	var index = -1
-	if !movesSelected.has(moveInfo.user):
+	if movesSelected.has(creature):
 		var inserted = false
+		data.erase(creature);
 		for i in range(data.size()):
 			#>= creates a "first come first serve" tie breaker.
 			#if 2 moves have the same speed, the one that was added first comes first
-			if data[i].getSpeed() < moveInfo.user.getSpeed():
+			if data[i].getSpeed() < creature.getSpeed():
 				index = i
-				data.insert(i,moveInfo.user)
+				data.insert(i,creature)
 				inserted = true
 				break
 		#if we never inserted, this is the new fastest move
 		if !inserted:
-			data.insert(data.size(),moveInfo.user)
-			index = data.size()
-	movesSelected[moveInfo.user] = moveInfo
+			index = data.size()	
+			data.insert(data.size(),creature)
 	return index
-#returns a creature's position (index) in queue, -1 if not in queue or if there's an invalid move
+	
+#returns a creature's position (index) in queue, -1 if not in queue
 func getSpotInQueue(creature:Creature) -> int:
 	if !movesSelected.has(creature):
 		return -1

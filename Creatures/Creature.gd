@@ -72,7 +72,7 @@ func _init( sprite_path:String, maxHealth_:int,baseAttack_:int,baseSpeed_:int, n
 	
 	health.stat_changed.connect(func (amount,newVal):
 		stat_changed.emit(STATS.HEALTH,amount)
-		health_changed.emit(amount,newVal)
+		stat_changed.emit(STATS.HEALTH,amount)
 		)
 		
 	attack.stat_changed.connect(func (amount,_newVal):
@@ -212,6 +212,7 @@ func setMoves(attacks_):
 func addHealth(amount:int):
 	if amount < 0:	
 		amount = min(amount,-1); #ensure damage is at least 1
+	var health = getHealth()
 	setStat(STATS.HEALTH,getHealth() + amount)
 
 	

@@ -77,17 +77,21 @@ func addCreature(creature:Creature, index:int):
 		creatures[index] = creature;
 		if creature:
 			creature.isFriendly = (index < maxAllies)
+			creature.stat_changed.connect(func(stat:Creature.STATS,amount:int):
+				if stat == Creature.STATS.SPEED:
+					updateMoveQueue(creature))
 		creature_order_changed.emit(true)
 
-#remove the creature, maybe remove it from the move queue
-func removeCreature(creature:Creature, removeMoveToo:bool = true):
+#remove the creature, and remove it from the move queue
+func removeCreature(creature:Creature):
 	var index = getCreatureIndex(creature)
 	if index != -1:
 		creaturesNum -= int(creatures[index] != null)
 		creatures[index] = null
+		moveQueue.removeUser(creature)
 		creature_order_changed.emit(false)
-		if removeMoveToo:
-			moveQueue.removeUser(creature)
+		
+
 			
 #return allies based on if the creature is friendly or not
 func getAllies(isFriendly:bool = true):
@@ -147,10 +151,22 @@ func checkForDeath() -> int:
 #get full queue order of creatures
 func getFullQueue() -> Array:
 	return moveQueue.data
+	
+#update creature's spot in queue
+func updateMoveQueue(creature:Creature) -> void:
+	if creature:
+		moveQueue.updateSpot(creature);
+		add_move_queue.emit(moveQueue.data)
+	
 #add a move to the move queue
 func addMoveToQueue(record:Move.MoveRecord) -> void:
 	if record.user:
-		var index = moveQueue.insert(record)
+		#if creature is already in queue, update what move it's gonna do
+		#this avoids a sort
+		if moveQueue.getSpotInQueue(record.user) != -1:
+			moveQueue.addMove(record.user,record)
+		else:
+			moveQueue.insert(record)
 		#print(moveQueue.getSpotInQueue(record.user)) 
 		add_move_queue.emit(moveQueue.data);
 		
@@ -165,8 +181,11 @@ func top() -> Move.MoveRecord:
 		return top;
 	return null
 	
-func pop() -> void:
-	moveQueue.remove(moveQueue.top())
+func pop() -> Move.MoveRecord:
+	var result = moveQueue.top()
+	if result:
+		moveQueue.remove(result)
+	return result
 #returns whether all players have selected a move
 func allMovesProcessed() -> bool:
 	return currentCreature == null

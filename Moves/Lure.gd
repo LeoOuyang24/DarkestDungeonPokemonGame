@@ -47,19 +47,22 @@ func runAnimation(user:Creature,enemies:Array,UI:BattleUI,battlefield:Battlefiel
 	var lastTween = {} 
 	var time = 0.25
 	processTargets(enemies,battlefield,func(curIndex,nextIndex):
+
 		var slot = UI.getCreatureSlot(curIndex)
 		var nextSlot = UI.getCreatureSlot(nextIndex)
-		var tween = slot.getTween().tween_property(slot,"global_position",nextSlot.global_position,time)
+		#var tween = slot.getTween().tween_property(slot,"global_position",nextSlot.global_position,time)
+		var tween = slot.getTween().tween_method(func(val):
+			slot.global_position.x = val;
+			,slot.global_position.x,nextSlot.global_position.x + nextSlot.size.x/2 - slot.size.x/2,time)
 		lastTween.tween = tween
 		)
-
 	await lastTween.tween.finished
+	#await GameState.get_tree().create_timer(100).timeout
 	
 #actually swap the creatures around
 func move(user:Creature,enemies:Array,battle:Battlefield):
 	var reserve:Dictionary = {}
 	reserve.reserve = battle.getCreature(enemies[-1])
-
 	processTargets(enemies,battle,func(curIndex,nextIndex):
 		if reserve.reserve:
 			var temp:Creature = battle.getCreature(nextIndex)
@@ -67,10 +70,11 @@ func move(user:Creature,enemies:Array,battle:Battlefield):
 			reserve.reserve = temp
 
 		)
+
 	#this is only true if there is a gap somewhere between the enemies (a null slot between the backmost and frontmost enemies)
 	if enemies.size() < enemies[-1] - enemies[0] + 1: 
 		battle.addCreature(null,enemies[-1])
-	
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass

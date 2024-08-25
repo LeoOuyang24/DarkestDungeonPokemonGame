@@ -154,7 +154,9 @@ func runMove(user:Creature,move:Move,targets:Array) -> void:
 	targets.append_array(move.getPreselectedTargets(user,BattleSim))
 	UI.setBattleText(user.getName() + " used " + move.getMoveName() + "!")
 	await get_tree().create_timer(1).timeout
-	
+	var call:Callable = func():
+		pass
+
 	await move.runAnimation(user,targets,UI,BattleSim)
 	
 	move.doMove(user,targets,BattleSim)
@@ -170,7 +172,7 @@ func runDeath(dead:Creature) -> void:
 
 
 func runBattle():
-	var runThis = BattleSim.top()
+	var runThis = BattleSim.pop()
 
 	while runThis:
 		await runMove(runThis.user,runThis.move,runThis.targets)
@@ -178,13 +180,14 @@ func runBattle():
 		while dead != -1:
 			await runDeath(BattleSim.getCreature(dead))
 			dead = BattleSim.checkForDeath()
-		BattleSim.pop()
+
 
 		if !GameState.PlayerState.getPlayer().isAlive():
 			changeState(BATTLE_STATES.WE_LOST)
 			return 
 		else:
-			runThis = BattleSim.top()
+			runThis = BattleSim.pop()
+		UI.resetAllSlotPos()
 			
 	if BattleSim.isDone():
 		changeState(BATTLE_STATES.WE_WON)

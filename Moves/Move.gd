@@ -49,6 +49,9 @@ enum TARGETING_CRITERIA
 
 var targetingCriteria:TARGETING_CRITERIA = TARGETING_CRITERIA.ONLY_ENEMIES
 
+func _to_string() -> String:
+	return getMoveName();
+
 func _init(moveName:String,manualTargets:int = 0,baseCooldown:int = 1):
 	self.moveName = moveName
 	self.manualTargets = manualTargets

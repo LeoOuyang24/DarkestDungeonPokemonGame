@@ -7,7 +7,9 @@
 	"flying": false,
 	"startMoves": [
 		"Bite",
-		"Grow"
+		"Grow",
+		"GrantAttack",
+		"GrantSpeed"
 	],
 	"levelMoves": [	"Slash", "Lure"]
 }

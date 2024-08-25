@@ -5,9 +5,6 @@
 	"baseSpeed": 5,
 	"name": "Siren",
 	"startMoves": [
-		"Bite",
-		"Grow",
-		"Slash",
 		"Lure"
 	],
 	"levelMoves": []
