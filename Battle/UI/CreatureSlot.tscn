@@ -65,6 +65,7 @@ size_flags_vertical = 8
 ignore_texture_size = true
 stretch_mode = 4
 script = ExtResource("1_kmmwv")
+testing = null
 
 [node name="HealthBar" parent="." instance=ExtResource("2_1ocdj")]
 layout_mode = 1

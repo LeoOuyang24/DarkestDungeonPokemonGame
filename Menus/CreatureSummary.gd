@@ -40,7 +40,7 @@ func setCreature(creature:Creature) -> void:
 		for i in range(Stats.size()):
 			Stats[i].setCreature(creature,i)
 			
-		creature.leveled_up.connect(updateCreature)
+		creature.level.leveled_up.connect(updateCreature)
 			
 		#add everything else to UI
 		updateCreature()
@@ -51,7 +51,7 @@ func updateCreature() -> void:
 
 	#LevelUpCost.set_text(str(getLevelUpCost()))
 	#if we have the option of learning a new move, update
-	var nextMove = creature.getNextLevelUpMove()
+	var nextMove = creature.level.getNextLevelUpMove()
 	if nextMove:
 		LearnNewMove.setNewMove(nextMove)
 	
@@ -62,9 +62,9 @@ func updateCreature() -> void:
 #update summary when hovering over the levelup button to see what the new stats will be
 func onHover() -> void:		
 	if creature:
-		Health.setBonus(creature.getPerLevelAmount(Creature.STATS.HEALTH))
-		Attack.setBonus(creature.getPerLevelAmount(Creature.STATS.ATTACK))
-		Speed.setBonus(creature.getPerLevelAmount(Creature.STATS.SPEED))
+		Health.setBonus(Stat.perLevelIncrease(creature.stats.getBaseStat(CreatureStats.STATS.HEALTH)))
+		Attack.setBonus(Stat.perLevelIncrease(creature.stats.getBaseStat(CreatureStats.STATS.ATTACK)))
+		Speed.setBonus(Stat.perLevelIncrease(creature.stats.getBaseStat(CreatureStats.STATS.SPEED)))
 		
 func offHover() -> void:
 	if creature:

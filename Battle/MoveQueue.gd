@@ -42,7 +42,7 @@ func updateSpot(creature:Creature) -> int:
 		for i in range(data.size()):
 			#>= creates a "first come first serve" tie breaker.
 			#if 2 moves have the same speed, the one that was added first comes first
-			if data[i].getSpeed() < creature.getSpeed():
+			if data[i].stats.getCurStat(CreatureStats.STATS.SPEED) < creature.stats.getCurStat(CreatureStats.STATS.SPEED):
 				index = i
 				data.insert(i,creature)
 				inserted = true

@@ -77,8 +77,8 @@ func addCreature(creature:Creature, index:int):
 		creatures[index] = creature;
 		if creature:
 			creature.isFriendly = (index < maxAllies)
-			creature.stat_changed.connect(func(stat:Creature.STATS,amount:int):
-				if stat == Creature.STATS.SPEED:
+			creature.stats.stat_changed.connect(func(stat:CreatureStats.STATS,amount:int):
+				if stat == CreatureStats.STATS.SPEED:
 					updateMoveQueue(creature))
 		creature_order_changed.emit(true)
 

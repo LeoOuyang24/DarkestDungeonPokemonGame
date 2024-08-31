@@ -33,8 +33,22 @@ func setSprite(spriteFrames:SpriteFrames) -> void:
 
 func removeCreature():
 	if creature:
-		creature.health_changed.disconnect(healthChanged)
+		creature.stats.stat_changed.disconnect(updateHealth)
 		creature = null
+
+func updateHealth(stat:CreatureStats.STATS,amount:int):
+			if stat == CreatureStats.STATS.HEALTH:
+					if (amount != 0):
+						if (amount < 0):
+							Animations.play("hurt")
+						HealthBar.setHealth(creature.stats.getCurStat(CreatureStats.STATS.HEALTH))
+
+						Ticker.clear()
+						Ticker.push_color(Color.RED if amount < 0 else Color.GREEN) #if healing, text color is green
+						Ticker.append_text(("+" if amount > 0 else "") + str(amount)) #add a "+" sign if healing
+						Ticker.pop()
+						TickerAnimation.play("hurt")	
+
 func setCreature(creature:Creature):
 	removeCreature()
 	self.creature = creature;
@@ -42,29 +56,15 @@ func setCreature(creature:Creature):
 		var sprite = creature.spriteFrame
 		setSprite(sprite)
 		if (HealthBar):
-			HealthBar.set_max(creature.getMaxHealth())
-			HealthBar.setHealth(creature.getHealth())
-		creature.health_changed.connect(healthChanged)
+			HealthBar.set_max(creature.stats.getBaseStat(CreatureStats.STATS.HEALTH))
+			HealthBar.setHealth(creature.stats.getCurStat(CreatureStats.STATS.HEALTH))
+		creature.stats.stat_changed.connect(updateHealth)
+				
 		set_flip_h( creature.getIsFriendly())
 	else:
 		setSprite(null)
 		
 	HealthBar.visible = creature != null
-		
-	
-func healthChanged(damage:int,newHealth:int) -> void:
-	if (damage != 0):
-		if (damage < 0):
-			Animations.play("hurt")
-		HealthBar.setHealth(newHealth)
-		if newHealth == 3 && creature.isPlayer:
-			print(creature)
-			print("ASDF")
-		Ticker.clear()
-		Ticker.push_color(Color.RED if damage < 0 else Color.GREEN) #if healing, text color is green
-		Ticker.append_text(("+" if damage > 0 else "") + str(damage)) #add a "+" sign if healing
-		Ticker.pop()
-		TickerAnimation.play("hurt")
 		
 	
 func setAnimation(string:String) -> void:

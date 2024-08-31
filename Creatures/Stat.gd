@@ -16,17 +16,20 @@ const PER_LEVEL_AMOUNT:int = 1 #amount to increase this stat by per level
 
 
 
-func _init(baseVal:int) -> void:
+func _init(baseVal:int, levels:int = 1,bigBoosts:int = 0) -> void:
 	rootStat = baseVal
-	baseStat = rootStat
-
-#reset curStat to the base value
-func resetStat(levels:int) -> void:
+	baseStat = predictBaseStat(rootStat,levels,bigBoosts)
 	curStat = getBaseStat()
+	
 
 #calculate the base stat amount given how many levels we have
 static func predictBaseStat(rootStat:int, levels:int, bigBoosts:int) -> int:
-	return rootStat + bigBoosts*BIG_BOOST_AMOUNT + (levels-1)*PER_LEVEL_AMOUNT
+	return rootStat + bigBoosts*BIG_BOOST_AMOUNT + (levels-1)*perLevelIncrease(rootStat)
+	
+#in case in the future I decide to change how stats increase per level, this function offers
+#that functionality
+static func perLevelIncrease(baseStat:int) -> int:
+	return PER_LEVEL_AMOUNT;
 	
 func getBaseStat():
 	return baseStat
@@ -40,13 +43,10 @@ func addBigBoost(amount:int = 1):
 	
 func addBaseStat(amount:int) -> void:
 	baseStat += amount
-	changeStat(getStat() + amount)
-	stat_changed.emit(amount,baseStat)
+	addStat(amount)
 
 #change our stat	
-func changeStat(newStat:int) -> void:
-	var oldVal = self.curStat
-	self.curStat = newStat
-	
-	stat_changed.emit(self.curStat - oldVal, self.curStat)
+func addStat(amount:int) -> void:
+	self.curStat += amount
+	stat_changed.emit(amount, self.curStat)
 	

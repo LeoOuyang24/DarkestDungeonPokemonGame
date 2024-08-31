@@ -8,5 +8,5 @@ func _init():
 func onAdd(creature:Creature) -> void:
 	creature.health_changed.connect(func(amount,_new):
 		if amount < 0:
-			
+			stacks = 0;
 		)

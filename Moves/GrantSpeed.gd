@@ -12,9 +12,9 @@ func _init():
 
 func move(user:Creature, targets:Array, battlefield):
 	if len(targets) > 0: #just to be safe, make sure we are actually targeting something
-		var target = battlefield.getCreature(targets[0])
-		print(target)
-		target.setStat(Creature.STATS.SPEED,target.getSpeed() + 5)
+		var target:Creature = battlefield.getCreature(targets[0])
+
+		target.stats.getStatObj(CreatureStats.STATS.SPEED).addStat(5)
 	pass
 	
 func runAnimation(user:Creature, targets:Array, UI:BattleUI,battlefield:Battlefield) -> void:

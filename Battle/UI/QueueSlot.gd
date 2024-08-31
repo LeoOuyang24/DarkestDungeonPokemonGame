@@ -5,7 +5,7 @@ class_name QueueSlot extends AnimatedButton
 
 var creature:Creature = null
 
-func updateSpeed(speed:int = creature.getSpeed() if creature else 0) -> void:
+func updateSpeed(speed:int = creature.stats.getCurStat(CreatureStats.STATS.SPEED) if creature else 0) -> void:
 	SpeedCounter.set_text(str(speed))
 
 func setCreature(creature:Creature) -> void:
@@ -14,7 +14,7 @@ func setCreature(creature:Creature) -> void:
 		visible = true
 		setSprite(creature.getSprite())
 		updateSpeed()
-		creature.stat_changed.connect(updateSpeed)
+		creature.stats.stat_changed.connect(updateSpeed)
 		Background.color = Color(0,1,0,0.2) if creature.getIsFriendly() else Color(1,0,0,0.2)
 	else:
 		visible = false

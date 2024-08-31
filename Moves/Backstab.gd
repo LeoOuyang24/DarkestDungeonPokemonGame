@@ -8,14 +8,14 @@ func _init():
 	pass # Replace with function body.
 
 func getModifiers(user:Creature) -> Array:
-	return [{"value":user.getAttack()*1.5,"color":Color.RED,"calc":"1.5x"}]
+	return [{"value":user.stats.getCurStat(CreatureStats.STATS.ATTACK)*1.5,"color":Color.RED,"calc":"1.5x"}]
 
 func getPreselectedTargets(user:Creature, battle:Battlefield):
 	return battle.getFrontMostCreatures(-1,user.getIsFriendly())
 
 func move(user:Creature, enemies:Array, battlefield):
 	if len(enemies) > 0: #just to be safe, make sure we are actually targeting something
-		Creature.dealDamage(user,battlefield.getCreature(enemies[0]),1.5*user.getAttack()); #realistically the player should only be targeting one enemy, but even if they target multiple, we only hit the first
+		Creature.dealDamage(user,battlefield.getCreature(enemies[0]),1.5*user.stats.getCurStat(CreatureStats.STATS.ATTACK)); #realistically the player should only be targeting one enemy, but even if they target multiple, we only hit the first
 	pass
 	
 func runAnimation(user:Creature, targets:Array, UI:BattleUI,battlefield:Battlefield) -> void:

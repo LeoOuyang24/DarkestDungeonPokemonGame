@@ -2,19 +2,18 @@ class_name StatBar extends Control
 
 #represents a bar of a stat in the bargraph in the CreatureSummary Scene
 
-@onready var StatLabel = $Label
-@onready var Bar = $ColorRect
-@onready var Icon = $Icon
-@onready var BigBoost = $BigBoost
+@onready var StatLabel:RichTextLabel = $Label
+@onready var Bar:ColorRect = $ColorRect
+@onready var Icon:TextureRect = $Icon
+@onready var BigBoost:TextureButton = $BigBoost
 
 @export var BarColor:Color = Color.GREEN
-@export var Sprite:Texture = null
 
 var width=10#width per unit of the stat
-var maxWidth:int = width*Creature.MAX_LEVEL #most amount of width we have to work with
+var maxWidth:int = width*CreatureLevel.MAX_LEVEL #most amount of width we have to work with
 
 var creature:Creature = null
-var stat:Creature.STATS = Creature.STATS.HEALTH #which stat we represent
+var stat:CreatureStats.STATS = CreatureStats.STATS.HEALTH #which stat we represent
 
 #the actual amount of the stat we are displaying
 var val:int = 0
@@ -41,26 +40,25 @@ func setBonus(bonus:int,color:Color=Color.GREEN):
 		StatLabel.set_text(str(val))
 	#Bonuses.set_position(Vector2(StatLabel.position.x + StatLabel.size.x + 10, StatLabel.position.y))
 
-func setCreature(creature:Creature, stat:Creature.STATS):
+func setCreature(creature:Creature, stat:CreatureStats.STATS):
 	self.creature = creature
 	self.stat = stat
 	if creature:
-		growTo(creature.getBaseStat(stat))
-		var tracker = creature.getStatTracker(stat)
-		creature.stat_changed.connect(func(stat:Creature.STATS,amount):
+		growTo(creature.stats.getBaseStat(stat))
+		var tracker = creature.stats.getStatObj(stat)
+		creature.stats.stat_changed.connect(func(stat:CreatureStats.STATS,amount):
 			if stat == self.stat:
-				growTo(creature.getBaseStat(stat))
-			BigBoost.set_visible(creature.getPendingBigBoosts()>0)
+				growTo(creature.stats.getBaseStat(stat))
+			BigBoost.set_visible(creature.level.getPendingBigBoosts()>0)
 			)
 	
 #set the maximum width our bar can grow to
 func setMaxWidth(maxWidth:int) -> void:
 	self.maxWidth = maxWidth
-	self.width = (maxWidth-10)/Creature.MAX_LEVEL
+	self.width = (maxWidth-10)/CreatureLevel.MAX_LEVEL
 
 func _ready():
 	Bar.color = BarColor
-	Icon.texture = Sprite
 	setMaxWidth(maxWidth)
 	
 	#setBonus(10)
@@ -78,4 +76,4 @@ func _on_big_boost_mouse_exited():
 
 func _on_big_boost_pressed():
 	if creature:
-		creature.bigBoostStat(self.stat)
+		creature.stats.getStatObj(self.stat).addBigBoost(1)

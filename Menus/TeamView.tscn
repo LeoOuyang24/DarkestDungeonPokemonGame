@@ -59,3 +59,5 @@ offset_left = 2.0
 offset_top = 329.0
 offset_right = 1125.0
 offset_bottom = 712.0
+
+[connection signal="horror_created" from="CreateHorror" to="." method="_on_create_horror_horror_created"]

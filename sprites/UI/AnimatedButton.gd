@@ -4,6 +4,9 @@ class_name AnimatedButton extends TextureButton
 var sprite:Anime = Anime.new()
 
 func _init():
+	#stretch to fit sprite
+	#you don't always want to ignore texture size. CreatureSlot does, for example but TeamViewSlot doesn't
+	#manually set ignore_texture if you want to ignore texture size
 	set_stretch_mode(TextureButton.STRETCH_KEEP_ASPECT)
 # Called when the node enters the scene tree for the first time.
 func _ready():

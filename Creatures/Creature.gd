@@ -1,20 +1,8 @@
 class_name Creature extends Object
 #A Creature is any entity with up to 4 attacks
 
-#signal for when health changes
-#emits the amount it changed by as well as the new value
-signal health_changed(amount:int, newHealth:int)
-
-signal leveled_up()
-signal big_boosted(amountLeft) #signal for when we big boost a stat, with the amount of boosts left emitted as well
-signal stat_changed(stat:STATS,amount) #signal for when a stat changes with the type of stat and the amount it changed by
-
 const maxMoves = 4;
 var moves = []
-
-var health:Stat = null
-var attack:Stat = null
-var speed:Stat = null
 
 #is the player character
 var isPlayer = false
@@ -28,27 +16,9 @@ var spriteFrame:SpriteFrames = null;
 
 var creatureName = "Creature"
 
-var pendingBigBoosts:int = 0
+var stats:CreatureStats = null
 
-
-
-#moves that we earn through leveling up. 
-#Unlike pendingBigBoosts, this is filled in at _ready and only gets smaller as we level up
-var levelUpMoves:Array=[]
-
-static var MAX_LEVEL = 100
-const LEVELS_PER_BIG_BOOST:int = 3 #number of levels we have to level before getting a bigboost
-const LEVELS_PER_NEW_MOVE:int = 5 #number of levels we have to level before getting a new move
-const MAX_LEVELUP_MOVES:int = 10 #max number of moves we can learn via level up
-var maxLevelUpMoves:int = 0 #non static version of the above constant, used for testing purposes when a creature doesn't have MAX_LEVEL_UP_MOVES yet
-var level = 1;
-
-enum STATS
-{
-	HEALTH = 0,
-	ATTACK,
-	SPEED
-}
+var level:CreatureLevel = null
 
 # "a" deals damage to "b", based on attack and defense stats. "damage" is the base damage
 static func dealDamage(a,b, damage):
@@ -58,61 +28,25 @@ static func dealDamage(a,b, damage):
 static var count = 0;
 
 func _to_string() -> String:
-	return "{ " + getName() + ", Health:" + str(getHealth()) + " Attack:" + str(getAttack()) + " Speed:" + str(getSpeed()) + " }"
+	return "{ " + getName() + ", Health:" + str(stats.getStatObj(CreatureStats.STATS.HEALTH)) + " Attack:" + str(stats.getStatObj(CreatureStats.STATS.ATTACK)) + " Speed:" + str(stats.getStatObj(CreatureStats.STATS.SPEED)) + " }"
 
 func _init( sprite_path:String, maxHealth_:int,baseAttack_:int,baseSpeed_:int, name_:String, levels:int = 1, moves_:Array = [], pendingMoves_:Array = []) -> void:
 	spriteFrame = SpriteLoader.getSprite(sprite_path)
 	creatureName = name_;
 	
-	level = levels
-	
-	health = Stat.new(maxHealth_);
-	attack = Stat.new(baseAttack_);
-	speed = Stat.new(baseSpeed_);
-	
-	health.stat_changed.connect(func (amount,newVal):
-		stat_changed.emit(STATS.HEALTH,amount)
-		stat_changed.emit(STATS.HEALTH,amount)
-		)
-		
-	attack.stat_changed.connect(func (amount,_newVal):
-		stat_changed.emit(STATS.ATTACK,amount)
-		)
-		
-	speed.stat_changed.connect(func (amount,_newVal):
-		stat_changed.emit(STATS.SPEED,amount)
-		)
-	
-	health.resetStat(level)
-	attack.resetStat(level)
-	speed.resetStat(level)
+	#TODO: level up stats, currently they are stuck at level 1 regardless of what level we put into the constructor
+	stats = CreatureStats.new(maxHealth_,baseAttack_,baseSpeed_)
+
+	level = CreatureLevel.new(pendingMoves_)
 	
 	setMoves(moves_)
-	levelUpMoves = pendingMoves_
-	maxLevelUpMoves = levelUpMoves.size()
-
-func _ready():
-	setStat(STATS.HEALTH,getMaxHealth())
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	pass
 
 func getLevel() -> int:
-	return level
-
-#return the amount a stat increases per level
-func getPerLevelAmount(stat:STATS):
-	return Stat.PER_LEVEL_AMOUNT
+	return level.getLevel()
 
 func levelUp() -> void:
-	level += 1
-	if (level%LEVELS_PER_BIG_BOOST == 0):
-		pendingBigBoosts += 1
-	health.addBaseStat(getPerLevelAmount(STATS.HEALTH))
-	attack.addBaseStat(getPerLevelAmount(STATS.ATTACK))
-	speed.addBaseStat(getPerLevelAmount(STATS.SPEED))
-	
-	leveled_up.emit()
+	level.levelUp()
+	stats.levelUp()	
 
 func isPlayerCreature():
 	return isPlayer
@@ -126,79 +60,8 @@ func getIsFriendly():
 func getName():
 	return creatureName;
 
-func getPendingBigBoosts() -> int:
-	return pendingBigBoosts
-
-func getNextLevelUpMove() -> Move: #return the move at the front of pendingMoves, null if we are too low level
-	if levelUpMoves.size() > 0:
-		var index = min(0,int(getLevel()/(LEVELS_PER_NEW_MOVE) - (maxLevelUpMoves - levelUpMoves.size())) - 1)
-		if index == 0:
-			return levelUpMoves[index]
-	return null
-	
-#remove the next move to be learned (becuase you learned it or rejected)
-func popNextLevelUpMove() -> void:
-	levelUpMoves.pop_front()
-	
-func getStatTracker(stat:STATS) -> Stat:
-	match (stat):
-		STATS.HEALTH:
-			return health
-		STATS.ATTACK:
-			return attack
-		STATS.SPEED:
-			return speed
-		_:
-			push_error("getStatTracker: stat didn't match any stat! " + str(stat))
-	return null
-	
-func getBaseStat(stat:STATS) -> int:
-	var tracker = getStatTracker(stat)
-	if tracker:
-		return tracker.getBaseStat()
-	return -1
-
-#change the cur stat 
-func setStat(stat:STATS,amount:int) -> void:
-	var statTracker:Stat = getStatTracker(stat)
-	if statTracker:
-		var changedAmount = amount - statTracker.getStat()
-		statTracker.changeStat(amount)
-		if statTracker == health:
-			health_changed.emit(changedAmount,amount)
-
-func bigBoostStat(stat:STATS) -> void:
-	#this function will apply a big boost to the given stat. Note that it does NOT check if a big boost
-	#is actually available. That way you can also use as a setter function of sorts
-	var tracker:Stat = getStatTracker(stat)
-	if tracker:
-		pendingBigBoosts = max(pendingBigBoosts - 1, 0)
-		tracker.addBigBoost(1)
-		big_boosted.emit(getPendingBigBoosts())
-
-func getBaseAttack() -> int:
-	return attack.getBaseStat();
-	
-#get how much attack we currently have
-#you should probably never call this (or getSpeed()) outside of battle since attack and speed
-#reset to base values outside of battle
-func getAttack() -> int:
-	return attack.getStat()
-	
-func getBaseSpeed() -> int:
-	return speed.getBaseStat();
-
-func getSpeed() -> int:
-	return speed.getStat();
-
-func getMaxHealth() -> int:
-	return health.getBaseStat();
-
-func getHealth() -> int:
-	return health.getStat();
-
 func isAlive():
-	return getHealth() > 0
+	return stats.getCurStat(CreatureStats.STATS.HEALTH) > 0
 
 #decrease cooldown for each move
 func tickMoves() -> void:
@@ -208,12 +71,11 @@ func tickMoves() -> void:
 func setMoves(attacks_):
 	moves = attacks_.slice(0,min(maxMoves,len(attacks_)),1,true); #deep copy the first 4 attacks, or fewer if fewer were provided
 
-#used for dealing damage/healing. Do not use as setter for modifying health. 
+#used for dealing damage/healing
 func addHealth(amount:int):
 	if amount < 0:	
 		amount = min(amount,-1); #ensure damage is at least 1
-	var health = getHealth()
-	setStat(STATS.HEALTH,getHealth() + amount)
+	stats.getStatObj(CreatureStats.STATS.HEALTH).addStat(amount)
 
 	
 #use the move

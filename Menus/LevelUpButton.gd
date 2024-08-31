@@ -13,7 +13,7 @@ func setCreature(creature:Creature) -> void:
 	self.creature = creature
 	if creature:
 		Cost.set_text(str(getLevelUpCost()))
-		creature.leveled_up.connect(func():
+		creature.level.leveled_up.connect(func():
 			Cost.set_text(str(getLevelUpCost()))
 			)
 			
