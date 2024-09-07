@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://bqsfei63od030"]
+[gd_scene load_steps=8 format=3 uid="uid://bqsfei63od030"]
 
 [ext_resource type="Script" path="res://Battle/UI/CreatureSlot.gd" id="1_kmmwv"]
 [ext_resource type="PackedScene" uid="uid://bjln7kkve4d5a" path="res://Battle/UI/health_bar.tscn" id="2_1ocdj"]
+[ext_resource type="PackedScene" uid="uid://5t1xxv227xqw" path="res://StatusEffects/StatusEffectsUI.tscn" id="3_2kmqv"]
 
 [sub_resource type="Animation" id="Animation_yci5t"]
 resource_name = "hurt"
@@ -84,6 +85,19 @@ grow_vertical = 0
 [node name="Label" parent="HealthBar" index="0"]
 theme_override_font_sizes/font_size = 12
 text = "100"
+
+[node name="StatusEffectsUI" parent="HealthBar" instance=ExtResource("3_2kmqv")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -35.0
+offset_bottom = -35.0
+grow_horizontal = 0
+grow_vertical = 0
 
 [node name="SpriteAnimations" type="AnimationPlayer" parent="."]
 libraries = {

@@ -17,8 +17,8 @@ var spriteFrame:SpriteFrames = null;
 var creatureName = "Creature"
 
 var stats:CreatureStats = null
-
 var level:CreatureLevel = null
+var statuses:StatusManager = null
 
 # "a" deals damage to "b", based on attack and defense stats. "damage" is the base damage
 static func dealDamage(a,b, damage):
@@ -38,6 +38,8 @@ func _init( sprite_path:String, maxHealth_:int,baseAttack_:int,baseSpeed_:int, n
 	stats = CreatureStats.new(maxHealth_,baseAttack_,baseSpeed_)
 
 	level = CreatureLevel.new(pendingMoves_)
+	
+	statuses = StatusManager.new(self)
 	
 	setMoves(moves_)
 

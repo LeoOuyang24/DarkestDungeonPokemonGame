@@ -151,19 +151,23 @@ func reset():
 	pass
 
 func runMove(user:Creature,move:Move,targets:Array) -> void:
-	targets.append_array(move.getPreselectedTargets(user,BattleSim))
-	UI.setBattleText(user.getName() + " used " + move.getMoveName() + "!")
-	await get_tree().create_timer(1).timeout
-	var call:Callable = func():
-		pass
-
-	await move.runAnimation(user,targets,UI,BattleSim)
-	
-	move.doMove(user,targets,BattleSim)
-	
-	if move.getPostMessage(user,targets) != "":
-		UI.setBattleText(move.getPostMessage(user,targets))
+	if user.statuses.getStatus("Sleep"):
+		UI.setBattleText(user.getName() + " is asleep");
 		await get_tree().create_timer(1).timeout
+	else:
+		targets.append_array(move.getPreselectedTargets(user,BattleSim))
+		UI.setBattleText(user.getName() + " used " + move.getMoveName() + "!")
+		await get_tree().create_timer(1).timeout
+		var call:Callable = func():
+			pass
+
+		await move.runAnimation(user,targets,UI,BattleSim)
+		
+		move.doMove(user,targets,BattleSim)
+		
+		if move.getPostMessage(user,targets) != "":
+			UI.setBattleText(move.getPostMessage(user,targets))
+			await get_tree().create_timer(1).timeout
 
 func runDeath(dead:Creature) -> void:
 	UI.setBattleText(dead.getName() + " died.")

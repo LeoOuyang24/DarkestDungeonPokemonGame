@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://d4bdxtjpxehhr"]
+
+[ext_resource type="Texture2D" uid="uid://mpvsay7sewux" path="res://sprites/statuses/sleep.png" id="1_ui1c6"]
+[ext_resource type="Script" path="res://StatusEffects/SingleEffectUI.gd" id="2_kj4rx"]
+
+[node name="SingleEffectUI" type="TextureRect"]
+custom_minimum_size = Vector2(30, 30)
+offset_right = 100.0
+offset_bottom = 100.0
+texture = ExtResource("1_ui1c6")
+expand_mode = 1
+script = ExtResource("2_kj4rx")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.64
+anchor_top = 0.6
+anchor_right = 0.64
+anchor_bottom = 0.6
+offset_right = 58.0
+offset_bottom = 69.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40

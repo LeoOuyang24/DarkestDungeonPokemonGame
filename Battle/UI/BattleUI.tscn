@@ -43,7 +43,6 @@ offset_left = 128.0
 offset_top = 483.0
 offset_right = 960.0
 offset_bottom = 904.0
-alignment = 2
 
 [node name="BattleLog" type="RichTextLabel" parent="."]
 offset_left = 880.0

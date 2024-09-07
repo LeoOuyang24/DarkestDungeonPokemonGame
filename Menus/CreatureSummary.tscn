@@ -57,7 +57,6 @@ offset_left = 0.0
 offset_top = 64.0
 offset_right = 40.0
 offset_bottom = 104.0
-Sprite = ExtResource("3_ffpxe")
 BarColor = Color(1, 0, 0, 1)
 
 [node name="Icon" parent="Stats/Control/Attack" index="3"]
@@ -68,7 +67,6 @@ offset_left = 0.0
 offset_top = 128.0
 offset_right = 40.0
 offset_bottom = 168.0
-Sprite = ExtResource("4_xyj4n")
 BarColor = Color(0, 1, 1, 1)
 
 [node name="Icon" parent="Stats/Control/Speed" index="3"]

@@ -22,6 +22,7 @@ var moveQueue:MoveQueue = MoveQueue.new();
 signal add_move_queue(record:Move.MoveRecord, index:int);
 signal remove_move_queue(record:Move.MoveRecord);
 signal new_current_creature(creature:Creature)
+signal new_turn(); #new turn
 #emitted when a creature is added or removed
 #"added" is true when a creature is added, false if removed
 signal creature_order_changed(added:bool)
@@ -77,10 +78,12 @@ func addCreature(creature:Creature, index:int):
 		creatures[index] = creature;
 		if creature:
 			creature.isFriendly = (index < maxAllies)
+			new_turn.connect(creature.statuses.newTurn)
 			creature.stats.stat_changed.connect(func(stat:CreatureStats.STATS,amount:int):
 				if stat == CreatureStats.STATS.SPEED:
 					updateMoveQueue(creature))
 		creature_order_changed.emit(true)
+		
 
 #remove the creature, and remove it from the move queue
 func removeCreature(creature:Creature):
@@ -137,6 +140,7 @@ func newTurn() -> void:
 			addMoveToQueue(Move.MoveRecord.new(creatures[i],null,[]) if creatures[i].getIsFriendly() else Creature.AI(creatures[i],getEnemies(),getAllies()));
 	if creaturesNum > 0:
 		setCurrentCreature(getFrontMostCreatures(1,false,false)[0])
+	new_turn.emit();
 
 #returning the index of the first dead creature if any or -1 if none
 func checkForDeath() -> int:

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bttb8572axc4a"]
+
+[ext_resource type="Script" path="res://Menus/TeamViewSlot.gd" id="1_idi50"]
+
+[node name="TeamViewSlot" type="TextureButton"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_idi50")

@@ -25,7 +25,7 @@ func runAnimation(user,targets,UI,battlefield:Battlefield):
 	await tween.finished
 	
 func move(user,targets, battlefield):
-	user.attack.changeStat(user.getAttack()*2)
+	user.stats.getStatObj(CreatureStats.STATS.ATTACK).addStat(user.stats.getCurStat(CreatureStats.STATS.ATTACK))
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

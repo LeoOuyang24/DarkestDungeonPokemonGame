@@ -10,6 +10,7 @@ class_name CreatureSlot extends AnimatedButton
 @onready var Animations = $SpriteAnimations;
 
 @onready var Icons = $Icons
+@onready var EffectsUI:StatusEffectsUI = %StatusEffectsUI
 
 @onready var Ticker = $DamageTicker
 @onready var TickerAnimation = $DamageTicker/Animation
@@ -18,6 +19,18 @@ const MAX_DIMEN = 300 #max size in either dimension a sprite can be
 var tween = null
 #a reference to the creature we are referring to
 var creature:Creature = null 
+
+	
+func _ready():
+	tween = getTween()
+	setCreature(null)
+	if testing:
+		setCreature(CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json"))
+		
+	#for debugging purposes, clicking on a creature slot will print the creature
+	pressed.connect(func():
+		print(creature)
+		)
 
 #overrides the AnimatedButton setSprite
 func setSprite(spriteFrames:SpriteFrames) -> void:
@@ -34,6 +47,9 @@ func setSprite(spriteFrames:SpriteFrames) -> void:
 func removeCreature():
 	if creature:
 		creature.stats.stat_changed.disconnect(updateHealth)
+		creature.statuses.status_added.disconnect(EffectsUI.addStatusEffect)
+		creature.statuses.status_removed.disconnect(EffectsUI.removeStatusEffect)
+		EffectsUI.clear()
 		creature = null
 
 func updateHealth(stat:CreatureStats.STATS,amount:int):
@@ -59,7 +75,10 @@ func setCreature(creature:Creature):
 			HealthBar.set_max(creature.stats.getBaseStat(CreatureStats.STATS.HEALTH))
 			HealthBar.setHealth(creature.stats.getCurStat(CreatureStats.STATS.HEALTH))
 		creature.stats.stat_changed.connect(updateHealth)
-				
+		EffectsUI.update(creature.statuses)
+		creature.statuses.status_added.connect(EffectsUI.addStatusEffect)
+		creature.statuses.status_removed.connect(EffectsUI.removeStatusEffect)
+
 		set_flip_h( creature.getIsFriendly())
 	else:
 		setSprite(null)
@@ -72,17 +91,6 @@ func setAnimation(string:String) -> void:
 
 func getCreature():
 	return self.creature
-	
-func _ready():
-	tween = getTween()
-	setCreature(null)
-	if testing:
-		setCreature(CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json"))
-		
-	#for debugging purposes, clicking on a creature slot will print the creature
-	pressed.connect(func():
-		print(creature)
-		)
 
 func _to_string() -> String:
 	return "[Creature Slot: " + (creature.to_string() if creature else "null") + "]"
