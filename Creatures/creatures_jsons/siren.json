@@ -1,5 +1,7 @@
 {
 	"sprite":"siren",
+	"width": 50,
+	"height": 50,
 	"baseHealth": 5,
 	"baseAttack": 3,
 	"baseSpeed": 5,

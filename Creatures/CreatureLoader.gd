@@ -28,6 +28,8 @@ static func loadJSON(file_path:String, startingLevel:int = 1) -> Creature:
 							json.data.levelMoves.map(func (moveName:String): return loadMove(moveName)) if json.data.get("levelMoves") else []
 							) 
 			creature.flying = json.data.flying if json.data.get("flying") != null else false
+			creature.size.x = json.data.width if json.data.get("width") else 100
+			creature.size.y = json.data.height if json.data.get("height") else 100
 			return creature
 		else:
 			print("Error parsing Creature JSON, ",file_path,"\nError: ",json.get_error_message()," on line ",json.get_error_line())

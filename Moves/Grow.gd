@@ -10,7 +10,7 @@ func _init():
 	summary = "Double user's attack"
 
 	
-func getPostMoveMessage(user:Creature, targets:Array) -> String:
+func getPostMoveMessage(user:Creature, targets:Array,battlefield:Battlefield) -> String:
 	return user.getName() + "'s attack doubled!"
 	
 func runAnimation(user,targets,UI,battlefield:Battlefield):
@@ -25,7 +25,8 @@ func runAnimation(user,targets,UI,battlefield:Battlefield):
 	await tween.finished
 	
 func move(user,targets, battlefield):
-	user.stats.getStatObj(CreatureStats.STATS.ATTACK).addStat(user.stats.getCurStat(CreatureStats.STATS.ATTACK))
+	#user.stats.getStatObj(CreatureStats.STATS.ATTACK).addStat(user.stats.getCurStat(CreatureStats.STATS.ATTACK))
+	user.statuses.addStatus(AddStatEffect.new(CreatureStats.STATS.ATTACK,1),user.stats.getCurStat(CreatureStats.STATS.ATTACK))
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

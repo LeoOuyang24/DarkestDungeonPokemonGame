@@ -14,6 +14,8 @@ var flying:bool = false
 
 var spriteFrame:SpriteFrames = null;
 
+var size:Vector2 = Vector2(100,100) #size of the creature, used purely for rendering purposes
+
 var creatureName = "Creature"
 
 var stats:CreatureStats = null

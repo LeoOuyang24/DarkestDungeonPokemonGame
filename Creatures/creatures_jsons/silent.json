@@ -6,9 +6,8 @@
 	"name": "Silent",
 	"flying": false,
 	"startMoves": [
-		"Stab",
-		"Grow",
-		"Backstab"
+		"Grow"
+
 	],
 	"levelMoves": []
 }

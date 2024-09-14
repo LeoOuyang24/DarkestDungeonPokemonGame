@@ -1,5 +1,7 @@
 {
 	"sprite":"beholder",
+	"width": 200,
+	"height": 200,
 	"baseHealth": 40,
 	"baseAttack": 5,
 	"baseSpeed": 5,

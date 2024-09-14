@@ -21,7 +21,7 @@ func setCreature(creature:Creature) -> void:
 		
 func _get_tooltip (at_position:Vector2 ):
 	if creature:
-		return creature.getName() + " has a speed of " + str(creature.getSpeed()) + "." 
+		return creature.getName() + " has a speed of " + str(creature.stats.getStatObj(CreatureStats.STATS.SPEED).getStat()) + "." 
 	return ""
 		
 #overrides the parent constructor which prevents the parent class from overwriting stretch mode

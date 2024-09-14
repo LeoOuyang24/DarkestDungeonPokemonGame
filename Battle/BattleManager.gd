@@ -165,8 +165,8 @@ func runMove(user:Creature,move:Move,targets:Array) -> void:
 		
 		move.doMove(user,targets,BattleSim)
 		
-		if move.getPostMessage(user,targets) != "":
-			UI.setBattleText(move.getPostMessage(user,targets))
+		if move.getPostMessage(user,targets,BattleSim) != "":
+			UI.setBattleText(move.getPostMessage(user,targets,BattleSim))
 			await get_tree().create_timer(1).timeout
 
 func runDeath(dead:Creature) -> void:

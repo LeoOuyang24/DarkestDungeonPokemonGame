@@ -36,6 +36,7 @@ offset_left = 1088.0
 offset_top = 471.0
 offset_right = 1600.0
 offset_bottom = 905.0
+theme_override_constants/separation = 100
 
 [node name="AllyRow" type="HBoxContainer" parent="Rows"]
 layout_mode = 0
@@ -43,6 +44,8 @@ offset_left = 128.0
 offset_top = 483.0
 offset_right = 960.0
 offset_bottom = 904.0
+theme_override_constants/separation = 100
+alignment = 2
 
 [node name="BattleLog" type="RichTextLabel" parent="."]
 offset_left = 880.0

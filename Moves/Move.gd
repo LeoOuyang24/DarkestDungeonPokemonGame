@@ -92,17 +92,26 @@ func getModifiers(user:Creature) -> Array:
 #do a move
 #anything that needs to be done that is universal to all moves (ie, setting the cooldown) is done here
 func doMove(user:Creature, targets:Array, battlefield):
-	move(user,targets,battlefield)
+	var cooldown = move(user,targets,battlefield)
 	
-	setCooldown(baseCooldown)
+	#extremely scuffed way of allowing multiple return values for move.
+	#originally "move" always returned void, there was nothing for it to return
+	#later in development, I found that some moves needed to have modified cooldowns. Execute, for example
+	#has a cooldown of 1 if it gets a kill. The easiest and most flexible way to do this was to have "move"
+	#return the cooldown desired, defaulting to baseCooldown. However, I didn't want to go through every 
+	#move I had made and add a return statement, plus it should be "implied" that the cooldown is the basecooldown
+	#since for 90% of moves that is the case. So this "if" here checks if the returned value is Nil/0 and defaults
+	#to the basecooldown if so
+	setCooldown(cooldown if cooldown && cooldown > 0 else baseCooldown)
 	move_used.emit()
 	
 #the actual move
 #user is the guy doing the move
 #enemies is a (potentially empty) list of target indicies
 #battlefield is a Battlefield instance that simulates the battle
-func move(user:Creature, targets:Array, battlefield:Battlefield) -> void:
-	pass
+#return cooldown
+func move(user:Creature, targets:Array, battlefield:Battlefield) -> int:
+	return baseCooldown
 	
 func getNumOfTargets():
 	return manualTargets
@@ -122,7 +131,7 @@ func getPreselectedTargets(user:Creature, battle:Battlefield):
 func runAnimation(user:Creature, targets:Array,battleUI:BattleUI,battlefield:Battlefield) -> void:
 	pass
 	
-func getPostMessage(user:Creature, targets:Array) -> String:
+func getPostMessage(user:Creature, targets:Array, battle:Battlefield) -> String:
 	return ""
 	
 

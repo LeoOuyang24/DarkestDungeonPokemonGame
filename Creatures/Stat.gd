@@ -21,6 +21,8 @@ func _init(baseVal:int, levels:int = 1,bigBoosts:int = 0) -> void:
 	baseStat = predictBaseStat(rootStat,levels,bigBoosts)
 	curStat = getBaseStat()
 	
+func _to_string():
+	return str(getStat());
 
 #calculate the base stat amount given how many levels we have
 static func predictBaseStat(rootStat:int, levels:int, bigBoosts:int) -> int:
@@ -45,8 +47,12 @@ func addBaseStat(amount:int) -> void:
 	baseStat += amount
 	addStat(amount)
 
+func setStat(val:int) -> void:
+	var changed = val - self.curStat
+	self.curStat = val
+	stat_changed.emit(changed, self.curStat)
 #change our stat	
 func addStat(amount:int) -> void:
-	self.curStat += amount
-	stat_changed.emit(amount, self.curStat)
+	setStat(getStat() + amount)
+	
 	

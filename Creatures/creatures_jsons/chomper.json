@@ -7,9 +7,12 @@
 	"flying": false,
 	"startMoves": [
 		"Bite",
-		"Grow",
+		"Consume",
+		"PoisonedBlades",
+		"Mend",
+		"Entangle",
 		"GrantAttack",
-		"GrantSpeed"
+		"GrantSpeed",
 	],
 	"levelMoves": [	"Slash", "Lure"]
 }

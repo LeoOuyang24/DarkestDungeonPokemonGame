@@ -24,9 +24,10 @@ func addStatus(status:StatusEffect,stacks:int = 1) -> void:
 			if status.getStacks() == 0:
 				removeStatus(status)
 			)
-	status_added.emit(statuses[status.name])
+		status_added.emit(statuses[status.name])
 
 func removeStatus(status:StatusEffect) -> void:
+	status.onRemove();
 	statuses.erase(status.name)
 	status_removed.emit(status)
 
@@ -34,6 +35,11 @@ func getStatus(statusName:StringName) -> StatusEffect:
 	if statuses.has(statusName):
 		return statuses[statusName]
 	return null
+	
+#return all statuses
+func getAllStatuses() -> Dictionary:
+	return statuses
+	
 	
 func newTurn() -> void:
 	for name in statuses:

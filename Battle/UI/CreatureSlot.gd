@@ -32,11 +32,11 @@ func _ready():
 		print(creature)
 		)
 
-#overrides the AnimatedButton setSprite
-func setSprite(spriteFrames:SpriteFrames) -> void:
-	super(spriteFrames)
+
+func setSpriteAndSize(spriteFrames:SpriteFrames,size:Vector2) -> void:
+	setSprite(spriteFrames)
 	if spriteFrames:
-		var newsize = sprite.getFrameSize()
+		var newsize = size
 		#make sure sprite isnt' too big
 		var larger = max(newsize.x,newsize.y)
 		if larger >= MAX_DIMEN:
@@ -70,7 +70,7 @@ func setCreature(creature:Creature):
 	self.creature = creature;
 	if creature:
 		var sprite = creature.spriteFrame
-		setSprite(sprite)
+		setSpriteAndSize(sprite,creature.size)
 		if (HealthBar):
 			HealthBar.set_max(creature.stats.getBaseStat(CreatureStats.STATS.HEALTH))
 			HealthBar.setHealth(creature.stats.getCurStat(CreatureStats.STATS.HEALTH))
@@ -81,7 +81,7 @@ func setCreature(creature:Creature):
 
 		set_flip_h( creature.getIsFriendly())
 	else:
-		setSprite(null)
+		setSpriteAndSize(null,Vector2(0,0))
 		
 	HealthBar.visible = creature != null
 		

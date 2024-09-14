@@ -29,7 +29,7 @@ func move(user:Creature, targets:Array,battlefield):
 	if targets.size() > 0:
 		GameState.PlayerState.addScan(battlefield.getCreature(targets[0]).getName())	
 		
-func getPostMessage(user:Creature, targets:Array) -> String:
+func getPostMessage(user:Creature, targets:Array, battlefield:Battlefield) -> String:
 	return "SCANNED!"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

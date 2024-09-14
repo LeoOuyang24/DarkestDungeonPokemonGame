@@ -132,6 +132,7 @@ func getFrontMostCreatures(front:int = 1, enemies:bool = true, index:bool = true
 	return arr
 
 func newTurn() -> void:
+	new_turn.emit(); #emit first to trigger any on-new-turn effects
 	for i in range(creatures.size()):
 		if creatures[i]:
 			creatures[i].tickMoves()
@@ -140,7 +141,7 @@ func newTurn() -> void:
 			addMoveToQueue(Move.MoveRecord.new(creatures[i],null,[]) if creatures[i].getIsFriendly() else Creature.AI(creatures[i],getEnemies(),getAllies()));
 	if creaturesNum > 0:
 		setCurrentCreature(getFrontMostCreatures(1,false,false)[0])
-	new_turn.emit();
+
 
 #returning the index of the first dead creature if any or -1 if none
 func checkForDeath() -> int:
