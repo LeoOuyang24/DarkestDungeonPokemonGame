@@ -74,6 +74,6 @@ func offHover() -> void:
 		
 func _on_learn_new_move_new_move_confirmed(moves:Array):
 	if creature:
-		creature.popNextLevelUpMove()
+		creature.level.moveConsidered()
 		creature.setMoves(moves)
 	pass # Replace with function body.

@@ -3,7 +3,7 @@ class_name Stat extends Object
 #signal emitted when our stat changes, with the amount it changed by and the new value
 signal stat_changed(amount, newVal)
 
-#class that represents a single creature stat
+#class that represents a single base creature stat
 
 var rootStat:int = 0 #the stat at level 1
 var baseStat:int = 0 #the stat outside of in-battle modifiers
@@ -14,7 +14,8 @@ var bigBoosts:int = 0 #the number of big boosts this stat has
 const BIG_BOOST_AMOUNT:int = 5 #the amount to increase this stat by per big boost
 const PER_LEVEL_AMOUNT:int = 1 #amount to increase this stat by per level
 
-
+var curMods:StatModTracker = StatModTracker.new() #mods for curstat
+var baseMods:StatModTracker = StatModTracker.new() #mods for baseStat
 
 func _init(baseVal:int, levels:int = 1,bigBoosts:int = 0) -> void:
 	rootStat = baseVal
@@ -34,25 +35,42 @@ static func perLevelIncrease(baseStat:int) -> int:
 	return PER_LEVEL_AMOUNT;
 	
 func getBaseStat():
-	return baseStat
+	return baseMods.getValue(baseStat)
 	
 func getStat() -> int:
-	return curStat
+	return curMods.getValue(curStat)
 	
 func addBigBoost(amount:int = 1):
 	bigBoosts += amount
-	addBaseStat(BIG_BOOST_AMOUNT*amount)
+	modBaseStat(BIG_BOOST_AMOUNT*amount)
 	
-func addBaseStat(amount:int) -> void:
-	baseStat += amount
-	addStat(amount)
+#pass in an amount to modify, whether or not it's additive or multiplicative, and a source
+func modBaseStat(amount:int,add:bool = true, source:Variant = self) -> void: 
+	if source == self: #if the source is set as self, then it's probably part of leveling up or big boost
+		if add:
+			baseStat += amount #no real reason to track something like that, in fact we kind of already do
+		else:
+			baseStat *= amount
+	else:
+		if add:
+			baseMods.addAdd(amount,source)
+		else:
+			baseMods.multMult(amount,source)
+	modStat(amount, add, source)
 
-func setStat(val:int) -> void:
-	var changed = val - self.curStat
-	self.curStat = val
-	stat_changed.emit(changed, self.curStat)
 #change our stat	
-func addStat(amount:int) -> void:
-	setStat(getStat() + amount)
+func modStat(amount:int, add:bool = true, source:Variant = self) -> void:
+	if source == self:
+		if add:
+			curStat += amount
+		else:
+			curStat *= amount
+	else:
+		if add:
+			curMods.addAdd(amount,source)
+		else:
+			curMods.multMult(amount,source)
+	stat_changed.emit(amount, self.curStat)
 	
-	
+func removeSource(source:Variant) -> void:
+	curMods.removeSource(source)

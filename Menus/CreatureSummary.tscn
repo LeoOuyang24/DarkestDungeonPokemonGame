@@ -134,6 +134,7 @@ offset_bottom = 584.0
 [connection signal="mouse_entered" from="LevelUp" to="." method="onHover"]
 [connection signal="mouse_exited" from="LevelUp" to="." method="offHover"]
 [connection signal="pressed" from="LevelUp" to="." method="levelUp"]
+[connection signal="new_move_confirmed" from="LearnNewMove" to="." method="_on_learn_new_move_new_move_confirmed"]
 
 [editable path="Stats/Control/Attack"]
 [editable path="Stats/Control/Speed"]

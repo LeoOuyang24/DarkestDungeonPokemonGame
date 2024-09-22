@@ -41,7 +41,6 @@ func setNewMove(move:Move) -> void:
 #swap the chosen move with the move on the LevelUpMove button
 func swapMove(moveButton:MoveButton):
 	var move = moveButton.getMove()
-	print("Move: ",LevelUpMove.getMove().getMoveName())
 	moveButton.setMove(LevelUpMove.getMove(),null)
 	#moveButton.setMove(LevelUpMove.getMove(),creature)
 	LevelUpMove.setMove(move,null)

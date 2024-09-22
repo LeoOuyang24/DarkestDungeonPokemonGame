@@ -15,6 +15,16 @@ signal stat_changed(stat:STATS,amount:int) #signal for when a stat changes with 
 #maps STATS to a Stat object
 var stats:Dictionary = {}
 
+# #modifies the amount of damage is taken
+#positive change decreases damage, negative increases
+var damageMods:StatModTracker = StatModTracker.new()
+
+func addDamageMod(amount:int, add:bool, source:Variant) -> void:
+	if add:
+		damageMods.addAdd(amount,source)
+	else:
+		damageMods.multMult(amount,source)
+
 #pass in a function that takes in a STATS and a Stat and runs it on each stat
 func forEachStat(callable:Callable) -> void:
 	for stat:STATS in stats:

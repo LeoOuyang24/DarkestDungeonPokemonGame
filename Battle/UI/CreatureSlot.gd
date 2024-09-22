@@ -20,6 +20,10 @@ var tween = null
 #a reference to the creature we are referring to
 var creature:Creature = null 
 
+
+#func _input(event):
+	#if event is InputEventMouseButton:
+		#print(get_global_rect().has_point(event.position))
 	
 func _ready():
 	tween = getTween()
@@ -78,6 +82,8 @@ func setCreature(creature:Creature):
 		EffectsUI.update(creature.statuses)
 		creature.statuses.status_added.connect(EffectsUI.addStatusEffect)
 		creature.statuses.status_removed.connect(EffectsUI.removeStatusEffect)
+
+		EffectsUI.position.x = HealthBar.size.x if creature.getIsFriendly() else 0
 
 		set_flip_h( creature.getIsFriendly())
 	else:

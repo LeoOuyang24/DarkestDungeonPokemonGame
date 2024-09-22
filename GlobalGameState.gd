@@ -13,7 +13,7 @@ var DNA:int = 0
 var inBattle:bool = false
 
 func initiate() -> void:
-	setDNA(15)
+	setDNA(1000)
 
 func _ready() -> void:
 	initiate()

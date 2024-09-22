@@ -18,14 +18,15 @@ var size:Vector2 = Vector2(100,100) #size of the creature, used purely for rende
 
 var creatureName = "Creature"
 
+
 var stats:CreatureStats = null
 var level:CreatureLevel = null
 var statuses:StatusManager = null
 
 # "a" deals damage to "b", based on attack and defense stats. "damage" is the base damage
-static func dealDamage(a,b, damage):
+static func dealDamage(a:Creature,b:Creature, damage):
 	if a && b:
-		b.addHealth(-damage); 
+		b.addHealth(b.stats.damageMods.getValue(-damage)); 
 
 static var count = 0;
 
@@ -79,7 +80,7 @@ func setMoves(attacks_):
 func addHealth(amount:int):
 	if amount < 0:	
 		amount = min(amount,-1); #ensure damage is at least 1
-	stats.getStatObj(CreatureStats.STATS.HEALTH).addStat(amount)
+	stats.getStatObj(CreatureStats.STATS.HEALTH).modStat(amount)
 
 	
 #use the move

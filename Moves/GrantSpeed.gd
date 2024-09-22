@@ -13,7 +13,7 @@ func _init():
 func move(user:Creature, targets:Array, battlefield):
 	if len(targets) > 0: #just to be safe, make sure we are actually targeting something
 		var target:Creature = battlefield.getCreature(targets[0])
-		target.statuses.addStatus(AddStatEffect.new(CreatureStats.STATS.SPEED,5),1)
+		target.statuses.addStatus(AddStatEffect.new(CreatureStats.STATS.SPEED),1)
 		#target.stats.getStatObj(CreatureStats.STATS.SPEED).addStat(5)
 		
 	pass

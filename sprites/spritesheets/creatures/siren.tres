@@ -2,107 +2,71 @@
 
 [ext_resource type="Texture2D" uid="uid://51orjagv6h1k" path="res://sprites/spritesheets/creatures/siren_idle.png" id="1_jcpdx"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_tgkc7"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_3vtwt"]
 atlas = ExtResource("1_jcpdx")
-region = Rect2(0, 0, 102, 102)
+region = Rect2(0, 0, 602, 602)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_p6ils"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_7i1ov"]
 atlas = ExtResource("1_jcpdx")
-region = Rect2(102, 0, 102, 102)
+region = Rect2(602, 0, 602, 602)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_bptqq"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ke417"]
 atlas = ExtResource("1_jcpdx")
-region = Rect2(204, 0, 102, 102)
+region = Rect2(1204, 0, 602, 602)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fyac1"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_kd5ou"]
 atlas = ExtResource("1_jcpdx")
-region = Rect2(306, 0, 102, 102)
+region = Rect2(1806, 0, 602, 602)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_hn14c"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_o4wyg"]
 atlas = ExtResource("1_jcpdx")
-region = Rect2(408, 0, 102, 102)
+region = Rect2(2408, 0, 602, 602)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_48bnj"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_gawx6"]
 atlas = ExtResource("1_jcpdx")
-region = Rect2(510, 0, 102, 102)
+region = Rect2(3010, 0, 602, 602)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_pbbyt"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_tnefw"]
 atlas = ExtResource("1_jcpdx")
-region = Rect2(612, 0, 102, 102)
+region = Rect2(3612, 0, 602, 602)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_r64va"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ihjq"]
 atlas = ExtResource("1_jcpdx")
-region = Rect2(714, 0, 102, 102)
+region = Rect2(4214, 0, 602, 602)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vs77y"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_68tx5"]
 atlas = ExtResource("1_jcpdx")
-region = Rect2(816, 0, 102, 102)
+region = Rect2(4816, 0, 602, 602)
 
 [resource]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_tgkc7")
+"texture": SubResource("AtlasTexture_3vtwt")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_p6ils")
+"texture": SubResource("AtlasTexture_7i1ov")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_bptqq")
+"texture": SubResource("AtlasTexture_ke417")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fyac1")
+"texture": SubResource("AtlasTexture_kd5ou")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_hn14c")
+"texture": SubResource("AtlasTexture_o4wyg")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_48bnj")
+"texture": SubResource("AtlasTexture_gawx6")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_pbbyt")
+"texture": SubResource("AtlasTexture_tnefw")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_r64va")
+"texture": SubResource("AtlasTexture_6ihjq")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_vs77y")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vs77y")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vs77y")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vs77y")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vs77y")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_r64va")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pbbyt")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_48bnj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_hn14c")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fyac1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bptqq")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_p6ils")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_tgkc7")
+"texture": SubResource("AtlasTexture_68tx5")
 }],
 "loop": true,
 "name": &"default",

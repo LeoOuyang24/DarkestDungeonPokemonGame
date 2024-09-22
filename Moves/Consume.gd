@@ -22,7 +22,7 @@ func move(user:Creature, targets:Array, battlefield):
 			target.stats.getStatObj(CreatureStats.STATS.HEALTH).setStat(0);
 			
 			user.stats.forEachStat(func(stat:CreatureStats.STATS, statObj:Stat):
-				statObj.addBaseStat(0.5*target.stats.getStatObj(stat).getBaseStat())
+				statObj.addBaseStat(0.5*target.stats.getStatObj(stat).getBaseStat()) #gain half their base stats
 				)
 	
 func runAnimation(user:Creature, targets:Array, UI:BattleUI,battlefield:Battlefield) -> void:

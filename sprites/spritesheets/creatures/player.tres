@@ -1,6 +1,7 @@
-[gd_resource type="SpriteFrames" load_steps=11 format=3 uid="uid://c07gjo4ml3o0w"]
+[gd_resource type="SpriteFrames" load_steps=12 format=3 uid="uid://c07gjo4ml3o0w"]
 
 [ext_resource type="Texture2D" uid="uid://cm8pqbxm75v0c" path="res://sprites/spritesheets/creatures/player_idle.png" id="1_3riir"]
+[ext_resource type="Texture2D" uid="uid://iewee14l0pr" path="res://sprites/spritesheets/creatures/player_die.png" id="1_v7n6a"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_o77bx"]
 atlas = ExtResource("1_3riir")
@@ -40,6 +41,14 @@ region = Rect2(4016, 0, 502, 566)
 
 [resource]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_v7n6a")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_o77bx")

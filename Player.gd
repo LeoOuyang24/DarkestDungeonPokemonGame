@@ -3,6 +3,7 @@ class_name Player extends Node
 #stores player state
 
 signal team_changed()
+signal added_scan(creatureName:StringName)
 
 const PLAYER_BASE_MAX_HEALTH:int = 20
 const PLAYER_BASE_ATTACK:int = 5
@@ -43,8 +44,10 @@ func isPlayerDead():
 func getScans() -> Array:
 	return scans
 
-func addScan(creatureName):
-	scans.push_back(creatureName)
+func addScan(creatureName:StringName):
+	if scans.find(creatureName) == -1:
+		scans.push_back(creatureName)
+		added_scan.emit(creatureName)
 
 #reset player state
 func reset() -> void:
@@ -58,4 +61,4 @@ func reset() -> void:
 	#ally1.setMoves([Bite.new(),Slash.new(),Grow.new()]);
 	#ally2.setMoves([Bite.new(),Slash.new(),Grow.new()]);
 	
-	team = [CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json"),CreatureLoader.loadJSON("res://Creatures/creatures_jsons/silent.json") ]
+	team = [CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json"),CreatureLoader.loadJSON("res://Creatures/creatures_jsons/princess.json") ]

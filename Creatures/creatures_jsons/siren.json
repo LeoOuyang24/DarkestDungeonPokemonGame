@@ -3,12 +3,12 @@
 	"width": 50,
 	"height": 50,
 	"baseHealth": 5,
-	"baseAttack": 3,
-	"baseSpeed": 5,
+	"baseAttack": 4,
+	"baseSpeed": 4,
 	"name": "Siren",
 	"startMoves": [
 		"Lure",
-		"Soporifics"
+		"Chomp"
 	],
 	"levelMoves": []
 }

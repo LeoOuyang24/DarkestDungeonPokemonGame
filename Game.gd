@@ -5,6 +5,8 @@ class_name Game extends Node2D
 @onready var TeamView = $TeamView
 @onready var FadeOut = $FadeOut
 @onready var DNACounter = $DNACounter/Label
+@onready var NewScan = %"NewScan!"
+@onready var BloodAnimation = %HurtAnimation
 
 var curScene = null
 var showTeam = false
@@ -17,6 +19,18 @@ func _ready():
 	GameState.DNA_changed.connect(func(amount):
 		DNACounter.set_text(str(GameState.getDNA()))
 		)
+	GameState.PlayerState.added_scan.connect(func (creatureName:StringName):
+			NewScan.setCreature(creatureName)
+			var tween = NewScan.create_tween()
+			tween.tween_property(NewScan,"position",Vector2(NewScan.position.x,NewScan.position.y + NewScan.get_size().y),1);
+			tween.tween_property(NewScan,"position",Vector2(NewScan.position.x,NewScan.position.y),1).set_delay(2);
+			)
+	
+	GameState.PlayerState.getPlayer().stats.getStatObj(CreatureStats.STATS.HEALTH).stat_changed.connect(func(amount:int,val:int):
+		if amount < 0:
+			BloodAnimation.play("hurt")
+		)
+	
 	DNACounter.set_text(str(GameState.getDNA()))
 	Map.updateRooms() #this is called in two places, one here and one when the battle ends. It really should be added to a single function called "SwaptoMap" or something
 	swapToScene(Map)
@@ -30,6 +44,7 @@ func _process(delta):
 
 #switch to scene, deleting the previous current scene if necessary
 func swapToScene(scene):
+	#GameState.PlayerState.addScan("Beholder");
 	Scenes.remove_child(curScene)
 	Scenes.add_child(scene)
 	curScene = scene

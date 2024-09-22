@@ -7,12 +7,14 @@
 	"flying": false,
 	"startMoves": [
 		"Bite",
-		"Consume",
+		"Consume"
+	],
+	"levelMoves": [	
+		"Slash",
+		"Entangle",
 		"PoisonedBlades",
 		"Mend",
-		"Entangle",
 		"GrantAttack",
 		"GrantSpeed",
-	],
-	"levelMoves": [	"Slash", "Lure"]
+	]
 }
