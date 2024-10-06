@@ -12,6 +12,8 @@ var data = [];
 #map of each creature to the record of what move they are using
 var movesSelected = {};
 
+var index:int = 0; #position we are in the queue
+
 #remove a creature from teh queue
 func removeUser(creature:Creature):
 	var found = getSpotInQueue(creature)
@@ -24,7 +26,6 @@ func remove(moveInfo:Move.MoveRecord):
 
 #insert a move. returning the index
 func insert(moveInfo:Move.MoveRecord) -> int:
-
 	addMove(moveInfo.user,moveInfo)
 	return updateSpot(moveInfo.user)
 	
@@ -68,13 +69,24 @@ func hasMove(creature:Creature) -> bool:
 func getUniqueEntries() -> int:
 	return movesSelected.size()
 	
-func top():
-	if data.size() > 0:
-		return movesSelected[data[0]]
+func top() -> Move.MoveRecord:
+	if data.size() > index:
+		return movesSelected[data[index]]
 	return null
 
+#increase index
+func increment():
+	index += 1
+	
+#clear all moves, but don't remove teh creatures
+func reset():
+	index = 0;
+	for creature in movesSelected:
+		movesSelected[creature].move = null
+		
 #clear all contents
 func clear():
+	index = 0;
 	data.clear()
 	movesSelected.clear()
 

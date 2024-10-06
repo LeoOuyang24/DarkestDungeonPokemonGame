@@ -1,4 +1,4 @@
-extends ColorRect
+class_name CreatureSummary extends ColorRect
 
 var creature:Creature = null
 
@@ -39,6 +39,7 @@ func setCreature(creature:Creature) -> void:
 		#add stats to UI
 		for i in range(Stats.size()):
 			Stats[i].setCreature(creature,i)
+
 			
 		creature.level.leveled_up.connect(updateCreature)
 			

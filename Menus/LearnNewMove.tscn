@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://c434ifxltx2da"]
+[gd_scene load_steps=7 format=3 uid="uid://c434ifxltx2da"]
 
 [ext_resource type="Script" path="res://Menus/LearnNewMove.gd" id="1_4fl2n"]
-[ext_resource type="Texture2D" uid="uid://bvacba1davf2w" path="res://sprites/effects/upArrow.png" id="1_8xwyf"]
+[ext_resource type="Texture2D" uid="uid://jjclmd1ee8cj" path="res://sprites/effects/upArrow.png" id="1_8xwyf"]
+[ext_resource type="PackedScene" uid="uid://dxsiuao5kklcy" path="res://Battle/UI/MoveButton.tscn" id="2_fvapw"]
 [ext_resource type="Script" path="res://Battle/UI/MoveButton.gd" id="2_lpgbc"]
 
 [sub_resource type="Animation" id="Animation_3uda2"]
@@ -36,50 +37,24 @@ offset_bottom = 416.0
 scale = Vector2(1.5, 1.5)
 script = ExtResource("1_4fl2n")
 
-[node name="Moves" type="Control" parent="."]
-anchors_preset = 0
+[node name="Moves" type="GridContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 50
+columns = 2
 
-[node name="Button" type="Button" parent="Moves"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.031
-anchor_bottom = 0.04
-offset_left = 48.0
-offset_right = 136.0
-offset_bottom = 64.0
-script = ExtResource("2_lpgbc")
+[node name="Button" parent="Moves" instance=ExtResource("2_fvapw")]
+layout_mode = 2
 
-[node name="Button3" type="Button" parent="Moves"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.031
-anchor_bottom = 0.04
-offset_left = 48.0
-offset_top = 104.0
-offset_right = 136.0
-offset_bottom = 168.0
-script = ExtResource("2_lpgbc")
+[node name="Button2" parent="Moves" instance=ExtResource("2_fvapw")]
+layout_mode = 2
 
-[node name="Button2" type="Button" parent="Moves"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.031
-anchor_bottom = 0.04
-offset_left = 240.0
-offset_right = 328.0
-offset_bottom = 65.0
-script = ExtResource("2_lpgbc")
+[node name="Button3" parent="Moves" instance=ExtResource("2_fvapw")]
+layout_mode = 2
 
-[node name="Button4" type="Button" parent="Moves"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.031
-anchor_bottom = 0.04
-offset_left = 240.0
-offset_top = 104.0
-offset_right = 328.0
-offset_bottom = 168.0
-script = ExtResource("2_lpgbc")
+[node name="Button4" parent="Moves" instance=ExtResource("2_fvapw")]
+layout_mode = 2
 
 [node name="NewMove" type="ColorRect" parent="."]
 layout_mode = 0
@@ -122,5 +97,6 @@ offset_bottom = 55.44
 script = ExtResource("2_lpgbc")
 
 [node name="LearnNewMove" type="Node2D" parent="NewMove"]
+visible = false
 
 [connection signal="pressed" from="NewMove/Confirm" to="." method="_on_confirm_pressed"]

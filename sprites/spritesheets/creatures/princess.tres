@@ -1,0 +1,45 @@
+[gd_resource type="SpriteFrames" load_steps=6 format=3 uid="uid://d2nm5wetee3h"]
+
+[ext_resource type="Texture2D" uid="uid://bdiu82wkfj6se" path="res://sprites/spritesheets/creatures/princess_idle.png" id="1_3ha1f"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_whbea"]
+atlas = ExtResource("1_3ha1f")
+region = Rect2(0, 0, 602, 602)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4sfj8"]
+atlas = ExtResource("1_3ha1f")
+region = Rect2(602, 0, 602, 602)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qnbte"]
+atlas = ExtResource("1_3ha1f")
+region = Rect2(1204, 0, 602, 602)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fotum"]
+atlas = ExtResource("1_3ha1f")
+region = Rect2(1806, 0, 602, 602)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_whbea")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4sfj8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qnbte")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fotum")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qnbte")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4sfj8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]

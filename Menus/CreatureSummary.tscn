@@ -138,3 +138,4 @@ offset_bottom = 584.0
 
 [editable path="Stats/Control/Attack"]
 [editable path="Stats/Control/Speed"]
+[editable path="LearnNewMove"]

@@ -20,9 +20,8 @@ func addStatus(status:StatusEffect,stacks:int = 1) -> void:
 		status.setStacks(stacks)
 		status.onAdd(creature);
 		#remove the status effect when it reaches 0 stacks
-		status.stacks_changed.connect(func(_amount):
-			if status.getStacks() == 0:
-				removeStatus(status)
+		status.remove_this.connect(func():
+			removeStatus(status)
 			)
 		status_added.emit(statuses[status.name])
 

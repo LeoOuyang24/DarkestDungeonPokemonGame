@@ -19,10 +19,10 @@ func move(user:Creature, targets:Array, battlefield):
 	if len(targets) > 0: #just to be safe, make sure we are actually targeting something
 		var target = battlefield.getCreature(targets[0])
 		if target != self:
-			target.stats.getStatObj(CreatureStats.STATS.HEALTH).setStat(0);
+			target.stats.getStatObj(CreatureStats.STATS.HEALTH).modStat(0,false);
 			
 			user.stats.forEachStat(func(stat:CreatureStats.STATS, statObj:Stat):
-				statObj.addBaseStat(0.5*target.stats.getStatObj(stat).getBaseStat()) #gain half their base stats
+				statObj.modBaseStat(0.5*target.stats.getStatObj(stat).getBaseStat()) #gain half their base stats
 				)
 	
 func runAnimation(user:Creature, targets:Array, UI:BattleUI,battlefield:Battlefield) -> void:

@@ -82,7 +82,7 @@ func _on_map_room_selected(roomInfo):
 	match roomInfo:
 		Room.ROOM_TYPES.BATTLE:
 			newScene = load("res://Battle/BattleManager.tscn").instantiate()
-			var enemies = [CreatureLoader.loadJSON("silent.json"),CreatureLoader.loadJSON("siren.json"),CreatureLoader.loadJSON("beholder.json")]
+			var enemies = [CreatureLoader.loadJSON("silent.json"),CreatureLoader.loadJSON("siren.json"),CreatureLoader.loadJSON("beholder.json"),CreatureLoader.loadJSON("beholder.json")]
 			#var size = randi()%(Battlefield.maxEnemies - 1) + 1
 			#for i in range(size):
 				#enemies.push_back(CreatureLoader.getRandCreature())
@@ -108,5 +108,6 @@ func room_finished():
 func battle_finished(won:bool):
 	if !won:
 		get_tree().change_scene_to_file("res://Menus/MainMenu.tscn")
+		GameState.PlayerState.reset()
 	else:
 		room_finished()

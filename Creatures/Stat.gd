@@ -70,7 +70,12 @@ func modStat(amount:int, add:bool = true, source:Variant = self) -> void:
 			curMods.addAdd(amount,source)
 		else:
 			curMods.multMult(amount,source)
-	stat_changed.emit(amount, self.curStat)
+	stat_changed.emit(amount, curMods.getValue(self.curStat))
 	
 func removeSource(source:Variant) -> void:
-	curMods.removeSource(source)
+	if source != self:
+		var oldAmount := curMods.getValue(self.curStat)
+		curMods.removeSource(source)
+		var newAmount := curMods.getValue(self.curStat)
+		stat_changed.emit(newAmount - oldAmount, self.curStat)
+

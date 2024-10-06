@@ -19,13 +19,21 @@ var creaturesNum:int = 0
 
 var moveQueue:MoveQueue = MoveQueue.new();
 
+#emitted when a NEW record is added to the queue, NOT when a record is updated 
+#(ie, a move is selected for a creature(
 signal add_move_queue(record:Move.MoveRecord, index:int);
-signal remove_move_queue(record:Move.MoveRecord);
+#emitted when the queue order changes, emits the new queue for copying
+signal queue_order_changed(data:Array);
+#emitted when a record is popped, basically when a move is run
+signal pop_move_queue(record:Move.MoveRecord);
+
 signal new_current_creature(creature:Creature)
 signal new_turn(); #new turn
-#emitted when a creature is added or removed
-#"added" is true when a creature is added, false if removed
-signal creature_order_changed(added:bool)
+
+#emitted when creature order changes
+signal creature_order_changed(creature:Creature, oldIndex:int, newIndex:int)
+signal creature_added(creature:Creature, index:int)
+signal creature_removed(creature:Creature)
 	
 enum BATTLE_OUTCOME{
 	WON,
@@ -68,10 +76,14 @@ func getCreatureIndex(creature:Creature) -> int:
 #swap creatures at the two indicies
 func swapCreature(index1:int, index2:int) -> void:
 	var creature = getCreature(index2)
-	addCreature(getCreature(index1),index2)
-	addCreature(creature,index1)
+	#addCreature(getCreature(index1),index2)
+	#addCreature(creature,index1)
+	creatures[index2] = creatures[index1]
+	creatures[index1] = creature
+	creature_order_changed.emit();
 
-
+#add a creature for the first time
+#if creature is already in, you should use moveCreature
 func addCreature(creature:Creature, index:int):
 	if index >= 0 && index < creatures.size():
 		creaturesNum += int(creatures[index] == null) #if a previously empty spot, we have one more creature
@@ -82,7 +94,10 @@ func addCreature(creature:Creature, index:int):
 			creature.stats.stat_changed.connect(func(stat:CreatureStats.STATS,amount:int):
 				if stat == CreatureStats.STATS.SPEED:
 					updateMoveQueue(creature))
-		creature_order_changed.emit(true)
+					
+			moveQueue.insert(Move.MoveRecord.new(creature,null,[]))
+			
+			creature_added.emit(creature,index)
 		
 
 #remove the creature, and remove it from the move queue
@@ -92,9 +107,15 @@ func removeCreature(creature:Creature):
 		creaturesNum -= int(creatures[index] != null)
 		creatures[index] = null
 		moveQueue.removeUser(creature)
-		creature_order_changed.emit(false)
+		creature_removed.emit(creature)
 		
-
+#very simply sets index to be the creature
+#it is expected that if a creature displaces a preexisting creature, it is not removed and 
+#is readded later
+func moveCreature(creature:Creature, index:int):
+	if creatures[index] != creature:
+		creatures[index] = creature;
+		creature_order_changed.emit();
 			
 #return allies based on if the creature is friendly or not
 func getAllies(isFriendly:bool = true):
@@ -131,14 +152,17 @@ func getFrontMostCreatures(front:int = 1, enemies:bool = true, index:bool = true
 			arr.push_back(creatures[i] if !index else i)
 	return arr
 
+func getEnemyMoves():
+	for creature in getEnemies():
+		if creature:
+			moveQueue.addMove(creature,Creature.AI(creature,getEnemies(),getAllies()))
+
 func newTurn() -> void:
 	new_turn.emit(); #emit first to trigger any on-new-turn effects
-	for i in range(creatures.size()):
-		if creatures[i]:
-			creatures[i].tickMoves()
-			#if a player creature, add an incomplete record to the queue
-			#otherwise add the enemy's decision
-			addMoveToQueue(Move.MoveRecord.new(creatures[i],null,[]) if creatures[i].getIsFriendly() else Creature.AI(creatures[i],getEnemies(),getAllies()));
+	moveQueue.clear()
+	for creature in creatures:
+		moveQueue.insert(Move.MoveRecord.new(creature,null,[]))
+	getEnemyMoves();
 	if creaturesNum > 0:
 		setCurrentCreature(getFrontMostCreatures(1,false,false)[0])
 
@@ -160,8 +184,8 @@ func getFullQueue() -> Array:
 #update creature's spot in queue
 func updateMoveQueue(creature:Creature) -> void:
 	if creature:
-		moveQueue.updateSpot(creature);
-		add_move_queue.emit(moveQueue.data)
+		queue_order_changed.emit(creature,moveQueue.getSpotInQueue(creature),moveQueue.updateSpot(creature));
+		
 	
 #add a move to the move queue
 func addMoveToQueue(record:Move.MoveRecord) -> void:
@@ -172,12 +196,6 @@ func addMoveToQueue(record:Move.MoveRecord) -> void:
 			moveQueue.addMove(record.user,record)
 		else:
 			moveQueue.insert(record)
-		#print(moveQueue.getSpotInQueue(record.user)) 
-		add_move_queue.emit(moveQueue.data);
-		
-func removeMoveFromQueue(record:Move.MoveRecord) -> void:
-	moveQueue.remove(record)
-	remove_move_queue.emit(record);
 
 #remove and return the topmost move
 func top() -> Move.MoveRecord:
@@ -189,7 +207,9 @@ func top() -> Move.MoveRecord:
 func pop() -> Move.MoveRecord:
 	var result = moveQueue.top()
 	if result:
-		moveQueue.remove(result)
+		#moveQueue.increment()
+		moveQueue.removeUser(result.user)
+		pop_move_queue.emit(result);
 	return result
 #returns whether all players have selected a move
 func allMovesProcessed() -> bool:

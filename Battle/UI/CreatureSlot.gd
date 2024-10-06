@@ -15,11 +15,10 @@ class_name CreatureSlot extends AnimatedButton
 @onready var Ticker = $DamageTicker
 @onready var TickerAnimation = $DamageTicker/Animation
 
-const MAX_DIMEN = 300 #max size in either dimension a sprite can be
+const MAX_DIMEN = 150 #max size in either dimension a sprite can be
 var tween = null
 #a reference to the creature we are referring to
 var creature:Creature = null 
-
 
 #func _input(event):
 	#if event is InputEventMouseButton:
@@ -30,7 +29,7 @@ func _ready():
 	setCreature(null)
 	if testing:
 		setCreature(CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json"))
-		
+	
 	#for debugging purposes, clicking on a creature slot will print the creature
 	pressed.connect(func():
 		print(creature)
@@ -40,7 +39,7 @@ func _ready():
 func setSpriteAndSize(spriteFrames:SpriteFrames,size:Vector2) -> void:
 	setSprite(spriteFrames)
 	if spriteFrames:
-		var newsize = size
+		var newsize = 2*size
 		#make sure sprite isnt' too big
 		var larger = max(newsize.x,newsize.y)
 		if larger >= MAX_DIMEN:
@@ -69,6 +68,9 @@ func updateHealth(stat:CreatureStats.STATS,amount:int):
 						Ticker.pop()
 						TickerAnimation.play("hurt")	
 
+func setOutlineColor(color:Color): 
+	material.set_shader_parameter("line_color", color)
+
 func setCreature(creature:Creature):
 	removeCreature()
 	self.creature = creature;
@@ -87,6 +89,7 @@ func setCreature(creature:Creature):
 
 		set_flip_h( creature.getIsFriendly())
 	else:
+		setOutlineColor(Color(0,0,0,0));
 		setSpriteAndSize(null,Vector2(0,0))
 		
 	HealthBar.visible = creature != null

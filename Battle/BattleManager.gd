@@ -43,14 +43,19 @@ func _ready() -> void:
 	BattleSim.add_move_queue.connect(func (queue:Array):
 		UI.updateQueue(queue)
 		)
-	BattleSim.remove_move_queue.connect(func (record:Move.MoveRecord):
-		UI.removeCreatureFromQueue(record.user));
-	BattleSim.creature_order_changed.connect(func(_added:bool):
-		UI.updateSlots(BattleSim)
+		
+	BattleSim.creature_added.connect(UI.addCreature)
+	BattleSim.creature_removed.connect(UI.removeCreature)
+	BattleSim.creature_order_changed.connect(UI.updateSlots.bind(BattleSim))
+	BattleSim.queue_order_changed.connect(UI.updateCreatureInQueue)
+	BattleSim.pop_move_queue.connect(func(record:Move.MoveRecord):
+		UI.popCreatureFromQueue(record.user)
 		)
 
 	if testing:
 		test();
+	
+	await UI.is_ready;
 	
 	newTurn()
 		
@@ -176,16 +181,15 @@ func runDeath(dead:Creature) -> void:
 
 
 func runBattle():
-	var runThis = BattleSim.pop()
+	var runThis := BattleSim.pop()
 
 	while runThis:
+		UI.setCurrentCreature(runThis.user)
 		await runMove(runThis.user,runThis.move,runThis.targets)
 		var dead = BattleSim.checkForDeath()
 		while dead != -1:
 			await runDeath(BattleSim.getCreature(dead))
 			dead = BattleSim.checkForDeath()
-
-
 		if !GameState.PlayerState.getPlayer().isAlive():
 			changeState(BATTLE_STATES.WE_LOST)
 			return 

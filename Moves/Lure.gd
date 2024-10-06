@@ -66,14 +66,14 @@ func move(user:Creature,enemies:Array,battle:Battlefield):
 	processTargets(enemies,battle,func(curIndex,nextIndex):
 		if reserve.reserve:
 			var temp:Creature = battle.getCreature(nextIndex)
-			battle.addCreature(reserve.reserve,nextIndex)
+			battle.moveCreature(reserve.reserve,nextIndex)
 			reserve.reserve = temp
 
 		)
 
 	#this is only true if there is a gap somewhere between the enemies (a null slot between the backmost and frontmost enemies)
 	if enemies.size() < enemies[-1] - enemies[0] + 1: 
-		battle.addCreature(null,enemies[-1])
+		battle.moveCreature(null,enemies[-1])
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

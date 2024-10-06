@@ -7,8 +7,7 @@
 	"baseSpeed": 4,
 	"name": "Siren",
 	"startMoves": [
-		"Lure",
-		"Chomp"
+		"Lure"
 	],
 	"levelMoves": []
 }

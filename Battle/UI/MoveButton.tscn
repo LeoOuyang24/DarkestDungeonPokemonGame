@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://Battle/UI/MoveButton.gd" id="1_q7wl6"]
 
 [node name="MoveButton" type="Button"]
+custom_minimum_size = Vector2(100, 50)
 anchors_preset = -1
 anchor_left = 0.254
 anchor_top = 0.221

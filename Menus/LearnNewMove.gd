@@ -24,9 +24,7 @@ func setMoves(creature:Creature):
 	self.creature = creature
 	if creature:
 		for i in range(Creature.maxMoves):
-			Moves[i].disabled = true
 			Moves[i].setMove(creature.getMove(i),creature)
-
 
 func setNewMove(move:Move) -> void:
 	LevelUpMove.setMove(move,null)

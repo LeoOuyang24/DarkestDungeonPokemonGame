@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=3 uid="uid://b6cgwbi1q0bpd"]
+
+[ext_resource type="Script" path="res://sprites/UI/NewScan!.gd" id="1_cxnib"]
+[ext_resource type="Script" path="res://sprites/Anime.gd" id="1_xhkdy"]
+[ext_resource type="SpriteFrames" uid="uid://bkvoijpggqmyi" path="res://sprites/spritesheets/creatures/beholder.tres" id="2_j8cwp"]
+
+[node name="NewScan!" type="ColorRect"]
+offset_left = -1.0
+offset_right = 366.0
+offset_bottom = 123.0
+color = Color(0, 0.541176, 1, 1)
+script = ExtResource("1_cxnib")
+
+[node name="Creature Name" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 187.0
+offset_top = 62.0
+offset_right = 347.0
+offset_bottom = 104.0
+theme_override_font_sizes/font_size = 30
+text = "Chomper"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 131.0
+offset_top = 20.0
+offset_right = 358.0
+offset_bottom = 82.0
+theme_override_font_sizes/font_size = 20
+text = "New Successful Scan:"
+horizontal_alignment = 2
+
+[node name="Anime" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 2.0
+offset_top = 3.0
+offset_right = 144.0
+offset_bottom = 123.0
+stretch_mode = 5
+script = ExtResource("1_xhkdy")
+frames = ExtResource("2_j8cwp")

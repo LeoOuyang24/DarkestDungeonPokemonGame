@@ -1,7 +1,7 @@
 class_name QueueSlot extends AnimatedButton
 
-@onready var SpeedCounter = $SpeedCounter
-@onready var Background = $Background
+@onready var SpeedCounter:RichTextLabel = $SpeedCounter
+@onready var Background:ColorRect = $Background
 
 var creature:Creature = null
 
@@ -23,7 +23,8 @@ func _get_tooltip (at_position:Vector2 ):
 	if creature:
 		return creature.getName() + " has a speed of " + str(creature.stats.getStatObj(CreatureStats.STATS.SPEED).getStat()) + "." 
 	return ""
-		
+
+
 #overrides the parent constructor which prevents the parent class from overwriting stretch mode
 func _init():
 	pass	

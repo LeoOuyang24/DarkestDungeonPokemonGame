@@ -1,9 +1,10 @@
 class_name Poison extends StatusEffect
 
+# a status effect that does damage equal to its stacks and increases by one stack each turn
 
 func _init():
 	super("Poison",load("res://sprites/statuses/poison.png"),"")
 		
 func newTurn() -> void:
-	self.creature.stats.getStatObj(CreatureStats.STATS.HEALTH).addStat(-getStacks());
+	self.creature.stats.getStatObj(CreatureStats.STATS.HEALTH).modStat(-getStacks());
 	addStacks(1);

@@ -1,0 +1,22 @@
+{
+	"sprite":"princess",
+	"width": 75,
+	"height": 75,
+	"baseHealth": 10,
+	"baseAttack": 1,
+	"baseSpeed": 3,
+	"name": "Princess",
+	"startMoves": [
+		"PoisonedBlades",
+		"Soporifics",
+		"Entangle"
+
+	],
+	"levelMoves": [		
+		"GrantAttack",
+		"GrantSpeed",
+		"Entangle",
+		"ArmorPheromone",
+
+	]
+}

@@ -1,5 +1,7 @@
 class_name StatusEffect extends Object
 
+#emitted when it's time to remove this
+signal remove_this()
 signal stacks_changed(amount)
 
 var icon:Texture2D = null
@@ -33,6 +35,8 @@ func getIsDebuff() -> bool:
 #by default, remove one stack
 func newTurn() -> void:
 	addStacks(-1);
+	if getStacks() == 0:
+		remove_this.emit();
 	
 func addStacks(amount:int) -> void:
 	setStacks(getStacks() + amount)	

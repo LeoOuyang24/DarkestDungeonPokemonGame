@@ -1,4 +1,4 @@
-class_name BattleUI extends Node2D
+class_name BattleUI extends Control
 
 @onready var AllyRow = $Rows/AllyRow 
 @onready var EnemyRow = $Rows/EnemyRow 
@@ -6,10 +6,14 @@ class_name BattleUI extends Node2D
 @onready var BattleLog = $BattleLog
 @onready var EndScreen = $EndScreen
 @onready var TurnQueue = $TurnQueue
+@onready var QueueSlotOutline = %Outline
 
-@onready var Moves = [$Moves/Button, $Moves/Button2, $Moves/Button3, $Moves/Button4] 
-@onready var PassButton = $Moves/PassButton
+@onready var Summary = %CreatureSummary
+@onready var PassButton = %CreatureSummary/%PassButton
 
+#signal for when the ui is ready to be used
+#emitted when things like containers have resized their children
+signal is_ready()
 
 #signal for when targets have been selected
 signal target_selected(target)
@@ -29,10 +33,17 @@ signal battle_finished()
 var creatureSlots = []
 
 #array of queue slot positions
+#this array CHANGES as creatures take their turn, like how Battlefield.moveQueue does
+#the contents aren't deleted, but they are removed from the array. This means queueSlots
+#more accurately represents the contents of the moveQueue while TurnQueue.children represents
+#all the queue slots in the UI, some of which may not be visible
 var queueSlots = []
 
 var creatureSlot = preload("./CreatureSlot.tscn")
 var queueSlot = preload("./QueueSlot.tscn")
+
+#currentCreature
+var currentCreature:Creature = null
 
 func newTurn(state:Battlefield):
 	updateQueue(state.getFullQueue())
@@ -53,21 +64,55 @@ func resetAllSlotPos():
 	AllyRow.queue_sort()
 	EnemyRow.queue_sort()
 
+#add an outline to a queueSlot
+func setQueueOutline(queueSlot:QueueSlot, color:Color) -> void:
+	#queueSlot.add_child(QueueSlotOutline)
+
+	QueueSlotOutline.position = queueSlot.global_position
+	QueueSlotOutline.size = queueSlot.get_rect().size
+
+	QueueSlotOutline.set_border_color(color)
+	#QueueSlotOutline.visible = true;
+
 func setCurrentCreature(creature:Creature):
 	if creature:
-		addAttacksToUI(creature)
-		for i in range(0,Battlefield.maxAllies):
-			var slot = creatureSlots[i]
-			#var tween = slot.getTween()
-			if slot.creature && slot.creature != creature:
-				slot.modulate = Color(0.2,0.2,0.2,1)
+		#remove the outlien for the previous current creature and the previously selected creature
 
-func addAttacksToUI(creature:Creature):
-	for i in range(Creature.maxMoves):
-		Moves[i].setMove(creature.getMove(i) if creature else null,creature)
+		if currentCreature:
+			var cur := getCreatureSlot(currentCreature)
+			if cur:
+				cur.setOutlineColor(Color(0,0,0,0))
+			
+		if Summary.creature:
+			var cur := getCreatureSlot(Summary.creature)
+			if cur:
+				cur.setOutlineColor(Color(0,0,0,0))
+				
+		#apply outline to both creatureslot and the queueslot
+		var slot := getCreatureSlot(creature)
+		if slot:
+			slot.setOutlineColor(Color.GOLD)
+		var queueSlot := getQueueSlot(creature)
+		if queueSlot:
+			setQueueOutline(queueSlot,Color.GOLD);
+
+			
+		currentCreature = creature
+		setCurrentCreatureUI(creature,true)
+
+#sets the current creature in the summary area
+func setCurrentCreatureUI(creature:Creature, isCurrent:bool):
+	if !isCurrent:
+		getCreatureSlot(creature).setOutlineColor(Color.CYAN);
+	if Summary.creature && Summary.creature != currentCreature:
+		getCreatureSlot(Summary.creature).setOutlineColor(Color(0,0,0,0));
+
+	Summary.setCurrentCreature(creature,isCurrent)
+	#for i in range(Creature.maxMoves):
+	#	Moves[i].setMove(creature.getMove(i) if creature else null,creature)
 
 #get teh creatureslot corresponding to the given creature or index
-func getCreatureSlot(creature):
+func getCreatureSlot(creature) -> CreatureSlot:
 	if creature is Creature:
 		for i in creatureSlots:
 			if i.getCreature() == creature:
@@ -78,6 +123,11 @@ func getCreatureSlot(creature):
 		return creatureSlots[creature]
 	return null
 	
+func getQueueSlot(creature:Creature) -> QueueSlot:
+	for slots in queueSlots:
+		if slots.creature == creature:
+			return slots;
+	return null
 
 func addCreature(creature:Creature, index:int):
 	if (creatureSlots[index].getCreature() != creature):
@@ -87,23 +137,45 @@ func addCreature(creature:Creature, index:int):
 				#creatureSlots[index].setTransform(creatureSlots[index].getTransform().translated(Vector2(0,-50)))
 				creatureSlots[index].offset_bottom = -50
 
+func removeCreature(creature:Creature):
+	if getCreatureSlot(creature):
+		getCreatureSlot(creature).setCreature(null)
+		removeCreatureFromQueue(creature);
+
+func updateCreatureInQueue(creature:Creature, oldIndex:int, newIndex:int) -> void:
+	for i in range(newIndex, oldIndex, 1 if newIndex < oldIndex else -1):
+		var swap:Creature = queueSlots[i].creature
+		queueSlots[i].setCreature(queueSlots[oldIndex].creature)
+		queueSlots[oldIndex].setCreature(swap)
+
+#remove a creature from queue because we are running its move NOT because it died
+func popCreatureFromQueue(creature:Creature) -> void:
+	var slot := getQueueSlot(creature);	
+	var tween := create_tween()
+	tween.tween_property(slot,"modulate",Color(1,1,1,0.0),1)
+	tween.tween_callback(func ():
+		queueSlots.erase(slot)
+		)
 
 func removeCreatureFromQueue(creature:Creature):
-	for i in range(queueSlots.size() - 1,-1,-1):
+		var thisSlot := getQueueSlot(creature)
 		var tween = create_tween()
-		if queueSlots[i].creature == creature:
-			var thisSlot = queueSlots[i]
-			var height = thisSlot.get_rect().size.y
-			tween.parallel().tween_property(thisSlot,"position",Vector2(thisSlot.position.x,height),1)
-			tween.parallel().tween_property(thisSlot,"modulate",Color(0,0,0,0),1)
-			tween.tween_callback(func ():
-				thisSlot.setCreature(null)
-				thisSlot.modulate = Color(1,1,1,1)
-				)
-			break;
+		var height = thisSlot.get_rect().size.y
+
+		tween.parallel().tween_property(thisSlot,"position",Vector2(thisSlot.position.x,height),1)
+		tween.parallel().tween_property(thisSlot,"modulate",Color(0,0,0,0),1)
+		tween.tween_callback(func ():
+			thisSlot.setCreature(null)
+			queueSlots.erase(thisSlot)
+			)
+
 
 func updateQueue(queue:Array):
-	for i in range(queueSlots.size()):
+	var children = TurnQueue.get_children()
+	for i in range(queue.size()):
+		if i <= queueSlots.size():
+			queueSlots.push_back(children[i])
+		queueSlots[i].modulate = Color(1,1,1,1)
 		if i < queue.size():
 			queueSlots[i].setCreature(queue[i])
 		else:
@@ -122,11 +194,6 @@ func choosingTargets(targets:Move.TARGETING_CRITERIA = Move.TARGETING_CRITERIA.O
 		#else:
 			#sprite.set("modulate",Color.WHITE)
 			#tween.kill();
-
-		
-
-func addTarget(index:int):
-	target_selected.emit(index)
 		
 #adds a new slot
 func addSlot(isAlly:bool):
@@ -142,8 +209,11 @@ func addSlot(isAlly:bool):
 		creatureSlots.push_back(slot)
 		EnemyRow.add_child(slot)
 
-	
-
+#if NOTHING is pressed, set the creature summary to our current creature
+func _unhandled_input(event):
+	if event is InputEventMouseButton and event.get_button_index() == MOUSE_BUTTON_LEFT:
+		setCurrentCreatureUI(currentCreature,true)
+		
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	for i in range(Battlefield.maxAllies):
@@ -152,22 +222,24 @@ func _ready():
 		addSlot(false);
 	for i in range(creatureSlots.size()):
 		creatureSlots[i].pressed.connect(func():
-			addTarget(i);
+			setCurrentCreatureUI(creatureSlots[i].getCreature(),creatureSlots[i].getCreature()==currentCreature)
+			target_selected.emit(i)
 			);
+			
+	Summary.move_selected.connect(func(move):
+		move_selected.emit(move)
+		)
+			
 	for i in range(Battlefield.maxEnemies + Battlefield.maxAllies):
 		var slot = queueSlot.instantiate()
 		TurnQueue.add_child(slot);
-		queueSlots.push_back(slot)
-	
-	PassButton.setMove(PassTurn.new(),null)
-	PassButton.move_selected.connect(func (move):
-		move_selected.emit(move)
-		)
+	await TurnQueue.sort_children
 	
 	EndScreen.EndButton.pressed.connect(func():
 		battle_finished.emit()
 		)		
 
+	is_ready.emit()
 			
 func setBattleText(str:String):
 	BattleLog.set_text(str);
@@ -199,8 +271,3 @@ func reset():
 	EndScreen.set_visible(false);
 	for i in creatureSlots:
 		i.setCreature(null)
-
-
-func _on_button_move_selected(move:Move):
-	move_selected.emit(move)
-	pass # Replace with function body.
