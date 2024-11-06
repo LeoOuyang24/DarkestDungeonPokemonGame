@@ -4,47 +4,59 @@
 [ext_resource type="Texture2D" uid="uid://q5ilukk8h66k" path="res://sprites/icons/dna_icon.png" id="2_at5s7"]
 [ext_resource type="FontFile" uid="uid://dgs200ax7el15" path="res://Fonts/Unutterable-rv3x8.ttf" id="3_qejp1"]
 
-[node name="EndScreen" type="Node2D"]
+[node name="ColorRect" type="ColorRect"]
+offset_right = 1031.0
+offset_bottom = 644.0
+color = Color(0, 0, 0, 0.756863)
 script = ExtResource("1_sutgw")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = 32.0
-offset_top = 32.0
-offset_right = 1120.0
-offset_bottom = 600.0
-color = Color(0, 0, 0, 0.756863)
-
-[node name="Spoils" type="Control" parent="ColorRect"]
+[node name="Spoils" type="Control" parent="."]
 unique_name_in_owner = true
-anchors_preset = 0
-offset_left = 474.0
-offset_top = 411.0
-offset_right = 514.0
-offset_bottom = 451.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -236.5
+offset_top = -83.0
+offset_right = 236.5
+offset_bottom = 83.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="DNACounter" type="RichTextLabel" parent="ColorRect/Spoils"]
+[node name="DNACounter" type="RichTextLabel" parent="Spoils"]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 13.0
-offset_top = -161.0
-offset_right = 259.0
-offset_bottom = -8.00003
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -246.0
+offset_top = -76.5
+offset_bottom = 76.5
+grow_horizontal = 0
+grow_vertical = 2
 theme_override_colors/default_color = Color(0.74902, 0.121569, 0, 1)
 theme_override_fonts/normal_font = ExtResource("3_qejp1")
 theme_override_font_sizes/normal_font_size = 100
 text = "100"
 
-[node name="DNAIcon" type="Sprite2D" parent="ColorRect/Spoils"]
-position = Vector2(-37, -97)
+[node name="DNAIcon" type="Sprite2D" parent="Spoils"]
+position = Vector2(158, 75)
 scale = Vector2(1.22143, 1.05)
 texture = ExtResource("2_at5s7")
 
-[node name="Label" type="Label" parent="ColorRect"]
-layout_mode = 0
-offset_left = 128.0
-offset_top = 8.0
-offset_right = 961.0
-offset_bottom = 328.0
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -416.5
+offset_right = 416.5
+offset_bottom = 320.0
+grow_horizontal = 2
 theme_override_colors/font_color = Color(0.423529, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_qejp1")
 theme_override_font_sizes/font_size = 100
@@ -52,7 +64,7 @@ text = "Survived"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="ColorRect"]
+[node name="Button" type="Button" parent="."]
 layout_mode = 0
 offset_left = 474.0
 offset_top = 411.0

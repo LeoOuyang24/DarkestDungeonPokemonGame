@@ -1,15 +1,16 @@
-[gd_scene load_steps=10 format=3 uid="uid://bqsfei63od030"]
+[gd_scene load_steps=11 format=3 uid="uid://bqsfei63od030"]
 
 [ext_resource type="Shader" path="res://Battle/UI/Outline.gdshader" id="1_iemai"]
 [ext_resource type="Script" path="res://Battle/UI/CreatureSlot.gd" id="1_kmmwv"]
 [ext_resource type="PackedScene" uid="uid://bjln7kkve4d5a" path="res://Battle/UI/health_bar.tscn" id="2_1ocdj"]
 [ext_resource type="PackedScene" uid="uid://5t1xxv227xqw" path="res://StatusEffects/StatusEffectsUI.tscn" id="3_2kmqv"]
+[ext_resource type="SpriteFrames" uid="uid://c6bcp5k5sipe4" path="res://sprites/spritesheets/creatures/chomper.tres" id="5_3vb3v"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_7uoac"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t3clw"]
 resource_local_to_scene = true
 shader = ExtResource("1_iemai")
-shader_parameter/line_color = Color(0, 0, 0, 1)
-shader_parameter/line_thickness = 20.0
+shader_parameter/outline_width = 3.0
+shader_parameter/outline_color = null
 
 [sub_resource type="Animation" id="Animation_yci5t"]
 resource_name = "hurt"
@@ -66,7 +67,7 @@ _data = {
 }
 
 [node name="Button" type="TextureButton"]
-material = SubResource("ShaderMaterial_7uoac")
+material = SubResource("ShaderMaterial_t3clw")
 offset_right = 200.0
 offset_bottom = 216.0
 size_flags_horizontal = 8
@@ -74,7 +75,6 @@ size_flags_vertical = 8
 ignore_texture_size = true
 stretch_mode = 4
 script = ExtResource("1_kmmwv")
-testing = true
 
 [node name="HealthBar" parent="." instance=ExtResource("2_1ocdj")]
 layout_mode = 1
@@ -135,5 +135,11 @@ offset_left = 34.7199
 offset_top = 144.384
 offset_right = 114.72
 offset_bottom = 144.384
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(453, 153)
+sprite_frames = ExtResource("5_3vb3v")
+frame_progress = 0.90667
 
 [editable path="HealthBar"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://d2hi4k6uyeill"]
+[gd_scene load_steps=10 format=3 uid="uid://d2hi4k6uyeill"]
 
 [ext_resource type="Script" path="res://Game.gd" id="1_c6sbs"]
 [ext_resource type="PackedScene" uid="uid://cped8ka2riy3s" path="res://Map/Map.tscn" id="3_aqr5l"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://q5ilukk8h66k" path="res://sprites/icons/dna_icon.png" id="5_hauwm"]
 [ext_resource type="PackedScene" uid="uid://4iwnqm7b1q50" path="res://FadeOut.tscn" id="5_lq1s6"]
 [ext_resource type="PackedScene" uid="uid://b6cgwbi1q0bpd" path="res://sprites/UI/NewScan!.tscn" id="6_2twt4"]
+[ext_resource type="PackedScene" uid="uid://bx5ugehc8gnq4" path="res://UI/GameOver.tscn" id="7_ep71o"]
 
 [sub_resource type="Animation" id="Animation_qh5rq"]
 resource_name = "hurt"
@@ -28,10 +29,54 @@ _data = {
 "hurt": SubResource("Animation_qh5rq")
 }
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_c6sbs")
 
-[node name="FadeOut" parent="." instance=ExtResource("5_lq1s6")]
+[node name="Scenes" type="Node" parent="."]
+
+[node name="Map" parent="Scenes" instance=ExtResource("3_aqr5l")]
+offset_left = 1.0
+offset_right = 1.0
+
+[node name="TeamView" parent="." instance=ExtResource("5_4v7on")]
+z_index = 1
+layout_mode = 0
+offset_left = 3.0
+offset_top = 1090.0
+offset_right = 1129.0
+offset_bottom = 1802.0
+
+[node name="GameOver" parent="." instance=ExtResource("7_ep71o")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="DNACounter" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(1640, 104)
+scale = Vector2(0.5, 0.451515)
+texture = ExtResource("5_hauwm")
+
+[node name="DNACounterLabel" type="Label" parent="CanvasLayer/DNACounter"]
+unique_name_in_owner = true
+offset_left = 32.0
+offset_top = -24.0
+offset_right = 160.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(1, 0.690196, 0.533333, 1)
+theme_override_font_sizes/font_size = 40
+text = "10000"
+
+[node name="FadeOut" parent="CanvasLayer" instance=ExtResource("5_lq1s6")]
+unique_name_in_owner = true
 z_index = 5
 anchors_preset = 0
 anchor_right = 0.0
@@ -43,53 +88,30 @@ grow_horizontal = 1
 grow_vertical = 1
 scale = Vector2(1, 1)
 
-[node name="Scenes" type="Node" parent="."]
-
-[node name="Map" parent="Scenes" instance=ExtResource("3_aqr5l")]
-position = Vector2(1, 0)
-
-[node name="DNACounter" type="Sprite2D" parent="."]
-position = Vector2(1640, 104)
-scale = Vector2(0.5, 0.451515)
-texture = ExtResource("5_hauwm")
-
-[node name="Label" type="Label" parent="DNACounter"]
-offset_left = 32.0
-offset_top = -24.0
-offset_right = 160.0
-offset_bottom = 40.0
-theme_override_colors/font_color = Color(1, 0.690196, 0.533333, 1)
-theme_override_font_sizes/font_size = 40
-text = "10000"
-
-[node name="TeamView" parent="." instance=ExtResource("5_4v7on")]
-z_index = 1
-offset_left = 3.0
-offset_top = 1090.0
-offset_right = 1129.0
-offset_bottom = 1802.0
-
-[node name="NewScan!" parent="." instance=ExtResource("6_2twt4")]
+[node name="NewScan!" parent="CanvasLayer" instance=ExtResource("6_2twt4")]
 unique_name_in_owner = true
 offset_left = 1480.0
 offset_top = -124.0
 offset_right = 1847.0
 offset_bottom = -1.0
 
-[node name="HurtAnimation" type="AnimationPlayer" parent="."]
+[node name="HurtAnimation" type="AnimationPlayer" parent="CanvasLayer"]
 unique_name_in_owner = true
 root_node = NodePath("../HurtRect")
 libraries = {
 "": SubResource("AnimationLibrary_8wfnv")
 }
 
-[node name="HurtRect" type="ColorRect" parent="."]
+[node name="HurtRect" type="ColorRect" parent="CanvasLayer"]
 unique_name_in_owner = true
+visible = false
 z_index = 1
 offset_top = 3.0
 offset_right = 1928.0
 offset_bottom = 1081.0
 mouse_filter = 2
-color = Color(1, 0, 0, 0)
+color = Color(1, 0, 0, 0.698039)
 
 [connection signal="room_selected" from="Scenes/Map" to="." method="_on_map_room_selected"]
+
+[editable path="GameOver"]

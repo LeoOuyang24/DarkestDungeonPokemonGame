@@ -6,8 +6,8 @@ class_name Battlefield extends Node
 #-1 if all creatures have selected a move
 var currentCreature:Creature = null;
 
-const maxAllies:int = 5;
-const maxEnemies:int = 4;
+const maxAllies:int = Player.MAX_TEAM_SIZE + 1;
+const maxEnemies:int = 3;
 
 #the list of creatures
 #the way this is set up is a bit weird but intentional. The idea is that lower index = closer to the front
@@ -161,7 +161,8 @@ func newTurn() -> void:
 	new_turn.emit(); #emit first to trigger any on-new-turn effects
 	moveQueue.clear()
 	for creature in creatures:
-		moveQueue.insert(Move.MoveRecord.new(creature,null,[]))
+		if creature:
+			moveQueue.insert(Move.MoveRecord.new(creature,null,[]))
 	getEnemyMoves();
 	if creaturesNum > 0:
 		setCurrentCreature(getFrontMostCreatures(1,false,false)[0])

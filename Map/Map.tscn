@@ -2,11 +2,14 @@
 
 [ext_resource type="Script" path="res://Map/Map.gd" id="1_e1usi"]
 
-[node name="Map" type="Node2D"]
+[node name="Map" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_e1usi")
 
 [node name="Background" type="ColorRect" parent="."]
 z_index = -1
+layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
 mouse_filter = 2

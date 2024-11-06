@@ -1,15 +1,17 @@
-class_name Game extends Node2D
+class_name Game extends Control
 
-@onready var Scenes = $Scenes
-@onready var Map = $Scenes/Map
-@onready var TeamView = $TeamView
-@onready var FadeOut = $FadeOut
-@onready var DNACounter = $DNACounter/Label
-@onready var NewScan = %"NewScan!"
-@onready var BloodAnimation = %HurtAnimation
+@onready var Scenes := $Scenes
+@onready var Map := $Scenes/Map
+@onready var TeamView := $TeamView
+@onready var FadeOut := %FadeOut
+@onready var DNACounter := %DNACounterLabel
+@onready var NewScan := %"NewScan!"
+@onready var BloodAnimation := %HurtAnimation
+@onready var GameOver := %GameOver
+@onready var GameOverButton := %GameOver/Button
 
 var curScene = null
-var showTeam = false
+var showTeam := false
 
 #static var GameState:GlobalGameState = GlobalGameState.new()
 #used to track game state
@@ -30,6 +32,8 @@ func _ready():
 		if amount < 0:
 			BloodAnimation.play("hurt")
 		)
+		
+	GameState.game_lost.connect(loseGame)
 	
 	DNACounter.set_text(str(GameState.getDNA()))
 	Map.updateRooms() #this is called in two places, one here and one when the battle ends. It really should be added to a single function called "SwaptoMap" or something
@@ -43,14 +47,14 @@ func _process(delta):
 
 
 #switch to scene, deleting the previous current scene if necessary
-func swapToScene(scene):
+func swapToScene(scene:RoomBase):
 	#GameState.PlayerState.addScan("Beholder");
 	Scenes.remove_child(curScene)
 	Scenes.add_child(scene)
 	curScene = scene
 
 #same as swapToScene except we do the fadeout animation
-func swapToSceneWithFade(scene):
+func swapToSceneWithFade(scene:RoomBase):
 	FadeOut.play()
 	await FadeOut.transition_finished	
 	
@@ -58,6 +62,7 @@ func swapToSceneWithFade(scene):
 	
 	FadeOut.play(true)
 	await FadeOut.transition_finished
+	#scene.onSelect()
 	
 func _input(event):
 	if event is InputEventKey and event.pressed:
@@ -78,7 +83,7 @@ func showTeamView():
 
 	
 func _on_map_room_selected(roomInfo):
-	var newScene = null
+	var newScene:RoomBase = null
 	match roomInfo:
 		Room.ROOM_TYPES.BATTLE:
 			newScene = load("res://Battle/BattleManager.tscn").instantiate()
@@ -88,14 +93,16 @@ func _on_map_room_selected(roomInfo):
 				#enemies.push_back(CreatureLoader.getRandCreature())
 			newScene.createBattle(GameState.PlayerState.getPlayer(),GameState.PlayerState.getTeam(),enemies)
 			GameState.setInBattle(true)
-			newScene.room_finished.connect(battle_finished)
 		Room.ROOM_TYPES.WELL:
 			var wellRoom = load("res://Map/Rooms/WellRoom.tscn").instantiate()
 			newScene = wellRoom
-			newScene.room_finished.connect(room_finished)	
+		Room.ROOM_TYPES.SHOP:
+			var shopRoom = load("res://Map/Rooms/ShopRoom/ShopRoom.tscn").instantiate()
+			newScene = shopRoom
 		_:
 			push_error("Game.gd: Somehow, RoomInfo ROOM_TYPE was not matched!")
 	if newScene:
+		newScene.room_finished.connect(room_finished)	
 		await swapToSceneWithFade(newScene)
 
 func room_finished():
@@ -104,10 +111,15 @@ func room_finished():
 	if GameState.getInBattle():
 		GameState.setInBattle(false)
 
-
-func battle_finished(won:bool):
-	if !won:
-		get_tree().change_scene_to_file("res://Menus/MainMenu.tscn")
-		GameState.PlayerState.reset()
-	else:
-		room_finished()
+func loseGame():
+	GameOver.visible = true
+	await GameOverButton.pressed;
+	get_tree().change_scene_to_file("res://Menus/MainMenu.tscn")
+	GameState.reset()
+	GameOver.visible = false
+#func battle_finished(won:bool):
+	#if !won:
+		#get_tree().change_scene_to_file("res://Menus/MainMenu.tscn")
+		#GameState.PlayerState.reset()
+	#else:
+		#room_finished()

@@ -2,7 +2,7 @@ class_name BattleUI extends Control
 
 @onready var AllyRow = $Rows/AllyRow 
 @onready var EnemyRow = $Rows/EnemyRow 
-@onready var BattleSprite = $BattleSprite 
+@onready var BattleSprite := $BattleSprite 
 @onready var BattleLog = $BattleLog
 @onready var EndScreen = $EndScreen
 @onready var TurnQueue = $TurnQueue
@@ -159,15 +159,16 @@ func popCreatureFromQueue(creature:Creature) -> void:
 
 func removeCreatureFromQueue(creature:Creature):
 		var thisSlot := getQueueSlot(creature)
-		var tween = create_tween()
-		var height = thisSlot.get_rect().size.y
+		if thisSlot: #no point in removing if creature has already gone
+			var tween = create_tween()
+			var height = thisSlot.get_rect().size.y
 
-		tween.parallel().tween_property(thisSlot,"position",Vector2(thisSlot.position.x,height),1)
-		tween.parallel().tween_property(thisSlot,"modulate",Color(0,0,0,0),1)
-		tween.tween_callback(func ():
-			thisSlot.setCreature(null)
-			queueSlots.erase(thisSlot)
-			)
+			tween.parallel().tween_property(thisSlot,"position",Vector2(thisSlot.position.x,height),1)
+			tween.parallel().tween_property(thisSlot,"modulate",Color(0,0,0,0),1)
+			tween.tween_callback(func ():
+				thisSlot.setCreature(null)
+				queueSlots.erase(thisSlot)
+				)
 
 
 func updateQueue(queue:Array):
@@ -251,6 +252,8 @@ func setBattleSprite(sprite:SpriteFrames,pos:Vector2  ) -> void:
 		BattleSprite.set_global_position( pos - BattleSprite.get_global_rect().size*0.5)
 		BattleSprite.play();
 		BattleSprite.visible = true;
+		await BattleSprite.looping
+		stopBattleSprite()
 
 	
 func stopBattleSprite():
@@ -259,8 +262,8 @@ func stopBattleSprite():
 		
 #set the end screen,
 #dna is the amount of dna we won as a result of winning the battle
-func setEndScreen(won:bool,rewards:Rewards = null):
-	EndScreen.setBattleResult(won,rewards)
+func setEndScreen(rewards:Rewards = null):
+	EndScreen.setBattleResult(rewards)
 	EndScreen.set_visible(true)
 
 #end screen button was pressed, we done

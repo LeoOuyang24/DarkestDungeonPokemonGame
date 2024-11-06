@@ -1,4 +1,4 @@
-extends Node2D
+extends RoomBase
 
 @onready var Background = $Background 
 var RoomScene = preload("res://Map/Room.tscn")
@@ -21,7 +21,7 @@ func addRoom(room:Room, row:int, column:int, rowSize:int):
 	var horizSpacing = Background.get_rect().size.x/maxRows;
 	
 	room.new_room.connect(func(_asdf):
-		processNewRoom(row,column)
+		setCurrentRoom(row,column)
 		)
 	add_child(room)
 	room.position = Vector2(100 + row*horizSpacing,
@@ -39,7 +39,7 @@ func generate():
 			var room = RoomScene.instantiate()
 			#var room = Room.new(RoomInfo.new(RoomInfo.ROOM_TYPES.WELL if randi()%2 == 0 else RoomInfo.ROOM_TYPES.BATTLE))
 			addRoom(room,i,j,rowSize)
-			room.setRoomType(Room.ROOM_TYPES.WELL if (randi()%2 == 0 && i != 0)else Room.ROOM_TYPES.BATTLE)
+			room.setRoomType(randi()%3)
 			row.push_back(room);
 		if i > 0:
 			var neigh:float = float(rooms[-1].size())/row.size() #how many connections per room in this row
@@ -111,11 +111,6 @@ func updateRooms(colNum:int = currentColumn, roomNum:int = currentRoom):
 					i.changeState(Room.ROOM_STATE.INACCESSIBLE)
 				
 			
-
-#process a room getting clicked
-func processNewRoom(colNum:int,roomNum:int):
-	if (currentRoom == -1 && colNum == 0 )|| (getCurrentRoom().visited == Room.ROOM_STATE.CURRENT && routes.get([getCurrentRoom(),rooms[colNum][roomNum]]) != null):
-		setCurrentRoom(colNum,roomNum)
 	
 func getAdjacentRooms(colNum:int,roomNum:int):
 	if isValidRoomNum(colNum,roomNum):

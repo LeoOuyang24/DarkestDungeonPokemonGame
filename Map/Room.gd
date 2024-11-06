@@ -20,7 +20,8 @@ enum ROOM_STATE
 enum ROOM_TYPES
 {
 	BATTLE, #your standard fighting room
-	WELL
+	WELL,
+	SHOP
 }
 
 var visited:ROOM_STATE = ROOM_STATE.INACCESSIBLE;
@@ -37,7 +38,8 @@ static func getRoomIcon(roomType:ROOM_TYPES):
 			spritePath = "res://sprites/map/enemy_room.png"
 		ROOM_TYPES.WELL:
 			spritePath = "res://sprites/map/well_room.png"
-			pass
+		ROOM_TYPES.SHOP:
+			spritePath = "res://sprites/map/shop_room.png"
 	var texture = load(spritePath)	
 	return texture
 
@@ -94,7 +96,10 @@ func _process(delta):
 
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if not event.is_action_pressed("click"):
-		return
-	new_room.emit(roomType)
-	pass # Replace with function body.
+	if event.is_action_pressed("click") && visited == ROOM_STATE.ACCESSIBLE:
+		new_room.emit(roomType)
+
+func _input(event) -> void:
+	if event is InputEventKey && event.pressed && event.keycode == KEY_BACKSPACE && visited != ROOM_STATE.VISITED:
+		changeState(ROOM_STATE.ACCESSIBLE)
+

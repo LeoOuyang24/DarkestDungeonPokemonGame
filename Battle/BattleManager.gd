@@ -1,11 +1,9 @@
-class_name BattleManager extends Node2D
+class_name BattleManager extends RoomBase
 
 #facilitates communication between Battlefield and BattleUI
 
 var BattleSim:Battlefield = Battlefield.new();
 @onready var UI:BattleUI = $BattleUI
-
-signal room_finished(won:bool);
 
 enum BATTLE_STATES {
 	SELECTING_MOVE,
@@ -43,7 +41,6 @@ func _ready() -> void:
 	BattleSim.add_move_queue.connect(func (queue:Array):
 		UI.updateQueue(queue)
 		)
-		
 	BattleSim.creature_added.connect(UI.addCreature)
 	BattleSim.creature_removed.connect(UI.removeCreature)
 	BattleSim.creature_order_changed.connect(UI.updateSlots.bind(BattleSim))
@@ -134,11 +131,9 @@ func changeState(state):
 		UI.setBattleText("Choose targets!");
 	elif self.state == BATTLE_STATES.BATTLE:
 		await runBattle()
-	elif self.state == BATTLE_STATES.WE_LOST:
-		UI.setEndScreen(false)
 	elif self.state == BATTLE_STATES.WE_WON:
 		reward = Rewards.new(5)
-		UI.setEndScreen(true,reward)
+		UI.setEndScreen(reward)
 
 
 func isPlayerTurn():
@@ -205,11 +200,14 @@ func runBattle():
 func battleFinished():
 	if state == BATTLE_STATES.WE_WON:
 		GameState.setDNA(GameState.getDNA() + reward.getDNA())
-	room_finished.emit(state == BATTLE_STATES.WE_WON)
+	elif state == BATTLE_STATES.WE_LOST:
+		GameState.loseGame();
+	room_finished.emit()
 	
 func _input(event):
 	if event is InputEventKey and event.pressed:
 		if event.keycode == KEY_BACKSLASH:
 			changeState(BATTLE_STATES.WE_WON)
-		elif event.keycode == KEY_BACKSPACE:
-			changeState(BATTLE_STATES.WE_LOST)
+		if event.keycode == KEY_BACKSPACE:
+			GameState.PlayerState.getPlayer().stats.getStatObj(CreatureStats.STATS.HEALTH).modStat(0,false,self)	
+

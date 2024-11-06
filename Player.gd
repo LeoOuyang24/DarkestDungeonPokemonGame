@@ -8,7 +8,7 @@ signal added_scan(creatureName:StringName)
 const PLAYER_BASE_MAX_HEALTH:int = 20
 const PLAYER_BASE_ATTACK:int = 5
 const PLAYER_BASE_SPEED:int = 5
-const MAX_TEAM_SIZE:int = 4
+const MAX_TEAM_SIZE:int = 3
 
 var player:Creature = null
 var team:Array = []
@@ -54,11 +54,11 @@ func reset() -> void:
 	player = Creature.new("spritesheets/creatures/player",PLAYER_BASE_MAX_HEALTH,PLAYER_BASE_ATTACK,PLAYER_BASE_SPEED,"Player",5,[SwapPos.new(),Scan.new(),Hamstring.new(),GrantSpeed.new()])
 	player.isPlayer = true	
 
-	var ally1 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/beholder.json")
+	var ally1 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/dreemer.json")
 	var ally2 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/silent.json")
 	
 	
 	#ally1.setMoves([Bite.new(),Slash.new(),Grow.new()]);
 	#ally2.setMoves([Bite.new(),Slash.new(),Grow.new()]);
 	
-	team = [ally1, ally2, CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json"),CreatureLoader.loadJSON("res://Creatures/creatures_jsons/princess.json") ]
+	team = [ally1, ally2, CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json")]

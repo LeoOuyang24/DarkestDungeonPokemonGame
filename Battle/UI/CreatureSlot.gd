@@ -56,20 +56,19 @@ func removeCreature():
 		creature = null
 
 func updateHealth(stat:CreatureStats.STATS,amount:int):
-			if stat == CreatureStats.STATS.HEALTH:
-					if (amount != 0):
-						if (amount < 0):
-							Animations.play("hurt")
-						HealthBar.setHealth(creature.stats.getCurStat(CreatureStats.STATS.HEALTH))
+	if stat == CreatureStats.STATS.HEALTH:
+		if (amount < 0):
+			Animations.play("hurt")
+		HealthBar.setHealth(creature.stats.getCurStat(CreatureStats.STATS.HEALTH))
 
-						Ticker.clear()
-						Ticker.push_color(Color.RED if amount < 0 else Color.GREEN) #if healing, text color is green
-						Ticker.append_text(("+" if amount > 0 else "") + str(amount)) #add a "+" sign if healing
-						Ticker.pop()
-						TickerAnimation.play("hurt")	
+		Ticker.clear()
+		Ticker.push_color(Color.RED if amount < 0 else Color.GREEN) #if healing, text color is green
+		Ticker.append_text(("+" if amount > 0 else "") + str(amount)) #add a "+" sign if healing
+		Ticker.pop()
+		TickerAnimation.play("hurt")	
 
 func setOutlineColor(color:Color): 
-	material.set_shader_parameter("line_color", color)
+	material.set_shader_parameter("outline_color", color)
 
 func setCreature(creature:Creature):
 	removeCreature()

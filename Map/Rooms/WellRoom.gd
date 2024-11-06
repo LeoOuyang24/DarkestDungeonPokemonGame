@@ -1,4 +1,4 @@
-extends Node2D
+extends RoomBase
 
 @onready var MessageBox = $InputMenu/Label
 @onready var Choices = [$InputMenu/Drink,$InputMenu/DeepDrink,$InputMenu/Study]
@@ -11,7 +11,6 @@ static var CharPS = 10
 #millisecond at which we swapped to this scene
 var startTime = 0
 
-signal room_finished()
 
 #DFA
 var sequencer:Sequencer = Sequencer.new()

@@ -3,7 +3,9 @@
 [ext_resource type="Script" path="res://Battle/BattleManager.gd" id="1_ikfqa"]
 [ext_resource type="PackedScene" uid="uid://b3hux6c6p4pfu" path="res://Battle/UI/BattleUI.tscn" id="2_06xco"]
 
-[node name="BattleManager" type="Node2D"]
+[node name="BattleManager" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_ikfqa")
 
 [node name="BattleUI" parent="." instance=ExtResource("2_06xco")]

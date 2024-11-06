@@ -6,6 +6,7 @@ var TeamSlot = preload("res://Menus/TeamViewSlot.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+
 	createSlots()
 	pass # Replace with function body.
 
@@ -16,10 +17,7 @@ func createSlots():
 	for i in range(known.size()):
 		var creature:Creature = CreatureLoader.loadJSON(CreatureLoader.CreatureJSONDir + known[i] + ".json")
 		var slot = CreateHorrorButton.new()
-
 		add_child(slot)
-		
-
 
 		slot.position.x = margin.x*((i)%perRow + 1)
 		slot.position.y = margin.y*((i)/perRow + 1)
@@ -30,9 +28,11 @@ func createSlots():
 			slot.updateDisabled()
 			)
 
-		GameState.DNA_changed.connect( func(amount):
-			slot.disabled = GameState.getDNA() < 10
-			)
+		GameState.DNA_changed.connect(updateSlot.bind(slot))
+		
+func updateSlot(slot:QueueSlot) -> void:
+	if slot:
+		slot.disabled = GameState.getDNA() < 10
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

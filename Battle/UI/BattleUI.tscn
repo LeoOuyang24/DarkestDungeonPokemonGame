@@ -27,9 +27,9 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -618.0
-offset_top = -175.0
-offset_bottom = 175.0
+offset_left = -689.0
+offset_top = -174.5
+offset_bottom = 175.5
 grow_horizontal = 0
 grow_vertical = 2
 mouse_filter = 2
@@ -41,7 +41,7 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_top = -174.5
-offset_right = 713.0
+offset_right = 930.0
 offset_bottom = 174.5
 grow_vertical = 2
 mouse_filter = 2
@@ -145,7 +145,11 @@ offset_bottom = 200.0
 
 [node name="EndScreen" parent="." instance=ExtResource("3_1dct8")]
 visible = false
-position = Vector2(416, 192)
+layout_mode = 0
+offset_left = 416.0
+offset_top = 192.0
+offset_right = 1447.0
+offset_bottom = 836.0
 
 [node name="CreatureSummary" parent="." instance=ExtResource("9_d62vi")]
 unique_name_in_owner = true

@@ -9,18 +9,17 @@ static func genericAttackAnimation(user:Creature,enemies:Array,UI:BattleUI,move:
 		var enemyslot = UI.getCreatureSlot(enemies[0])
 		
 		var tween = slot.getTween()
-		tween.tween_property(slot,"global_position",Vector2(enemyslot.global_position.x,slot.global_position.y),0.25)
+		tween.tween_property(slot,"global_position",Vector2(slot.global_position.x + 50*(1 if user.getIsFriendly() else -1),slot.global_position.y),0.25).set_trans(Tween.TRANS_EXPO)
+		await tween.finished
 		if spriteFrames:
-			tween.tween_callback(func():
-				UI.setBattleSprite(spriteFrames,enemyslot.global_position)
-				)
+			UI.setBattleSprite(spriteFrames,enemyslot.global_position)
+			await UI.BattleSprite.looping
+		tween = slot.getTween()
+		tween.tween_property(slot,"global_position",Vector2(slot.global_position.x,slot.global_position.y),0.25).set_trans(Tween.TRANS_EXPO)
 		for i in enemies:
 			UI.getCreatureSlot(i).setAnimation("hurt")
 		await tween.finished
-		if spriteFrames:
-			await UI.BattleSprite.looping
-		#slot.Sprite.global_position = origin
-		UI.stopBattleSprite()
-		UI.resetAllSlotPos()
+
+		#UI.resetAllSlotPos()
 		for i in enemies:
 			UI.getCreatureSlot(i).setAnimation("default")
