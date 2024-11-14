@@ -10,6 +10,9 @@ func _init():
 	set_stretch_mode(TextureButton.STRETCH_KEEP_ASPECT)
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	var shader :=  ShaderMaterial.new()
+	shader.set_shader(load("res://Battle/UI/Outline.gdshader"))
+	set_material(shader)
 	if source:
 		setSprite(source)
 	pass # Replace with function body.
@@ -27,8 +30,21 @@ func setSize(size:Vector2):
 	self.custom_minimum_size = size
 	self.size = size
 	
+func setOutlineColor(color:Color): 
+	material.set_shader_parameter("outline_color", color)	
+
+#function that changes outline based on if we are being hovered
+#override in child class to disable
+func onHover():
+	if material:
+		setOutlineColor( Color.YELLOW if is_hovered() else Color(0,0,0,0))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	set_texture_normal(sprite.getCurrentFrame())
+	if sprite.getCurrentFrame():
+		set_texture_normal(sprite.getCurrentFrame())
+	else:
+		set_texture_normal(null)
+	onHover()
+
 	pass

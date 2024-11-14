@@ -6,6 +6,7 @@ signal DNA_changed(amount)
 signal game_lost()
 
 static var PlayerState:Player = Player.new()
+
 #amount of DNA we have
 var DNA:int = 0
 

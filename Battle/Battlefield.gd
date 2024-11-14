@@ -28,6 +28,8 @@ signal queue_order_changed(data:Array);
 signal pop_move_queue(record:Move.MoveRecord);
 
 signal new_current_creature(creature:Creature)
+
+signal battle_ended();
 signal new_turn(); #new turn
 
 #emitted when creature order changes
@@ -82,6 +84,7 @@ func swapCreature(index1:int, index2:int) -> void:
 	creatures[index1] = creature
 	creature_order_changed.emit();
 
+
 #add a creature for the first time
 #if creature is already in, you should use moveCreature
 func addCreature(creature:Creature, index:int):
@@ -90,7 +93,8 @@ func addCreature(creature:Creature, index:int):
 		creatures[index] = creature;
 		if creature:
 			creature.isFriendly = (index < maxAllies)
-			new_turn.connect(creature.statuses.newTurn)
+			new_turn.connect(creature.newTurn)
+			creature.traits.inBattle(self)
 			creature.stats.stat_changed.connect(func(stat:CreatureStats.STATS,amount:int):
 				if stat == CreatureStats.STATS.SPEED:
 					updateMoveQueue(creature))
@@ -159,10 +163,11 @@ func getEnemyMoves():
 
 func newTurn() -> void:
 	new_turn.emit(); #emit first to trigger any on-new-turn effects
-	moveQueue.clear()
-	for creature in creatures:
-		if creature:
-			moveQueue.insert(Move.MoveRecord.new(creature,null,[]))
+	moveQueue.reset();
+	#moveQueue.clear()
+	#for creature in creatures:
+		#if creature:
+			#moveQueue.insert(Move.MoveRecord.new(creature,null,[]))
 	getEnemyMoves();
 	if creaturesNum > 0:
 		setCurrentCreature(getFrontMostCreatures(1,false,false)[0])
@@ -207,10 +212,11 @@ func top() -> Move.MoveRecord:
 	
 func pop() -> Move.MoveRecord:
 	var result = moveQueue.top()
-	if result:
-		#moveQueue.increment()
-		moveQueue.removeUser(result.user)
-		pop_move_queue.emit(result);
+	moveQueue.increment()
+	#if result:
+		##moveQueue.increment()
+		#moveQueue.removeUser(result.user)
+		#pop_move_queue.emit(result);
 	return result
 #returns whether all players have selected a move
 func allMovesProcessed() -> bool:

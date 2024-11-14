@@ -13,7 +13,7 @@ class_name CreatureSlot extends AnimatedButton
 @onready var EffectsUI:StatusEffectsUI = %StatusEffectsUI
 
 @onready var Ticker = $DamageTicker
-@onready var TickerAnimation = $DamageTicker/Animation
+@onready var TickerAnimation = $TickerAnimation
 
 const MAX_DIMEN = 150 #max size in either dimension a sprite can be
 var tween = null
@@ -49,31 +49,36 @@ func setSpriteAndSize(spriteFrames:SpriteFrames,size:Vector2) -> void:
 
 func removeCreature():
 	if creature:
+		creature.traits.onRemoveUI(self)
 		creature.stats.stat_changed.disconnect(updateHealth)
 		creature.statuses.status_added.disconnect(EffectsUI.addStatusEffect)
 		creature.statuses.status_removed.disconnect(EffectsUI.removeStatusEffect)
 		EffectsUI.clear()
 		creature = null
+		setSprite(null)
 
 func updateHealth(stat:CreatureStats.STATS,amount:int):
 	if stat == CreatureStats.STATS.HEALTH:
 		if (amount < 0):
 			Animations.play("hurt")
+			Game.GameCamera.shake()
 		HealthBar.setHealth(creature.stats.getCurStat(CreatureStats.STATS.HEALTH))
 
 		Ticker.clear()
-		Ticker.push_color(Color.RED if amount < 0 else Color.GREEN) #if healing, text color is green
+		Ticker.push_color(Color.RED if amount < 0 else ( Color.GREEN  if amount > 0 else Color.WHITE)) #if healing, text color is green
 		Ticker.append_text(("+" if amount > 0 else "") + str(amount)) #add a "+" sign if healing
 		Ticker.pop()
 		TickerAnimation.play("hurt")	
 
-func setOutlineColor(color:Color): 
-	material.set_shader_parameter("outline_color", color)
+#override parent on hover
+func onHover():
+	pass
 
 func setCreature(creature:Creature):
 	removeCreature()
 	self.creature = creature;
 	if creature:
+
 		var sprite = creature.spriteFrame
 		setSpriteAndSize(sprite,creature.size)
 		if (HealthBar):
@@ -83,7 +88,7 @@ func setCreature(creature:Creature):
 		EffectsUI.update(creature.statuses)
 		creature.statuses.status_added.connect(EffectsUI.addStatusEffect)
 		creature.statuses.status_removed.connect(EffectsUI.removeStatusEffect)
-
+		creature.traits.onAddUI(self)
 		EffectsUI.position.x = HealthBar.size.x if creature.getIsFriendly() else 0
 
 		set_flip_h( creature.getIsFriendly())

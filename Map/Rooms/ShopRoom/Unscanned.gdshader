@@ -1,5 +1,6 @@
 shader_type canvas_item;
 
+uniform vec3 color = vec3(0,1,0);
 uniform float reach = 1;
 uniform float disabled = 0;
 void vertex() {
@@ -8,7 +9,7 @@ void vertex() {
 
 void fragment() {
 	vec4 pixel = texture(TEXTURE,UV);
-	vec3 background=mix(vec3(0,1,0),vec3(0.5,0.5,0.5),disabled);
+	vec3 background=mix(color,vec3(0.5,0.5,0.5),disabled);
 	COLOR = vec4(background,distance(pixel,vec4(0,0,0,1)));
 }
 

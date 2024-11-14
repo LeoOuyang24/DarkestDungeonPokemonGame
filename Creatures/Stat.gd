@@ -45,7 +45,7 @@ func addBigBoost(amount:int = 1):
 	modBaseStat(BIG_BOOST_AMOUNT*amount)
 	
 #pass in an amount to modify, whether or not it's additive or multiplicative, and a source
-func modBaseStat(amount:int,add:bool = true, source:Variant = self) -> void: 
+func modBaseStat(amount:float,add:bool = true, source:Variant = self) -> void: 
 	if source == self: #if the source is set as self, then it's probably part of leveling up or big boost
 		if add:
 			baseStat += amount #no real reason to track something like that, in fact we kind of already do
@@ -59,7 +59,7 @@ func modBaseStat(amount:int,add:bool = true, source:Variant = self) -> void:
 	modStat(amount, add, source)
 
 #change our stat	
-func modStat(amount:int, add:bool = true, source:Variant = self) -> void:
+func modStat(amount:float, add:bool = true, source:Variant = self) -> void:
 	if source == self:
 		if add:
 			curStat += amount
@@ -74,6 +74,9 @@ func modStat(amount:int, add:bool = true, source:Variant = self) -> void:
 	
 func removeSource(source:Variant) -> void:
 	if source != self:
+		
+		baseMods.removeSource(source)
+		
 		var oldAmount := curMods.getValue(self.curStat)
 		curMods.removeSource(source)
 		var newAmount := curMods.getValue(self.curStat)

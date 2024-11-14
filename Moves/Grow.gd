@@ -23,6 +23,7 @@ func runAnimation(user,targets,UI,battlefield:Battlefield):
 		UI.BattleSprite.modulate = Color.WHITE;
 		UI.stopBattleSprite();
 		)
+	#slot.Sprite.scale = Vector2(2,2);
 
 	await tween.finished
 	

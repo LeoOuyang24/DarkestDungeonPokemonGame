@@ -2,6 +2,8 @@ extends AnimatedButton
 
 @onready var label := %RichTextLabel
 
+
+var cost:int = 100;
 var creature:String = ""
 		
 func _ready():
@@ -29,7 +31,9 @@ func setCreature(creature:StringName):
 
 	
 func _pressed():
-	GameState.PlayerState.addScan(creature);
+	if GameState.getDNA() >= cost:
+		GameState.setDNA(GameState.getDNA() - cost)
+		GameState.PlayerState.addScan(creature);
 
 	
 

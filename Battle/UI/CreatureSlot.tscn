@@ -1,16 +1,49 @@
-[gd_scene load_steps=11 format=3 uid="uid://bqsfei63od030"]
+[gd_scene load_steps=10 format=3 uid="uid://bqsfei63od030"]
 
 [ext_resource type="Shader" path="res://Battle/UI/Outline.gdshader" id="1_iemai"]
 [ext_resource type="Script" path="res://Battle/UI/CreatureSlot.gd" id="1_kmmwv"]
 [ext_resource type="PackedScene" uid="uid://bjln7kkve4d5a" path="res://Battle/UI/health_bar.tscn" id="2_1ocdj"]
 [ext_resource type="PackedScene" uid="uid://5t1xxv227xqw" path="res://StatusEffects/StatusEffectsUI.tscn" id="3_2kmqv"]
-[ext_resource type="SpriteFrames" uid="uid://c6bcp5k5sipe4" path="res://sprites/spritesheets/creatures/chomper.tres" id="5_3vb3v"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t3clw"]
 resource_local_to_scene = true
 shader = ExtResource("1_iemai")
 shader_parameter/outline_width = 3.0
 shader_parameter/outline_color = null
+shader_parameter/isSpectral = false
+
+[sub_resource type="Animation" id="Animation_g1k0o"]
+resource_name = "hurt"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DamageTicker:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(8, -16), Vector2(40, -56), Vector2(64, -80), Vector2(128, -40), Vector2(192, 112)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DamageTicker:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pb7ge"]
+_data = {
+"hurt": SubResource("Animation_g1k0o")
+}
 
 [sub_resource type="Animation" id="Animation_yci5t"]
 resource_name = "hurt"
@@ -33,39 +66,6 @@ _data = {
 "hurt": SubResource("Animation_yci5t")
 }
 
-[sub_resource type="Animation" id="Animation_g1k0o"]
-resource_name = "hurt"
-length = 0.4
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../DamageTicker:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(8, -16), Vector2(40, -56), Vector2(64, -80), Vector2(128, -40), Vector2(192, 112)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../DamageTicker:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.4),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_pb7ge"]
-_data = {
-"hurt": SubResource("Animation_g1k0o")
-}
-
 [node name="Button" type="TextureButton"]
 material = SubResource("ShaderMaterial_t3clw")
 offset_right = 200.0
@@ -73,10 +73,39 @@ offset_bottom = 216.0
 size_flags_horizontal = 8
 size_flags_vertical = 8
 ignore_texture_size = true
-stretch_mode = 4
+stretch_mode = 5
 script = ExtResource("1_kmmwv")
 
+[node name="TickerAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_pb7ge")
+}
+
+[node name="SpriteAnimations" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_6k17u")
+}
+
+[node name="DamageTicker" type="RichTextLabel" parent="."]
+visible = false
+layout_mode = 2
+offset_left = 8.0
+offset_top = -16.0
+offset_right = 137.0
+offset_bottom = 86.0
+theme_override_font_sizes/normal_font_size = 60
+bbcode_enabled = true
+text = "[color=red]-1[/color]"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 2
+offset_left = 34.7199
+offset_top = 144.384
+offset_right = 114.72
+offset_bottom = 144.384
+
 [node name="HealthBar" parent="." instance=ExtResource("2_1ocdj")]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -106,40 +135,5 @@ offset_top = -35.0
 offset_bottom = -35.0
 grow_horizontal = 0
 grow_vertical = 0
-
-[node name="SpriteAnimations" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_6k17u")
-}
-
-[node name="DamageTicker" type="RichTextLabel" parent="."]
-visible = false
-layout_mode = 2
-offset_left = 226.72
-offset_top = 208.384
-offset_right = 306.72
-offset_bottom = 272.384
-theme_override_font_sizes/normal_font_size = 30
-bbcode_enabled = true
-text = "[color=red]-1[/color]"
-
-[node name="Animation" type="AnimationPlayer" parent="DamageTicker"]
-root_node = NodePath("")
-libraries = {
-"": SubResource("AnimationLibrary_pb7ge")
-}
-
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 2
-offset_left = 34.7199
-offset_top = 144.384
-offset_right = 114.72
-offset_bottom = 144.384
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-visible = false
-position = Vector2(453, 153)
-sprite_frames = ExtResource("5_3vb3v")
-frame_progress = 0.90667
 
 [editable path="HealthBar"]

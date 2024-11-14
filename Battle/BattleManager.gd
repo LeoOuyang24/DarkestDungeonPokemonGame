@@ -44,7 +44,9 @@ func _ready() -> void:
 	BattleSim.creature_added.connect(UI.addCreature)
 	BattleSim.creature_removed.connect(UI.removeCreature)
 	BattleSim.creature_order_changed.connect(UI.updateSlots.bind(BattleSim))
-	BattleSim.queue_order_changed.connect(UI.updateCreatureInQueue)
+	BattleSim.queue_order_changed.connect(func(_c,_i,_n):
+		UI.updateQueue(BattleSim.getFullQueue())
+		)
 	BattleSim.pop_move_queue.connect(func(record:Move.MoveRecord):
 		UI.popCreatureFromQueue(record.user)
 		)
@@ -142,13 +144,13 @@ func isPlayerTurn():
 func newTurn():
 	BattleSim.newTurn();
 	UI.newTurn(BattleSim);
+	#await UI.is_ready
 	changeState(BATTLE_STATES.SELECTING_MOVE);
 
 func reset():
 	UI.reset();
 	BattleSim.reset();
 	curMove = Move.MoveRecord.new()
-	pass
 
 func runMove(user:Creature,move:Move,targets:Array) -> void:
 	if user.statuses.getStatus("Sleep"):
@@ -179,12 +181,14 @@ func runBattle():
 	var runThis := BattleSim.pop()
 
 	while runThis:
+		#print(BattleSim.moveQueue.data)
 		UI.setCurrentCreature(runThis.user)
 		await runMove(runThis.user,runThis.move,runThis.targets)
 		var dead = BattleSim.checkForDeath()
 		while dead != -1:
 			await runDeath(BattleSim.getCreature(dead))
 			dead = BattleSim.checkForDeath()
+			await UI.is_ready
 		if !GameState.PlayerState.getPlayer().isAlive():
 			changeState(BATTLE_STATES.WE_LOST)
 			return 
@@ -198,6 +202,7 @@ func runBattle():
 		newTurn()
 
 func battleFinished():
+	BattleSim.battle_ended.emit()
 	if state == BATTLE_STATES.WE_WON:
 		GameState.setDNA(GameState.getDNA() + reward.getDNA())
 	elif state == BATTLE_STATES.WE_LOST:

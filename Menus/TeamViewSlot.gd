@@ -30,4 +30,3 @@ func _process(delta):
 			HealthBar.label.set_text("DEAD") 
 			HealthBar.label.modulate = Color.BLACK
 			sprite.stop()
-

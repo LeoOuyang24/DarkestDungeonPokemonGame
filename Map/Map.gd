@@ -39,7 +39,7 @@ func generate():
 			var room = RoomScene.instantiate()
 			#var room = Room.new(RoomInfo.new(RoomInfo.ROOM_TYPES.WELL if randi()%2 == 0 else RoomInfo.ROOM_TYPES.BATTLE))
 			addRoom(room,i,j,rowSize)
-			room.setRoomType(randi()%3)
+			room.setRoomType(randi()%Room.ROOM_TYPES.ROOM_TYPES_SIZE)
 			row.push_back(room);
 		if i > 0:
 			var neigh:float = float(rooms[-1].size())/row.size() #how many connections per room in this row
@@ -58,6 +58,7 @@ func _draw():
 	const ROOM_SPACING = 20
 	const DOT_SPACING = 20
 	const DOT_SIZE = 5
+	
 	for i in routes:
 		var p1 = i[0].position
 		var p2 = i[1].position

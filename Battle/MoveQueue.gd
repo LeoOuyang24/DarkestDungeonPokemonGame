@@ -20,6 +20,9 @@ func removeUser(creature:Creature):
 	if found != -1:
 		data.pop_at(found)
 		movesSelected.erase(creature)	
+		
+		if found <= index: #make sure we don't skip a character when we remove
+			index = max(0,index - 1)
 
 func remove(moveInfo:Move.MoveRecord):
 	removeUser(moveInfo.user)

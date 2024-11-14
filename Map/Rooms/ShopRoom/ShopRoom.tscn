@@ -1,19 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://bgi5mbushi1fq"]
+[gd_scene load_steps=4 format=3 uid="uid://ne4f5eakyuku"]
 
+[ext_resource type="PackedScene" uid="uid://bvxv6kih6bx3" path="res://Map/Rooms/EventRoom.tscn" id="1_n2ro6"]
 [ext_resource type="Script" path="res://Map/Rooms/ShopRoom/ShopRoom.gd" id="1_s3ixk"]
-[ext_resource type="Texture2D" uid="uid://dhr701yrjcxbx" path="res://sprites/backgrounds/aman.png" id="2_apg55"]
-[ext_resource type="PackedScene" uid="uid://cxvto5dpammsj" path="res://Map/Rooms/InputMenu.tscn" id="3_43pic"]
+[ext_resource type="Texture2D" uid="uid://dcmha4euyqa4h" path="res://sprites/backgrounds/aman.png" id="2_apg55"]
 
-[node name="ShopRoom" type="TextureRect"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_apg55")
+[node name="EventRoom" instance=ExtResource("1_n2ro6")]
 script = ExtResource("1_s3ixk")
 
-[node name="Shop" type="ColorRect" parent="."]
+[node name="Background" parent="." index="1"]
+texture = ExtResource("2_apg55")
+
+[node name="Shop" type="ColorRect" parent="." index="2"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
@@ -21,15 +18,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -821.0
-offset_top = -1040.0
-offset_right = 821.0
-offset_bottom = -534.0
+offset_left = -796.0
+offset_top = -1050.0
+offset_right = 846.0
+offset_bottom = -544.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.356863, 0.364706, 0.439216, 1)
 
-[node name="DNA" type="HBoxContainer" parent="Shop"]
+[node name="DNA" type="HBoxContainer" parent="Shop" index="0"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 14
@@ -41,27 +38,3 @@ offset_bottom = -96.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 100
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(955, 532)
-texture = ExtResource("2_apg55")
-
-[node name="InputMenu" parent="." instance=ExtResource("3_43pic")]
-unique_name_in_owner = true
-modulate = Color(1, 1, 1, 0)
-layout_mode = 1
-offset_top = -279.0
-
-[node name="Button" type="Button" parent="InputMenu"]
-layout_mode = 0
-offset_left = 1066.0
-offset_top = 133.0
-offset_right = 1434.0
-offset_bottom = 223.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 20
-text = "Leave
-"
-
-[connection signal="pressed" from="InputMenu/Button" to="." method="_on_button_pressed"]

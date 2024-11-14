@@ -21,7 +21,9 @@ enum ROOM_TYPES
 {
 	BATTLE, #your standard fighting room
 	WELL,
-	SHOP
+	COMBINE_MOVES,
+	SHOP,
+	ROOM_TYPES_SIZE #number of enums in this enum, should always be the last entry
 }
 
 var visited:ROOM_STATE = ROOM_STATE.INACCESSIBLE;
@@ -40,7 +42,11 @@ static func getRoomIcon(roomType:ROOM_TYPES):
 			spritePath = "res://sprites/map/well_room.png"
 		ROOM_TYPES.SHOP:
 			spritePath = "res://sprites/map/shop_room.png"
-	var texture = load(spritePath)	
+		ROOM_TYPES.COMBINE_MOVES:
+			spritePath = "res://sprites/map/lab_moves_room.png"
+		_:
+			push_error("Room:getRoomIcon: roomtype did not match: ", roomType)
+	var texture = load(spritePath)
 	return texture
 
 func setRoomType(roomType:ROOM_TYPES):

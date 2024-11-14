@@ -5,7 +5,7 @@ extends ColorRect
 
 func setCreature(creatureName:StringName):
 
-	var creature:Creature = CreatureLoader.loadJSON(CreatureLoader.CreatureJSONDir + creatureName + ".json")
+	var creature:Creature = CreatureLoader.loadJSON(creatureName)
 	
 	CreatureName.set_text(creature.getName())
 	Sprite.setSprite(creature.getSprite())

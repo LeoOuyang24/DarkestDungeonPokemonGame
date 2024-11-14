@@ -37,6 +37,10 @@ func addCreatureToTeam(creature:Creature) -> void:
 		team.push_back(creature)
 		team_changed.emit()
 
+func removeCreatureFromTeam(creature:Creature) -> void:
+	team.erase(creature)
+	team_changed.emit()
+
 #returns true if the player is dead
 func isPlayerDead():
 	return player && !player.isAlive();
@@ -62,3 +66,4 @@ func reset() -> void:
 	#ally2.setMoves([Bite.new(),Slash.new(),Grow.new()]);
 	
 	team = [ally1, ally2, CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json")]
+	team[0].traits.addStatus(Spectral.new())

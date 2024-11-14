@@ -1,14 +1,16 @@
-class_name Game extends Control
+class_name Game extends Node2D
 
-@onready var Scenes := $Scenes
-@onready var Map := $Scenes/Map
-@onready var TeamView := $TeamView
+@onready var Scenes := %Scenes
+@onready var Map := %Map
+@onready var TeamView := %TeamView
 @onready var FadeOut := %FadeOut
 @onready var DNACounter := %DNACounterLabel
 @onready var NewScan := %"NewScan!"
 @onready var BloodAnimation := %HurtAnimation
 @onready var GameOver := %GameOver
 @onready var GameOverButton := %GameOver/Button
+
+static var GameCamera:GlobalCamera = null
 
 var curScene = null
 var showTeam := false
@@ -18,14 +20,15 @@ var showTeam := false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	GameCamera = $Camera
 	GameState.DNA_changed.connect(func(amount):
 		DNACounter.set_text(str(GameState.getDNA()))
 		)
 	GameState.PlayerState.added_scan.connect(func (creatureName:StringName):
 			NewScan.setCreature(creatureName)
 			var tween = NewScan.create_tween()
-			tween.tween_property(NewScan,"position",Vector2(NewScan.position.x,NewScan.position.y + NewScan.get_size().y),1);
-			tween.tween_property(NewScan,"position",Vector2(NewScan.position.x,NewScan.position.y),1).set_delay(2);
+			tween.tween_property(NewScan,"position",Vector2(NewScan.position.x,0),1);
+			tween.tween_property(NewScan,"position",Vector2(NewScan.position.x,-NewScan.get_size().y),1).set_delay(2);
 			)
 	
 	GameState.PlayerState.getPlayer().stats.getStatObj(CreatureStats.STATS.HEALTH).stat_changed.connect(func(amount:int,val:int):
@@ -99,6 +102,9 @@ func _on_map_room_selected(roomInfo):
 		Room.ROOM_TYPES.SHOP:
 			var shopRoom = load("res://Map/Rooms/ShopRoom/ShopRoom.tscn").instantiate()
 			newScene = shopRoom
+		Room.ROOM_TYPES.COMBINE_MOVES:
+			var labRoom = load("res://Map/Rooms/CombineMoveRoom/LabMovesRoom.tscn").instantiate()
+			newScene = labRoom
 		_:
 			push_error("Game.gd: Somehow, RoomInfo ROOM_TYPE was not matched!")
 	if newScene:

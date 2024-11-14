@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://c434ifxltx2da"]
 
 [ext_resource type="Script" path="res://Menus/LearnNewMove.gd" id="1_4fl2n"]
-[ext_resource type="Texture2D" uid="uid://jjclmd1ee8cj" path="res://sprites/effects/upArrow.png" id="1_8xwyf"]
+[ext_resource type="Texture2D" uid="uid://bvacba1davf2w" path="res://sprites/effects/upArrow.png" id="1_8xwyf"]
 [ext_resource type="PackedScene" uid="uid://dxsiuao5kklcy" path="res://Battle/UI/MoveButton.tscn" id="2_fvapw"]
 [ext_resource type="Script" path="res://Battle/UI/MoveButton.gd" id="2_lpgbc"]
 

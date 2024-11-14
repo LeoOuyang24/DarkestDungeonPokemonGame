@@ -22,6 +22,7 @@ var creatureName = "Creature"
 var stats:CreatureStats = null
 var level:CreatureLevel = null
 var statuses:StatusManager = null
+var traits:TraitManager = null
 
 # "a" deals damage to "b", based on attack and defense stats. "damage" is the base damage
 static func dealDamage(a:Creature,b:Creature, damage):
@@ -43,6 +44,7 @@ func _init( sprite_path:String, maxHealth_:int,baseAttack_:int,baseSpeed_:int, n
 	level = CreatureLevel.new(pendingMoves_)
 	
 	statuses = StatusManager.new(self)
+	traits = TraitManager.new(self)
 	
 	setMoves(moves_)
 
@@ -63,10 +65,15 @@ func getIsFriendly():
 	return isFriendly || isPlayerCreature()
 
 func getName():
-	return creatureName;
+	return traits.getAdjective() + creatureName;
 
 func isAlive():
 	return stats.getCurStat(CreatureStats.STATS.HEALTH) > 0
+
+func newTurn() -> void:
+	tickMoves()
+	statuses.newTurn()
+	traits.newTurn()
 
 #decrease cooldown for each move
 func tickMoves() -> void:
@@ -78,8 +85,6 @@ func setMoves(attacks_):
 
 #used for dealing damage/healing
 func addHealth(amount:int):
-	if amount < 0:	
-		amount = min(amount,-1); #ensure damage is at least 1
 	stats.getStatObj(CreatureStats.STATS.HEALTH).modStat(amount)
 
 	
@@ -94,7 +99,9 @@ func getMove(index):
 func getRandomMove():
 	return moves[randi()%moves.size()]
 	
-	
+func addTrait(t:Trait):
+	traits.addStatus(t)
+
 #given a creature, its allies, and its targets,
 #run the AI for the creature
 #return the move it would use

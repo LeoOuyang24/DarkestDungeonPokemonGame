@@ -32,12 +32,7 @@ signal battle_finished()
 #based on what is in front and what is in the back
 var creatureSlots = []
 
-#array of queue slot positions
-#this array CHANGES as creatures take their turn, like how Battlefield.moveQueue does
-#the contents aren't deleted, but they are removed from the array. This means queueSlots
-#more accurately represents the contents of the moveQueue while TurnQueue.children represents
-#all the queue slots in the UI, some of which may not be visible
-var queueSlots = []
+
 
 var creatureSlot = preload("./CreatureSlot.tscn")
 var queueSlot = preload("./QueueSlot.tscn")
@@ -48,6 +43,7 @@ var currentCreature:Creature = null
 func newTurn(state:Battlefield):
 	updateQueue(state.getFullQueue())
 	updateSlots(state)
+	#is_ready.emit()
 
 #add creatures to slots
 func updateSlots(state:Battlefield):
@@ -102,14 +98,13 @@ func setCurrentCreature(creature:Creature):
 
 #sets the current creature in the summary area
 func setCurrentCreatureUI(creature:Creature, isCurrent:bool):
-	if !isCurrent:
-		getCreatureSlot(creature).setOutlineColor(Color.CYAN);
-	if Summary.creature && Summary.creature != currentCreature:
-		getCreatureSlot(Summary.creature).setOutlineColor(Color(0,0,0,0));
+	if creature:
+		if !isCurrent:
+			getCreatureSlot(creature).setOutlineColor(Color.CYAN);
+		if Summary.creature && Summary.creature != currentCreature:
+			getCreatureSlot(Summary.creature).setOutlineColor(Color(0,0,0,0));
 
 	Summary.setCurrentCreature(creature,isCurrent)
-	#for i in range(Creature.maxMoves):
-	#	Moves[i].setMove(creature.getMove(i) if creature else null,creature)
 
 #get teh creatureslot corresponding to the given creature or index
 func getCreatureSlot(creature) -> CreatureSlot:
@@ -124,7 +119,7 @@ func getCreatureSlot(creature) -> CreatureSlot:
 	return null
 	
 func getQueueSlot(creature:Creature) -> QueueSlot:
-	for slots in queueSlots:
+	for slots in TurnQueue.get_children():
 		if slots.creature == creature:
 			return slots;
 	return null
@@ -140,47 +135,38 @@ func addCreature(creature:Creature, index:int):
 func removeCreature(creature:Creature):
 	if getCreatureSlot(creature):
 		getCreatureSlot(creature).setCreature(null)
-		removeCreatureFromQueue(creature);
-
-func updateCreatureInQueue(creature:Creature, oldIndex:int, newIndex:int) -> void:
-	for i in range(newIndex, oldIndex, 1 if newIndex < oldIndex else -1):
-		var swap:Creature = queueSlots[i].creature
-		queueSlots[i].setCreature(queueSlots[oldIndex].creature)
-		queueSlots[oldIndex].setCreature(swap)
+		await removeCreatureFromQueue(creature);
+		is_ready.emit()
 
 #remove a creature from queue because we are running its move NOT because it died
 func popCreatureFromQueue(creature:Creature) -> void:
 	var slot := getQueueSlot(creature);	
 	var tween := create_tween()
-	tween.tween_property(slot,"modulate",Color(1,1,1,0.0),1)
-	tween.tween_callback(func ():
-		queueSlots.erase(slot)
-		)
+	#tween.tween_property(slot,"modulate",Color(1,1,1,0.0),1)
 
 func removeCreatureFromQueue(creature:Creature):
 		var thisSlot := getQueueSlot(creature)
-		if thisSlot: #no point in removing if creature has already gone
+		if thisSlot:
 			var tween = create_tween()
 			var height = thisSlot.get_rect().size.y
 
-			tween.parallel().tween_property(thisSlot,"position",Vector2(thisSlot.position.x,height),1)
+			#tween.parallel().tween_property(thisSlot,"position",Vector2(thisSlot.position.x,height),1)
 			tween.parallel().tween_property(thisSlot,"modulate",Color(0,0,0,0),1)
 			tween.tween_callback(func ():
 				thisSlot.setCreature(null)
-				queueSlots.erase(thisSlot)
 				)
+			await tween.finished
+			#await TurnQueue.sort_children
 
 
 func updateQueue(queue:Array):
 	var children = TurnQueue.get_children()
-	for i in range(queue.size()):
-		if i <= queueSlots.size():
-			queueSlots.push_back(children[i])
-		queueSlots[i].modulate = Color(1,1,1,1)
+	for i in range(Battlefield.maxAllies + Battlefield.maxEnemies):
+		children[i].modulate = Color(1,1,1,1)
 		if i < queue.size():
-			queueSlots[i].setCreature(queue[i])
+			children[i].setCreature(queue[i])
 		else:
-			queueSlots[i].setCreature(null)
+			children[i].setCreature(null)
 		
 #toggle target choosing (flashing black and white) on/off
 func choosingTargets(targets:Move.TARGETING_CRITERIA = Move.TARGETING_CRITERIA.ONLY_ENEMIES):

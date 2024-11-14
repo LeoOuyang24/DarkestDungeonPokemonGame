@@ -9,7 +9,7 @@ static func genericAttackAnimation(user:Creature,enemies:Array,UI:BattleUI,move:
 		var enemyslot = UI.getCreatureSlot(enemies[0])
 		
 		var tween = slot.getTween()
-		tween.tween_property(slot,"global_position",Vector2(slot.global_position.x + 50*(1 if user.getIsFriendly() else -1),slot.global_position.y),0.25).set_trans(Tween.TRANS_EXPO)
+		tween.tween_property(slot,"global_position",Vector2(slot.global_position.x + 100*(1 if user.getIsFriendly() else -1),slot.global_position.y),0.25).set_trans(Tween.TRANS_EXPO)
 		await tween.finished
 		if spriteFrames:
 			UI.setBattleSprite(spriteFrames,enemyslot.global_position)

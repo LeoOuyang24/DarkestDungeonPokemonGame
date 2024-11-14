@@ -1,7 +1,7 @@
 [gd_resource type="SpriteFrames" load_steps=145 format=3 uid="uid://c6bcp5k5sipe4"]
 
-[ext_resource type="Texture2D" uid="uid://2hs88yq1cwxj" path="res://sprites/spritesheets/creatures/chomper.png" id="1_t3mnr"]
-[ext_resource type="Texture2D" uid="uid://b6b0vu4jgbmqh" path="res://sprites/spritesheets/creatures/chompe_reel.png" id="2_r7keu"]
+[ext_resource type="Texture2D" uid="uid://l671mgx8rnh4" path="res://sprites/spritesheets/creatures/chomper.png" id="1_t3mnr"]
+[ext_resource type="Texture2D" uid="uid://b3starw8lhh70" path="res://sprites/spritesheets/creatures/chompe_reel.png" id="2_r7keu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vyemy"]
 atlas = ExtResource("1_t3mnr")
