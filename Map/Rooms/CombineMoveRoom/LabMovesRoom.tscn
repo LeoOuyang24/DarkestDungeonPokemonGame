@@ -1,0 +1,143 @@
+[gd_scene load_steps=10 format=3 uid="uid://6f7frt3ng1c8"]
+
+[ext_resource type="PackedScene" uid="uid://bvxv6kih6bx3" path="res://Map/Rooms/EventRoom.tscn" id="1_katkq"]
+[ext_resource type="Script" path="res://Map/Rooms/CombineMoveRoom/LabMovesRoom.gd" id="1_xsu3n"]
+[ext_resource type="Script" path="res://sprites/UI/AnimatedButton.gd" id="4_8wa73"]
+[ext_resource type="Texture2D" uid="uid://bcyn2c0xfrlvq" path="res://sprites/map/lab.png" id="4_e7umc"]
+[ext_resource type="Shader" path="res://Map/Rooms/ShopRoom/Unscanned.gdshader" id="4_o77do"]
+[ext_resource type="PackedScene" uid="uid://1m34rwnl48vd" path="res://Battle/UI/moves_ui.tscn" id="6_wkuiw"]
+[ext_resource type="Theme" uid="uid://ctnx7oi2vcxu" path="res://UI/menu.tres" id="7_xtlvh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b1rsf"]
+resource_local_to_scene = true
+shader = ExtResource("4_o77do")
+shader_parameter/color = Vector3(0, 1, 0)
+shader_parameter/reach = 1.0
+shader_parameter/disabled = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vfdyq"]
+shader = ExtResource("4_o77do")
+shader_parameter/color = Vector3(1, 0, 0)
+shader_parameter/reach = 1.0
+shader_parameter/disabled = 0.0
+
+[node name="EventRoom" instance=ExtResource("1_katkq")]
+script = ExtResource("1_xsu3n")
+
+[node name="WhiteOut" type="ColorRect" parent="." index="0"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
+
+[node name="ResultRect" type="ReferenceRect" parent="." index="1"]
+layout_mode = 0
+offset_left = 903.0
+offset_top = 265.0
+offset_right = 1076.0
+offset_bottom = 460.0
+border_color = Color(1, 1, 0, 1)
+border_width = 5.0
+editor_only = false
+
+[node name="MovesUI" parent="ResultRect" index="0" instance=ExtResource("6_wkuiw")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -63.5
+offset_top = 7.0
+offset_right = 63.5
+offset_bottom = 157.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Accept" type="Button" parent="ResultRect/MovesUI" index="1"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 83.0
+offset_top = 8.0
+offset_right = -81.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("7_xtlvh")
+text = "Accept"
+
+[node name="Result" type="TextureButton" parent="ResultRect" index="1"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+ignore_texture_size = true
+script = ExtResource("4_8wa73")
+
+[node name="Background" parent="." index="3"]
+mouse_filter = 2
+texture = ExtResource("4_e7umc")
+
+[node name="Active" type="Control" parent="." index="4"]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TeamView" type="VBoxContainer" parent="Active" index="0"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.201
+anchor_top = 0.255
+anchor_right = 0.201
+anchor_bottom = 0.255
+offset_left = 514.56
+offset_top = 861.545
+offset_right = 610.56
+offset_bottom = 1286.55
+
+[node name="Rects" type="Control" parent="Active" index="1"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1466.0
+offset_top = 1735.0
+offset_right = 1506.0
+offset_bottom = 1775.0
+
+[node name="Green" type="TextureButton" parent="Active/Rects" index="0"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_b1rsf")
+layout_mode = 0
+offset_left = -1226.0
+offset_top = -1458.0
+offset_right = -1053.0
+offset_bottom = -1031.0
+ignore_texture_size = true
+script = ExtResource("4_8wa73")
+
+[node name="Red" type="TextureButton" parent="Active/Rects" index="1"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_vfdyq")
+layout_mode = 0
+offset_left = 144.0
+offset_top = -1503.0
+offset_right = 317.0
+offset_bottom = -1076.0
+ignore_texture_size = true
+script = ExtResource("4_8wa73")
+
+[connection signal="pressed" from="ResultRect/MovesUI/Accept" to="." method="_on_accept_pressed"]

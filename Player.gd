@@ -58,8 +58,8 @@ func reset() -> void:
 	player = Creature.new("spritesheets/creatures/player",PLAYER_BASE_MAX_HEALTH,PLAYER_BASE_ATTACK,PLAYER_BASE_SPEED,"Player",5,[SwapPos.new(),Scan.new(),Hamstring.new(),GrantSpeed.new()])
 	player.isPlayer = true	
 
-	var ally1 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/dreemer.json")
-	var ally2 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/silent.json")
+	var ally1 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/silent.json")
+	var ally2 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/princess.json")
 	
 	
 	#ally1.setMoves([Bite.new(),Slash.new(),Grow.new()]);
