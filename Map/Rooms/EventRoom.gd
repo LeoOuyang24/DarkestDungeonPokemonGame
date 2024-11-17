@@ -11,14 +11,13 @@ func _ready():
 	pass # Replace with function body.
 
 #runs a little intro
-func getIntro(intro:String) -> Tween:
+func playIntro(intro:String):
 	var tween = create_tween()
 	tween.tween_interval(1)
 	tween.tween_property(Menu,"modulate",Color.WHITE,1);
 	await tween.finished;
 	tween.stop()
 	await Menu.setMessage(intro);
-	return tween
 	
 func _on_button_pressed():
 	room_finished.emit()

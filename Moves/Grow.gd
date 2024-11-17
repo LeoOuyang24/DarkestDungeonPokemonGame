@@ -24,8 +24,14 @@ func runAnimation(user,targets,UI,battlefield:Battlefield):
 		#UI.stopBattleSprite();
 		#)
 		
-	tween.tween_property(slot,"size",1.5*slot.size,0.5)
-	tween.tween_property(slot,"size",slot.size,0.5)
+	#tween.tween_method(slot.setSize,1*slot.Sprite.size,1.5*slot.Sprite.size,0.5)
+	#tween.tween_method(slot.setSize,1.5*slot.Sprite.size,1*slot.Sprite.size,0.5)
+	tween.tween_property(slot.Sprite,"size",1.5*slot.Sprite.size,0.5)
+	#scaling up the slot moves it downwards (because the top doesn't move)
+	#as a simple hack, if we move the slot's position, we can compensate 
+	#tween.parallel().tween_property(slot.Sprite,"position",slot.Sprite.position - Vector2(slot.Sprite.size.x*.25,slot.Sprite.size.y*.5),0.5)
+	tween.tween_property(slot.Sprite,"size",slot.Sprite.size,0.5)
+	#tween.parallel().tween_property(slot.Sprite,"position",slot.Sprite.position,0.5)
 	#slot.Sprite.scale = Vector2(2,2);
 
 	await tween.finished

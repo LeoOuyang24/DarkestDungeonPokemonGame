@@ -1,19 +1,23 @@
-class_name CreatureSlot extends AnimatedButton
+class_name CreatureSlot extends Control
 
 #represents the visual representation of a creature on the battlefield
+
+signal pressed
 
 @export var testing:bool = false
 
 
 #@onready var Sprite = $Button
 @onready var HealthBar = $HealthBar;
-@onready var Animations = $SpriteAnimations;
+@onready var Animations = %SpriteAnimations;
 
 @onready var Icons = $Icons
 @onready var EffectsUI:StatusEffectsUI = %StatusEffectsUI
 
-@onready var Ticker = $DamageTicker
-@onready var TickerAnimation = $TickerAnimation
+@onready var Ticker = %DamageTicker
+@onready var TickerAnimation = %TickerAnimation
+
+@onready var Sprite:AnimatedButton = %Button
 
 const MAX_DIMEN = 150 #max size in either dimension a sprite can be
 var tween = null
@@ -23,17 +27,36 @@ var creature:Creature = null
 #func _input(event):
 	#if event is InputEventMouseButton:
 		#print(get_global_rect().has_point(event.position))
+
+
 	
 func _ready():
+	size_flags_vertical = SIZE_SHRINK_END
 	tween = getTween()
 	setCreature(null)
 	if testing:
 		setCreature(CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json"))
 	
 	#for debugging purposes, clicking on a creature slot will print the creature
-	pressed.connect(func():
-		print(creature)
-		)
+	#pressed.connect(func():
+		#print(creature)
+		#)
+
+func setOutlineColor(color:Color) -> void:
+	Sprite.setOutlineColor(color)
+	
+func getMaterial() -> Material:
+	return Sprite.material	
+	
+func setSprite(spriteFrames:SpriteFrames) -> void:
+	Sprite.setSprite(spriteFrames)
+		
+func setSize(vec:Vector2) -> void:
+	custom_minimum_size.x = vec.x
+	#size = vec;
+	Sprite.setSize(vec);
+	Sprite.position.y = -Sprite.size.y;
+	Sprite.position.x = size.x/2 - Sprite.size.x/2;
 
 
 func setSpriteAndSize(spriteFrames:SpriteFrames,size:Vector2) -> void:
@@ -55,7 +78,7 @@ func removeCreature():
 		creature.statuses.status_removed.disconnect(EffectsUI.removeStatusEffect)
 		EffectsUI.clear()
 		creature = null
-		setSprite(null)
+		Sprite.setSprite(null)
 
 func updateHealth(stat:CreatureStats.STATS,amount:int):
 	if stat == CreatureStats.STATS.HEALTH:
@@ -91,16 +114,16 @@ func setCreature(creature:Creature):
 		creature.traits.onAddUI(self)
 		EffectsUI.position.x = HealthBar.size.x if creature.getIsFriendly() else 0
 
-		set_flip_h( creature.getIsFriendly())
+		Sprite.set_flip_h( creature.getIsFriendly())
 	else:
-		setOutlineColor(Color(0,0,0,0));
+		Sprite.setOutlineColor(Color(0,0,0,0));
 		setSpriteAndSize(null,Vector2(0,0))
 		
 	HealthBar.visible = creature != null
 		
 	
 func setAnimation(string:String) -> void:
-	changeAnimation(string)
+	Sprite.changeAnimation(string)
 
 func getCreature():
 	return self.creature
@@ -113,3 +136,8 @@ func getTween():
 		tween.kill()
 	tween = create_tween()
 	return tween;
+
+
+func _on_button_pressed():
+	pressed.emit();
+	pass # Replace with function body.

@@ -30,9 +30,9 @@ func _ready():
 	
 #set the creature we are currently changing
 func setCreature(creature:Creature) -> void:
-	self.creature = creature
-	Sprite.setSprite(creature.getSprite())
 	if creature:
+		self.creature = creature
+		Sprite.setSprite(creature.getSprite())
 		#add moves to UI
 		LearnNewMove.setMoves(creature)
 		LevelUpButton.setCreature(creature)

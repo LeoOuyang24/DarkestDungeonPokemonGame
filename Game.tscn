@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://GlobalCamera.gd" id="2_03rtm"]
 [ext_resource type="PackedScene" uid="uid://cped8ka2riy3s" path="res://Map/Map.tscn" id="3_aqr5l"]
 [ext_resource type="PackedScene" uid="uid://csyroyi13nt66" path="res://Menus/TeamView.tscn" id="5_4v7on"]
-[ext_resource type="Texture2D" uid="uid://cgxsxxx5aw2nn" path="res://sprites/icons/dna_icon.png" id="5_hauwm"]
+[ext_resource type="Texture2D" uid="uid://q5ilukk8h66k" path="res://sprites/icons/dna_icon.png" id="5_hauwm"]
 [ext_resource type="PackedScene" uid="uid://4iwnqm7b1q50" path="res://FadeOut.tscn" id="5_lq1s6"]
 [ext_resource type="PackedScene" uid="uid://b6cgwbi1q0bpd" path="res://sprites/UI/NewScan!.tscn" id="6_2twt4"]
 [ext_resource type="PackedScene" uid="uid://bx5ugehc8gnq4" path="res://UI/GameOver.tscn" id="7_ep71o"]

@@ -18,11 +18,15 @@ func _ready():
 	pass # Replace with function body.
 
 func onSelect():
-	var tween = await getIntro("You see a man.")
+	await playIntro("You see \"a man\".")
+	Menu.pushMessage("\"Another one for the slaughter?\"")
+	Menu.pushMessage("\"Perhaps we can be of use to one another.\"")
+	await Menu.messages_empty
+	var tween = create_tween();
 	tween.tween_property(ShopWindow,"position",Vector2(ShopWindow.position.x,400),1);
 	tween.play()
 	await tween.finished;
-	Menu.setMessage("He cobbles together some goods for you")
+
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

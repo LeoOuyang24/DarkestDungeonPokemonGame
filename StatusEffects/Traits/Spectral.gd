@@ -15,16 +15,16 @@ func inBattle(battle:Battlefield) -> void:
 func onAddUI(slot:CreatureSlot) -> void:
 	#add the creatureslot to the trigger to remove the shader effect
 	creature.stats.getStatObj(CreatureStats.STATS.HEALTH).stat_changed.connect(trigger.bind(slot))
-	slot.material.set_shader_parameter("isSpectral", spectral)
+	slot.getMaterial().set_shader_parameter("isSpectral", spectral)
 	
 func trigger(amount:int, newVal:int,slot:CreatureSlot) -> void:
 	if spectral:
 		creature.stats.damageMods.removeSource(self)
 		spectral = false;
-		slot.material.set_shader_parameter("isSpectral", spectral)
+		slot.getMaterial().set_shader_parameter("isSpectral", spectral)
 		
 		
 	
 func onRemoveUI(slot:CreatureSlot) -> void:
-	slot.material.set_shader_parameter("isSpectral", false)
+	slot.getMaterial().set_shader_parameter("isSpectral", false)
 	

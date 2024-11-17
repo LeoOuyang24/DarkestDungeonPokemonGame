@@ -1,5 +1,6 @@
 class_name AnimatedButton extends TextureButton
 
+@export var onHoverOutline:bool = true #true if we want to show an outline when hovered over
 @export var source:SpriteFrames = null
 var sprite:Anime = Anime.new()
 
@@ -36,7 +37,7 @@ func setOutlineColor(color:Color):
 #function that changes outline based on if we are being hovered
 #override in child class to disable
 func onHover():
-	if material:
+	if material and onHoverOutline:
 		setOutlineColor( Color.YELLOW if is_hovered() else Color(0,0,0,0))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

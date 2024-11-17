@@ -67,3 +67,4 @@ func reset() -> void:
 	
 	team = [ally1, ally2, CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json")]
 	team[0].traits.addStatus(Spectral.new())
+	team[0].traits.addStatus(Steady.new())

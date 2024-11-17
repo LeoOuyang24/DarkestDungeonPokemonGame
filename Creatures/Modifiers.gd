@@ -56,8 +56,33 @@ func getSourceValue(source:Variant) -> Vector2:
 	return Vector2(addSources[source] if addSources.has(source) else 0, multSources[source] if multSources.has(source) else 1);
 	
 #actually get the final value
-func getValue(value:int) -> float:
-	return mult*(value + add)
+#lower = true if we want to include mods that lower our stat
+#upper = true if we want to include mods that raise our stat
+func getValue(value:int, lower:bool =true, upper:bool=true) -> float:
+	if lower and upper: #what will usually happen, we want all modifiers
+		return mult*(value + add)
+	elif !lower and !upper: #if we want no modifiers, just return the value
+		return value 
+	else: #otherwise, we'll have to do some calculations
+		var addBoost := 0
+		var multBoost := 1
+		#calculate additive boosts
+		for i in addSources:
+			if lower and addSources[i] < 0:
+				addBoost += addSources[i]
+			elif upper and addSources[i] > 0:
+				addBoost += addSources[i]
+		
+		#calculate multiplicative boosts
+		for i in multSources:
+			if lower and multSources[i] < 1:
+				multBoost *= multSources[i];
+				if multSources[i] == 0:
+					break
+			elif upper and multSources[i] > 1:
+				multBoost *= multSources[i];
+				
+		return multBoost*(value + addBoost)
 
 func reset() -> void:
 	add = 0;

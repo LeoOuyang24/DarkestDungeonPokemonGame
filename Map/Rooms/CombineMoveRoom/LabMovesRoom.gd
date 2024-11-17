@@ -54,7 +54,7 @@ func _unhandled_input(event):
 		TeamView.visible = false
 
 func onSelect() -> void:
-	await getIntro("Two tubes stand before you")
+	await playIntro("Two tubes stand before you")
 
 
 func _on_accept_pressed():

@@ -17,6 +17,9 @@ const PER_LEVEL_AMOUNT:int = 1 #amount to increase this stat by per level
 var curMods:StatModTracker = StatModTracker.new() #mods for curstat
 var baseMods:StatModTracker = StatModTracker.new() #mods for baseStat
 
+var canBeLowered:bool = true; #true if stat can be lowered
+var canBeRaised:bool = true; #true if stat can be raised
+
 func _init(baseVal:int, levels:int = 1,bigBoosts:int = 0) -> void:
 	rootStat = baseVal
 	baseStat = predictBaseStat(rootStat,levels,bigBoosts)
@@ -35,10 +38,10 @@ static func perLevelIncrease(baseStat:int) -> int:
 	return PER_LEVEL_AMOUNT;
 	
 func getBaseStat():
-	return baseMods.getValue(baseStat)
+	return baseMods.getValue(baseStat,canBeLowered,canBeRaised)
 	
 func getStat() -> int:
-	return curMods.getValue(curStat)
+	return curMods.getValue(curStat,canBeLowered,canBeRaised)
 	
 func addBigBoost(amount:int = 1):
 	bigBoosts += amount
@@ -82,3 +85,8 @@ func removeSource(source:Variant) -> void:
 		var newAmount := curMods.getValue(self.curStat)
 		stat_changed.emit(newAmount - oldAmount, self.curStat)
 
+func setCanBeLowered(val:bool) -> void:
+	canBeLowered = val;
+	
+func setCanBeRaised(val:bool) -> void:
+	canBeRaised = val;

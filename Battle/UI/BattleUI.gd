@@ -185,6 +185,7 @@ func choosingTargets(targets:Move.TARGETING_CRITERIA = Move.TARGETING_CRITERIA.O
 #adds a new slot
 func addSlot(isAlly:bool):
 	var slot = creatureSlot.instantiate();
+	#slot.size_flags_vertical = SIZE_SHRINK_END
 	if isAlly:
 		#due to how the creature slots are set up in an Hbox, (lower index = further to the left)
 		#we have to flip the index if the creature is friendly. So we insert in the beginnign

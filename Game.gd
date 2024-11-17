@@ -94,6 +94,7 @@ func _on_map_room_selected(roomInfo):
 			#var size = randi()%(Battlefield.maxEnemies - 1) + 1
 			#for i in range(size):
 				#enemies.push_back(CreatureLoader.getRandCreature())
+			enemies[2].traits.addStatus(Steadfast.new())
 			newScene.createBattle(GameState.PlayerState.getPlayer(),GameState.PlayerState.getTeam(),enemies)
 			GameState.setInBattle(true)
 		Room.ROOM_TYPES.WELL:

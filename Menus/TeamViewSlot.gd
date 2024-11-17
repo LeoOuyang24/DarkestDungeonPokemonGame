@@ -5,7 +5,8 @@ class_name TeamViewSlot extends CreatureSlot
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	flip_h = true
+	size_flags_vertical = SIZE_SHRINK_END
+	#flip_h = true
 	pass # Replace with function body.
 
 func setCreature(creature:Creature) -> void:
@@ -22,11 +23,9 @@ func setCreature(creature:Creature) -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	super(delta)
 	if creature:
-		return
 		if (!creature.isAlive()):
 			modulate = Color.DARK_RED
 			HealthBar.label.set_text("DEAD") 
 			HealthBar.label.modulate = Color.BLACK
-			sprite.stop()
+			Sprite.sprite.stop()
