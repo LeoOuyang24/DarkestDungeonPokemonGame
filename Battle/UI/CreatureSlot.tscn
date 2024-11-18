@@ -1,14 +1,13 @@
-[gd_scene load_steps=11 format=3 uid="uid://bqsfei63od030"]
+[gd_scene load_steps=10 format=3 uid="uid://bqsfei63od030"]
 
-[ext_resource type="Shader" path="res://Battle/UI/Outline.gdshader" id="1_iemai"]
 [ext_resource type="Script" path="res://Battle/UI/CreatureSlot.gd" id="1_kmmwv"]
+[ext_resource type="Shader" path="res://Battle/UI/CreatureSlot.gdshader" id="1_v7n5r"]
 [ext_resource type="PackedScene" uid="uid://bjln7kkve4d5a" path="res://Battle/UI/health_bar.tscn" id="2_1ocdj"]
 [ext_resource type="PackedScene" uid="uid://5t1xxv227xqw" path="res://StatusEffects/StatusEffectsUI.tscn" id="3_2kmqv"]
-[ext_resource type="Script" path="res://sprites/UI/AnimatedButton.gd" id="5_luiej"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t3clw"]
 resource_local_to_scene = true
-shader = ExtResource("1_iemai")
+shader = ExtResource("1_v7n5r")
 shader_parameter/outline_width = 3.0
 shader_parameter/outline_color = null
 shader_parameter/isSpectral = false
@@ -67,14 +66,53 @@ _data = {
 "hurt": SubResource("Animation_yci5t")
 }
 
-[node name="Control" type="Control"]
-layout_mode = 3
-anchors_preset = 0
-offset_top = 437.0
-offset_right = 467.0
-offset_bottom = 437.0
+[node name="Button" type="TextureButton"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_t3clw")
+custom_minimum_size = Vector2(100, 100)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+ignore_texture_size = true
+stretch_mode = 5
 script = ExtResource("1_kmmwv")
-testing = true
+
+[node name="TickerAnimation" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_pb7ge")
+}
+
+[node name="SpriteAnimations" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_6k17u")
+}
+
+[node name="DamageTicker" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+offset_left = 8.0
+offset_top = -16.0
+offset_right = 137.0
+offset_bottom = 86.0
+theme_override_font_sizes/normal_font_size = 60
+bbcode_enabled = true
+text = "[color=red]-1[/color]"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 2
+offset_left = 34.7199
+offset_top = 144.384
+offset_right = 114.72
+offset_bottom = 144.384
 
 [node name="HealthBar" parent="." instance=ExtResource("2_1ocdj")]
 unique_name_in_owner = true
@@ -85,9 +123,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -68.0
-offset_top = 6.0
+offset_top = 1.0
 offset_right = 68.0
-offset_bottom = 22.0
+offset_bottom = 17.0
 grow_horizontal = 2
 grow_vertical = 0
 
@@ -107,57 +145,5 @@ offset_top = -35.0
 offset_bottom = -35.0
 grow_horizontal = 0
 grow_vertical = 0
-
-[node name="Button" type="TextureButton" parent="."]
-unique_name_in_owner = true
-material = SubResource("ShaderMaterial_t3clw")
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 0
-size_flags_horizontal = 8
-size_flags_vertical = 8
-ignore_texture_size = true
-stretch_mode = 5
-script = ExtResource("5_luiej")
-onHoverOutline = false
-
-[node name="TickerAnimation" type="AnimationPlayer" parent="Button"]
-unique_name_in_owner = true
-libraries = {
-"": SubResource("AnimationLibrary_pb7ge")
-}
-
-[node name="SpriteAnimations" type="AnimationPlayer" parent="Button"]
-unique_name_in_owner = true
-libraries = {
-"": SubResource("AnimationLibrary_6k17u")
-}
-
-[node name="DamageTicker" type="RichTextLabel" parent="Button"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-offset_left = 8.0
-offset_top = -16.0
-offset_right = 137.0
-offset_bottom = 86.0
-theme_override_font_sizes/normal_font_size = 60
-bbcode_enabled = true
-text = "[color=red]-1[/color]"
-
-[node name="ColorRect" type="ColorRect" parent="Button"]
-layout_mode = 2
-offset_left = 34.7199
-offset_top = 144.384
-offset_right = 114.72
-offset_bottom = 144.384
-
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 
 [editable path="HealthBar"]

@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://ddqvr82hoap6h"]
+
+[ext_resource type="Shader" path="res://Battle/UI/CreatureSlot.gdshader" id="1_hx445"]
+[ext_resource type="Texture2D" uid="uid://ptqggcusoom5" path="res://sprites/icons/syringe.png" id="2_d7x7d"]
+[ext_resource type="Script" path="res://Map/Rooms/ShopRoom/AddTrait.gd" id="3_bprqb"]
+[ext_resource type="SpriteFrames" uid="uid://dc1ua7u1rsdsk" path="res://sprites/icons/syringe.tres" id="4_ywsb0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_viof6"]
+resource_local_to_scene = true
+shader = ExtResource("1_hx445")
+shader_parameter/outline_width = 3.0
+shader_parameter/outline_color = null
+shader_parameter/isSpectral = false
+
+[node name="AddTrait" type="TextureButton"]
+material = SubResource("ShaderMaterial_viof6")
+offset_left = 343.0
+offset_top = 93.0
+offset_right = 420.0
+offset_bottom = 168.0
+texture_normal = ExtResource("2_d7x7d")
+script = ExtResource("3_bprqb")
+source = ExtResource("4_ywsb0")
+
+[node name="Color" type="ColorRect" parent="."]
+unique_name_in_owner = true
+visible = false
+z_index = -1
+layout_mode = 0
+offset_left = 35.0
+offset_top = 20.0
+offset_right = 66.0
+offset_bottom = 57.0
+rotation = 0.875042
+mouse_filter = 2

@@ -19,9 +19,9 @@ func newTurn() -> void:
 	
 #function that runs on a creatureslot when a creature with this trait is added
 #used to render visual effects for a trait
-func onAddUI(slot:CreatureSlot) -> void:
+func onAddUI(slot:Control) -> void:
 	pass
 
 #function to call when a creature is removed
-func onRemoveUI(slot:CreatureSlot) -> void:
+func onRemoveUI(slot:Control) -> void:
 	pass

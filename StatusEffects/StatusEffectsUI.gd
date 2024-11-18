@@ -1,11 +1,17 @@
 class_name StatusEffectsUI extends GridContainer
 
+@export var friendly:bool = true #true if on a friendly creature
+
 var effectUI:PackedScene = preload("res://StatusEffects/SingleEffectUI.tscn")
 
 func _ready():
-	grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	grow_horizontal = Control.GROW_DIRECTION_BEGIN if friendly else Control.GROW_DIRECTION_END
 	grow_vertical = Control.GROW_DIRECTION_BEGIN
 
+func setIsOnEnemy(val:bool) -> void:
+	friendly = val
+	grow_horizontal = Control.GROW_DIRECTION_BEGIN if friendly else Control.GROW_DIRECTION_END
+	
 func clear():
 	#kill all children (fuck dem kids)
 	get_children().map(func(child:Node):

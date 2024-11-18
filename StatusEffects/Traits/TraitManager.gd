@@ -19,10 +19,10 @@ func inBattle(battlefield:Battlefield) -> void:
 		statuses[i].inBattle(battlefield)
 	pass
 	
-func onAddUI(slot:CreatureSlot) -> void:
+func onAddUI(slot:Control) -> void:
 	for i:String in statuses:
 		statuses[i].onAddUI(slot)
 		
-func onRemoveUI(slot:CreatureSlot) -> void:
+func onRemoveUI(slot:Control) -> void:
 	for i:String in statuses:
 		statuses[i].onRemoveUI(slot)

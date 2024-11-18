@@ -16,7 +16,6 @@ func _ready():
 	set_material(shader)
 	if source:
 		setSprite(source)
-	pass # Replace with function body.
 
 #set the sprite and it if it's not null, play it, and scale the button to fit the sprite size
 func setSprite(sprite:SpriteFrames) -> void:

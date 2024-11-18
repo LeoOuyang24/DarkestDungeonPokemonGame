@@ -1,0 +1,20 @@
+11/16/2024:
+	Today I tried out for the billionth time, refactoring CreatureSlot to where the Button is not the root node. The principal idea here is that the way the creatureslot scales in size doesn't really make sense the button is root; when it is root, all the chidlren nodes, like the healthbar, move with it. The healthbar and status effects and stuff should be static, unchanging as the sprite changes. The biggest headache this caused was that Grow, which has a move animation where the sprite grows in size, would move the UI elements when the sprite changed size. 
+
+The problem: 
+	Changing Sprite size would move UI elements
+	It makes more logical sense for the HealthBar/UI elements to be the root anyway since they should control the position and remain static.
+
+The fix, if nothing changes:
+	Adjust the position of Creatureslot as it grows in size to accomadate for shifts in position. I got this working and it looked good.
+
+I tried:
+	Creatureslot with a Control as Root, where the Control is the size of the button:
+		This basically recreated the issue with extra steps. Now when the sprite changed size, it wouldn't move the healthbar, but it would still move out position because the origin of the sprite doesn't change. It would expand beyond the lower bounds of the healthbar. It basically didn't solve the core issue at all, and actually caused more problems like how when added to a container the sprite would be rendered all the way at the top. This is becuase of the default "fill" behavior of controls, though I'm not sure why it didn't happen with old CreatureSlot implementation. There was basically a workaround with everything with this implementation so if I really want to run with it, I can but it felt like I was remaking the wheel with more issues.
+	Creatureslot with a Control as Root, where the root Control has an arbitrary size and basically exists as an origin point:
+		The issue with this is that the Button's origin is still at the top left. So let's say your button is positioned some 100 pixels above the root node. If you add a 200 pixel tall sprite, the button will extend 100 pixels below the root. Basically, to use this solution, you have to manually adjust the sprite's position whenever its size changes. Not hard to implement but it might cause more issues later. Plus it also doesn't fix the core issue of sprite resizing.
+
+Conclusion:
+	I have 3 options at this point: use the original implementation, or either of my 2 new implementations. They are all viable but they ALL require me to use a repositioning hack to fix the sprite resize. The plus side of the og is that it's how my program has been built off of since the beginning so it's a bit cleaner plus it eliminates of seemingly redundant code like a getter for the Button's material. If I don't want to rewrite a lot of code, I have to create wrapper functions for things like the Button's pressed signal which basically exists purely to pass the Button's pressed signal to an outer function; either that or i have to go through all my code and change it to use a Creatureslot's child node's pressed signal rather than its own.
+	The upside of the two alternatives is that hypothetically, having the UI elements and the Sprite separate makes a lot more sense. It means that changes to size in one doesn't effect the other. This could fix some unforseen problems in the future. 
+	Ultimately I stuck with the og implementation. In the short term, it causes less issues. In fact, there's no guarantee that the new implementations will actually be better, I just think it might. Right now, however, the og implementation is easier that is a guarantee. So I'll stick with it.

@@ -17,9 +17,9 @@ func onRemove() -> void:
 	creature.stats.getStatObj(CreatureStats.STATS.SPEED).removeSource(self)
 	creature.stats.getStatObj(CreatureStats.STATS.ATTACK).removeSource(self)
 	
-func onAddUI(slot:CreatureSlot) -> void:
+func onAddUI(slot:Control) -> void:
 	slot.setSize(slot.size*.5)
 	
-func onRemoveUI(slot:CreatureSlot) -> void:
+func onRemoveUI(slot:Control) -> void:
 	slot.setSize(slot.size*2)
 	

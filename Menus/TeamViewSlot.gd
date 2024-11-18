@@ -5,7 +5,7 @@ class_name TeamViewSlot extends CreatureSlot
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	size_flags_vertical = SIZE_SHRINK_END
+	#size_flags_vertical = SIZE_SHRINK_END
 	#flip_h = true
 	pass # Replace with function body.
 
@@ -28,4 +28,4 @@ func _process(delta):
 			modulate = Color.DARK_RED
 			HealthBar.label.set_text("DEAD") 
 			HealthBar.label.modulate = Color.BLACK
-			Sprite.sprite.stop()
+			sprite.stop()
