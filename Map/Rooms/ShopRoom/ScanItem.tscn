@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=3 uid="uid://ccf8gtk02if4n"]
+
+[ext_resource type="Shader" path="res://Map/Rooms/ShopRoom/Unscanned.gdshader" id="2_bcopc"]
+[ext_resource type="Script" path="res://Map/Rooms/ShopRoom/ScanItem.gd" id="3_a4w1a"]
+[ext_resource type="SpriteFrames" uid="uid://bdjqp3vlld8qh" path="res://sprites/spritesheets/creatures/dreemer.tres" id="4_423rd"]
+[ext_resource type="Texture2D" uid="uid://cgxsxxx5aw2nn" path="res://sprites/icons/dna_icon.png" id="5_neflv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3kttv"]
+resource_local_to_scene = true
+shader = ExtResource("2_bcopc")
+shader_parameter/color = Vector3(0, 1, 0)
+shader_parameter/reach = 3.0
+shader_parameter/disabled = 0.0
+
+[node name="Item" type="TextureButton"]
+z_as_relative = false
+material = SubResource("ShaderMaterial_3kttv")
+custom_minimum_size = Vector2(100, 100)
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("3_a4w1a")
+onHoverOutline = null
+source = ExtResource("4_423rd")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -85.0
+offset_top = -40.0
+offset_right = -45.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("5_neflv")
+expand_mode = 1
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

@@ -20,7 +20,6 @@ vec4 outline(sampler2D text, vec2 uv,vec4 col, vec2 pixel_size,float width, vec4
 	a = texture(text,uv + vec2(width, 0.0) * pixel_size).a;
 	maxa = max(a, maxa);
 	mina = min(a, mina);
-	vec4 outline = mix(col, color, maxa - mina);
-	//for transparency, use the original texel if the outline would be transparaent
-	return vec4(outline.rgb,mix(col.a,outline.a,float(outline.a < 1.0))); 
+	//if outline color is transluscent, dont bother applying it
+	return mix(mix(col, color, maxa - mina),col,float(color.a == 0.0)); 
 }

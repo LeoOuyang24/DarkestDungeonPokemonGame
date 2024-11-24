@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bvxv6kih6bx3" path="res://Map/Rooms/EventRoom.tscn" id="1_n2ro6"]
 [ext_resource type="Script" path="res://Map/Rooms/ShopRoom/ShopRoom.gd" id="1_s3ixk"]
-[ext_resource type="Texture2D" uid="uid://dhr701yrjcxbx" path="res://sprites/backgrounds/aman.png" id="2_apg55"]
+[ext_resource type="Texture2D" uid="uid://dcmha4euyqa4h" path="res://sprites/backgrounds/aman.png" id="2_apg55"]
 
 [node name="EventRoom" instance=ExtResource("1_n2ro6")]
 script = ExtResource("1_s3ixk")
@@ -26,15 +26,16 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.356863, 0.364706, 0.439216, 1)
 
-[node name="DNA" type="HBoxContainer" parent="Shop" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Shop" index="0"]
+layout_mode = 0
+offset_right = 1645.0
+offset_bottom = 507.0
+
+[node name="DNA" type="HBoxContainer" parent="Shop/VBoxContainer" index="0"]
 unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -153.0
-offset_bottom = -96.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 theme_override_constants/separation = 100
+
+[node name="AddTraits" type="HBoxContainer" parent="Shop/VBoxContainer" index="1"]
+unique_name_in_owner = true
+layout_mode = 2

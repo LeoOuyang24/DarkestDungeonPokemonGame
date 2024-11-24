@@ -18,8 +18,8 @@ func onRemove() -> void:
 	creature.stats.getStatObj(CreatureStats.STATS.ATTACK).removeSource(self)
 	
 func onAddUI(slot:Control) -> void:
-	slot.setSize(slot.size*.5)
+	Resources.resize(slot,slot.size*.5)
 	
 func onRemoveUI(slot:Control) -> void:
-	slot.setSize(slot.size*2)
+	Resources.resize(slot,slot.size*2)
 	

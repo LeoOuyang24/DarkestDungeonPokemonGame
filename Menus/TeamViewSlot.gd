@@ -23,6 +23,7 @@ func setCreature(creature:Creature) -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	super(delta)
 	if creature:
 		if (!creature.isAlive()):
 			modulate = Color.DARK_RED

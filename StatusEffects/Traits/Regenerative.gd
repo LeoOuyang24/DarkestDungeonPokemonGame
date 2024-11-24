@@ -12,10 +12,10 @@ func newTurn() -> void:
 	if creature:
 		creature.stats.getStatObj(CreatureStats.STATS.HEALTH).modStat(2)
 		
-func onAddUI(slot:CreatureSlot) -> void:
+func onAddUI(slot:Control) -> void:
 	slot.add_child(load("res://sprites/effects/animations/sparkles.tscn").instantiate())
 	
-func onRemoveUI(slot:CreatureSlot) -> void:
+func onRemoveUI(slot:Control) -> void:
 	for i in slot.get_children():
 		if i.name == "Sparkles":
 			slot.remove_child(i)

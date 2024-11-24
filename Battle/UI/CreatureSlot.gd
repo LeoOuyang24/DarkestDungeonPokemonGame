@@ -38,12 +38,6 @@ func _ready():
 		print(creature)
 		)
 
-	
-func getMaterial() -> Material:
-	return material	
-
-
-
 func setSpriteAndSize(spriteFrames:SpriteFrames,size:Vector2) -> void:
 	setSprite(spriteFrames)
 	if spriteFrames:
@@ -102,7 +96,7 @@ func setCreature(creature:Creature):
 		set_flip_h( creature.getIsFriendly())
 		EffectsUI.setIsOnEnemy(creature.getIsFriendly())
 	else:
-		setOutlineColor(Color(0,0,0,0));
+		Resources.highlight(self,Color(0,0,0,0));
 		setSpriteAndSize(null,Vector2(0,0))
 		
 	HealthBar.visible = creature != null

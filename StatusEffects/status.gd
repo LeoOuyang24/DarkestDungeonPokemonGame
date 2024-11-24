@@ -1,4 +1,4 @@
-class_name StatusEffect extends Object
+class_name StatusEffect extends Resource
 
 #emitted when it's time to remove this
 signal remove_this()

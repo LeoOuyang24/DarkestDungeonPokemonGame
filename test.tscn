@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://c05vh7ktb4nte"]
 
-[ext_resource type="Texture2D" uid="uid://bke6xvcbi45w4" path="res://sprites/icons/attack_up_icon.png" id="1_8t1ty"]
+[ext_resource type="Texture2D" uid="uid://myd7h800sl36" path="res://sprites/icons/attack_up_icon.png" id="1_8t1ty"]
 [ext_resource type="Script" path="res://sprites/Anime.gd" id="2_fngvu"]
 [ext_resource type="SpriteFrames" uid="uid://bdjqp3vlld8qh" path="res://sprites/spritesheets/creatures/dreemer.tres" id="3_1j44t"]
 [ext_resource type="PackedScene" uid="uid://bjln7kkve4d5a" path="res://Battle/UI/health_bar.tscn" id="4_hjji1"]
@@ -57,7 +57,7 @@ frames = ExtResource("3_1j44t")
 
 [node name="BoxContainer" type="BoxContainer" parent="."]
 offset_left = 3.0
-offset_top = 1.0
+offset_top = 106.0
 offset_right = 591.0
 offset_bottom = 206.0
 size_flags_vertical = 8
@@ -66,6 +66,13 @@ size_flags_vertical = 8
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_vertical = 8
+
+[node name="Label" type="Label" parent="BoxContainer/Button"]
+layout_mode = 2
+offset_left = -5.0
+offset_top = 38.0
+offset_right = -4.0
+offset_bottom = 61.0
 
 [node name="HealthBar" parent="BoxContainer" instance=ExtResource("4_hjji1")]
 unique_name_in_owner = true

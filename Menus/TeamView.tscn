@@ -1,10 +1,46 @@
-[gd_scene load_steps=6 format=3 uid="uid://csyroyi13nt66"]
+[gd_scene load_steps=12 format=3 uid="uid://csyroyi13nt66"]
 
 [ext_resource type="Script" path="res://Menus/TeamView.gd" id="1_womks"]
+[ext_resource type="Shader" path="res://Battle/UI/CreatureSlot.gdshader" id="3_7ded8"]
 [ext_resource type="PackedScene" uid="uid://cybp46vb5wblt" path="res://Menus/CreatureSummary.tscn" id="3_lyigu"]
 [ext_resource type="PackedScene" uid="uid://bqsfei63od030" path="res://Battle/UI/CreatureSlot.tscn" id="4_hnygx"]
 [ext_resource type="PackedScene" uid="uid://chsbok4nq5wgs" path="res://Menus/CreateHorror.tscn" id="4_yluxj"]
 [ext_resource type="Script" path="res://Menus/TeamViewSlot.gd" id="5_3ydqy"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wcy7y"]
+resource_local_to_scene = true
+shader = ExtResource("3_7ded8")
+shader_parameter/outline_width = 3.0
+shader_parameter/outline_color = null
+shader_parameter/isSpectral = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dpucv"]
+resource_local_to_scene = true
+shader = ExtResource("3_7ded8")
+shader_parameter/outline_width = 3.0
+shader_parameter/outline_color = null
+shader_parameter/isSpectral = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5a7lj"]
+resource_local_to_scene = true
+shader = ExtResource("3_7ded8")
+shader_parameter/outline_width = 3.0
+shader_parameter/outline_color = null
+shader_parameter/isSpectral = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hfjkr"]
+resource_local_to_scene = true
+shader = ExtResource("3_7ded8")
+shader_parameter/outline_width = 3.0
+shader_parameter/outline_color = null
+shader_parameter/isSpectral = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xsgpp"]
+resource_local_to_scene = true
+shader = ExtResource("3_7ded8")
+shader_parameter/outline_width = 3.0
+shader_parameter/outline_color = null
+shader_parameter/isSpectral = false
 
 [node name="TeamView" type="ColorRect"]
 z_index = -1
@@ -22,22 +58,27 @@ offset_bottom = 301.0
 theme_override_constants/separation = 100
 
 [node name="Slot1" parent="TeamSlotsRect" instance=ExtResource("4_hnygx")]
+material = SubResource("ShaderMaterial_wcy7y")
 layout_mode = 2
 script = ExtResource("5_3ydqy")
 
 [node name="Slot2" parent="TeamSlotsRect" instance=ExtResource("4_hnygx")]
+material = SubResource("ShaderMaterial_dpucv")
 layout_mode = 2
 script = ExtResource("5_3ydqy")
 
 [node name="Slot3" parent="TeamSlotsRect" instance=ExtResource("4_hnygx")]
+material = SubResource("ShaderMaterial_5a7lj")
 layout_mode = 2
 script = ExtResource("5_3ydqy")
 
 [node name="Slot4" parent="TeamSlotsRect" instance=ExtResource("4_hnygx")]
+material = SubResource("ShaderMaterial_hfjkr")
 layout_mode = 2
 script = ExtResource("5_3ydqy")
 
 [node name="Slot5" parent="TeamSlotsRect" instance=ExtResource("4_hnygx")]
+material = SubResource("ShaderMaterial_xsgpp")
 layout_mode = 2
 script = ExtResource("5_3ydqy")
 

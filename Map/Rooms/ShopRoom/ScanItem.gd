@@ -1,13 +1,12 @@
-extends AnimatedButton
-
-@onready var label := %RichTextLabel
+extends ShopItemButton
 
 
-var cost:int = 100;
 var creature:String = ""
 		
 func _ready():
 	GameState.PlayerState.added_scan.connect(addedScan)
+	if (source):
+		setSprite(source)
 	pass
 	#label.add_image(load("res://sprites/icons/dna_icon.png"),10,10,Color.WHITE,5,Rect2(0,0,0,0),null,false,"",true);
 	#label.add_text("10");
