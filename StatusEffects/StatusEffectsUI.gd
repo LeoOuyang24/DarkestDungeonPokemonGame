@@ -6,7 +6,7 @@ var effectUI:PackedScene = preload("res://StatusEffects/SingleEffectUI.tscn")
 
 func _ready():
 	grow_horizontal = Control.GROW_DIRECTION_BEGIN if friendly else Control.GROW_DIRECTION_END
-	grow_vertical = Control.GROW_DIRECTION_BEGIN
+	grow_vertical = Control.GROW_DIRECTION_END
 
 func setIsOnEnemy(val:bool) -> void:
 	friendly = val

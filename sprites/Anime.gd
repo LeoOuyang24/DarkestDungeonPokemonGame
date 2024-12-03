@@ -7,6 +7,7 @@ signal looping() #when the animation loops
 
 #time we started at
 var start:int = 0; 
+var paused:bool = false
 
 func setSprite(newFrames:SpriteFrames):
 	self.frames = newFrames;
@@ -19,8 +20,12 @@ func setSprite(newFrames:SpriteFrames):
 func getSprite():
 	return frames;
 
+func pause(paused:bool=true):
+	self.paused = paused
+
 #sets the current time we started and optionally sets new SpriteFrames
 func play(frames_:SpriteFrames = null):
+	pause(false)
 	if frames_ != null:
 		setSprite(frames_)
 	if frames:
@@ -85,7 +90,7 @@ func getFrameSize(frame:int = 0,animation:StringName = "default") -> Vector2:
 	return Vector2(0,0)
 
 func _process(delta):
-	if frames:
+	if frames and not paused:
 		set_texture(getCurrentFrame());
 		if getFramesProgress() == 1:
 			looping.emit()

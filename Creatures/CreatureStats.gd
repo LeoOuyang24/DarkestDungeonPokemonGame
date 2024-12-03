@@ -46,7 +46,7 @@ func _init(maxHealth:int, maxAttack:int, maxSpeed:int):
 
 func levelUp() -> void:
 	forEachStat(func(stat:STATS,statObj:Stat):
-		statObj.addBaseStat(Stat.perLevelIncrease(statObj.getBaseStat()))
+		statObj.modBaseStat(Stat.perLevelIncrease(statObj.getBaseStat()))
 		)
 
 func getCurStat(stat:STATS) -> int:

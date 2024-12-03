@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://d1us7egl1mag1"]
+
+[ext_resource type="Script" path="res://Menus/TeamSlot.gd" id="1_ia56o"]
+[ext_resource type="Shader" path="res://Battle/UI/CreatureSlot.gdshader" id="1_wrw45"]
+[ext_resource type="Script" path="res://Components/OnHoverHighlight.gd" id="2_jhjda"]
+[ext_resource type="Script" path="res://Components/SingleHighlight.gd" id="3_3jqtv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4k8ew"]
+resource_local_to_scene = true
+shader = ExtResource("1_wrw45")
+shader_parameter/outline_width = 3.0
+shader_parameter/outline_color = null
+shader_parameter/isSpectral = false
+
+[node name="TeamSlot" type="TextureButton"]
+material = SubResource("ShaderMaterial_4k8ew")
+custom_minimum_size = Vector2(100, 100)
+grow_vertical = 0
+size_flags_vertical = 8
+ignore_texture_size = true
+stretch_mode = 4
+script = ExtResource("1_ia56o")
+
+[node name="OnHoverHightlight" type="Node" parent="."]
+script = ExtResource("2_jhjda")
+
+[node name="SingleHighlight" type="Node" parent="."]
+script = ExtResource("3_3jqtv")

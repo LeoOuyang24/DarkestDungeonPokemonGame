@@ -1,47 +1,22 @@
-[gd_scene load_steps=7 format=3 uid="uid://c434ifxltx2da"]
+[gd_scene load_steps=5 format=3 uid="uid://c434ifxltx2da"]
 
 [ext_resource type="Script" path="res://Menus/LearnNewMove.gd" id="1_4fl2n"]
-[ext_resource type="Texture2D" uid="uid://bvacba1davf2w" path="res://sprites/effects/upArrow.png" id="1_8xwyf"]
+[ext_resource type="Texture2D" uid="uid://jjclmd1ee8cj" path="res://sprites/effects/upArrow.png" id="1_8xwyf"]
 [ext_resource type="PackedScene" uid="uid://dxsiuao5kklcy" path="res://Battle/UI/MoveButton.tscn" id="2_fvapw"]
 [ext_resource type="Script" path="res://Battle/UI/MoveButton.gd" id="2_lpgbc"]
 
-[sub_resource type="Animation" id="Animation_3uda2"]
-resource_name = "new_animation"
-length = 0.5
-loop_mode = 2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:offset")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(0, -10), Vector2(0, 10)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_gyhqp"]
-_data = {
-"new_animation": SubResource("Animation_3uda2")
-}
-
-[node name="Control" type="Control"]
-layout_mode = 3
-anchors_preset = 0
+[node name="Control" type="HBoxContainer"]
 offset_left = 560.0
 offset_top = 192.0
-offset_right = 1192.0
-offset_bottom = 416.0
+offset_right = 1228.0
+offset_bottom = 307.0
 scale = Vector2(1.5, 1.5)
 script = ExtResource("1_4fl2n")
 
 [node name="Moves" type="GridContainer" parent="."]
-unique_name_in_owner = true
-layout_mode = 0
-theme_override_constants/h_separation = 50
-theme_override_constants/v_separation = 50
+layout_mode = 2
+theme_override_constants/h_separation = 15
+theme_override_constants/v_separation = 15
 columns = 2
 
 [node name="Button" parent="Moves" instance=ExtResource("2_fvapw")]
@@ -56,47 +31,32 @@ layout_mode = 2
 [node name="Button4" parent="Moves" instance=ExtResource("2_fvapw")]
 layout_mode = 2
 
-[node name="NewMove" type="ColorRect" parent="."]
-layout_mode = 0
-offset_left = 456.0
-offset_right = 552.0
-offset_bottom = 64.0
-color = Color(0.254902, 0.254902, 0.254902, 1)
-
-[node name="ArrowSprite" type="Sprite2D" parent="NewMove"]
-position = Vector2(-69.4999, 80)
-rotation = -1.5708
-scale = Vector2(0.60111, 0.628367)
+[node name="ArrowSprite" type="TextureRect" parent="."]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
 texture = ExtResource("1_8xwyf")
-offset = Vector2(0, -1.38672)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="NewMove/ArrowSprite"]
-libraries = {
-"": SubResource("AnimationLibrary_gyhqp")
-}
-autoplay = "new_animation"
+[node name="NewMove" type="HBoxContainer" parent="."]
+layout_mode = 2
 
-[node name="Confirm" type="Button" parent="NewMove"]
-layout_mode = 0
-offset_left = 16.3333
-offset_top = 106.333
-offset_right = 87.3333
-offset_bottom = 137.333
+[node name="VBoxContainer" type="VBoxContainer" parent="NewMove"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 30
+
+[node name="Pending" type="Button" parent="NewMove/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_lpgbc")
+
+[node name="Confirm" type="Button" parent="NewMove/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
 disabled = true
 text = "Confirm"
 
-[node name="Pending" type="Button" parent="NewMove"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.031
-anchor_bottom = 0.04
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 88.024
-offset_bottom = 55.44
-script = ExtResource("2_lpgbc")
-
-[node name="LearnNewMove" type="Node2D" parent="NewMove"]
-visible = false
-
-[connection signal="pressed" from="NewMove/Confirm" to="." method="_on_confirm_pressed"]
+[connection signal="pressed" from="NewMove/VBoxContainer/Confirm" to="." method="_on_confirm_pressed"]

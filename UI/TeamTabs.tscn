@@ -1,0 +1,72 @@
+[gd_scene load_steps=5 format=3 uid="uid://caxrq57inc1ar"]
+
+[ext_resource type="Script" path="res://UI/TeamTabs.gd" id="1_pcfms"]
+[ext_resource type="PackedScene" uid="uid://cvmuwhverwiv0" path="res://Battle/UI/InBattleSummary.tscn" id="2_u35ws"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_si3nq"]
+resource_local_to_scene = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kp0rs"]
+resource_local_to_scene = true
+
+[node name="TeamTabs" instance=ExtResource("2_u35ws")]
+offset_right = 1338.0
+
+[node name="Stats" parent="." index="0"]
+mouse_filter = 0
+color = Color(0.67451, 0.462745, 0.388235, 1)
+
+[node name="Control" parent="Stats" index="0"]
+anchors_preset = 0
+offset_left = 4.0
+offset_right = 204.0
+offset_bottom = 153.0
+
+[node name="Anime" parent="Stats/Control" index="0"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = -153.0
+offset_right = 100.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" parent="Stats" index="1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ProgressBar" parent="Stats/HBoxContainer/Control/Attack" index="1"]
+theme_override_styles/fill = SubResource("StyleBoxFlat_si3nq")
+
+[node name="ProgressBar" parent="Stats/HBoxContainer/Control/Speed" index="1"]
+theme_override_styles/fill = SubResource("StyleBoxFlat_kp0rs")
+
+[node name="HBoxContainer2" parent="Stats" index="2"]
+visible = true
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TabBar" type="TabBar" parent="." index="3"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.018
+anchor_bottom = 0.018
+offset_top = -80.932
+offset_right = 358.0
+offset_bottom = 0.0679998
+grow_vertical = 0
+clip_tabs = false
+script = ExtResource("1_pcfms")
+
+[connection signal="tab_clicked" from="TabBar" to="TabBar" method="_on_tab_clicked"]
+
+[editable path="Stats/HBoxContainer/Control/Attack"]
+[editable path="Stats/HBoxContainer/Control/Speed"]
+[editable path="LearnNewMove"]

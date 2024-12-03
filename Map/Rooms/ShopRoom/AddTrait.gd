@@ -1,16 +1,10 @@
-extends ShopItemButton
+extends ShopItem
 
+signal need_apply_item() #emitted to apply this item to a creature
 
 @onready var SyringeColor := %Color
-@export var testScript:GDScript = null
 	
-func _ready():
-	if testScript:
-		setTrait(testScript.new())
-	
-	var cost = get_node("CostComponent")# as CostComponent
-	cost.onPurchase = func():
-		print("Purchased")
+var gene:Trait = null
 
 	
 func setColor(color:Color) -> void:
@@ -18,4 +12,17 @@ func setColor(color:Color) -> void:
 	
 func setTrait(t:Resource) -> void:
 	t.onAddUI(self);
+	gene = t;
 
+func useOnCreature(creature:Creature) -> void:
+	if gene:
+		creature.traits.addStatus(gene)
+		applyCost()
+
+func getDescription() -> String:
+	if !gene:
+		return ""
+	return "Add " + gene.getAdj() + " to a creature."
+
+func onPurchase():
+	need_apply_item.emit()

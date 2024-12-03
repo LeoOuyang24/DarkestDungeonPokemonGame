@@ -1,8 +1,8 @@
 extends Control
 
 
-@onready var LevelUpMove:MoveButton = $NewMove/Pending
-@onready var ConfirmButton:Button = $NewMove/Confirm 
+@onready var LevelUpMove:MoveButton = %Pending
+@onready var ConfirmButton:Button = %Confirm 
 @onready var Moves:Array[MoveButton] = [$Moves/Button,$Moves/Button2,$Moves/Button3,$Moves/Button4] 
 @onready var NewMove=$NewMove
 

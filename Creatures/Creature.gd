@@ -47,6 +47,7 @@ func _init( sprite_path:String, maxHealth_:int,baseAttack_:int,baseSpeed_:int, n
 	traits = TraitManager.new(self)
 	
 	setMoves(moves_)
+	
 
 func getLevel() -> int:
 	return level.getLevel()

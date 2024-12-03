@@ -3,7 +3,7 @@ class_name StatBar extends Control
 #represents a bar of a stat in the bargraph in the CreatureSummary Scene
 
 @onready var StatLabel:RichTextLabel = $Label
-@onready var Bar:ColorRect = $ColorRect
+@onready var Bar := $ProgressBar
 @onready var Icon:TextureRect = $Icon
 @onready var BigBoost:TextureButton = $BigBoost
 
@@ -28,8 +28,8 @@ func growTo(newStat:int = val, startStat:int = 0) -> void:
 	var tween = create_tween()
 
 	setVal(startStat)
-
-	tween.parallel().tween_property(Bar,"size",Vector2(newStat*width,Bar.size.y),1)
+	tween.parallel().tween_method(Bar.set_value,startStat,newStat,1)
+	#tween.parallel().tween_property(Bar,"size",Vector2(newStat*width,Bar.size.y),1)
 	tween.parallel().tween_method(setVal,0,newStat,1)
 
 #set the bonus, or disable the bonus if the bonus is 0
@@ -58,11 +58,13 @@ func setMaxWidth(maxWidth:int) -> void:
 	self.width = (maxWidth-10)/CreatureLevel.MAX_LEVEL
 
 func _ready():
-	Bar.color = BarColor
-	setMaxWidth(maxWidth)
+	#Bar.add = BarColor
+	Bar.get("theme_override_styles/fill").bg_color = BarColor
+	#Bar.custom_minimum_size.x = get_parent_control().get_size().x
+
 	
-	#setBonus(10)
-	#growTo(100)
+	setBonus(10)
+	growTo(100)
 	pass
 
 func _on_big_boost_mouse_entered():

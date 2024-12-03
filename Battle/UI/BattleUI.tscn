@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://b3hux6c6p4pfu"]
+[gd_scene load_steps=6 format=3 uid="uid://b3hux6c6p4pfu"]
 
 [ext_resource type="Script" path="res://Battle/UI/BattleUI.gd" id="1_0uu34"]
 [ext_resource type="Texture2D" uid="uid://byjtyvd0qo63j" path="res://sprites/backgrounds/bg_shadow.png" id="3_0sd1p"]
 [ext_resource type="PackedScene" uid="uid://bgy4kes6sp7tp" path="res://Battle/UI/EndScreen.tscn" id="3_1dct8"]
-[ext_resource type="Script" path="res://Battle/UI/MoveButton.gd" id="3_lohjo"]
 [ext_resource type="Script" path="res://sprites/Anime.gd" id="4_tevqn"]
 [ext_resource type="PackedScene" uid="uid://cvmuwhverwiv0" path="res://Battle/UI/InBattleSummary.tscn" id="9_d62vi"]
 
@@ -49,64 +48,12 @@ theme_override_constants/separation = 50
 alignment = 2
 
 [node name="BattleLog" type="RichTextLabel" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 880.0
 offset_top = 842.0
 offset_right = 1176.0
 offset_bottom = 866.0
-
-[node name="Moves" type="ReferenceRect" parent="."]
-visible = false
-layout_mode = 0
-offset_left = 768.0
-offset_top = 867.0
-offset_right = 1280.0
-offset_bottom = 1051.0
-mouse_filter = 2
-
-[node name="Button" type="Button" parent="Moves"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.031
-anchor_bottom = 0.04
-offset_left = 136.0
-offset_top = 24.0
-offset_right = 208.128
-offset_bottom = 63.64
-script = ExtResource("3_lohjo")
-
-[node name="Button3" type="Button" parent="Moves"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.031
-anchor_bottom = 0.04
-offset_left = 136.0
-offset_top = 112.0
-offset_right = 208.128
-offset_bottom = 151.64
-script = ExtResource("3_lohjo")
-
-[node name="Button2" type="Button" parent="Moves"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.031
-anchor_bottom = 0.04
-offset_left = 256.0
-offset_top = 24.0
-offset_right = 328.128
-offset_bottom = 64.64
-script = ExtResource("3_lohjo")
-
-[node name="Button4" type="Button" parent="Moves"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.031
-anchor_bottom = 0.04
-offset_left = 256.0
-offset_top = 112.0
-offset_right = 328.128
-offset_bottom = 152.64
-script = ExtResource("3_lohjo")
 
 [node name="Background" type="Sprite2D" parent="."]
 z_index = -2
@@ -154,13 +101,7 @@ offset_bottom = 836.0
 [node name="CreatureSummary" parent="." instance=ExtResource("9_d62vi")]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 266.0
-offset_top = 723.0
-offset_right = 2143.0
-offset_bottom = 1075.0
-scale = Vector2(0.75, 0.75)
-
-[connection signal="move_selected" from="Moves/Button" to="." method="_on_button_move_selected"]
-[connection signal="move_selected" from="Moves/Button3" to="." method="_on_button_move_selected"]
-[connection signal="move_selected" from="Moves/Button2" to="." method="_on_button_move_selected"]
-[connection signal="move_selected" from="Moves/Button4" to="." method="_on_button_move_selected"]
+offset_left = 230.0
+offset_top = 776.0
+offset_right = 1712.0
+offset_bottom = 1002.0

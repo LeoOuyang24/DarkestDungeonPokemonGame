@@ -2,7 +2,6 @@ class_name TeamViewSlot extends CreatureSlot
 
 #renders a Creature in the team menu
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	#size_flags_vertical = SIZE_SHRINK_END
@@ -18,8 +17,9 @@ func setCreature(creature:Creature) -> void:
 
 		#Sprite.animation = "default"
 		#Sprite.play()
-	setSize(Vector2(100,100))
-	
+	setSize(Vector2(min(size.x,150),min(size.y,150)))
+
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

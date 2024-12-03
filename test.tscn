@@ -1,37 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://c05vh7ktb4nte"]
+[gd_scene load_steps=7 format=3 uid="uid://c05vh7ktb4nte"]
 
-[ext_resource type="Texture2D" uid="uid://myd7h800sl36" path="res://sprites/icons/attack_up_icon.png" id="1_8t1ty"]
+[ext_resource type="Texture2D" uid="uid://bke6xvcbi45w4" path="res://sprites/icons/attack_up_icon.png" id="1_8t1ty"]
 [ext_resource type="Script" path="res://sprites/Anime.gd" id="2_fngvu"]
 [ext_resource type="SpriteFrames" uid="uid://bdjqp3vlld8qh" path="res://sprites/spritesheets/creatures/dreemer.tres" id="3_1j44t"]
-[ext_resource type="PackedScene" uid="uid://bjln7kkve4d5a" path="res://Battle/UI/health_bar.tscn" id="4_hjji1"]
-[ext_resource type="PackedScene" uid="uid://5t1xxv227xqw" path="res://StatusEffects/StatusEffectsUI.tscn" id="5_u4i3o"]
+[ext_resource type="Script" path="res://UI/BottomContainer.gd" id="4_wxyux"]
 
 [sub_resource type="Animation" id="Animation_1bo0a"]
 resource_name = "new_animation"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("BoxContainer/Button:size")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(100, 100), Vector2(200, 200)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("BoxContainer/Button:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(0, -107), Vector2(0, -207)]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5anqe"]
 _data = {
@@ -48,58 +23,36 @@ position = Vector2(550, 344)
 texture = ExtResource("1_8t1ty")
 
 [node name="Anime" type="TextureRect" parent="."]
-offset_left = 735.0
-offset_top = 226.0
-offset_right = 775.0
-offset_bottom = 266.0
+offset_left = 4.0
+offset_top = -45.0
+offset_right = 44.0
+offset_bottom = -5.0
 script = ExtResource("2_fngvu")
 frames = ExtResource("3_1j44t")
 
-[node name="BoxContainer" type="BoxContainer" parent="."]
+[node name="BoxContainer" type="Container" parent="."]
 offset_left = 3.0
 offset_top = 106.0
 offset_right = 591.0
 offset_bottom = 206.0
 size_flags_vertical = 8
-
-[node name="Button" type="Button" parent="BoxContainer"]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-size_flags_vertical = 8
-
-[node name="Label" type="Label" parent="BoxContainer/Button"]
-layout_mode = 2
-offset_left = -5.0
-offset_top = 38.0
-offset_right = -4.0
-offset_bottom = 61.0
-
-[node name="HealthBar" parent="BoxContainer" instance=ExtResource("4_hjji1")]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 10)
-layout_mode = 2
-size_flags_vertical = 8
-
-[node name="Label" parent="BoxContainer/HealthBar" index="0"]
-theme_override_font_sizes/font_size = 12
-text = "100"
-
-[node name="StatusEffectsUI" parent="BoxContainer/HealthBar" instance=ExtResource("5_u4i3o")]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -35.0
-offset_bottom = -35.0
-grow_horizontal = 0
-grow_vertical = 0
+script = ExtResource("4_wxyux")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_5anqe")
 }
 
-[editable path="BoxContainer/HealthBar"]
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_right = 416.0
+offset_bottom = 310.0
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_bottom = 100
+
+[node name="Button" type="Button" parent="MarginContainer"]
+custom_minimum_size = Vector2(100, 10)
+layout_mode = 2
+
+[node name="Button2" type="Button" parent="MarginContainer"]
+custom_minimum_size = Vector2(100, 10)
+layout_mode = 2

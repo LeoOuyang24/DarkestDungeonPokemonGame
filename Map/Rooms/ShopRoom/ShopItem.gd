@@ -1,24 +1,43 @@
-extends VBoxContainer
+class_name ShopItem extends TextureButton
 
-@onready var label := %RichTextLabel
+#base class for all shop items
 
-var cost:int = 0;
-var button:ShopItemButton = null
+var cost:int = 50; #cost
 
-func setButton(butt:ShopItemButton) -> void:
-	if button:
-		remove_child(button)
-	button = butt;
-	add_child(button)
-	move_child(button,0)
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	GameState.DNA_changed.connect(checkCost)
+	pass # Replace with function body.
+
+func getDescription() -> String:
+	return "LEO!!! YOU FORGOT TO ADD A DESCRIPTION TO THIS ITEM!!!"
+
+#check if we this item can still be afforded 
+func checkCost(amount:int):
+	if amount < cost:
+		disable()
+		
+#disable purchase
+func disable():
+	set_disabled(true)
+	#material.set_shader_parameter("disabled", 1.0)
+		
+#what to run when used on a creature
+func useOnCreature(creature:Creature) -> void:
+	pass
+
+func applyCost() -> void:
+	GameState.setDNA(GameState.getDNA() - cost)
+
+#what to run when purchased
+#override in children classes
+func onPurchase():
+	applyCost();
+	pass
 	
-	button.size_flags_horizontal = (SIZE_SHRINK_CENTER)
-	
-	#label.set_text(button.cost)
-	
-func setCost(cost_:int) -> void:
-	cost = cost_
-	label.set_text(cost);
-	
-func _process(_delta):
-	Resources.highlight(get_node("Item"),Color.YELLOW)
+#check if price works
+#do not override
+func _pressed():
+	if GameState.getDNA() >= cost:
+		onPurchase();
+		

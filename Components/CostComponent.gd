@@ -20,4 +20,4 @@ func _ready():
 		
 func onClick():
 	if GameState.getDNA() >= cost:
-		onPurchase.call();
+			onPurchase.call();

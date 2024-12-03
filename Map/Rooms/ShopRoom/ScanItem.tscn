@@ -1,26 +1,29 @@
-[gd_scene load_steps=6 format=3 uid="uid://ccf8gtk02if4n"]
+[gd_scene load_steps=9 format=3 uid="uid://ccf8gtk02if4n"]
 
-[ext_resource type="Shader" path="res://Map/Rooms/ShopRoom/Unscanned.gdshader" id="2_bcopc"]
+[ext_resource type="Shader" path="res://Battle/UI/CreatureSlot.gdshader" id="1_lixqo"]
+[ext_resource type="Texture2D" uid="uid://3v4ug52u4i4g" path="res://sprites/icons/FLASK.png" id="2_6ipll"]
 [ext_resource type="Script" path="res://Map/Rooms/ShopRoom/ScanItem.gd" id="3_a4w1a"]
-[ext_resource type="SpriteFrames" uid="uid://bdjqp3vlld8qh" path="res://sprites/spritesheets/creatures/dreemer.tres" id="4_423rd"]
-[ext_resource type="Texture2D" uid="uid://cgxsxxx5aw2nn" path="res://sprites/icons/dna_icon.png" id="5_neflv"]
+[ext_resource type="Texture2D" uid="uid://htgtltnii7x8" path="res://sprites/icons/empty_flask.png" id="3_j3k0g"]
+[ext_resource type="Script" path="res://sprites/Anime.gd" id="4_ccxy3"]
+[ext_resource type="Script" path="res://Components/OnHoverHighlight.gd" id="5_4356f"]
+[ext_resource type="Texture2D" uid="uid://q5ilukk8h66k" path="res://sprites/icons/dna_icon.png" id="5_neflv"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3kttv"]
 resource_local_to_scene = true
-shader = ExtResource("2_bcopc")
-shader_parameter/color = Vector3(0, 1, 0)
-shader_parameter/reach = 3.0
-shader_parameter/disabled = 0.0
+shader = ExtResource("1_lixqo")
+shader_parameter/outline_width = 3.0
+shader_parameter/outline_color = null
+shader_parameter/isSpectral = false
 
 [node name="Item" type="TextureButton"]
 z_as_relative = false
 material = SubResource("ShaderMaterial_3kttv")
 custom_minimum_size = Vector2(100, 100)
+texture_normal = ExtResource("2_6ipll")
+texture_disabled = ExtResource("3_j3k0g")
 ignore_texture_size = true
 stretch_mode = 5
 script = ExtResource("3_a4w1a")
-onHoverOutline = null
-source = ExtResource("4_423rd")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 visible = false
@@ -46,3 +49,22 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Anime" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -27.0
+offset_top = -25.5
+offset_right = 27.0
+offset_bottom = 25.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_ccxy3")
+
+[node name="OnHoverHightlight" type="Node" parent="."]
+script = ExtResource("5_4356f")

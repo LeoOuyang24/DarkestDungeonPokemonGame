@@ -1,16 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://b6nxjul7v18y3"]
+[gd_scene load_steps=6 format=3 uid="uid://b6nxjul7v18y3"]
 
-[ext_resource type="Texture2D" uid="uid://yokh3lt3hrra" path="res://sprites/icons/heart_icon.png" id="1_6thjs"]
+[ext_resource type="Texture2D" uid="uid://cfqgl40ppp05u" path="res://sprites/icons/heart_icon.png" id="1_6thjs"]
 [ext_resource type="Script" path="res://Menus/StatBar.gd" id="2_eu0au"]
-[ext_resource type="Texture2D" uid="uid://dgig17q1rxhn0" path="res://sprites/icons/big_boost_icon.png" id="3_yi1xs"]
+[ext_resource type="Texture2D" uid="uid://b13y3rfd53usc" path="res://sprites/icons/big_boost_icon.png" id="3_yi1xs"]
 
 [sub_resource type="Theme" id="Theme_1q0n1"]
 default_font_size = 200
 RichTextLabel/font_sizes/normal_font_size = 16
 
-[node name="Control" type="Control"]
-layout_mode = 3
-anchors_preset = 0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7wk8l"]
+resource_local_to_scene = true
+
+[node name="Control" type="HBoxContainer"]
 offset_left = 256.0
 offset_top = 144.0
 offset_right = 296.0
@@ -18,42 +19,38 @@ offset_bottom = 184.0
 theme = SubResource("Theme_1q0n1")
 script = ExtResource("2_eu0au")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 0
-offset_left = 40.0
-offset_top = -32.0
-offset_right = 48.0
-offset_bottom = 24.0
-color = Color(0, 1, 0, 1)
+[node name="Icon" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_6thjs")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_styles/fill = SubResource("StyleBoxFlat_7wk8l")
+value = 40.0
+show_percentage = false
 
 [node name="Label" type="RichTextLabel" parent="."]
-layout_mode = 0
-offset_left = 56.0
-offset_top = -16.0
-offset_right = 128.0
-offset_bottom = 32.0
+clip_contents = false
+custom_minimum_size = Vector2(100, 25)
+layout_mode = 2
+size_flags_vertical = 4
 bbcode_enabled = true
 text = "10[color=green]+1[/color]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
 
 [node name="BigBoost" type="TextureButton" parent="."]
 visible = false
-layout_mode = 0
-offset_left = 629.0
-offset_top = -16.0
-offset_right = 653.0
-offset_bottom = 16.0
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
 texture_normal = ExtResource("3_yi1xs")
 ignore_texture_size = true
 stretch_mode = 5
-
-[node name="Icon" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = -15.0
-offset_top = -24.0
-offset_right = 25.0
-offset_bottom = 16.0
-texture = ExtResource("1_6thjs")
-expand_mode = 1
 
 [connection signal="mouse_entered" from="BigBoost" to="." method="_on_big_boost_mouse_entered"]
 [connection signal="mouse_exited" from="BigBoost" to="." method="_on_big_boost_mouse_exited"]

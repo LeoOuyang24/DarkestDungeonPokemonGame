@@ -1,11 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://boik1oe1dgr71"]
+[gd_scene load_steps=5 format=3 uid="uid://boik1oe1dgr71"]
 
 [ext_resource type="Script" path="res://Map/Rooms/ShopRoom/PriceTag.gd" id="1_4t6js"]
-[ext_resource type="Texture2D" uid="uid://cgxsxxx5aw2nn" path="res://sprites/icons/dna_icon.png" id="1_6uoqg"]
+[ext_resource type="Texture2D" uid="uid://q5ilukk8h66k" path="res://sprites/icons/dna_icon.png" id="1_6uoqg"]
+[ext_resource type="Texture2D" uid="uid://bjwh0sokmjo3h" path="res://sprites/icons/tape.png" id="1_dlcb0"]
+[ext_resource type="Theme" uid="uid://ctnx7oi2vcxu" path="res://UI/menu.tres" id="3_ui34x"]
 
-[node name="PriceTag" type="ColorRect"]
+[node name="PriceTag" type="TextureRect"]
 custom_minimum_size = Vector2(100, 50)
-color = Color(0.690196, 0, 0.694118, 1)
+scale = Vector2(0.599243, 0.6)
+texture = ExtResource("1_dlcb0")
 script = ExtResource("1_4t6js")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
@@ -23,6 +26,7 @@ offset_right = 1.0
 offset_bottom = 21.0
 grow_horizontal = 0
 grow_vertical = 2
+theme = ExtResource("3_ui34x")
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 bbcode_enabled = true
 text = "100"
@@ -32,8 +36,14 @@ scroll_active = false
 [node name="TextureRect" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(25, 46)
 layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 55.0695
+offset_top = -25.6667
+offset_right = 133.069
+offset_bottom = 20.3333
 grow_vertical = 2
 texture = ExtResource("1_6uoqg")
-expand_mode = 1
+expand_mode = 2
+stretch_mode = 4

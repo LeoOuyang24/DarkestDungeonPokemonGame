@@ -1,36 +1,18 @@
-class_name ShopItemButton extends TextureButton
+class_name ShopItemButton extends VBoxContainer
 
-#represents a button that you'd find in a shop, used with ShopItem
+#represents a complete item in the shop, including all UI elements
 
-var cost:int = 100; #cost
+@onready var priceTag := %PriceTag
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	GameState.DNA_changed.connect(checkCost)
-	pass # Replace with function body.
+var button:ShopItemButton = null
 
-#check if we this item can still be afforded 
-func checkCost(amount:int):
-	if amount < cost:
-		disable()
-		
-#disable purchase
-func disable():
-	set_disabled(true)
-	#material.set_shader_parameter("disabled", 1.0)
-		
-
-#what to run when purchased
-#override in children classes
-func _onPurchase():
-	pass
+func setItem(node:ShopItem,cost:int) -> void:
+	if node:
+		add_child(node)
+		move_child(node,0)
+		node.size_flags_vertical = SIZE_SHRINK_END
+		node.size_flags_horizontal = SIZE_SHRINK_CENTER
 	
-#check if price works
-#do not override
-func _pressed():
-	if GameState.getDNA() >= cost:
-		GameState.setDNA(GameState.getDNA() - cost)
-		_onPurchase();
+		node.add_child(OnHoverHightlight.new());
 		
-func _process(delta) -> void:
-	Resources.highlight(self,Color.YELLOW if is_hovered() else Color(0,0,0,0))
+		priceTag.setCost(cost)

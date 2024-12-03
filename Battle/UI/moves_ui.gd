@@ -15,8 +15,11 @@ func _ready():
 
 func loadMoves(creature:Creature):
 	if creature:
-		for i in range(creature.moves.size()):
-			MovesUI.get_children()[i].setMove(creature.moves[i],creature)
+		for i in range(creature.maxMoves):
+			if i >= creature.moves.size():
+				MovesUI.get_children()[i].setMove(null,creature)
+			else:
+				MovesUI.get_children()[i].setMove(creature.moves[i],creature)
 			
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.

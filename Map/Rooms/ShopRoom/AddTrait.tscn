@@ -1,13 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://ddo3fmsk1pbsf"]
+[gd_scene load_steps=5 format=3 uid="uid://ddo3fmsk1pbsf"]
 
 [ext_resource type="Shader" path="res://Battle/UI/CreatureSlot.gdshader" id="1_hx445"]
-[ext_resource type="Texture2D" uid="uid://cdxu788dopkwx" path="res://sprites/icons/syringe.png" id="2_d7x7d"]
+[ext_resource type="Texture2D" uid="uid://ptqggcusoom5" path="res://sprites/icons/syringe.png" id="2_d7x7d"]
 [ext_resource type="Script" path="res://Map/Rooms/ShopRoom/AddTrait.gd" id="3_bprqb"]
-[ext_resource type="Script" path="res://Components/OnHoverHighlight.gd" id="3_jbn83"]
-[ext_resource type="Script" path="res://Components/CostComponent.gd" id="5_h0mu7"]
-[ext_resource type="PackedScene" uid="uid://boik1oe1dgr71" path="res://Map/Rooms/ShopRoom/PriceTag.tscn" id="6_1qy0c"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_of0sg"]
+resource_local_to_scene = true
 shader = ExtResource("1_hx445")
 shader_parameter/outline_width = 3.0
 shader_parameter/outline_color = Color(1, 0, 0, 0)
@@ -15,9 +13,9 @@ shader_parameter/isSpectral = false
 
 [node name="Item" type="TextureButton"]
 material = SubResource("ShaderMaterial_of0sg")
-custom_minimum_size = Vector2(100, 100)
-offset_right = 100.0
-offset_bottom = 100.0
+custom_minimum_size = Vector2(60, 60)
+offset_right = 60.0
+offset_bottom = 60.0
 texture_normal = ExtResource("2_d7x7d")
 ignore_texture_size = true
 stretch_mode = 4
@@ -25,20 +23,11 @@ script = ExtResource("3_bprqb")
 
 [node name="Color" type="ColorRect" parent="."]
 unique_name_in_owner = true
-z_index = -1
+visible = false
 layout_mode = 2
-offset_left = 45.0
-offset_top = 30.0
-offset_right = 79.0
-offset_bottom = 75.0
+offset_left = 27.0
+offset_top = 15.0
+offset_right = 51.0
+offset_bottom = 45.0
 rotation = 0.875042
 mouse_filter = 2
-
-[node name="OnHoverHightlight" type="Node" parent="."]
-script = ExtResource("3_jbn83")
-
-[node name="PriceTag" parent="." instance=ExtResource("6_1qy0c")]
-layout_mode = 0
-
-[node name="CostComponent" type="Node" parent="."]
-script = ExtResource("5_h0mu7")

@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://lksoelrcoiko"]
+
+[ext_resource type="Script" path="res://Map/Rooms/ShopRoom/ShopItemButton.gd" id="1_cbi6v"]
+[ext_resource type="PackedScene" uid="uid://boik1oe1dgr71" path="res://Map/Rooms/ShopRoom/PriceTag.tscn" id="2_kkoji"]
+
+[node name="Shopitem" type="VBoxContainer"]
+offset_right = 100.0
+offset_bottom = 129.0
+size_flags_vertical = 8
+alignment = 2
+script = ExtResource("1_cbi6v")
+
+[node name="PriceTag" parent="." instance=ExtResource("2_kkoji")]
+unique_name_in_owner = true
+layout_mode = 2

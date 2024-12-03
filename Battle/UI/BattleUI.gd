@@ -77,17 +77,17 @@ func setCurrentCreature(creature:Creature):
 		if currentCreature:
 			var cur := getCreatureSlot(currentCreature)
 			if cur:
-				cur.setOutlineColor(Color(0,0,0,0))
+				Resources.highlight(cur,Color(0,0,0,0))
 			
 		if Summary.creature:
 			var cur := getCreatureSlot(Summary.creature)
 			if cur:
-				cur.setOutlineColor(Color(0,0,0,0))
+				Resources.highlight(cur,Color(0,0,0,0))
 				
 		#apply outline to both creatureslot and the queueslot
 		var slot := getCreatureSlot(creature)
 		if slot:
-			slot.setOutlineColor(Color.GOLD)
+			Resources.highlight(slot,Color.GOLD)
 		var queueSlot := getQueueSlot(creature)
 		if queueSlot:
 			setQueueOutline(queueSlot,Color.GOLD);
@@ -100,9 +100,9 @@ func setCurrentCreature(creature:Creature):
 func setCurrentCreatureUI(creature:Creature, isCurrent:bool):
 	if creature:
 		if !isCurrent:
-			getCreatureSlot(creature).setOutlineColor(Color.CYAN);
+			Resources.highlight(getCreatureSlot(creature),Color.CYAN);
 		if Summary.creature && Summary.creature != currentCreature:
-			getCreatureSlot(Summary.creature).setOutlineColor(Color(0,0,0,0));
+			Resources.highlight(getCreatureSlot(Summary.creature),Color(0,0,0,0));
 
 	Summary.setCurrentCreature(creature,isCurrent)
 

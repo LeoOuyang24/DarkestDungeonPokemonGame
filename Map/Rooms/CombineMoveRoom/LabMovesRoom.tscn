@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://bvxv6kih6bx3" path="res://Map/Rooms/EventRoom.tscn" id="1_katkq"]
 [ext_resource type="Script" path="res://Map/Rooms/CombineMoveRoom/LabMovesRoom.gd" id="1_xsu3n"]
 [ext_resource type="Script" path="res://sprites/UI/AnimatedButton.gd" id="4_8wa73"]
-[ext_resource type="Texture2D" uid="uid://bcyn2c0xfrlvq" path="res://sprites/map/lab.png" id="4_e7umc"]
+[ext_resource type="Texture2D" uid="uid://cbw4hx0pxwl2j" path="res://sprites/map/lab.png" id="4_e7umc"]
 [ext_resource type="Shader" path="res://Map/Rooms/ShopRoom/Unscanned.gdshader" id="4_o77do"]
 [ext_resource type="PackedScene" uid="uid://1m34rwnl48vd" path="res://Battle/UI/moves_ui.tscn" id="6_wkuiw"]
 [ext_resource type="Theme" uid="uid://ctnx7oi2vcxu" path="res://UI/menu.tres" id="7_xtlvh"]

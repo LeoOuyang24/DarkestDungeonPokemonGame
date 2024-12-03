@@ -13,4 +13,6 @@ offset_left = 0.319977
 offset_top = 0.319977
 offset_right = 100.32
 offset_bottom = 50.32
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_q7wl6")

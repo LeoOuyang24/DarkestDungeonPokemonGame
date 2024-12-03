@@ -10,10 +10,10 @@ uniform bool isSpectral = false;
 
 void fragment() {
 
-	COLOR = mix(COLOR,spectral(TEXTURE,UV,vec4(1,1,1,1),vec4(0.3,0,0.6,1)),float(isSpectral));
+	COLOR = mix(COLOR,spectral(TEXTURE,UV,vec4(1,1,1,1),vec4(0.15,0.5,0.3,1)),float(isSpectral));
+
 	//COLOR = texture(TEXTURE,UV);
 	COLOR = outline(TEXTURE,UV,COLOR,TEXTURE_PIXEL_SIZE,outline_width,outline_color);
-
 }
 //void light() {
 	// Called for every pixel for every light affecting the CanvasItem.

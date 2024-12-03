@@ -82,6 +82,7 @@ size_flags_vertical = 8
 ignore_texture_size = true
 stretch_mode = 5
 script = ExtResource("1_kmmwv")
+onHoverOutline = false
 
 [node name="TickerAnimation" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
@@ -136,14 +137,9 @@ text = "100"
 [node name="StatusEffectsUI" parent="HealthBar" instance=ExtResource("3_2kmqv")]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
+anchors_preset = 2
 anchor_top = 1.0
-anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -35.0
-offset_bottom = -35.0
-grow_horizontal = 0
 grow_vertical = 0
 
 [editable path="HealthBar"]

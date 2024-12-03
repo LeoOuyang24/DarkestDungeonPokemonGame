@@ -1,46 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://csyroyi13nt66"]
+[gd_scene load_steps=5 format=3 uid="uid://csyroyi13nt66"]
 
 [ext_resource type="Script" path="res://Menus/TeamView.gd" id="1_womks"]
-[ext_resource type="Shader" path="res://Battle/UI/CreatureSlot.gdshader" id="3_7ded8"]
+[ext_resource type="PackedScene" uid="uid://mftrks2txgif" path="res://UI/team_slots_rect.tscn" id="2_1lhlk"]
 [ext_resource type="PackedScene" uid="uid://cybp46vb5wblt" path="res://Menus/CreatureSummary.tscn" id="3_lyigu"]
-[ext_resource type="PackedScene" uid="uid://bqsfei63od030" path="res://Battle/UI/CreatureSlot.tscn" id="4_hnygx"]
 [ext_resource type="PackedScene" uid="uid://chsbok4nq5wgs" path="res://Menus/CreateHorror.tscn" id="4_yluxj"]
-[ext_resource type="Script" path="res://Menus/TeamViewSlot.gd" id="5_3ydqy"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_wcy7y"]
-resource_local_to_scene = true
-shader = ExtResource("3_7ded8")
-shader_parameter/outline_width = 3.0
-shader_parameter/outline_color = null
-shader_parameter/isSpectral = false
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dpucv"]
-resource_local_to_scene = true
-shader = ExtResource("3_7ded8")
-shader_parameter/outline_width = 3.0
-shader_parameter/outline_color = null
-shader_parameter/isSpectral = false
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_5a7lj"]
-resource_local_to_scene = true
-shader = ExtResource("3_7ded8")
-shader_parameter/outline_width = 3.0
-shader_parameter/outline_color = null
-shader_parameter/isSpectral = false
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_hfjkr"]
-resource_local_to_scene = true
-shader = ExtResource("3_7ded8")
-shader_parameter/outline_width = 3.0
-shader_parameter/outline_color = null
-shader_parameter/isSpectral = false
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_xsgpp"]
-resource_local_to_scene = true
-shader = ExtResource("3_7ded8")
-shader_parameter/outline_width = 3.0
-shader_parameter/outline_color = null
-shader_parameter/isSpectral = false
 
 [node name="TeamView" type="ColorRect"]
 z_index = -1
@@ -49,48 +12,12 @@ offset_bottom = 712.0
 color = Color(0.054902, 0.2, 0.172549, 1)
 script = ExtResource("1_womks")
 
-[node name="TeamSlotsRect" type="HBoxContainer" parent="."]
+[node name="TeamSlotsRect" parent="." instance=ExtResource("2_1lhlk")]
 layout_mode = 0
-offset_left = 112.0
-offset_top = 96.0
-offset_right = 1236.0
-offset_bottom = 301.0
-theme_override_constants/separation = 100
-
-[node name="Slot1" parent="TeamSlotsRect" instance=ExtResource("4_hnygx")]
-material = SubResource("ShaderMaterial_wcy7y")
-layout_mode = 2
-script = ExtResource("5_3ydqy")
-
-[node name="Slot2" parent="TeamSlotsRect" instance=ExtResource("4_hnygx")]
-material = SubResource("ShaderMaterial_dpucv")
-layout_mode = 2
-script = ExtResource("5_3ydqy")
-
-[node name="Slot3" parent="TeamSlotsRect" instance=ExtResource("4_hnygx")]
-material = SubResource("ShaderMaterial_5a7lj")
-layout_mode = 2
-script = ExtResource("5_3ydqy")
-
-[node name="Slot4" parent="TeamSlotsRect" instance=ExtResource("4_hnygx")]
-material = SubResource("ShaderMaterial_hfjkr")
-layout_mode = 2
-script = ExtResource("5_3ydqy")
-
-[node name="Slot5" parent="TeamSlotsRect" instance=ExtResource("4_hnygx")]
-material = SubResource("ShaderMaterial_xsgpp")
-layout_mode = 2
-script = ExtResource("5_3ydqy")
-
-[node name="CreatureSummary" parent="." instance=ExtResource("3_lyigu")]
-visible = false
-z_index = 1
-layout_mode = 2
-offset_left = 192.0
-offset_top = 256.0
-offset_right = 1472.0
-offset_bottom = 960.0
-scale = Vector2(0.6, 0.6)
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 1124.0
+offset_bottom = 205.0
 
 [node name="CreateHorror" parent="." instance=ExtResource("4_yluxj")]
 visible = false
@@ -100,5 +27,13 @@ offset_left = 2.0
 offset_top = 329.0
 offset_right = 1125.0
 offset_bottom = 712.0
+
+[node name="CreatureSummary" parent="." instance=ExtResource("3_lyigu")]
+layout_mode = 0
+offset_left = 209.0
+offset_top = 377.0
+offset_right = 1489.0
+offset_bottom = 858.0
+scale = Vector2(0.6, 0.6)
 
 [connection signal="horror_created" from="CreateHorror" to="." method="_on_create_horror_horror_created"]
