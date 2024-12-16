@@ -7,6 +7,7 @@ var spectral := true #true if the effect is active
 # Called when the node enters the scene tree for the first time.
 func _init():
 	name = "Spectral"
+	tooltip = "The first time this creature takes damage each combat, the damage is reduced to 0."
 
 func inBattle(battle:Battlefield) -> void:
 	spectral = true;

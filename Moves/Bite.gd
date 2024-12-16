@@ -21,7 +21,7 @@ func move(user:Creature, enemies:Array, battlefield):
 	pass
 	
 func runAnimation(user:Creature, targets:Array, UI:BattleUI,battlefield:Battlefield) -> void:
-	await MoveAnimations.genericAttackAnimation(user,targets,UI,self)
+	await MoveAnimations.genericAttackAnimation(user,targets,UI,self,0.5)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

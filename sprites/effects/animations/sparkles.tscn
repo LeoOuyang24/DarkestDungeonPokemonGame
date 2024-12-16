@@ -109,7 +109,6 @@ _data = {
 }
 
 [node name="Sparkles" type="ReferenceRect"]
-modulate = Color(1, 1, 1, 0)
 anchors_preset = -1
 anchor_left = 0.524
 anchor_top = 0.534
@@ -132,36 +131,36 @@ libraries = {
 autoplay = "default"
 
 [node name="Sparkles5" type="Sprite2D" parent="."]
-position = Vector2(46, 18.3452)
+position = Vector2(46, 19)
 scale = Vector2(0.125, 0.28631)
 texture = ExtResource("1_7d08t")
 
 [node name="Sparkles4" type="Sprite2D" parent="."]
-position = Vector2(41, 39.3063)
+position = Vector2(41, 47)
 scale = Vector2(0.25, 0.434401)
 texture = ExtResource("1_7d08t")
 
 [node name="Sparkles3" type="Sprite2D" parent="."]
-position = Vector2(26, 48.4522)
+position = Vector2(26, 55)
 scale = Vector2(0.125, 0.28631)
 texture = ExtResource("1_7d08t")
 
 [node name="Sparkles6" type="Sprite2D" parent="."]
-position = Vector2(53, 42.0535)
+position = Vector2(53, 45)
 scale = Vector2(0.25, 0.434401)
 texture = ExtResource("1_7d08t")
 
 [node name="Sparkles7" type="Sprite2D" parent="."]
-position = Vector2(13.125, 36.1226)
+position = Vector2(13.125, 39.2784)
 scale = Vector2(0.443182, 0.55811)
 texture = ExtResource("1_7d08t")
 
 [node name="Sparkles" type="Sprite2D" parent="."]
-position = Vector2(25, 20.0713)
+position = Vector2(25, 24)
 scale = Vector2(0.5, 0.659091)
 texture = ExtResource("1_7d08t")
 
 [node name="Sparkles2" type="Sprite2D" parent="."]
-position = Vector2(6.75, 21.5921)
+position = Vector2(6.75, 24.0568)
 scale = Vector2(0.25, 0.434401)
 texture = ExtResource("1_7d08t")

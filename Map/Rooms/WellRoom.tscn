@@ -1,101 +1,224 @@
-[gd_scene load_steps=5 format=3 uid="uid://dm5gsh3mg802h"]
+[gd_scene load_steps=9 format=3 uid="uid://qpa4j0a7ff6e"]
 
-[ext_resource type="Texture2D" uid="uid://dd6jihljgpemy" path="res://sprites/backgrounds/well_background.png" id="1_3l7mv"]
+[ext_resource type="Texture2D" uid="uid://btytdd3oomd3q" path="res://sprites/backgrounds/well_background.png" id="1_3l7mv"]
 [ext_resource type="Script" path="res://Map/Rooms/WellRoom.gd" id="1_v6qic"]
-[ext_resource type="PackedScene" uid="uid://ch2yb5r50w7yo" path="res://Menus/RichButton.tscn" id="3_0d4si"]
+[ext_resource type="PackedScene" uid="uid://bvxv6kih6bx3" path="res://Map/Rooms/EventRoom.tscn" id="1_vfwjy"]
+[ext_resource type="Script" path="res://Map/Rooms/WellRoomButtons.gd" id="4_gxly4"]
+[ext_resource type="Texture2D" uid="uid://dy30mxgsrpu46" path="res://sprites/effects/sparkle.png" id="5_fym8e"]
 
-[sub_resource type="Theme" id="Theme_8hc7r"]
-RichTextLabel/font_sizes/normal_font_size = 50
+[sub_resource type="Theme" id="Theme_7dp5o"]
+Button/font_sizes/font_size = 100
+HBoxContainer/constants/separation = 200
+Label/font_sizes/font_size = 50
 
-[node name="WellRoom" type="Node2D"]
+[sub_resource type="Animation" id="Animation_b4nf7"]
+resource_name = "default"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Sparkles:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(25, 24), Vector2(25, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Sparkles4:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(41, 47), Vector2(41, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Sparkles3:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(26, 55), Vector2(26, 15)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../Sparkles6:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(53, 45), Vector2(53, 27)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../Sparkles5:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(46, 19), Vector2(46, 15)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../Sparkles7:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(13.125, 39.2784), Vector2(13.125, 20)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(6.75, 24.0568), Vector2(6.75, 9)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("..:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 2, 5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fni6g"]
+_data = {
+"default": SubResource("Animation_b4nf7")
+}
+
+[node name="Control" instance=ExtResource("1_vfwjy")]
 script = ExtResource("1_v6qic")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Background" parent="." index="1"]
 z_index = -1
-position = Vector2(959, 540.75)
-scale = Vector2(3.844, 3.23874)
+mouse_filter = 2
 texture = ExtResource("1_3l7mv")
 
-[node name="InputMenu" type="ColorRect" parent="."]
-offset_left = 192.0
-offset_top = 584.0
-offset_right = 1792.0
-offset_bottom = 1080.0
-mouse_filter = 2
-color = Color(0, 0, 0, 0.654902)
-
-[node name="Drink" parent="InputMenu" instance=ExtResource("3_0d4si")]
+[node name="ButtonsMenu" type="CenterContainer" parent="." index="2"]
 layout_mode = 0
-offset_left = 301.0
-offset_top = 523.0
-offset_right = 616.0
-offset_bottom = 670.0
-theme_override_font_sizes/font_size = 50
+offset_left = 317.0
+offset_top = 1087.0
+offset_right = 1611.0
+offset_bottom = 1369.0
 
-[node name="RichTextLabel" parent="InputMenu/Drink" index="0"]
-offset_left = -108.0
-offset_top = -57.0
-offset_right = 108.0
-offset_bottom = 57.0
-theme = SubResource("Theme_8hc7r")
-bbcode_enabled = true
-text = "[center]Drink
-[font_size=20][color=green]Restore 25% health to all alies[/color][/font_size][/center]"
+[node name="HBoxContainer" type="HBoxContainer" parent="ButtonsMenu" index="0"]
+layout_mode = 2
+theme = SubResource("Theme_7dp5o")
 
-[node name="DeepDrink" parent="InputMenu" instance=ExtResource("3_0d4si")]
-layout_mode = 0
-offset_left = 696.0
-offset_top = 523.0
-offset_right = 1011.0
-offset_bottom = 670.0
+[node name="Drink" type="Button" parent="ButtonsMenu/HBoxContainer" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Restore 25% health to all allies"
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+text = "Drink"
+script = ExtResource("4_gxly4")
+tooltipColor = Color(1, 1, 0, 1)
 
-[node name="RichTextLabel" parent="InputMenu/DeepDrink" index="0"]
-offset_left = -158.0
-offset_top = -65.0
-offset_right = 158.0
-offset_bottom = 65.0
-theme = SubResource("Theme_8hc7r")
-theme_override_font_sizes/normal_font_size = 45
-bbcode_enabled = true
-text = "[center]Drink Deeply
-[font_size=20][color=green]Restore 50% health to yourself[/color][/font_size][/center]"
+[node name="DrinkDeeply" type="Button" parent="ButtonsMenu/HBoxContainer" index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Restore 50% health to yourself."
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+text = "Drink 
+Deeply"
+script = ExtResource("4_gxly4")
+tooltipColor = Color(1, 1, 0, 1)
 
-[node name="Study" parent="InputMenu" instance=ExtResource("3_0d4si")]
-layout_mode = 0
-offset_left = 1082.0
-offset_top = 522.0
-offset_right = 1397.0
-offset_bottom = 669.0
-theme_override_font_sizes/font_size = 50
+[node name="Study" type="Button" parent="ButtonsMenu/HBoxContainer" index="2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Gain 10 DNA"
+theme_override_colors/font_color = Color(1, 0, 1, 1)
+text = "Study
+"
+script = ExtResource("4_gxly4")
+tooltipColor = Color(1, 0, 1, 1)
 
-[node name="RichTextLabel" parent="InputMenu/Study" index="0"]
-offset_left = -108.0
-offset_top = -57.0
-offset_right = 108.0
-offset_bottom = 57.0
-theme = SubResource("Theme_8hc7r")
-bbcode_enabled = true
-text = "[center]Study
-[font_size=20][color=purple]Gain 10 DNA[/color][/font_size][/center]"
-
-[node name="ButtonsMenu" type="ReferenceRect" parent="InputMenu"]
-layout_mode = 0
-offset_left = 64.0
-offset_top = 120.0
-offset_right = 1664.0
-offset_bottom = 440.0
+[node name="Sparkles" type="ReferenceRect" parent="." index="3"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.524
+anchor_top = 0.534
+anchor_right = 0.524
+anchor_bottom = 0.534
+offset_left = -429.08
+offset_top = -295.72
+offset_right = -372.08
+offset_bottom = -230.72
+scale = Vector2(13.04, 6.97549)
 mouse_filter = 2
 
-[node name="Label" type="RichTextLabel" parent="InputMenu"]
-layout_mode = 0
-offset_left = 64.0
-offset_top = 56.0
-offset_right = 1536.0
-offset_bottom = 248.0
-mouse_filter = 2
-theme_override_font_sizes/normal_font_size = 32
-text = "You approach a foul smelling well."
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sparkles" index="0"]
+root_node = NodePath("../Sparkles2")
+libraries = {
+"": SubResource("AnimationLibrary_fni6g")
+}
 
-[editable path="InputMenu/Drink"]
-[editable path="InputMenu/DeepDrink"]
-[editable path="InputMenu/Study"]
+[node name="Sparkles5" type="Sprite2D" parent="Sparkles" index="1"]
+position = Vector2(46, 15)
+scale = Vector2(0.125, 0.28631)
+texture = ExtResource("5_fym8e")
+
+[node name="Sparkles4" type="Sprite2D" parent="Sparkles" index="2"]
+position = Vector2(41, 0)
+scale = Vector2(0.25, 0.434401)
+texture = ExtResource("5_fym8e")
+
+[node name="Sparkles3" type="Sprite2D" parent="Sparkles" index="3"]
+position = Vector2(26, 15)
+scale = Vector2(0.125, 0.28631)
+texture = ExtResource("5_fym8e")
+
+[node name="Sparkles6" type="Sprite2D" parent="Sparkles" index="4"]
+position = Vector2(53, 27)
+scale = Vector2(0.25, 0.434401)
+texture = ExtResource("5_fym8e")
+
+[node name="Sparkles7" type="Sprite2D" parent="Sparkles" index="5"]
+position = Vector2(13.125, 20)
+scale = Vector2(0.443182, 0.55811)
+texture = ExtResource("5_fym8e")
+
+[node name="Sparkles" type="Sprite2D" parent="Sparkles" index="6"]
+position = Vector2(25, 0)
+scale = Vector2(0.5, 0.659091)
+texture = ExtResource("5_fym8e")
+
+[node name="Sparkles2" type="Sprite2D" parent="Sparkles" index="7"]
+position = Vector2(6.75, 9)
+scale = Vector2(0.25, 0.434401)
+texture = ExtResource("5_fym8e")

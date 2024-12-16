@@ -1,12 +1,18 @@
-extends ColorRect
+extends PanelContainer
 
 signal horror_created(creature:Creature)
 
-var TeamSlot = preload("res://Menus/TeamViewSlot.tscn")
 
+@onready var CreateButton = %Create
+@onready var Grid = %Grid;
+
+var TeamSlot = preload("res://Menus/CreateHorrorButton.tscn")
+#cost to create a creature, permanently increases every time a creature is made
+static var globalCost:int = 5; 
+var selected:Creature = null
 # Called when the node enters the scene tree for the first time.
 func _ready():
-
+	CreateButton.setCost(globalCost)
 	createSlots()
 	pass # Replace with function body.
 
@@ -16,24 +22,14 @@ func createSlots():
 	var known = ["Beholder","Chomper","Silent"]#Game.PlayerState.scans
 	for i in range(known.size()):
 		var creature:Creature = CreatureLoader.loadJSON(CreatureLoader.CreatureJSONDir + known[i] + ".json")
-		var slot = CreateHorrorButton.new()
-		add_child(slot)
-
-		slot.position.x = margin.x*((i)%perRow + 1)
-		slot.position.y = margin.y*((i)/perRow + 1)
-		slot.setCreature(creature)
-
-		slot.pressed.connect(func():
-			horror_created.emit(creature)
-			slot.updateDisabled()
-			)
-
-		GameState.DNA_changed.connect(updateSlot.bind(slot))
+		var slot = TeamSlot.instantiate()
+		Grid.add_child(slot)
 		
-func updateSlot(slot:QueueSlot) -> void:
-	if slot:
-		slot.disabled = GameState.getDNA() < 10
+		slot.creature = creature
+		slot.get_node("Button").pressed.connect(set.bind("selected",creature))
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func _on_create_pressed():
+	globalCost *= 2
+	horror_created.emit(selected)
+	CreateButton.setCost(globalCost)
+	pass # Replace with function body.

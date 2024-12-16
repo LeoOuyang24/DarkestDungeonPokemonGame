@@ -1,13 +1,51 @@
-[gd_scene load_steps=2 format=3 uid="uid://chsbok4nq5wgs"]
+[gd_scene load_steps=5 format=3 uid="uid://chsbok4nq5wgs"]
 
 [ext_resource type="Script" path="res://Menus/CreateHorror.gd" id="1_e0tjc"]
+[ext_resource type="Theme" uid="uid://fmhayxk6i3ei" path="res://UI/margins.tres" id="2_alrcw"]
+[ext_resource type="PackedScene" uid="uid://ddwtgmifyeeon" path="res://Menus/CostButton.tscn" id="3_ine1w"]
 
-[node name="CreateHorror" type="ColorRect"]
-z_index = -1
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1jx0o"]
+bg_color = Color(0.137255, 0.137255, 0.137255, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+
+[node name="CreateHorror" type="PanelContainer"]
 offset_left = 1.0
 offset_top = 1.0
-offset_right = 1275.0
+offset_right = 274.0
 offset_bottom = 699.0
 mouse_filter = 2
-color = Color(0.188235, 0.188235, 0.188235, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_1jx0o")
 script = ExtResource("1_e0tjc")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme = ExtResource("2_alrcw")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Grid" type="GridContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="Create" parent="MarginContainer/VBoxContainer/MarginContainer" instance=ExtResource("3_ine1w")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 1
+title = "Create"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/Create" to="." method="_on_create_pressed"]
+
+[editable path="MarginContainer/VBoxContainer/MarginContainer/Create"]

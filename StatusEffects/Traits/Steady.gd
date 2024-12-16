@@ -4,7 +4,8 @@ class_name Steady extends Trait
 # Called when the node enters the scene tree for the first time.
 func _init():
 	name = "Steady"
-		
+	tooltip = "Creature's attack can't be changed."
+	
 func onAdd(c:Creature) -> void:
 	c.stats.getStatObj(CreatureStats.STATS.ATTACK).setCanBeLowered(false);
 	c.stats.getStatObj(CreatureStats.STATS.ATTACK).setCanBeRaised(false);

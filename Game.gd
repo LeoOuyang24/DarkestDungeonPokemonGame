@@ -4,11 +4,11 @@ class_name Game extends Node2D
 @onready var Map := %Map
 @onready var TeamView := %TeamView
 @onready var FadeOut := %FadeOut
-@onready var DNACounter := %DNACounterLabel
 @onready var NewScan := %"NewScan!"
 @onready var BloodAnimation := %HurtAnimation
 @onready var GameOver := %GameOver
 @onready var GameOverButton := %GameOver/Button
+@onready var DNACounter := %DNACounter/Counter
 
 static var GameCamera:GlobalCamera = null
 
@@ -90,7 +90,7 @@ func _on_map_room_selected(roomInfo):
 	match roomInfo:
 		Room.ROOM_TYPES.BATTLE:
 			newScene = load("res://Battle/BattleManager.tscn").instantiate()
-			var enemies = [CreatureLoader.loadJSON("silent.json"),CreatureLoader.loadJSON("siren.json"),CreatureLoader.loadJSON("beholder.json"),CreatureLoader.loadJSON("beholder.json")]
+			var enemies = [CreatureLoader.loadJSON("silent.json"),CreatureLoader.loadJSON("dreemer.json"),CreatureLoader.loadJSON("beholder.json"),CreatureLoader.loadJSON("beholder.json")]
 			#var size = randi()%(Battlefield.maxEnemies - 1) + 1
 			#for i in range(size):
 				#enemies.push_back(CreatureLoader.getRandCreature())

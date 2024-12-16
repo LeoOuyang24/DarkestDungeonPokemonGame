@@ -1,24 +1,28 @@
-class_name CreateHorrorButton extends AnimatedButton
+class_name CreateHorrorButton extends PanelContainer
 
-var creature:Creature = null
+@onready var button = %Button
 
-func setCreature(creature:Creature) -> void:
-	self.creature = creature
-	setSprite(creature.getSprite())
-	updateDisabled()
+#UI Element for CreateHorror
+#confusingly, this is not a button, but a container that has a button in it
 
+
+var disabled:bool = false:
+	set(value):
+		disabled = value
+		modulate = Color(0.2,0.2,0.2,1) if disabled else Color.WHITE
+		button.disabled = value
+		if disabled:
+			button.set_tooltip_text("This creature is already in your team!")
+
+var creature:Creature = null:
+	set(value):
+		creature = value
+		button.setSprite(creature.getSprite())
+		updateDisabled()
 
 #update disabled based on whether or not the creature is already in the party
 func updateDisabled():
 	disabled = GameState.PlayerState.getTeam().reduce(func (accum:bool, creature2:Creature):
 			return accum || creature2.getName() == creature.getName()
 			,false)	
-	modulate = Color(0.2,0.2,0.2,1) if disabled else Color.WHITE
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	ignore_texture_size = true
-	setSize(Vector2(100,100))
-	
-	
 

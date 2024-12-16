@@ -11,7 +11,8 @@ func _init():
 	summary="Deal 0.5x damage to two frontmost targets"
 	
 func runAnimation(user:Creature, enemies: Array, UI:BattleUI,battlefield:Battlefield) -> void:
-	await MoveAnimations.genericAttackAnimation(user,enemies,UI,self)
+	if enemies.size() > 0:
+		await MoveAnimations.genericAttackAnimation(user,[enemies[0]],UI,self,1.5)
 	
 func getPreselectedTargets(user:Creature, battle:Battlefield):
 	return battle.getFrontMostCreatures(2,user.getIsFriendly())

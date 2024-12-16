@@ -1,9 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://cybp46vb5wblt"]
+[gd_scene load_steps=9 format=3 uid="uid://cybp46vb5wblt"]
 
 [ext_resource type="Script" path="res://Menus/CreatureSummary.gd" id="1_6r03a"]
 [ext_resource type="PackedScene" uid="uid://b10n7jankcsc1" path="res://UI/CreatureStats.tscn" id="2_2ldh2"]
+[ext_resource type="PackedScene" uid="uid://ddwtgmifyeeon" path="res://Menus/CostButton.tscn" id="4_4fe2k"]
 [ext_resource type="Script" path="res://Menus/LevelUpButton.gd" id="6_2cbse"]
-[ext_resource type="Texture2D" uid="uid://q5ilukk8h66k" path="res://sprites/icons/dna_icon.png" id="6_cdg3m"]
 [ext_resource type="PackedScene" uid="uid://c434ifxltx2da" path="res://Menus/LearnNewMove.tscn" id="8_i1cfh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o7eui"]
@@ -15,14 +15,11 @@ resource_local_to_scene = true
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x3hwe"]
 resource_local_to_scene = true
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kujuv"]
-bg_color = Color(0.478431, 0.666667, 0.286275, 1)
-
 [node name="Margins" type="MarginContainer"]
 offset_left = 384.0
 offset_top = 192.0
 offset_right = 1664.0
-offset_bottom = 618.0
+offset_bottom = 692.0
 theme_override_constants/margin_left = 30
 theme_override_constants/margin_top = 30
 theme_override_constants/margin_right = 30
@@ -65,57 +62,14 @@ layout_mode = 2
 size_flags_horizontal = 4
 mouse_filter = 2
 
-[node name="LevelUp" type="Button" parent="Panel/Window/Moves"]
+[node name="LevelUp" parent="Panel/Window/Moves" instance=ExtResource("4_4fe2k")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
-size_flags_horizontal = 6
-theme_override_font_sizes/font_size = 50
-theme_override_styles/normal = SubResource("StyleBoxFlat_kujuv")
 script = ExtResource("6_2cbse")
-
-[node name="Cost" type="RichTextLabel" parent="Panel/Window/Moves/LevelUp"]
-visible = false
-layout_mode = 0
-offset_left = 59.0
-offset_top = 61.0
-offset_right = 202.0
-offset_bottom = 227.0
-mouse_filter = 2
-theme_override_font_sizes/normal_font_size = 30
-bbcode_enabled = true
-
-[node name="TextureRect" type="TextureRect" parent="Panel/Window/Moves/LevelUp"]
-visible = false
-layout_mode = 0
-offset_left = 15.0
-offset_top = 63.0
-offset_right = 47.0
-offset_bottom = 103.0
-texture = ExtResource("6_cdg3m")
-expand_mode = 1
-stretch_mode = 4
-
-[node name="Label" type="RichTextLabel" parent="Panel/Window/Moves/LevelUp"]
-layout_mode = 2
-offset_top = 20.0
-offset_right = 200.0
-offset_bottom = 94.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-mouse_filter = 2
-theme_override_font_sizes/normal_font_size = 30
-bbcode_enabled = true
-text = "[center]Level Up
-[img width=32]res://sprites/icons/dna_icon.png[/img][/center]
-"
-fit_content = true
+title = "Level Up"
 
 [connection signal="new_move_confirmed" from="Panel/Window/Moves/LearnNewMove" to="." method="_on_learn_new_move_new_move_confirmed"]
-[connection signal="mouse_entered" from="Panel/Window/Moves/LevelUp" to="." method="onHover"]
-[connection signal="mouse_exited" from="Panel/Window/Moves/LevelUp" to="." method="offHover"]
+[connection signal="pressed" from="Panel/Window/Moves/LevelUp" to="." method="_on_level_up_pressed"]
 
 [editable path="Panel/Window/StatsMargin/CreatureStats"]
 [editable path="Panel/Window/StatsMargin/CreatureStats/Background/Profile/Stats/Control/Attack"]

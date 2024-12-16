@@ -39,7 +39,7 @@ Button/font_sizes/font_size = 30
 [node name="ApplyItem" type="ColorRect"]
 offset_left = 379.0
 offset_top = 308.0
-offset_right = 1850.0
+offset_right = 1638.0
 offset_bottom = 877.0
 color = Color(0, 0.207843, 0.207843, 1)
 script = ExtResource("1_ndx3b")

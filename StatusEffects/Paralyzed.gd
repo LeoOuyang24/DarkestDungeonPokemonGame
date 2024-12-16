@@ -1,7 +1,7 @@
 class_name Paralyzed extends StatusEffect
 
 func _init():
-	super("Paralyzed",load("res://sprites/statuses/paralyzed.png"),"")
+	super("Paralyzed",load("res://sprites/statuses/paralyzed.png"),"Creature's speed is set to 0.")
 		
 func onAdd(creature:Creature):
 	super(creature)

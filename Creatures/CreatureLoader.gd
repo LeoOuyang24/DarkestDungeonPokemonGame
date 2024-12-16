@@ -9,6 +9,14 @@ static var CreatureJSONDir = "res://Creatures/creatures_jsons/"
 static func loadMove(moveName:String) -> Move:
 	return load("res://Moves/" + moveName + ".gd").new()
 
+static func loadTrait(traitName:String) -> Trait:
+	var loaded := load("res://StatusEffects/Traits/" + traitName + ".gd")
+	if loaded:
+		return loaded.new()
+	else:
+		printerr("loadTrait ERROR: Could not load trait " + traitName )
+		return null
+
 #load from json
 static func loadJSON(file_path:String, startingLevel:int = 1) -> Creature:
 	var json = JSON.new()
@@ -30,6 +38,8 @@ static func loadJSON(file_path:String, startingLevel:int = 1) -> Creature:
 			creature.flying = json.data.flying if json.data.get("flying") != null else false
 			creature.size.x = json.data.width if json.data.get("width") else 100
 			creature.size.y = json.data.height if json.data.get("height") else 100
+			if json.data.get("startPassive"):
+				creature.traits.addStatus(loadTrait(json.data.startPassive))
 			return creature
 		else:
 			print("Error parsing Creature JSON, ",file_path,"\nError: ",json.get_error_message()," on line ",json.get_error_line())

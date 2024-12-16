@@ -7,6 +7,8 @@ class_name BattleUI extends Control
 @onready var EndScreen = $EndScreen
 @onready var TurnQueue = $TurnQueue
 @onready var QueueSlotOutline = %Outline
+@onready var TurnUI = %TurnUI
+@onready var TurnUIAnime = %TurnUI/TurnUIAnime
 
 @onready var Summary = %CreatureSummary
 @onready var PassButton = %CreatureSummary/%PassButton
@@ -32,8 +34,6 @@ signal battle_finished()
 #based on what is in front and what is in the back
 var creatureSlots = []
 
-
-
 var creatureSlot = preload("./CreatureSlot.tscn")
 var queueSlot = preload("./QueueSlot.tscn")
 
@@ -43,7 +43,17 @@ var currentCreature:Creature = null
 func newTurn(state:Battlefield):
 	updateQueue(state.getFullQueue())
 	updateSlots(state)
-	#is_ready.emit()
+
+	
+	await get_tree().create_timer(1).timeout
+	TurnUI.setText("TURN START");
+	TurnUI.play();
+
+
+func startBattle() -> void:
+	TurnUI.setText("COMBAT START");
+	TurnUI.play()
+	await TurnUI.done
 
 #add creatures to slots
 func updateSlots(state:Battlefield):
@@ -62,9 +72,13 @@ func resetAllSlotPos():
 
 #add an outline to a queueSlot
 func setQueueOutline(queueSlot:QueueSlot, color:Color) -> void:
-	#queueSlot.add_child(QueueSlotOutline)
-
-	QueueSlotOutline.position = queueSlot.global_position
+	#adding it as a child causes it to move with the QueueSlot in the event of the queue order changing
+	#this is cringe and asswipe but it works 
+	if (QueueSlotOutline.get_parent()):
+		QueueSlotOutline.get_parent().remove_child(QueueSlotOutline)
+	queueSlot.add_child(QueueSlotOutline);
+	
+	QueueSlotOutline.position = Vector2(0,0)
 	QueueSlotOutline.size = queueSlot.get_rect().size
 
 	QueueSlotOutline.set_border_color(color)
@@ -72,27 +86,18 @@ func setQueueOutline(queueSlot:QueueSlot, color:Color) -> void:
 
 func setCurrentCreature(creature:Creature):
 	if creature:
-		#remove the outlien for the previous current creature and the previously selected creature
-
-		if currentCreature:
-			var cur := getCreatureSlot(currentCreature)
-			if cur:
-				Resources.highlight(cur,Color(0,0,0,0))
-			
-		if Summary.creature:
-			var cur := getCreatureSlot(Summary.creature)
-			if cur:
-				Resources.highlight(cur,Color(0,0,0,0))
-				
 		#apply outline to both creatureslot and the queueslot
 		var slot := getCreatureSlot(creature)
 		if slot:
-			Resources.highlight(slot,Color.GOLD)
+			var rect := slot.get_global_rect()
+			$ColorRect.set_size(Vector2(rect.size.x,slot.global_position.y - $Rows.global_position.y + slot.size.y));
+			var tween := create_tween()
+			tween.tween_property($ColorRect,"global_position",Vector2(slot.global_position.x,$Rows.global_position.y),.3)
+			#$ColorRect.set_global_position()
 		var queueSlot := getQueueSlot(creature)
 		if queueSlot:
-			setQueueOutline(queueSlot,Color.GOLD);
+			setQueueOutline(queueSlot,Color(0.4,0.4,0,1));
 
-			
 		currentCreature = creature
 		setCurrentCreatureUI(creature,true)
 
@@ -221,27 +226,18 @@ func _ready():
 	for i in range(Battlefield.maxEnemies + Battlefield.maxAllies):
 		var slot = queueSlot.instantiate()
 		TurnQueue.add_child(slot);
-	await TurnQueue.sort_children
+
 	
 	EndScreen.EndButton.pressed.connect(func():
 		battle_finished.emit()
 		)		
-
-	is_ready.emit()
-			
+		
+	await TurnQueue.sort_children
+	is_ready.emit()	
+	
 func setBattleText(str:String):
 	BattleLog.set_text(str);
-
-#set a move's animation
-func setBattleSprite(sprite:SpriteFrames,pos:Vector2  ) -> void:
-	if sprite:
-		BattleSprite.setSprite(sprite)
-		BattleSprite.set_global_position( pos - BattleSprite.get_global_rect().size*0.5)
-		BattleSprite.play();
-		BattleSprite.visible = true;
-		await BattleSprite.looping
-		stopBattleSprite()
-
+		
 	
 func stopBattleSprite():
 	if BattleSprite:

@@ -3,6 +3,8 @@ class_name MoveButton extends Button
 var move:Move = null
 var creature:Creature = null
 
+var popup = load("res://UI/OnHoverUI.tscn")
+
 signal move_selected(move:Move)
 
 func _ready():
@@ -28,25 +30,31 @@ func _make_custom_tooltip(summary:String):
 	label.fit_content = true
 	label.bbcode_enabled = true
 
+	var tooltip = popup.instantiate()
+	tooltip.setName(move.getMoveName())
+	tooltip.setIcon(move.icon)
+	
+	var values = move.getModifiers(creature)
+	#convert each modifier to a string
+	#this is done by taking the value and adding in the color
+	#if the creature is null, we instead show a formula (1x damage, 2.5x damage, etc)
+	values = values.map(func(obj):
+		if creature:
+			var val:int = obj.value if obj.value else -1
+			var color:Color = obj.color if obj.color else Color.RED
+			return ("[color=%s]%d[/color]") % [color.to_html(),val]
+		else:
+			return obj.calc
+			
+		)
+	
+	var string = move.summary % values;
 	if !move.isUsable():
-		label.append_text(str(move.getRemainingCD()) + " turns left before move can be used.")
-	else:
-		#get modifiers
-		var values = move.getModifiers(creature)
-		#convert each modifier to a string
-		#this is done by taking the value and adding in the color
-		#if the creature is null, we instead show a formula (1x damage, 2.5x damage, etc)
-		values = values.map(func(obj):
-			if creature:
-				var val:int = obj.value if obj.value else -1
-				var color:Color = obj.color if obj.color else Color.RED
-				return ("[color=%s]%d[/color]") % [color.to_html(),val]
-			else:
-				return obj.calc
-				
-			)
-		label.text = move.summary % values
-	return label
+		string += ("\n[color=RED]" + str(move.getRemainingCD()) + " turns left before move can be used.[/color]")
+	
+	tooltip.setMessage(string)
+	
+	return tooltip
 	
 func cdChanged(_amount:int,_newCD:int) -> void:
 	if move:

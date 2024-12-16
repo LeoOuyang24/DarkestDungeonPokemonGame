@@ -27,6 +27,9 @@ var moveName:StringName = "move"
 #summary of what the move does
 var summary:String = ""
 
+#move icon. By default it is the attack icon
+var icon:Texture2D = load("res://sprites/icons/claw_icon.png")
+
 #number of turns to wait between usage
 var baseCooldown:int = 1
 
@@ -128,8 +131,8 @@ func getPreselectedTargets(user:Creature, battle:Battlefield):
 	var preselected = [];
 	return preselected;
 	
-func runAnimation(user:Creature, targets:Array,battleUI:BattleUI,battlefield:Battlefield) -> void:
-	pass
+func runAnimation(user:Creature, targets:Array, UI:BattleUI,battlefield:Battlefield) -> void:
+	await MoveAnimations.genericAttackAnimation(user,targets,UI,self)
 	
 func getPostMessage(user:Creature, targets:Array, battle:Battlefield) -> String:
 	return ""

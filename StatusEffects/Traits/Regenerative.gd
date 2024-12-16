@@ -4,6 +4,7 @@ class_name Regenerative extends Trait
 # Called when the node enters the scene tree for the first time.
 func _init():
 	name = "Regenerative"
+	tooltip="Creature regains 2 health at the start of turn."
 
 
 #what to do at end of turn

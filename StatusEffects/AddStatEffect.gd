@@ -9,7 +9,6 @@ static var speed_up:Texture2D = preload("res://sprites/icons/speed_up_icon.png")
 var stat:CreatureStats.STATS = CreatureStats.STATS.HEALTH;
 
 var turns:int = -1; #turns this effect lasts. If negative, lasts forever
-#var amount:int = 0;
 
 func _init(stat:CreatureStats.STATS,turns:int=-1,effectName:String = ""):
 	##self.amount = amount
@@ -33,6 +32,9 @@ func _init(stat:CreatureStats.STATS,turns:int=-1,effectName:String = ""):
 	else:
 		name = effectName
 	super(name,texture,"")
+
+func getTooltip() -> String:
+	return "Raises " + name + " by " + str(getStacks());
 
 #whether or not this is a debuff is based on whether the status lowers or increases attack
 func getIsDebuff():

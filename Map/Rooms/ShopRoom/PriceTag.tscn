@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://boik1oe1dgr71"]
 
 [ext_resource type="Script" path="res://Map/Rooms/ShopRoom/PriceTag.gd" id="1_4t6js"]
-[ext_resource type="Texture2D" uid="uid://q5ilukk8h66k" path="res://sprites/icons/dna_icon.png" id="1_6uoqg"]
-[ext_resource type="Texture2D" uid="uid://bjwh0sokmjo3h" path="res://sprites/icons/tape.png" id="1_dlcb0"]
+[ext_resource type="Texture2D" uid="uid://cgxsxxx5aw2nn" path="res://sprites/icons/dna_icon.png" id="1_6uoqg"]
+[ext_resource type="Texture2D" uid="uid://bi143nnx7peyt" path="res://sprites/icons/tape.png" id="1_dlcb0"]
 [ext_resource type="Theme" uid="uid://ctnx7oi2vcxu" path="res://UI/menu.tres" id="3_ui34x"]
 
 [node name="PriceTag" type="TextureRect"]

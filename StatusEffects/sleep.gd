@@ -3,7 +3,7 @@ class_name Sleep extends StatusEffect
 
 
 func _init():
-	super("Sleep",load("res://sprites/statuses/sleep.png"),"")
+	super("Sleep",load("res://sprites/statuses/sleep.png"),"Creature is unable to act until status ends or after taking damage.")
 
 func onAdd(creature:Creature) -> void:
 	super(creature)
@@ -11,3 +11,12 @@ func onAdd(creature:Creature) -> void:
 		if stat == CreatureStats.STATS.HEALTH && amount < 0:
 			setStacks(0);
 		)
+
+var anime := preload("res://sprites/effects/animations/sleep_status_anime.tres")
+
+func onAddUI(control:Control) -> void:
+	var effect = AnimeEffect.createEffect(anime,!creature.getIsFriendly())
+	control.add_child(effect)
+	effect.position = Vector2(control.size.x,-control.size.y/2)
+
+	

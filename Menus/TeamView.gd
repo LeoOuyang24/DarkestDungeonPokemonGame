@@ -28,12 +28,12 @@ func updateTeamSlots(player,allies):
 	
 func viewSummary(teamSlot:CreatureSlot):
 	if teamSlot.getCreature():
-		CreateHorror.visible = false
-		CreatureSummary.visible = true
 		CreatureSummary.setCreature(teamSlot.getCreature())
 	else:
-		CreateHorror.visible = true
-		CreatureSummary.visible = false
+		var tween := create_tween()
+		tween.tween_property(CreateHorror,"position",Vector2(size.x,0),.5)
+		#CreatureSummary.visible = false
+
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

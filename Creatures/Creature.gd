@@ -25,9 +25,15 @@ var statuses:StatusManager = null
 var traits:TraitManager = null
 
 # "a" deals damage to "b", based on attack and defense stats. "damage" is the base damage
-static func dealDamage(a:Creature,b:Creature, damage):
+#returns how much damage is dealt
+static func dealDamage(a:Creature,b:Creature, damage:int) -> int:
 	if a && b:
-		b.addHealth(b.stats.damageMods.getValue(-damage)); 
+		var totalDamage = b.stats.damageMods.getValue(-damage)
+		var before = b.stats.getCurStat(CreatureStats.STATS.HEALTH)
+		b.addHealth(totalDamage);
+		#return the actual amount of damage dealt, potentially less if the creature was overkilled
+		return -1*totalDamage if b.stats.getCurStat(CreatureStats.STATS.HEALTH) >= 0 else before 
+	return 0 
 
 static var count = 0;
 

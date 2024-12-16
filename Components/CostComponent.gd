@@ -1,23 +1,36 @@
 class_name CostComponent extends Node
 
-#represents things with a cost
+signal cost_changed(newCost:int)
 
-@export var cost:int = 0;
-var onPurchase:Callable = func():
-	pass
+#emitted when affordability status changes, true if can afford now, false if can no longer afford
+signal can_afford(not_broke:bool) 
 
-func _init(cost_:int = 0, onPurchase_:Callable = func():
-	pass
-	) -> void:
-	cost = cost_
-	onPurchase = onPurchase_;
+#add to buttons that have a cost
+#if the player can't afford, the button is disabled
 
+@export var cost:int = 0:
+	set(value):
+		cost = value;
+		cost_changed.emit(value)
+		updateDisabled()
+		
+var parent:Button = null
 
 func _ready():
-	var parent = get_parent() as Control
+	parent = get_parent() as Button #attempt to get the parent button
 	if parent:
-		parent.pressed.connect(onClick)
+		parent.pressed.connect(func(): #when pressed, apply the cost
+			GameState.setDNA(GameState.getDNA() - cost))
+		await parent.ready
+		updateDisabled()
+	GameState.DNA_changed.connect(updateDisabled)
+	pass # Replace with function body.
+
+#disable/enable parent based on dna changes
+func updateDisabled(_amount=0):
+	if (parent):
+		var old := parent.is_disabled()
+		parent.set_disabled(GameState.getDNA() < cost);
+		if old != parent.is_disabled():
+			can_afford.emit(GameState.getDNA() >= cost)
 		
-func onClick():
-	if GameState.getDNA() >= cost:
-			onPurchase.call();

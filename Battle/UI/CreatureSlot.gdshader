@@ -1,6 +1,6 @@
 shader_type canvas_item;
 
-uniform float outline_width = 3.0;
+uniform float outline_width = 10.0;
 uniform vec4 outline_color : source_color;
 uniform bool isSpectral = false;
 
@@ -10,7 +10,7 @@ uniform bool isSpectral = false;
 
 void fragment() {
 
-	COLOR = mix(COLOR,spectral(TEXTURE,UV,vec4(1,1,1,1),vec4(0.15,0.5,0.3,1)),float(isSpectral));
+	COLOR = mix(COLOR,spectral(TEXTURE,UV,vec4(0,0,0,0),vec4(0.15,0.5,0.3,1)),float(isSpectral));
 
 	//COLOR = texture(TEXTURE,UV);
 	COLOR = outline(TEXTURE,UV,COLOR,TEXTURE_PIXEL_SIZE,outline_width,outline_color);

@@ -34,7 +34,6 @@ func setCreature(creature:Creature) -> void:
 		if LevelUpButton:
 			LevelUpButton.setCreature(creature)
 		#add stats to UI
-		print(Stats)
 		for i in range(Stats.size()):
 			Stats[i].setCreature(creature,i)
 
@@ -61,6 +60,7 @@ func updateCreature() -> void:
 	
 	#update the label to reflect our new level
 	Name.set_text(str(creature.getName()) + "\nLevel "+str(creature.getLevel()))
+	Name.creature = creature
 
 		
 #update summary when hovering over the levelup button to see what the new stats will be
@@ -78,4 +78,11 @@ func _on_learn_new_move_new_move_confirmed(moves:Array):
 	if creature:
 		creature.level.moveConsidered()
 		creature.setMoves(moves)
+	pass # Replace with function body.
+
+
+func _on_level_up_pressed():
+	if creature:
+		creature.levelUp()
+		print(GameState.getDNA())
 	pass # Replace with function body.

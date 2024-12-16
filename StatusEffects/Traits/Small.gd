@@ -4,6 +4,7 @@ class_name Small extends Trait
 # Called when the node enters the scene tree for the first time.
 func _init():
 	name = "Small"
+	tooltip="Creature speed is increased by 20% but health and attack is reduced by 10%."
 		
 func onAdd(c:Creature) -> void:
 	c.stats.getStatObj(CreatureStats.STATS.HEALTH).modBaseStat(.9,false,self)

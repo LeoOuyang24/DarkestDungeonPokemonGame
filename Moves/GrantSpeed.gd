@@ -2,7 +2,7 @@ class_name GrantSpeed extends Move
 
 
 const amount:int = 3 #amount of health to restore
-var texture = Anime.new()
+
 # Called when the node enters the scene tree for the first time.
 func _init():
 	super("Give Speed",1,10)

@@ -15,7 +15,7 @@ class_name CreatureSlot extends AnimatedButton
 @onready var Ticker = %DamageTicker
 @onready var TickerAnimation = %TickerAnimation
 
-const MAX_DIMEN = 150 #max size in either dimension a sprite can be
+const MAX_DIMEN = 200 #max size in either dimension a sprite can be
 var tween = null
 #a reference to the creature we are referring to
 var creature:Creature = null 
@@ -53,21 +53,33 @@ func removeCreature():
 	if creature:
 		creature.traits.onRemoveUI(self)
 		creature.stats.stat_changed.disconnect(updateHealth)
-		creature.statuses.status_added.disconnect(EffectsUI.addStatusEffect)
-		creature.statuses.status_removed.disconnect(EffectsUI.removeStatusEffect)
+		creature.statuses.status_added.disconnect(onAddStatus)
+		creature.statuses.status_removed.disconnect(onRemoveStatus)
 		EffectsUI.clear()
 		creature = null
 		setSprite(null)
+
+func onAddStatus(status:StatusEffect):
+	status.onAddUI(self);
+	EffectsUI.addStatusEffect(status)
+	
+func onRemoveStatus(status:StatusEffect):
+	status.onRemoveUI(self)
+	EffectsUI.removeStatusEffect(status)
 
 func updateHealth(stat:CreatureStats.STATS,amount:int):
 	if stat == CreatureStats.STATS.HEALTH:
 		if (amount < 0):
 			Animations.play("hurt")
-			Game.GameCamera.shake()
+			#if an attack does over half a creature's health, shake more
+			if abs(amount) > creature.stats.getBaseStat(CreatureStats.STATS.HEALTH)/2:
+				Game.GameCamera.shake(100)
+			else:
+				Game.GameCamera.shake(30)
 		HealthBar.setHealth(creature.stats.getCurStat(CreatureStats.STATS.HEALTH))
 
 		Ticker.clear()
-		Ticker.push_color(Color.RED if amount < 0 else ( Color.GREEN  if amount > 0 else Color.WHITE)) #if healing, text color is green
+		Ticker.push_color(Color.RED if amount < 0 else ( Color.GREEN  if amount > 0 else Color.BLACK)) #if healing, text color is green
 		Ticker.append_text(("+" if amount > 0 else "") + str(amount)) #add a "+" sign if healing
 		Ticker.pop()
 		TickerAnimation.play("hurt")	
@@ -88,8 +100,8 @@ func setCreature(creature:Creature):
 			HealthBar.setHealth(creature.stats.getCurStat(CreatureStats.STATS.HEALTH))
 		creature.stats.stat_changed.connect(updateHealth)
 		EffectsUI.update(creature.statuses)
-		creature.statuses.status_added.connect(EffectsUI.addStatusEffect)
-		creature.statuses.status_removed.connect(EffectsUI.removeStatusEffect)
+		creature.statuses.status_added.connect(onAddStatus)
+		creature.statuses.status_removed.connect(onRemoveStatus)
 		creature.traits.onAddUI(self)
 		EffectsUI.position.x = HealthBar.size.x if creature.getIsFriendly() else 0
 

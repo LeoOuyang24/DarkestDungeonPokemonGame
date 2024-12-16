@@ -15,7 +15,7 @@ func setCreature(creature:Creature) -> void:
 		setSprite(creature.getSprite())
 		updateSpeed()
 		creature.stats.stat_changed.connect(updateSpeed)
-		Background.color = Color(0,1,0,0.2) if creature.getIsFriendly() else Color(1,0,0,0.2)
+		Background.color = Color(1,.7,.1,0.2) if creature.getIsFriendly() else Color(.5,.5,.5,0.2)
 	else:
 		visible = false
 		

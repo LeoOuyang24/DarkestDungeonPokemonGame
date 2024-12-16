@@ -9,12 +9,14 @@ signal looping() #when the animation loops
 var start:int = 0; 
 var paused:bool = false
 
-func setSprite(newFrames:SpriteFrames):
+func setSprite(newFrames:SpriteFrames,setSize:bool = false):
 	self.frames = newFrames;
 	if newFrames:
-		var newSize = newFrames.get_frame_texture(currentAnimation,0).get_size()
+
 		set_texture(getCurrentFrame());
-		#self.size = newSize
+		if setSize:
+			var newSize = newFrames.get_frame_texture(currentAnimation,0).get_size()
+			self.size = newSize
 
 
 func getSprite():

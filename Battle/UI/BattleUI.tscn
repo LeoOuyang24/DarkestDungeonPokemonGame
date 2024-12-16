@@ -1,22 +1,25 @@
-[gd_scene load_steps=6 format=3 uid="uid://b3hux6c6p4pfu"]
+[gd_scene load_steps=7 format=3 uid="uid://b3hux6c6p4pfu"]
 
 [ext_resource type="Script" path="res://Battle/UI/BattleUI.gd" id="1_0uu34"]
-[ext_resource type="Texture2D" uid="uid://byjtyvd0qo63j" path="res://sprites/backgrounds/bg_shadow.png" id="3_0sd1p"]
+[ext_resource type="Texture2D" uid="uid://b18gkey5jgqun" path="res://sprites/backgrounds/BW.png" id="2_o8eal"]
 [ext_resource type="PackedScene" uid="uid://bgy4kes6sp7tp" path="res://Battle/UI/EndScreen.tscn" id="3_1dct8"]
 [ext_resource type="Script" path="res://sprites/Anime.gd" id="4_tevqn"]
+[ext_resource type="PackedScene" uid="uid://daxhjw473xi4b" path="res://Battle/UI/turn_ui.tscn" id="6_1dtmw"]
 [ext_resource type="PackedScene" uid="uid://cvmuwhverwiv0" path="res://Battle/UI/InBattleSummary.tscn" id="9_d62vi"]
 
 [node name="BattleUI" type="Control"]
 layout_mode = 3
 anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
 script = ExtResource("1_0uu34")
 
 [node name="Rows" type="ReferenceRect" parent="."]
 layout_mode = 0
-offset_left = 29.0
-offset_top = 204.0
-offset_right = 1801.0
-offset_bottom = 555.0
+offset_left = 79.0
+offset_top = 221.0
+offset_right = 1851.0
+offset_bottom = 736.0
 mouse_filter = 2
 
 [node name="EnemyRow" type="HBoxContainer" parent="Rows"]
@@ -26,13 +29,13 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -689.0
+offset_left = -531.0
 offset_top = -174.5
 offset_bottom = 175.5
 grow_horizontal = 0
 grow_vertical = 2
 mouse_filter = 2
-theme_override_constants/separation = 50
+theme_override_constants/separation = 20
 
 [node name="AllyRow" type="HBoxContainer" parent="Rows"]
 layout_mode = 1
@@ -40,11 +43,10 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_top = -174.5
-offset_right = 930.0
+offset_right = 70.0
 offset_bottom = 174.5
 grow_vertical = 2
 mouse_filter = 2
-theme_override_constants/separation = 50
 alignment = 2
 
 [node name="BattleLog" type="RichTextLabel" parent="."]
@@ -59,7 +61,7 @@ offset_bottom = 866.0
 z_index = -2
 position = Vector2(954.196, 544.538)
 scale = Vector2(1.00605, 1.02123)
-texture = ExtResource("3_0sd1p")
+texture = ExtResource("2_o8eal")
 
 [node name="BattleSprite" type="TextureRect" parent="."]
 layout_mode = 0
@@ -72,13 +74,7 @@ script = ExtResource("4_tevqn")
 [node name="Outline" type="ReferenceRect" parent="."]
 unique_name_in_owner = true
 z_index = -1
-layout_mode = 2
-offset_left = 512.0
-offset_top = 71.0
-offset_right = 612.0
-offset_bottom = 200.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
 border_color = Color(1, 0.843137, 0, 0)
 border_width = 5.0
 editor_only = false
@@ -102,6 +98,22 @@ offset_bottom = 836.0
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 230.0
-offset_top = 776.0
+offset_top = 738.0
 offset_right = 1712.0
-offset_bottom = 1002.0
+offset_bottom = 1025.0
+
+[node name="TurnUI" parent="." instance=ExtResource("6_1dtmw")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 77.0
+offset_top = 160.0
+offset_right = 1892.0
+offset_bottom = 572.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -1
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+color = Color(1, 0.788235, 0.054902, 0.337255)

@@ -37,6 +37,6 @@ func addStatusEffect(status:StatusEffect):
 
 func removeStatusEffect(status:StatusEffect):
 	for child in get_children():
-		if child.statusName == status.name:
+		if child.status and child.status.name == status.name:
 			remove_child(child)
 			break

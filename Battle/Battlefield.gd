@@ -98,7 +98,6 @@ func addCreature(creature:Creature, index:int):
 			creature.stats.stat_changed.connect(func(stat:CreatureStats.STATS,amount:int):
 				if stat == CreatureStats.STATS.SPEED:
 					updateMoveQueue(creature))
-					
 			moveQueue.insert(Move.MoveRecord.new(creature,null,[]))
 			
 			creature_added.emit(creature,index)
@@ -161,8 +160,8 @@ func getEnemyMoves():
 		if creature:
 			moveQueue.addMove(creature,Creature.AI(creature,getEnemies(),getAllies()))
 
-func newTurn() -> void:
-	new_turn.emit(); #emit first to trigger any on-new-turn effects
+#what to run on the very first turn
+func firstTurn() -> void:
 	moveQueue.reset();
 	#moveQueue.clear()
 	#for creature in creatures:
@@ -170,7 +169,12 @@ func newTurn() -> void:
 			#moveQueue.insert(Move.MoveRecord.new(creature,null,[]))
 	getEnemyMoves();
 	if creaturesNum > 0:
-		setCurrentCreature(getFrontMostCreatures(1,false,false)[0])
+		setCurrentCreature(getFrontMostCreatures(1,false,false)[0])	
+
+#what to run on every turn after the first
+func newTurn() -> void:
+	new_turn.emit(); #emit first to trigger any on-new-turn effects
+	firstTurn()
 
 
 #returning the index of the first dead creature if any or -1 if none
@@ -210,14 +214,10 @@ func top() -> Move.MoveRecord:
 		return top;
 	return null
 	
-func pop() -> Move.MoveRecord:
-	var result = moveQueue.top()
-	moveQueue.increment()
-	#if result:
-		##moveQueue.increment()
-		#moveQueue.removeUser(result.user)
-		#pop_move_queue.emit(result);
-	return result
+#just increments the queue
+func nextMove() -> void:
+	moveQueue.increment();
+	
 #returns whether all players have selected a move
 func allMovesProcessed() -> bool:
 	return currentCreature == null

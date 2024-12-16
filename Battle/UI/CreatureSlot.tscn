@@ -8,7 +8,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t3clw"]
 resource_local_to_scene = true
 shader = ExtResource("1_v7n5r")
-shader_parameter/outline_width = 3.0
+shader_parameter/outline_width = 10.0
 shader_parameter/outline_color = null
 shader_parameter/isSpectral = false
 

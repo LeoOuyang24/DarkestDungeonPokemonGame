@@ -9,6 +9,8 @@ class_name StatBar extends Control
 
 @export var BarColor:Color = Color.GREEN
 
+var popup := load("res://UI/OnHoverUI.tscn");
+
 var width=10#width per unit of the stat
 var maxWidth:int = width*CreatureLevel.MAX_LEVEL #most amount of width we have to work with
 
@@ -56,6 +58,14 @@ func setCreature(creature:Creature, stat:CreatureStats.STATS):
 func setMaxWidth(maxWidth:int) -> void:
 	self.maxWidth = maxWidth
 	self.width = (maxWidth-10)/CreatureLevel.MAX_LEVEL
+
+func _make_custom_tooltip(_text:String):
+	var tooltip = popup.instantiate();
+	tooltip.setIcon(Icon.get_texture())
+	tooltip.setName(CreatureStats.getStatName(stat))
+	tooltip.setMessage(CreatureStats.getStatDescription(stat))
+	
+	return tooltip
 
 func _ready():
 	#Bar.add = BarColor

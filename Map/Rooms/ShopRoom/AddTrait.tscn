@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://ddo3fmsk1pbsf"]
 
 [ext_resource type="Shader" path="res://Battle/UI/CreatureSlot.gdshader" id="1_hx445"]
-[ext_resource type="Texture2D" uid="uid://ptqggcusoom5" path="res://sprites/icons/syringe.png" id="2_d7x7d"]
+[ext_resource type="Texture2D" uid="uid://cdxu788dopkwx" path="res://sprites/icons/syringe.png" id="2_d7x7d"]
 [ext_resource type="Script" path="res://Map/Rooms/ShopRoom/AddTrait.gd" id="3_bprqb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_of0sg"]

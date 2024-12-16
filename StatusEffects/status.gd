@@ -19,6 +19,9 @@ func _init(name_:StringName,icon_:Texture2D,tooltip_:String, isDebuff_:bool = tr
 	self.tooltip = tooltip_
 	isDebuff = isDebuff_
 
+func getTooltip() -> String:
+	return tooltip;
+
 #called when added to a creature
 func onAdd(creature:Creature):
 	self.creature = creature
@@ -35,8 +38,6 @@ func getIsDebuff() -> bool:
 #by default, remove one stack
 func newTurn() -> void:
 	addStacks(-1);
-	if getStacks() == 0:
-		remove_this.emit();
 	
 func addStacks(amount:int) -> void:
 	setStacks(getStacks() + amount)	
@@ -45,7 +46,17 @@ func setStacks(hardSet:int) -> void:
 	var oldAmount = stacks
 	stacks = hardSet;
 	stacks_changed.emit(hardSet - oldAmount)
+	if getStacks() <= 0:
+		remove_this.emit();
 	
 func getStacks() -> int:
 	return stacks
 
+#function that runs on a creatureslot when a creature with this trait is added
+#used to render visual effects for a trait
+func onAddUI(slot:Control) -> void:
+	pass
+
+#function to call when a creature is removed
+func onRemoveUI(slot:Control) -> void:
+	pass

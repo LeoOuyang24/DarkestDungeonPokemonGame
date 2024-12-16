@@ -56,7 +56,7 @@ func _ready() -> void:
 	
 	await UI.is_ready;
 	
-	newTurn()
+	newTurn(true)
 		
 
 func test() -> void:
@@ -141,10 +141,14 @@ func changeState(state):
 func isPlayerTurn():
 	return state == BATTLE_STATES.SELECTING_MOVE || state == BATTLE_STATES.SELECTING_TARGET;
 
-func newTurn():
-	BattleSim.newTurn();
+func newTurn(first:bool=false):
+	if first:
+		BattleSim.firstTurn();
+	else:
+		BattleSim.newTurn();
 	UI.newTurn(BattleSim);
-	#await UI.is_ready
+	await UI.AllyRow.sort_children
+
 	changeState(BATTLE_STATES.SELECTING_MOVE);
 
 func reset():
@@ -178,7 +182,8 @@ func runDeath(dead:Creature) -> void:
 
 
 func runBattle():
-	var runThis := BattleSim.pop()
+	await UI.startBattle()
+	var runThis := BattleSim.top()
 
 	while runThis:
 		#print(BattleSim.moveQueue.data)
@@ -193,7 +198,8 @@ func runBattle():
 			changeState(BATTLE_STATES.WE_LOST)
 			return 
 		else:
-			runThis = BattleSim.pop()
+			BattleSim.nextMove();
+			runThis = BattleSim.top()
 		UI.resetAllSlotPos()
 			
 	if BattleSim.isDone():

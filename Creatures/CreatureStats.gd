@@ -44,6 +44,29 @@ func _init(maxHealth:int, maxAttack:int, maxSpeed:int):
 			)	
 		)
 
+static func getStatName(stat:STATS) -> String:
+	match stat:
+		STATS.HEALTH: 
+			return "Health"
+		STATS.ATTACK:
+			return "Attack"
+		STATS.SPEED:
+			return "Speed"
+		_:
+			return "getStatName: INVALID STAT"
+			
+static func getStatDescription(stat:STATS) -> String:
+	match stat:
+		STATS.HEALTH: 
+			return "Creature dies if health reaches 0"
+		STATS.ATTACK:
+			return "Attack influences how much damage this creature does with attacks."
+		STATS.SPEED:
+			return "Creatures with higher speed move first."
+		_:
+			return "getStatDescription: INVALID STAT"
+		
+
 func levelUp() -> void:
 	forEachStat(func(stat:STATS,statObj:Stat):
 		statObj.modBaseStat(Stat.perLevelIncrease(statObj.getBaseStat()))
@@ -57,3 +80,4 @@ func getBaseStat(stat:STATS) -> int:
 	
 func getStatObj(stat:STATS) -> Stat:
 	return stats[stat]
+

@@ -34,7 +34,7 @@ func _process(delta):
 		set_texture_normal(sprite.getCurrentFrame())
 	else:
 		set_texture_normal(null)
-	if onHoverOutline:
+	if onHoverOutline and not disabled:
 		Resources.highlight(self,Color.YELLOW if is_hovered() else Color(0,0,0,0))
 
 	pass
