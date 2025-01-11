@@ -20,9 +20,9 @@ var tween = null
 #a reference to the creature we are referring to
 var creature:Creature = null 
 
-func _input(event):
-	if event is InputEventMouseButton:
-		print(get_global_rect().has_point(event.position))
+#func _input(event):
+	#if event is InputEventMouseButton:
+		#print(get_global_rect().has_point(event.position))
 
 
 	

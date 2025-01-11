@@ -1,0 +1,107 @@
+[gd_scene load_steps=5 format=3 uid="uid://dm5gsh3mg802h"]
+
+[ext_resource type="Script" path="res://Map/Rooms/WellRoom.gd" id="1_ekws5"]
+[ext_resource type="Texture2D" uid="uid://btytdd3oomd3q" path="res://sprites/backgrounds/well_background.png" id="2_iktvj"]
+[ext_resource type="PackedScene" uid="uid://ch2yb5r50w7yo" path="res://Menus/RichButton.tscn" id="3_nq1bn"]
+
+[sub_resource type="Theme" id="Theme_8hc7r"]
+RichTextLabel/font_sizes/normal_font_size = 50
+
+[node name="WellRoom" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_ekws5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(959, 540.75)
+scale = Vector2(3.844, 3.23874)
+texture = ExtResource("2_iktvj")
+
+[node name="InputMenu" type="ColorRect" parent="."]
+offset_left = 192.0
+offset_top = 584.0
+offset_right = 1792.0
+offset_bottom = 1080.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.654902)
+
+[node name="Drink" parent="InputMenu" instance=ExtResource("3_nq1bn")]
+layout_mode = 0
+offset_left = 301.0
+offset_top = 523.0
+offset_right = 616.0
+offset_bottom = 670.0
+theme_override_font_sizes/font_size = 50
+
+[node name="RichTextLabel" parent="InputMenu/Drink" index="0"]
+offset_left = -108.0
+offset_top = -57.0
+offset_right = 108.0
+offset_bottom = 57.0
+theme = SubResource("Theme_8hc7r")
+bbcode_enabled = true
+text = "[center]Drink
+[font_size=20][color=green]Restore 25% health to all alies[/color][/font_size][/center]"
+
+[node name="DeepDrink" parent="InputMenu" instance=ExtResource("3_nq1bn")]
+layout_mode = 0
+offset_left = 696.0
+offset_top = 523.0
+offset_right = 1011.0
+offset_bottom = 670.0
+
+[node name="RichTextLabel" parent="InputMenu/DeepDrink" index="0"]
+offset_left = -158.0
+offset_top = -65.0
+offset_right = 158.0
+offset_bottom = 65.0
+theme = SubResource("Theme_8hc7r")
+theme_override_font_sizes/normal_font_size = 45
+bbcode_enabled = true
+text = "[center]Drink Deeply
+[font_size=20][color=green]Restore 50% health to yourself[/color][/font_size][/center]"
+
+[node name="Study" parent="InputMenu" instance=ExtResource("3_nq1bn")]
+layout_mode = 0
+offset_left = 1082.0
+offset_top = 522.0
+offset_right = 1397.0
+offset_bottom = 669.0
+theme_override_font_sizes/font_size = 50
+
+[node name="RichTextLabel" parent="InputMenu/Study" index="0"]
+offset_left = -108.0
+offset_top = -57.0
+offset_right = 108.0
+offset_bottom = 57.0
+theme = SubResource("Theme_8hc7r")
+bbcode_enabled = true
+text = "[center]Study
+[font_size=20][color=purple]Gain 10 DNA[/color][/font_size][/center]"
+
+[node name="ButtonsMenu" type="ReferenceRect" parent="InputMenu"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 120.0
+offset_right = 1664.0
+offset_bottom = 440.0
+mouse_filter = 2
+
+[node name="Label" type="RichTextLabel" parent="InputMenu"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 56.0
+offset_right = 1536.0
+offset_bottom = 248.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 32
+text = "You approach a foul smelling well."
+
+[connection signal="pressed" from="InputMenu/Drink" to="." method="_on_drink_pressed"]
+[connection signal="pressed" from="InputMenu/DeepDrink" to="." method="_on_deep_drink_pressed"]
+[connection signal="pressed" from="InputMenu/Study" to="." method="_on_study_pressed"]
+
+[editable path="InputMenu/Drink"]
+[editable path="InputMenu/DeepDrink"]
+[editable path="InputMenu/Study"]

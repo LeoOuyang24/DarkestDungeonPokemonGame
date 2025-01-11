@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bmkh7whuwnmvs"]
+
+[ext_resource type="SpriteFrames" uid="uid://dbajfcl0lny7y" path="res://sprites/spritesheets/moves/slash.tres" id="1_vblok"]
+[ext_resource type="Script" path="res://Battle/UI/AnimeEffect.gd" id="2_0m3xe"]
+
+[node name="Anime" type="AnimatedSprite2D"]
+position = Vector2(841, 293)
+scale = Vector2(0.5, 0.397)
+sprite_frames = ExtResource("1_vblok")
+frame = 2
+frame_progress = 0.0746078
+script = ExtResource("2_0m3xe")
+
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]
+[connection signal="animation_looped" from="." to="." method="_on_animation_looped"]

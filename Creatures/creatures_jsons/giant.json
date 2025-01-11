@@ -1,0 +1,20 @@
+{
+	"sprite":"giant",
+	"width": 75,
+	"height": 75,
+	"baseHealth": 15,
+	"baseAttack": 6,
+	"baseSpeed": 4,
+	"name": "Giant",
+	"startMoves": [
+		"Slam",
+		"Slash"
+	],
+	"levelMoves": [
+  		"Grow",
+		"Hamstring",
+		"GrantAttack"
+
+	],
+	"startPassive": "sleepy"
+}

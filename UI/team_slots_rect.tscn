@@ -67,6 +67,7 @@ layout_mode = 2
 script = ExtResource("3_xwr6i")
 
 [node name="Slot5" parent="." instance=ExtResource("1_t0i4w")]
+visible = false
 material = SubResource("ShaderMaterial_xsgpp")
 layout_mode = 2
 script = ExtResource("3_xwr6i")

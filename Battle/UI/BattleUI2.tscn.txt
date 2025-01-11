@@ -1,0 +1,107 @@
+[gd_scene load_steps=6 format=3 uid="uid://b3hux6c6p4pfu"]
+
+[ext_resource type="Script" path="res://Battle/UI/BattleUI.gd" id="1_0uu34"]
+[ext_resource type="Texture2D" uid="uid://b18gkey5jgqun" path="res://sprites/backgrounds/BW.png" id="2_o8eal"]
+[ext_resource type="PackedScene" uid="uid://bgy4kes6sp7tp" path="res://Battle/UI/EndScreen.tscn" id="3_1dct8"]
+[ext_resource type="Script" path="res://sprites/Anime.gd" id="4_tevqn"]
+[ext_resource type="PackedScene" uid="uid://cvmuwhverwiv0" path="res://Battle/UI/InBattleSummary.tscn" id="9_d62vi"]
+
+[node name="BattleUI" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_0uu34")
+
+[node name="Rows" type="ReferenceRect" parent="."]
+layout_mode = 0
+offset_left = 69.0
+offset_top = 207.0
+offset_right = 1841.0
+offset_bottom = 722.0
+mouse_filter = 2
+
+[node name="EnemyRow" type="HBoxContainer" parent="Rows"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -689.0
+offset_top = -174.5
+offset_bottom = 175.5
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 50
+
+[node name="AllyRow" type="HBoxContainer" parent="Rows"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -174.5
+offset_right = 930.0
+offset_bottom = 174.5
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 50
+alignment = 2
+
+[node name="BattleLog" type="RichTextLabel" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 880.0
+offset_top = 842.0
+offset_right = 1176.0
+offset_bottom = 866.0
+
+[node name="Background" type="Sprite2D" parent="."]
+z_index = -2
+position = Vector2(954.196, 544.538)
+scale = Vector2(1.00605, 1.02123)
+texture = ExtResource("2_o8eal")
+
+[node name="BattleSprite" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 424.0
+offset_top = 80.0
+offset_right = 766.0
+offset_bottom = 443.0
+script = ExtResource("4_tevqn")
+
+[node name="Outline" type="ReferenceRect" parent="."]
+unique_name_in_owner = true
+z_index = -1
+layout_mode = 2
+offset_left = 512.0
+offset_top = 71.0
+offset_right = 612.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+border_color = Color(1, 0.843137, 0, 0)
+border_width = 5.0
+editor_only = false
+
+[node name="TurnQueue" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 512.0
+offset_top = 71.0
+offset_right = 1562.0
+offset_bottom = 200.0
+
+[node name="EndScreen" parent="." instance=ExtResource("3_1dct8")]
+visible = false
+layout_mode = 0
+offset_left = 416.0
+offset_top = 192.0
+offset_right = 1447.0
+offset_bottom = 836.0
+
+[node name="CreatureSummary" parent="." instance=ExtResource("9_d62vi")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 230.0
+offset_top = 776.0
+offset_right = 1712.0
+offset_bottom = 1002.0

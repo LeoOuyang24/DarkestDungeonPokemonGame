@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8kx77lvjxrm8"]
+
+[ext_resource type="Script" path="res://UI/OnHoverUI.gd" id="1_nggs0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mttbl"]
+bg_color = Color(0, 0, 0, 0.443137)
+
+[node name="OnHoverUi" type="PanelContainer"]
+custom_minimum_size = Vector2(450, 0)
+offset_right = 120.0
+offset_bottom = 130.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_mttbl")
+script = ExtResource("1_nggs0")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Name" type="RichTextLabel" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 50
+fit_content = true
+
+[node name="Message" type="RichTextLabel" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+fit_content = true

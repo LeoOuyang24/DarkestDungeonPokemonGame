@@ -61,7 +61,7 @@ func reset() -> void:
 	var ally1 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/Giant.json")
 	var ally2 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/princess.json")
 	
-	team = [ally1, ally2, CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json")]
+	team = [ally1, ally2]
 
-	team[2].traits.addStatus(Spectral.new())
-	team[1].traits.addStatus(Big.new())
+	team[1].traits.addStatus(Spectral.new())
+	team[0].traits.addStatus(Big.new())

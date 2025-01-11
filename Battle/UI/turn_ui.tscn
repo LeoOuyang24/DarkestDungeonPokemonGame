@@ -1,0 +1,59 @@
+[gd_scene load_steps=6 format=3 uid="uid://daxhjw473xi4b"]
+
+[ext_resource type="Texture2D" uid="uid://cfqg03pwqfejx" path="res://sprites/icons/skull.png" id="1_blbdy"]
+[ext_resource type="Theme" uid="uid://ctnx7oi2vcxu" path="res://UI/menu.tres" id="1_ruqd4"]
+[ext_resource type="Script" path="res://Battle/UI/turn_ui.gd" id="2_x68wi"]
+
+[sub_resource type="Animation" id="Animation_7d5er"]
+resource_name = "default"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.8, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_68cvi"]
+_data = {
+"default": SubResource("Animation_7d5er")
+}
+
+[node name="PanelContainer" type="CenterContainer"]
+modulate = Color(1, 1, 1, 0)
+offset_left = 177.0
+offset_top = 253.0
+offset_right = 1862.0
+offset_bottom = 825.0
+mouse_filter = 2
+script = ExtResource("2_x68wi")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("1_blbdy")
+stretch_mode = 4
+
+[node name="TurnUIAnime" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_68cvi")
+}
+
+[node name="TurnUI" type="RichTextLabel" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme = ExtResource("1_ruqd4")
+theme_override_colors/default_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 200
+bbcode_enabled = true
+text = "TURN START"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0

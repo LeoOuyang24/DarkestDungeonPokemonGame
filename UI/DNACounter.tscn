@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://owrn7mpjalnv"]
+
+[ext_resource type="Texture2D" uid="uid://cgxsxxx5aw2nn" path="res://sprites/icons/dna_icon.png" id="1_ibwlh"]
+
+[node name="HBoxContainer" type="HBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Icon" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_ibwlh")
+
+[node name="Counter" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 300
+text = "123"

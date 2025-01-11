@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=3 uid="uid://ddwtgmifyeeon"]
+
+[ext_resource type="Script" path="res://Menus/CostButton.gd" id="1_55eai"]
+[ext_resource type="Script" path="res://Components/CostComponent.gd" id="3_54npy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kujuv"]
+bg_color = Color(0.478431, 0.666667, 0.286275, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6e8x1"]
+
+[node name="LevelUp" type="Button"]
+custom_minimum_size = Vector2(200, 87)
+offset_right = 200.0
+offset_bottom = 87.0
+size_flags_horizontal = 4
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_kujuv")
+script = ExtResource("1_55eai")
+
+[node name="CostComponent" type="Node" parent="."]
+script = ExtResource("3_54npy")
+
+[node name="CenterContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_6e8x1")
+
+[node name="Label" type="RichTextLabel" parent="CenterContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+
+[connection signal="can_afford" from="CostComponent" to="." method="_on_cost_component_can_afford"]
+[connection signal="cost_changed" from="CostComponent" to="." method="_on_cost_component_cost_changed"]

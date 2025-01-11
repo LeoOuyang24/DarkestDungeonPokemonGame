@@ -84,5 +84,4 @@ func _on_learn_new_move_new_move_confirmed(moves:Array):
 func _on_level_up_pressed():
 	if creature:
 		creature.levelUp()
-		print(GameState.getDNA())
 	pass # Replace with function body.

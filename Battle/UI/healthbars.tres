@@ -1,0 +1,19 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://erve1xfn7p82"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nautp"]
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ibwus"]
+bg_color = Color(1, 0.788235, 0.054902, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+
+[resource]
+ProgressBar/styles/background = SubResource("StyleBoxFlat_nautp")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_ibwus")

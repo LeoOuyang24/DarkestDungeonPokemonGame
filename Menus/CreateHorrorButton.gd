@@ -13,6 +13,8 @@ var disabled:bool = false:
 		button.disabled = value
 		if disabled:
 			button.set_tooltip_text("This creature is already in your team!")
+		else:
+			button.set_tooltip_text("")
 
 var creature:Creature = null:
 	set(value):
@@ -25,4 +27,7 @@ func updateDisabled():
 	disabled = GameState.PlayerState.getTeam().reduce(func (accum:bool, creature2:Creature):
 			return accum || creature2.getName() == creature.getName()
 			,false)	
+			
+func _ready():
+	GameState.PlayerState.team_changed.connect(updateDisabled)
 
