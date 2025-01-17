@@ -80,4 +80,3 @@ func getBaseStat(stat:STATS) -> int:
 	
 func getStatObj(stat:STATS) -> Stat:
 	return stats[stat]
-

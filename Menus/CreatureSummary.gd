@@ -42,14 +42,7 @@ func setCreature(creature:Creature) -> void:
 			
 		#add everything else to UI
 		updateCreature()
-
-func _input(event):
-	if event is InputEventKey and event.pressed:
-		if event.keycode == KEY_BACKSLASH:
-			creature.traits.addStatus(Small.new())
-		if event.keycode == KEY_BACKSPACE:
-			creature.traits.addStatus(Big.new())
-	
+		
 func updateCreature() -> void:
 
 	#LevelUpCost.set_text(str(getLevelUpCost()))

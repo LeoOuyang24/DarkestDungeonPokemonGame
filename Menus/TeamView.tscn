@@ -19,14 +19,6 @@ offset_top = 125.0
 offset_right = 1126.0
 offset_bottom = 330.0
 
-[node name="CreatureSummary" parent="." instance=ExtResource("3_lyigu")]
-layout_mode = 0
-offset_left = 209.0
-offset_top = 377.0
-offset_right = 1489.0
-offset_bottom = 858.0
-scale = Vector2(0.6, 0.6)
-
 [node name="CreateHorror" parent="." instance=ExtResource("4_yluxj")]
 z_index = -1
 layout_mode = 1
@@ -41,5 +33,14 @@ offset_bottom = 0.0
 grow_horizontal = 0
 grow_vertical = 2
 
+[node name="CreatureSummary" parent="." instance=ExtResource("3_lyigu")]
+layout_mode = 0
+offset_left = 209.0
+offset_top = 377.0
+offset_right = 1489.0
+offset_bottom = 858.0
+scale = Vector2(0.6, 0.6)
+
+[connection signal="sort_children" from="TeamSlotsRect" to="." method="_on_team_slots_rect_sort_children"]
 [connection signal="horror_created" from="CreateHorror" to="." method="_on_create_horror_horror_created"]
 [connection signal="horror_selected" from="CreateHorror" to="." method="_on_create_horror_horror_selected"]

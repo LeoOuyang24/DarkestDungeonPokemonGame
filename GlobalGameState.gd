@@ -10,8 +10,8 @@ static var PlayerState:Player = Player.new()
 #amount of DNA we have
 var DNA:int = 0
 
-#true if we are in battle
-var inBattle:bool = false
+#the current battlefield, null if not in battle
+var currentBattle:Battlefield = null
 
 func initiate() -> void:
 	setDNA(1000)
@@ -39,11 +39,8 @@ func setDNA(amount:int) -> void:
 	DNA = amount
 	DNA_changed.emit(amount)
 
-func getInBattle() -> bool:
-	return inBattle
+func getBattle() -> Battlefield:
+	return currentBattle
 
-func setInBattle(inBattle:bool) -> void:
-	self.inBattle = inBattle
-
-
-
+func setBattle(inBattle:Battlefield) -> void:
+	self.currentBattle = inBattle

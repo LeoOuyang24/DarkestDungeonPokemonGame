@@ -111,7 +111,8 @@ func handleMoveDone() -> void:
 	curMove = Move.MoveRecord.new() #make a new record
 
 func createBattle(player,allies,enemies):
-	allies += [player]
+	#allies += [player]
+	print(allies,GameState.PlayerState.getTeam())
 	for i in range(allies.size()):
 		if allies[i] && allies[i].isAlive():
 			BattleSim.addCreature(allies[i],i);
@@ -221,4 +222,3 @@ func _input(event):
 			changeState(BATTLE_STATES.WE_WON)
 		if event.keycode == KEY_BACKSPACE:
 			GameState.PlayerState.getPlayer().stats.getStatObj(CreatureStats.STATS.HEALTH).modStat(0,false,self)	
-

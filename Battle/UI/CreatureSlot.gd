@@ -110,8 +110,8 @@ func setCreature(creature:Creature):
 	else:
 		Resources.highlight(self,Color(0,0,0,0));
 		setSpriteAndSize(null,Vector2(0,0))
-		
-	HealthBar.visible = creature != null
+	if HealthBar:
+		HealthBar.visible = (creature != null)
 		
 	
 func setAnimation(string:String) -> void:

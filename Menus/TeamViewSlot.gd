@@ -4,6 +4,7 @@ class_name TeamViewSlot extends CreatureSlot
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	super()
 	onHoverOutline=true
 	#size_flags_vertical = SIZE_SHRINK_END
 	#flip_h = true

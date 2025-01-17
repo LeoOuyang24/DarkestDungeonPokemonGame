@@ -23,7 +23,6 @@ func removeUser(creature:Creature):
 		
 
 		if found <= index: #make sure we don't skip a character when we remove
-			print(found,index)
 			index = max(0,index - 1)
 
 func remove(moveInfo:Move.MoveRecord):
@@ -94,4 +93,3 @@ func clear():
 	index = 0;
 	data.clear()
 	movesSelected.clear()
-

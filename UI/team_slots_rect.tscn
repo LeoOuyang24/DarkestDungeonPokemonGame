@@ -1,5 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://mftrks2txgif"]
 
+[ext_resource type="Script" path="res://UI/DraggableContainer.gd" id="1_pxd7g"]
 [ext_resource type="PackedScene" uid="uid://bqsfei63od030" path="res://Battle/UI/CreatureSlot.tscn" id="1_t0i4w"]
 [ext_resource type="Shader" path="res://Battle/UI/CreatureSlot.gdshader" id="2_yhdon"]
 [ext_resource type="Script" path="res://Menus/TeamViewSlot.gd" id="3_xwr6i"]
@@ -32,24 +33,19 @@ shader_parameter/outline_width = 3.0
 shader_parameter/outline_color = null
 shader_parameter/isSpectral = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_xsgpp"]
-resource_local_to_scene = true
-shader = ExtResource("2_yhdon")
-shader_parameter/outline_width = 3.0
-shader_parameter/outline_color = null
-shader_parameter/isSpectral = false
-
 [node name="TeamSlotsRect" type="HBoxContainer"]
 offset_left = 112.0
 offset_top = 96.0
 offset_right = 1236.0
 offset_bottom = 301.0
 theme_override_constants/separation = 100
+script = ExtResource("1_pxd7g")
 
 [node name="Slot1" parent="." instance=ExtResource("1_t0i4w")]
 material = SubResource("ShaderMaterial_wcy7y")
 layout_mode = 2
 script = ExtResource("3_xwr6i")
+testing = true
 
 [node name="Slot2" parent="." instance=ExtResource("1_t0i4w")]
 material = SubResource("ShaderMaterial_dpucv")
@@ -63,11 +59,5 @@ script = ExtResource("3_xwr6i")
 
 [node name="Slot4" parent="." instance=ExtResource("1_t0i4w")]
 material = SubResource("ShaderMaterial_hfjkr")
-layout_mode = 2
-script = ExtResource("3_xwr6i")
-
-[node name="Slot5" parent="." instance=ExtResource("1_t0i4w")]
-visible = false
-material = SubResource("ShaderMaterial_xsgpp")
 layout_mode = 2
 script = ExtResource("3_xwr6i")

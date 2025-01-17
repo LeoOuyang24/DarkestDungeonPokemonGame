@@ -1,30 +1,30 @@
 extends ColorRect
 
 @onready var TeamSlotsRect = $TeamSlotsRect
-@onready var TeamSlots = [$TeamSlotsRect/Slot1,$TeamSlotsRect/Slot2,$TeamSlotsRect/Slot3,$TeamSlotsRect/Slot4,$TeamSlotsRect/Slot5]
 @onready var CreatureSummary = $CreatureSummary
 @onready var CreateHorror = $CreateHorror
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	for i in TeamSlots:
+	for i in TeamSlotsRect.get_children():
 		i.pressed.connect(viewSummary.bind(i))
 	GameState.PlayerState.team_changed.connect(func ():
-		updateTeamSlots(GameState.PlayerState.getPlayer(),GameState.PlayerState.getTeam())
+		updateTeamSlots(GameState.PlayerState.getTeam())
 		)
 	pass # Replace with function body.
 
 #update the team state
 #if we are lacking UI slots, add more
 #if we have too many UI slots, remove them
-func updateTeamSlots(player,allies):
+func updateTeamSlots(allies):
 	#add player to UI
 	#PlayerSlot.setCreature(player)
 	#add allies, adding any necessary slots in the process
-	allies = [player] + allies
-	for i in range(TeamSlots.size()):
+	
+	for i in range(TeamSlotsRect.get_children().size()):
 		var creature = allies[i] if i < allies.size() else null
-		TeamSlots[i].setCreature(creature)
+		var slot = TeamSlotsRect.get_children()[i]
+		slot.setCreature(creature)
 	
 func viewSummary(teamSlot:CreatureSlot):
 	if teamSlot.getCreature():

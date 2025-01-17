@@ -43,7 +43,6 @@ func _to_string() -> String:
 func _init( sprite_path:String, maxHealth_:int,baseAttack_:int,baseSpeed_:int, name_:String, levels:int = 1, moves_:Array = [], pendingMoves_:Array = []) -> void:
 	spriteFrame = SpriteLoader.getSprite(sprite_path)
 	creatureName = name_;
-	
 	#TODO: level up stats, currently they are stuck at level 1 regardless of what level we put into the constructor
 	stats = CreatureStats.new(maxHealth_,baseAttack_,baseSpeed_)
 

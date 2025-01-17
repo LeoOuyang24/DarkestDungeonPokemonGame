@@ -1,0 +1,12 @@
+{
+	"sprite":"masked",
+	"width": 110,
+	"height": 110,
+	"baseHealth": 30,
+	"baseAttack": 0,
+	"baseSpeed": 4,
+	"name": "masked",
+	"startMoves": [
+	],
+	"levelMoves": []
+}

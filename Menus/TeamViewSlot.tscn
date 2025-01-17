@@ -1,14 +1,38 @@
-[gd_scene load_steps=3 format=3 uid="uid://bttb8572axc4a"]
+[gd_scene load_steps=7 format=3 uid="uid://bttb8572axc4a"]
 
-[ext_resource type="Script" path="res://Menus/TeamViewSlot.gd" id="1_idi50"]
+[ext_resource type="Texture2D" uid="uid://cp4s8dnh0c48e" path="res://sprites/icons/claw_icon.png" id="1_gqh82"]
+[ext_resource type="Script" path="res://Menus/TeamViewSlotDraggable.gd" id="1_gx0hy"]
+[ext_resource type="Shader" path="res://Battle/UI/CreatureSlot.gdshader" id="1_h7f4a"]
 [ext_resource type="Script" path="res://Components/SingleHighlight.gd" id="2_gvfy5"]
 
-[node name="TeamViewSlot" type="TextureButton"]
-offset_right = 40.0
-offset_bottom = 40.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hwt21"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kuhi8"]
+shader = ExtResource("1_h7f4a")
+shader_parameter/outline_width = 10.0
+shader_parameter/outline_color = Color(0, 0, 0, 0)
+shader_parameter/isSpectral = false
+
+[node name="TeamViewSlotBorder" type="PanelContainer"]
+offset_right = 163.0
+offset_bottom = 163.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_hwt21")
+script = ExtResource("1_gx0hy")
+
+[node name="TeamViewSlot" type="TextureButton" parent="."]
+material = SubResource("ShaderMaterial_kuhi8")
+layout_mode = 2
+texture_normal = ExtResource("1_gqh82")
 ignore_texture_size = true
 stretch_mode = 4
-script = ExtResource("1_idi50")
 
-[node name="SingleHighlight" type="Node" parent="."]
+[node name="SingleHighlight" type="Node" parent="TeamViewSlot"]
 script = ExtResource("2_gvfy5")

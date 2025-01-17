@@ -27,10 +27,10 @@ static func loadJSON(file_path:String, startingLevel:int = 1) -> Creature:
 		var error = json.parse(file.get_as_text())
 		if error == OK:
 			var creature = Creature.new(SpriteSheetsDir + json.data.sprite if json.data.get("sprite") else "spritesheets/creatures/invalid",
-							json.data.baseHealth if json.data.get("baseHealth") else 1,
-							 json.data.baseAttack if json.data.get("baseAttack") else 1,
-							json.data.baseSpeed if json.data.get("baseSpeed") else 1,
-							json.data.name if json.data.get("name") else "Creature",
+							json.data.baseHealth if json.data.get("baseHealth") != null else 1,
+							 json.data.baseAttack if json.data.get("baseAttack") != null else 1,
+							json.data.baseSpeed if json.data.get("baseSpeed") != null else 1,
+							json.data.name if json.data.get("name") != null else "Creature",
 							startingLevel,
 							json.data.startMoves.map(func (moveName:String): return loadMove(moveName)) if json.data.get("startMoves") else [],
 							json.data.levelMoves.map(func (moveName:String): return loadMove(moveName)) if json.data.get("levelMoves") else []
@@ -56,4 +56,3 @@ static func getRandCreature():
 		return loadJSON(CreatureJSONDir + jsons[randi()%jsons.size()])
 	else:
 		print("Couldn't find Creatures JSON folder!!!!")
-

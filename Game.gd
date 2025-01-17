@@ -79,7 +79,8 @@ func showTeamView():
 	#how long it takes for the menu to pull up
 	var time = 0.25
 	if showTeam:
-		TeamView.updateTeamSlots(GameState.PlayerState.getPlayer(),GameState.PlayerState.getTeam())
+		TeamView.viewSummary(TeamView.)
+		TeamView.updateTeamSlots(GameState.PlayerState.getTeam())
 		tween.tween_property(TeamView, "position",Vector2(TeamView.position.x,0.1*get_viewport().get_visible_rect().size.y),time)
 	else:
 		tween.tween_property(TeamView, "position",Vector2(TeamView.position.x,get_viewport().get_visible_rect().size.y),time)
@@ -96,7 +97,7 @@ func _on_map_room_selected(roomInfo):
 				#enemies.push_back(CreatureLoader.getRandCreature())
 			enemies[2].traits.addStatus(Steadfast.new())
 			newScene.createBattle(GameState.PlayerState.getPlayer(),GameState.PlayerState.getTeam(),enemies)
-			GameState.setInBattle(true)
+			GameState.setBattle(newScene.BattleSim)
 		Room.ROOM_TYPES.WELL:
 			var wellRoom = load("res://Map/Rooms/WellRoom.tscn").instantiate()
 			newScene = wellRoom
@@ -115,8 +116,8 @@ func _on_map_room_selected(roomInfo):
 func room_finished():
 	swapToSceneWithFade(Map)
 	Map.updateRooms()
-	if GameState.getInBattle():
-		GameState.setInBattle(false)
+	if GameState.getBattle():
+		GameState.setBattle(null)
 
 func loseGame():
 	GameOver.visible = true

@@ -19,7 +19,6 @@ offset_bottom = 184.0
 tooltip_text = "a"
 theme = SubResource("Theme_1q0n1")
 script = ExtResource("2_eu0au")
-BarColor = null
 
 [node name="Icon" type="TextureRect" parent="."]
 layout_mode = 2

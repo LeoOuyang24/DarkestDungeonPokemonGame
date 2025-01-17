@@ -46,11 +46,11 @@ func setCreature(creature:Creature, stat:CreatureStats.STATS):
 	self.creature = creature
 	self.stat = stat
 	if creature:
-		growTo(creature.stats.getBaseStat(stat))
+		growTo(creature.stats.getCurStat(stat))
 		var tracker = creature.stats.getStatObj(stat)
 		creature.stats.stat_changed.connect(func(stat:CreatureStats.STATS,amount):
 			if stat == self.stat:
-				growTo(creature.stats.getBaseStat(stat))
+				growTo(creature.stats.getCurStat(stat))
 			BigBoost.set_visible(creature.level.getPendingBigBoosts()>0)
 			)
 	

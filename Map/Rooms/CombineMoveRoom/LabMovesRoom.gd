@@ -18,13 +18,14 @@ func _ready():
 	MergeInto.pressed.connect(loadTeam.bind(MergeInto))
 	MergeFrom.pressed.connect(loadTeam.bind(MergeFrom))
 	for i in GameState.PlayerState.getTeam():
-		var teamSlot := AnimatedButton.new();
-		teamSlot.ignore_texture_size = true
-		teamSlot.custom_minimum_size = Vector2(100,100)
-		teamSlot.setSprite(i.getSprite())
-		teamSlot.pressed.connect(loadCreatureIntoTube.bind(i))
-		#teamSlot.setSprite(load("res://sprites/spritesheets/creatures/beholder.tres"))
-		TeamView.add_child(teamSlot)
+		if i:
+			var teamSlot := AnimatedButton.new();
+			teamSlot.ignore_texture_size = true
+			teamSlot.custom_minimum_size = Vector2(100,100)
+			teamSlot.setSprite(i.getSprite())
+			teamSlot.pressed.connect(loadCreatureIntoTube.bind(i))
+			#teamSlot.setSprite(load("res://sprites/spritesheets/creatures/beholder.tres"))
+			TeamView.add_child(teamSlot)
 
 func loadCreatureIntoTube(creature:Creature):
 	if curTube && creature:

@@ -25,9 +25,8 @@ var creature:Creature = null:
 #update disabled based on whether or not the creature is already in the party
 func updateDisabled():
 	disabled = GameState.PlayerState.getTeam().reduce(func (accum:bool, creature2:Creature):
-			return accum || creature2.getName() == creature.getName()
+			return accum || (creature2 and creature2.getName() == creature.getName())
 			,false)	
 			
 func _ready():
 	GameState.PlayerState.team_changed.connect(updateDisabled)
-
