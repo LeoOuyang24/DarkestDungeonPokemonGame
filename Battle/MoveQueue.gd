@@ -35,6 +35,8 @@ func insert(moveInfo:Move.MoveRecord) -> int:
 	
 #change what move creature is going to use
 func addMove(creature:Creature,record:Move.MoveRecord) -> void:
+	if !record:
+		record = Move.MoveRecord.new(creature)  #blank record
 	movesSelected[creature] = record
 	
 #if creature is in movesSelected, update its position and return its position
@@ -86,7 +88,8 @@ func increment():
 func reset():
 	index = 0;
 	for creature in movesSelected:
-		movesSelected[creature].move = null
+		if movesSelected[creature]:
+			movesSelected[creature].move = null
 		
 #clear all contents
 func clear():

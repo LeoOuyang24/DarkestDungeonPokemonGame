@@ -1,11 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://cvmuwhverwiv0"]
+[gd_scene load_steps=9 format=3 uid="uid://cvmuwhverwiv0"]
 
 [ext_resource type="Script" path="res://Battle/UI/InBattleSummary.gd" id="2_hq8d4"]
 [ext_resource type="PackedScene" uid="uid://b10n7jankcsc1" path="res://UI/CreatureStats.tscn" id="2_ua8v8"]
+[ext_resource type="PackedScene" uid="uid://ogtoeaqdniwj" path="res://Menus/moves.tscn" id="3_agv26"]
 [ext_resource type="PackedScene" uid="uid://dxsiuao5kklcy" path="res://Battle/UI/MoveButton.tscn" id="3_dm2aa"]
-[ext_resource type="PackedScene" uid="uid://c434ifxltx2da" path="res://Menus/LearnNewMove.tscn" id="8_evi7e"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3p5r4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r74xd"]
+resource_local_to_scene = true
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_32pav"]
 resource_local_to_scene = true
@@ -38,25 +41,23 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="ProgressBar" parent="MarginContainer/HBoxContainer/CreatureStats/Background/Profile/Stats/Control/Health" index="1"]
+theme_override_styles/fill = SubResource("StyleBoxFlat_r74xd")
+
 [node name="ProgressBar" parent="MarginContainer/HBoxContainer/CreatureStats/Background/Profile/Stats/Control/Attack" index="1"]
 theme_override_styles/fill = SubResource("StyleBoxFlat_32pav")
 
 [node name="ProgressBar" parent="MarginContainer/HBoxContainer/CreatureStats/Background/Profile/Stats/Control/Speed" index="1"]
 theme_override_styles/fill = SubResource("StyleBoxFlat_31vnw")
 
-[node name="LearnNewMove" parent="MarginContainer/HBoxContainer" instance=ExtResource("8_evi7e")]
-unique_name_in_owner = true
+[node name="LearnNewMove" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
-mouse_filter = 2
-theme_override_constants/separation = 0
 
-[node name="ArrowSprite" parent="MarginContainer/HBoxContainer/LearnNewMove" index="1"]
-visible = false
-
-[node name="NewMove" parent="MarginContainer/HBoxContainer/LearnNewMove" index="2"]
-visible = false
+[node name="Moves" parent="MarginContainer/HBoxContainer/LearnNewMove" instance=ExtResource("3_agv26")]
+unique_name_in_owner = true
+layout_mode = 2
 
 [node name="Spacer" type="Control" parent="MarginContainer/HBoxContainer/LearnNewMove"]
 custom_minimum_size = Vector2(40, 0)
@@ -69,6 +70,6 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [editable path="MarginContainer/HBoxContainer/CreatureStats"]
+[editable path="MarginContainer/HBoxContainer/CreatureStats/Background/Profile/Stats/Control/Health"]
 [editable path="MarginContainer/HBoxContainer/CreatureStats/Background/Profile/Stats/Control/Attack"]
 [editable path="MarginContainer/HBoxContainer/CreatureStats/Background/Profile/Stats/Control/Speed"]
-[editable path="MarginContainer/HBoxContainer/LearnNewMove"]

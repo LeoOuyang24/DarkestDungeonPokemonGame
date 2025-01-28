@@ -108,4 +108,3 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 func _input(event) -> void:
 	if event is InputEventKey && event.pressed && event.keycode == KEY_BACKSPACE && visited != ROOM_STATE.VISITED:
 		changeState(ROOM_STATE.ACCESSIBLE)
-

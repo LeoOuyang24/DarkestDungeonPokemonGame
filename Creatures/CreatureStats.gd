@@ -38,6 +38,8 @@ func _init(maxHealth:int, maxAttack:int, maxSpeed:int):
 		STATS.SPEED: Stat.new(maxSpeed)
 	}
 	
+	stats[STATS.HEALTH].capped = true
+	
 	forEachStat(func(stat:STATS,statObj:Stat):
 		statObj.stat_changed.connect(func(amount,newVal):
 			stat_changed.emit(stat,amount)

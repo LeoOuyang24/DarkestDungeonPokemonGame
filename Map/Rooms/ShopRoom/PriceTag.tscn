@@ -1,15 +1,14 @@
 [gd_scene load_steps=5 format=3 uid="uid://boik1oe1dgr71"]
 
-[ext_resource type="Script" path="res://Map/Rooms/ShopRoom/PriceTag.gd" id="1_4t6js"]
-[ext_resource type="Texture2D" uid="uid://cgxsxxx5aw2nn" path="res://sprites/icons/dna_icon.png" id="1_6uoqg"]
-[ext_resource type="Texture2D" uid="uid://bi143nnx7peyt" path="res://sprites/icons/tape.png" id="1_dlcb0"]
+[ext_resource type="Texture2D" uid="uid://q5ilukk8h66k" path="res://sprites/icons/dna_icon.png" id="1_6uoqg"]
+[ext_resource type="Texture2D" uid="uid://bjwh0sokmjo3h" path="res://sprites/icons/tape.png" id="1_dlcb0"]
 [ext_resource type="Theme" uid="uid://ctnx7oi2vcxu" path="res://UI/menu.tres" id="3_ui34x"]
+[ext_resource type="Script" path="res://Menus/PriceLabel.gd" id="4_d8ggs"]
 
 [node name="PriceTag" type="TextureRect"]
 custom_minimum_size = Vector2(100, 50)
 scale = Vector2(0.599243, 0.6)
 texture = ExtResource("1_dlcb0")
-script = ExtResource("1_4t6js")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 unique_name_in_owner = true
@@ -32,6 +31,7 @@ bbcode_enabled = true
 text = "100"
 fit_content = true
 scroll_active = false
+script = ExtResource("4_d8ggs")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(25, 46)

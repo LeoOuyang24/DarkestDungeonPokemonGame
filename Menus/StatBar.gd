@@ -46,13 +46,14 @@ func setCreature(creature:Creature, stat:CreatureStats.STATS):
 	self.creature = creature
 	self.stat = stat
 	if creature:
-		growTo(creature.stats.getCurStat(stat))
+		onStatChanged(stat,creature.stats.getCurStat(stat))
 		var tracker = creature.stats.getStatObj(stat)
-		creature.stats.stat_changed.connect(func(stat:CreatureStats.STATS,amount):
-			if stat == self.stat:
-				growTo(creature.stats.getCurStat(stat))
-			BigBoost.set_visible(creature.level.getPendingBigBoosts()>0)
-			)
+		creature.stats.stat_changed.connect(onStatChanged)
+	
+func onStatChanged(stat:CreatureStats.STATS,amount):
+	if stat == self.stat:
+		growTo(creature.stats.getCurStat(stat))
+	BigBoost.set_visible(creature.level.getPendingBigBoosts()>0)
 	
 #set the maximum width our bar can grow to
 func setMaxWidth(maxWidth:int) -> void:
@@ -88,4 +89,4 @@ func _on_big_boost_mouse_exited():
 
 func _on_big_boost_pressed():
 	if creature:
-		creature.stats.getStatObj(self.stat).addBigBoost(1)
+		creature.addBigBoost(stat,1)

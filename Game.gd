@@ -24,6 +24,7 @@ func _ready():
 	GameState.DNA_changed.connect(func(amount):
 		DNACounter.set_text(str(GameState.getDNA()))
 		)
+	GameState.battle_started.connect(showTeamView.bind(false))
 	GameState.PlayerState.added_scan.connect(func (creatureName:StringName):
 			NewScan.setCreature(creatureName)
 			var tween = NewScan.create_tween()
@@ -69,17 +70,17 @@ func swapToSceneWithFade(scene:RoomBase):
 	
 func _input(event):
 	if event is InputEventKey and event.pressed:
-		if event.keycode == KEY_E:
-			showTeamView()
+		if event.keycode == KEY_E and !GameState.getBattle():
+			showTeamView(!showTeam)
 
 #turn TeamView on/off		
-func showTeamView():
+func showTeamView(val:bool):
 	var tween = create_tween();
-	showTeam = !showTeam
+	showTeam = val
 	#how long it takes for the menu to pull up
 	var time = 0.25
 	if showTeam:
-		TeamView.viewSummary(TeamView.)
+		TeamView.CreatureSummary.setCreature(GameState.PlayerState.getPlayer())
 		TeamView.updateTeamSlots(GameState.PlayerState.getTeam())
 		tween.tween_property(TeamView, "position",Vector2(TeamView.position.x,0.1*get_viewport().get_visible_rect().size.y),time)
 	else:
@@ -91,11 +92,12 @@ func _on_map_room_selected(roomInfo):
 	match roomInfo:
 		Room.ROOM_TYPES.BATTLE:
 			newScene = load("res://Battle/BattleManager.tscn").instantiate()
-			var enemies = [CreatureLoader.loadJSON("silent.json"),CreatureLoader.loadJSON("dreemer.json"),CreatureLoader.loadJSON("beholder.json"),CreatureLoader.loadJSON("beholder.json")]
-			#var size = randi()%(Battlefield.maxEnemies - 1) + 1
-			#for i in range(size):
-				#enemies.push_back(CreatureLoader.getRandCreature())
-			enemies[2].traits.addStatus(Steadfast.new())
+			#var enemies = [CreatureLoader.loadJSON("silent.json"),CreatureLoader.loadJSON("dreemer.json"),CreatureLoader.loadJSON("beholder.json"),CreatureLoader.loadJSON("beholder.json")]
+			var enemies = []
+			var size = randi()%(Battlefield.maxEnemies - 1) + 1
+			for i in range(size):
+				enemies.push_back(CreatureLoader.getRandCreature(["chomper","giant","masked","princess","siren","silent"]))
+			#enemies[2].traits.addStatus(Steadfast.new())
 			newScene.createBattle(GameState.PlayerState.getPlayer(),GameState.PlayerState.getTeam(),enemies)
 			GameState.setBattle(newScene.BattleSim)
 		Room.ROOM_TYPES.WELL:

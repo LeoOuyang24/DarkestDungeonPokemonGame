@@ -13,8 +13,9 @@ func getModifiers(user:Creature) -> Array:
 func move(user:Creature, enemies:Array, battlefield):
 	if len(enemies) > 0: 
 		var target = battlefield.getCreature(enemies[0]);
-		Creature.dealDamage(user,target,0.75*user.stats.getCurStat(CreatureStats.STATS.ATTACK)); 
-		target.statuses.addStatus(Paralyzed.new(),2)
+		if target:
+			Creature.dealDamage(user,target,0.75*user.stats.getCurStat(CreatureStats.STATS.ATTACK)); 
+			target.statuses.addStatus(Paralyzed.new(),2)
 		
 
 	

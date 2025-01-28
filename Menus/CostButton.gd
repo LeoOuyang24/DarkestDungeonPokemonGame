@@ -1,35 +1,34 @@
-class_name CostButton extends Button
+class_name CostButton extends BaseButton
 
-#a text button that disables itself if we can't afford it
+#a button that disables itself if we can't afford it
 
+#a rich text label that is expected to be a PriceLabel. Is modified to reflect price
 @onready var label = %Label
-@onready var comp = $CostComponent
+
+#used by child classes to calculate if the button should be disabled
+#so for example, maybe you need the button to be disabled if you can't afford it OR
+#nothing has been selected. You'd set "disable" for the latter case
+var disable:bool = false:
+	set(val):
+		disable = val
+		toggle()
+
 @export var title:String = ""
+@export var cost:int = 0:
+	set(val):
+		cost = val
+		toggle()
+		if label and label is PriceLabel:
+			label.formatLabel(cost,title,is_disabled())
+	
+func applyCost():
+	GameState.setDNA(GameState.getDNA() - cost)
 
-var textColor:Color = Color.WHITE #used solely to change the label's color
-
-func _ready():
-	formatLabel()
-
-func formatLabel(title:String=self.title):
-	modulate = textColor
-	#label.set_text(title)
-	label.set_text("[center]%s\n[img width=32]res://sprites/icons/dna_icon.png[/img]%d[/center]" % [title,comp.cost])
-
-func _on_cost_component_cost_changed(newCost):
-	if label:
-		formatLabel()
-	pass # Replace with function body.
-
-func setDisabled(d:bool) -> void:
-	set_disabled(d)
-	if label:
-		textColor = Color.WHITE if !d else Color.DARK_GRAY
-		formatLabel()	
-
-func _on_cost_component_can_afford(not_broke):
-	setDisabled(!not_broke)
-	pass # Replace with function body.
-
-func setCost(cost:int)-> void:
-	comp.cost = cost
+func _init():
+	GameState.DNA_changed.connect(toggle)
+	
+func toggle(_val = 0):
+	set_disabled(disable || cost > GameState.getDNA())
+	
+func _pressed():
+	applyCost()

@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://ogtoeaqdniwj"]
+
+[ext_resource type="PackedScene" uid="uid://dxsiuao5kklcy" path="res://Battle/UI/MoveButton.tscn" id="1_0vhm6"]
+
+[node name="Moves" type="GridContainer"]
+theme_override_constants/h_separation = 15
+theme_override_constants/v_separation = 15
+columns = 2
+
+[node name="Button" parent="." instance=ExtResource("1_0vhm6")]
+layout_mode = 2
+
+[node name="Button2" parent="." instance=ExtResource("1_0vhm6")]
+layout_mode = 2
+
+[node name="Button3" parent="." instance=ExtResource("1_0vhm6")]
+layout_mode = 2
+
+[node name="Button4" parent="." instance=ExtResource("1_0vhm6")]
+layout_mode = 2

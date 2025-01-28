@@ -26,16 +26,16 @@ func _ready():
 func setCreature(creature:Creature) -> void:
 	if creature:
 		self.creature = creature
-		Sprite.setCreature(creature)
+		StatsWindow.setCreature(creature)
+		#Sprite.setCreature(creature)
 		#Sprite.setSprite(creature.getSprite())
 
 		#add moves to UI
-		LearnNewMove.setMoves(creature)
-		if LevelUpButton:
-			LevelUpButton.setCreature(creature)
-		#add stats to UI
-		for i in range(Stats.size()):
-			Stats[i].setCreature(creature,i)
+		if LearnNewMove:
+			LearnNewMove.setMoves(creature)
+			if LevelUpButton:
+				LevelUpButton.setCreature(creature)
+	
 
 			
 		creature.level.leveled_up.connect(updateCreature)

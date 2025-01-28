@@ -53,6 +53,10 @@ func _init( sprite_path:String, maxHealth_:int,baseAttack_:int,baseSpeed_:int, n
 	
 	setMoves(moves_)
 	
+func addBigBoost(stat:CreatureStats.STATS,num:int = 1) -> void:
+	level.appliedBigBoost(num)
+	#this is second so any triggers from stat_changed signal will already have the updated big boost amount
+	stats.getStatObj(stat).addBigBoost(num) 
 
 func getLevel() -> int:
 	return level.getLevel()

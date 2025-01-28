@@ -11,6 +11,8 @@ func _ready():
 	pass # Replace with function body.
 
 func setMove(move:Move,creature:Creature) -> void:
+	if move is Slash and GameState.getBattle():
+		print(move)
 	self.move = move
 	self.creature = creature
 	if move:
@@ -70,4 +72,3 @@ func getMove() -> Move:
 	
 func _pressed() -> void:
 	move_selected.emit(move)
-

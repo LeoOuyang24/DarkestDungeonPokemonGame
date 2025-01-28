@@ -41,10 +41,12 @@ func getNextLevelUpMove() -> Move: #return the move at the front of pendingMoves
 		return levelUpMoves[movesConsidered]
 	return null
 	
+func appliedBigBoost(amount:int) -> void:
+	pendingBigBoosts -= amount
+	
 func getPendingBigBoosts() -> int:
 	return pendingBigBoosts
 	
 #called when a move has been considered
 func moveConsidered() -> void:
 	movesConsidered += 1
-

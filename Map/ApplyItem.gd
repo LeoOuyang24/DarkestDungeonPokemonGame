@@ -1,4 +1,4 @@
-extends ColorRect
+extends PanelContainer
 
 signal done #emitted when done
 signal selected(c:Creature) #which creature was selected
@@ -28,8 +28,6 @@ func _ready():
 		slot.pressed.connect(select.bind(slot.creature))
 		i+=1;
 	
-	for move in summary.Moves:
-		move.pressed.connect(selectMove.bind(move))
 
 func selectMove(m:MoveButton):
 	currentMove = m.getMove();

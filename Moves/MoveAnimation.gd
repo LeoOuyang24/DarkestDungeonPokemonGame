@@ -30,4 +30,6 @@ static func genericAttackAnimation(user:Creature,enemies:Array,UI:BattleUI,move:
 
 		#UI.resetAllSlotPos()
 		for i in enemies:
-			UI.getCreatureSlot(i).setAnimation("default")
+			var enemy := UI.getCreatureSlot(i)
+			if enemy.getCreature():
+				enemy.setAnimation("default")

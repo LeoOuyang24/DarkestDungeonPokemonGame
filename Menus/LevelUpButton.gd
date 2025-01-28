@@ -1,10 +1,13 @@
 extends CostButton
 
+func _ready():
+	GameState.battle_started.connect(set_disabled.bind(true))
+
 func setCreature(creature:Creature) -> void:
 	if creature:
-		comp.cost = (getLevelUpCost(creature))
+		cost = getLevelUpCost(creature)
 		creature.level.leveled_up.connect(func():
-			comp.cost = (getLevelUpCost(creature))
+			cost = (getLevelUpCost(creature))
 			)
 
 #how much dna it takes to level up

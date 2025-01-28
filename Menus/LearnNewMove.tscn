@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Menus/LearnNewMove.gd" id="1_4fl2n"]
 [ext_resource type="Texture2D" uid="uid://jjclmd1ee8cj" path="res://sprites/effects/upArrow.png" id="1_8xwyf"]
-[ext_resource type="PackedScene" uid="uid://dxsiuao5kklcy" path="res://Battle/UI/MoveButton.tscn" id="2_fvapw"]
+[ext_resource type="PackedScene" uid="uid://ogtoeaqdniwj" path="res://Menus/moves.tscn" id="2_k3m5x"]
 [ext_resource type="Script" path="res://Battle/UI/MoveButton.gd" id="2_lpgbc"]
 
 [node name="Control" type="HBoxContainer"]
@@ -13,22 +13,7 @@ offset_bottom = 307.0
 scale = Vector2(1.5, 1.5)
 script = ExtResource("1_4fl2n")
 
-[node name="Moves" type="GridContainer" parent="."]
-layout_mode = 2
-theme_override_constants/h_separation = 15
-theme_override_constants/v_separation = 15
-columns = 2
-
-[node name="Button" parent="Moves" instance=ExtResource("2_fvapw")]
-layout_mode = 2
-
-[node name="Button2" parent="Moves" instance=ExtResource("2_fvapw")]
-layout_mode = 2
-
-[node name="Button3" parent="Moves" instance=ExtResource("2_fvapw")]
-layout_mode = 2
-
-[node name="Button4" parent="Moves" instance=ExtResource("2_fvapw")]
+[node name="Moves" parent="." instance=ExtResource("2_k3m5x")]
 layout_mode = 2
 
 [node name="ArrowSprite" type="TextureRect" parent="."]

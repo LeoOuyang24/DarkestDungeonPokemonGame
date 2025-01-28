@@ -1,6 +1,7 @@
 class_name TeamViewSlot extends CreatureSlot
 
 #renders a Creature in the team menu
+#size does not change
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -17,9 +18,9 @@ func setCreature(creature:Creature) -> void:
 		#print(texture.get_frame_count("default"))
 		setSprite(load("res://sprites/UI/empty_creatureslot.tres"))
 
-		#Sprite.animation = "default"
-		#Sprite.play()
-	setSize(Vector2(min(size.x,150),min(size.y,150)))
+	#size is 150x150
+	#Resources.resize(Vector2(150,150),self)
+	#setSize()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -29,4 +30,4 @@ func _process(delta):
 			modulate = Color.DARK_RED
 			HealthBar.label.set_text("DEAD") 
 			HealthBar.label.modulate = Color.BLACK
-			sprite.stop()
+			sprite.pause()

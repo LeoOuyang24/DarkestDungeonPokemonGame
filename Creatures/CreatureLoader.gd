@@ -42,17 +42,10 @@ static func loadJSON(file_path:String, startingLevel:int = 1) -> Creature:
 				creature.traits.addStatus(loadTrait(json.data.startPassive))
 			return creature
 		else:
-			print("Error parsing Creature JSON, ",file_path,"\nError: ",json.get_error_message()," on line ",json.get_error_line())
+			printerr("Error parsing Creature JSON, ",file_path,"\nError: ",json.get_error_message()," on line ",json.get_error_line())
 	else:
 		printerr("Creature JSON, " + file_path + " could not be opened!!\nError: " + error_string(FileAccess.get_open_error()));
 	return null
 	
-static func getRandCreature():
-
-	var dir = DirAccess.open(CreatureJSONDir)
-	if dir:
-		#DirAccess.make_dir_absolute("user://levels/world1")
-		var jsons = dir.get_files()
-		return loadJSON(CreatureJSONDir + jsons[randi()%jsons.size()])
-	else:
-		print("Couldn't find Creatures JSON folder!!!!")
+static func getRandCreature(bucket:Array = []) -> Creature:
+	return loadJSON(bucket[randi()%bucket.size()]) if bucket.size() > 0 else null

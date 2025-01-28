@@ -26,3 +26,9 @@ func getDescription() -> String:
 
 func onPurchase():
 	need_apply_item.emit()
+	
+#probably not the best way to do this, but this overrides the default _pressed function in 
+#CostButton, which makes it so that the cost is not applied immediately
+#we want the cost to be applied when the trait is actually used, in case it's canceled
+func _pressed():
+	onPurchase()

@@ -207,12 +207,9 @@ func addMoveToQueue(record:Move.MoveRecord) -> void:
 		else:
 			moveQueue.insert(record)
 
-#remove and return the topmost move
+#return the topmost move
 func top() -> Move.MoveRecord:
-	var top = moveQueue.top()
-	if top:
-		return top;
-	return null
+	return moveQueue.top()
 	
 #just increments the queue
 func nextMove() -> void:
@@ -236,5 +233,3 @@ func handlePlayerMove(record:Move.MoveRecord) -> void:
 func reset():
 	for i in range(creatures.size()):
 		removeCreature(getCreature(i))
-
-

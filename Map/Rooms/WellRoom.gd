@@ -29,6 +29,7 @@ func _on_drink_pressed():
 	player.stats.getStatObj(CreatureStats.STATS.HEALTH).modStat(player.stats.getCurStat(CreatureStats.STATS.HEALTH) + 0.25*player.stats.getBaseStat(CreatureStats.STATS.HEALTH))
 	var team = GameState.PlayerState.getTeam()
 	for i in team:
+		if i:
 			i.stats.getStatObj(CreatureStats.STATS.HEALTH).modStat(i.stats.getCurStat(CreatureStats.STATS.HEALTH) + 0.25*i.stats.getBaseStat(CreatureStats.STATS.HEALTH))
 	
 	$Sparkles.visible = true

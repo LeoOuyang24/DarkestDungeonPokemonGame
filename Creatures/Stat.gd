@@ -8,6 +8,7 @@ signal stat_changed(amount, newVal)
 var rootStat:int = 0 #the stat at level 1
 var baseStat:int = 0 #the stat outside of in-battle modifiers
 var curStat:int = 0 #the stat currently, since this may be modified in-battle
+var capped:bool = false #whether or no curStat can exceed baseStat. Currently only relevant for health
 
 var bigBoosts:int = 0 #the number of big boosts this stat has
 
@@ -67,10 +68,16 @@ func modStat(amount:float, add:bool = true, source:Variant = self) -> void:
 			curStat += amount
 		else:
 			curStat *= amount
-	else:
+		if capped:
+			curStat = min(curStat,getBaseStat())
+	else:			
 		if add:
+			if capped and (getStat() + amount) > getBaseStat():
+				amount = getBaseStat() - getStat()
 			curMods.addAdd(amount,source)
 		else:
+			if capped and (getStat() * amount) > getBaseStat() and getStat() != 0:
+				amount = getBaseStat()/getStat()
 			curMods.multMult(amount,source)
 	stat_changed.emit(amount, curMods.getValue(self.curStat))
 	

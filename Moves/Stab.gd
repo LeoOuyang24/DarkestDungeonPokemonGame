@@ -16,7 +16,7 @@ func move(user:Creature, enemies:Array, battlefield):
 	pass
 	
 func runAnimation(user:Creature, targets:Array, UI:BattleUI,battlefield:Battlefield) -> void:
-	await MoveAnimations.genericAttackAnimation(user,targets,UI,self,SpriteLoader.getSprite("spritesheets/moves/slash"))
+	await MoveAnimations.genericAttackAnimation(user,targets,UI,self)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

@@ -2,13 +2,13 @@
 
 [ext_resource type="PackedScene" uid="uid://bvxv6kih6bx3" path="res://Map/Rooms/EventRoom.tscn" id="1_n2ro6"]
 [ext_resource type="Script" path="res://Map/Rooms/ShopRoom/ShopRoom.gd" id="1_s3ixk"]
-[ext_resource type="Texture2D" uid="uid://dcmha4euyqa4h" path="res://sprites/backgrounds/aman.png" id="2_apg55"]
+[ext_resource type="Texture2D" uid="uid://dhr701yrjcxbx" path="res://sprites/backgrounds/aman.png" id="2_apg55"]
 [ext_resource type="PackedScene" uid="uid://ln6v2ege33t7" path="res://Map/ApplyItem.tscn" id="4_u5o4p"]
 
 [node name="EventRoom" instance=ExtResource("1_n2ro6")]
 script = ExtResource("1_s3ixk")
 
-[node name="Background" parent="." index="1"]
+[node name="Background" parent="." index="0"]
 texture = ExtResource("2_apg55")
 
 [node name="Shop" type="ColorRect" parent="." index="2"]
@@ -44,7 +44,10 @@ layout_mode = 2
 unique_name_in_owner = true
 visible = false
 layout_mode = 0
-offset_left = 238.0
-offset_top = 324.0
-offset_right = 1507.0
-offset_bottom = 745.0
+offset_left = 334.0
+offset_top = 253.0
+offset_right = 1603.0
+offset_bottom = 799.0
+
+[connection signal="done" from="ApplyItem" to="." method="_on_apply_item_done"]
+[connection signal="selected" from="ApplyItem" to="." method="_on_apply_item_selected"]

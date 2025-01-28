@@ -1,11 +1,12 @@
 extends Control
 
+#virtually the same as InBattleSummary except we remvoed PassButton
+
 var creature:Creature = null
 
 signal move_selected(move:Move);
 
-@onready var PassButton = %PassButton;
-@onready var Moves = %Moves.get_children() + [PassButton];
+@onready var Moves = %Moves.get_children();
 #in-battle creature summary
 
 
@@ -15,13 +16,10 @@ func _ready():
 			move_selected.emit(move)
 		)
 	
-	PassButton.setMove(PassTurn.new(),null)
-
 
 #sets the current creature, which is rendered differently based on whether or not the creature is current or not
 #and whether or not it is friendly
-func setCurrentCreature(creature:Creature, isCurrent:bool) -> void:
-	self.creature = creature
+func setCreature(creature:Creature) -> void:
 	%CreatureStats.setCreature(creature)
 	
 	#if is an enemy or a non-current ally...
@@ -31,10 +29,5 @@ func setCurrentCreature(creature:Creature, isCurrent:bool) -> void:
 			#disable the button if the creature is not current or if its already disabled for whatever reason
 			#we skip the passbutton. If the Passbutton is ever disabled, it can never be reenabled.
 			var moveButton:MoveButton = Moves[mov]
-			if moveButton != PassButton:
-				moveButton.setMove(creature.getMove(mov),creature)
-				moveButton.disabled = moveButton.disabled || !creature.getIsFriendly() || !isCurrent 
-			else:
-				#for the passbutton, the disabled is purelly based on whether the creature is current or not
-				moveButton.disabled = !isCurrent;
-		PassButton.visible = creature.getIsFriendly() #pass can be straight up skipped if the creature is an enemy
+			moveButton.setMove(creature.getMove(mov),creature)
+	

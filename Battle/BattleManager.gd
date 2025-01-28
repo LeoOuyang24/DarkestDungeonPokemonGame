@@ -112,7 +112,6 @@ func handleMoveDone() -> void:
 
 func createBattle(player,allies,enemies):
 	#allies += [player]
-	print(allies,GameState.PlayerState.getTeam())
 	for i in range(allies.size()):
 		if allies[i] && allies[i].isAlive():
 			BattleSim.addCreature(allies[i],i);
@@ -162,19 +161,23 @@ func runMove(user:Creature,move:Move,targets:Array) -> void:
 		UI.setBattleText(user.getName() + " is asleep");
 		await get_tree().create_timer(1).timeout
 	else:
-		targets.append_array(move.getPreselectedTargets(user,BattleSim))
-		UI.setBattleText(user.getName() + " used " + move.getMoveName() + "!")
-		await get_tree().create_timer(1).timeout
-		var call:Callable = func():
-			pass
-
-		await move.runAnimation(user,targets,UI,BattleSim)
-		
-		move.doMove(user,targets,BattleSim)
-		
-		if move.getPostMessage(user,targets,BattleSim) != "":
-			UI.setBattleText(move.getPostMessage(user,targets,BattleSim))
+		if !move:
+			#null moves are handeled like PassTurns
+			await runMove(user,PassTurn.new(),targets)
+		else:
+			targets.append_array(move.getPreselectedTargets(user,BattleSim))
+			UI.setBattleText(user.getName() + " used " + move.getMoveName() + "!")
 			await get_tree().create_timer(1).timeout
+			var call:Callable = func():
+				pass
+
+			await move.runAnimation(user,targets,UI,BattleSim)
+			
+			move.doMove(user,targets,BattleSim)
+			
+			if move.getPostMessage(user,targets,BattleSim) != "":
+				UI.setBattleText(move.getPostMessage(user,targets,BattleSim))
+				await get_tree().create_timer(1).timeout
 
 func runDeath(dead:Creature) -> void:
 	UI.setBattleText(dead.getName() + " died.")
