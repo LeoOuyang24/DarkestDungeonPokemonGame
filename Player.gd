@@ -79,4 +79,4 @@ func reset() -> void:
 	updateTeam([player,ally1,null,null])
 
 	#team[1].traits.addStatus(Spectral.new())
-	team[0].traits.addStatus(Big.new())
+	#team[0].traits.addStatus(Big.new())

@@ -176,6 +176,10 @@ func newTurn() -> void:
 	new_turn.emit(); #emit first to trigger any on-new-turn effects
 	firstTurn()
 
+func onBattleEnd() -> void:
+	for i in GameState.PlayerState.getTeam():
+		if i:
+			i.statuses.clear()
 
 #returning the index of the first dead creature if any or -1 if none
 func checkForDeath() -> int:

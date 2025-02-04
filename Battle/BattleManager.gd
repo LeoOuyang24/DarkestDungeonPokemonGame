@@ -213,6 +213,7 @@ func runBattle():
 
 func battleFinished():
 	BattleSim.battle_ended.emit()
+	BattleSim.onBattleEnd()
 	if state == BATTLE_STATES.WE_WON:
 		GameState.setDNA(GameState.getDNA() + reward.getDNA())
 	elif state == BATTLE_STATES.WE_LOST:

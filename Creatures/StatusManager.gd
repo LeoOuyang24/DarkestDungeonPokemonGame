@@ -28,6 +28,10 @@ func removeStatus(status:StatusEffect) -> void:
 	statuses.erase(status.name)
 	status_removed.emit(status)
 
+func clear() -> void:
+	for key in statuses:
+		removeStatus(statuses[key])
+
 func getStatus(statusName:StringName) -> StatusEffect:
 	if statuses.has(statusName):
 		return statuses[statusName]

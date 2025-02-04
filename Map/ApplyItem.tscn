@@ -68,6 +68,7 @@ layout_mode = 2
 [node name="Creatures2" type="HBoxContainer" parent="VBoxContainer2/CenterContainer"]
 unique_name_in_owner = true
 clip_contents = true
+custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 size_flags_vertical = 0
 

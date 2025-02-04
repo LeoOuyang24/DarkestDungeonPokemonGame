@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://b6nxjul7v18y3"]
 
-[ext_resource type="Texture2D" uid="uid://cfqgl40ppp05u" path="res://sprites/icons/heart_icon.png" id="1_6thjs"]
+[ext_resource type="Texture2D" uid="uid://yokh3lt3hrra" path="res://sprites/icons/heart_icon.png" id="1_6thjs"]
 [ext_resource type="Script" path="res://Menus/StatBar.gd" id="2_eu0au"]
-[ext_resource type="Texture2D" uid="uid://b13y3rfd53usc" path="res://sprites/icons/big_boost_icon.png" id="3_yi1xs"]
+[ext_resource type="Texture2D" uid="uid://dgig17q1rxhn0" path="res://sprites/icons/big_boost_icon.png" id="3_yi1xs"]
 
 [sub_resource type="Theme" id="Theme_1q0n1"]
 default_font_size = 200

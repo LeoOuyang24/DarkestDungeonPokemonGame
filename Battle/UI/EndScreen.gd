@@ -1,9 +1,9 @@
-extends ColorRect
+extends Control
 
-@onready var Message = $Label
+@onready var Message = %Label
 @onready var Spoils = %Spoils
 @onready var DNACounter = %"DNACounter"
-@onready var EndButton = $Button
+@onready var EndButton = %Button
 
 
 func setBattleResult(rewards:Rewards):

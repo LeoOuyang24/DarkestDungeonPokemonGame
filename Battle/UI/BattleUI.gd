@@ -216,6 +216,7 @@ func _ready():
 	for i in range(creatureSlots.size()):
 		creatureSlots[i].pressed.connect(func():
 			setCurrentCreatureUI(creatureSlots[i].getCreature(),creatureSlots[i].getCreature()==currentCreature)
+			
 			target_selected.emit(i)
 			);
 			

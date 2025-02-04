@@ -1,12 +1,12 @@
 [gd_scene load_steps=9 format=3 uid="uid://ccf8gtk02if4n"]
 
 [ext_resource type="Shader" path="res://Battle/UI/CreatureSlot.gdshader" id="1_lixqo"]
-[ext_resource type="Texture2D" uid="uid://3v4ug52u4i4g" path="res://sprites/icons/FLASK.png" id="2_6ipll"]
+[ext_resource type="Texture2D" uid="uid://ddqfx6uvgjmsf" path="res://sprites/icons/FLASK.png" id="2_6ipll"]
 [ext_resource type="Script" path="res://Map/Rooms/ShopRoom/ScanItem.gd" id="3_a4w1a"]
-[ext_resource type="Texture2D" uid="uid://htgtltnii7x8" path="res://sprites/icons/empty_flask.png" id="3_j3k0g"]
+[ext_resource type="Texture2D" uid="uid://r08j6xoi731j" path="res://sprites/icons/empty_flask.png" id="3_j3k0g"]
 [ext_resource type="Script" path="res://sprites/Anime.gd" id="4_ccxy3"]
 [ext_resource type="Script" path="res://Components/OnHoverHighlight.gd" id="5_4356f"]
-[ext_resource type="Texture2D" uid="uid://q5ilukk8h66k" path="res://sprites/icons/dna_icon.png" id="5_neflv"]
+[ext_resource type="Texture2D" uid="uid://cgxsxxx5aw2nn" path="res://sprites/icons/dna_icon.png" id="5_neflv"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3kttv"]
 resource_local_to_scene = true
