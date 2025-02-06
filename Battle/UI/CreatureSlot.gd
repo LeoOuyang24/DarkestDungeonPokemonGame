@@ -14,6 +14,7 @@ class_name CreatureSlot extends AnimatedButton
 
 @onready var Ticker = %DamageTicker
 @onready var TickerAnimation = %TickerAnimation
+@onready var PendingMove = %PendingMove
 
 const MAX_DIMEN = 200 #max size in either dimension a sprite can be
 var tween = null
@@ -129,6 +130,8 @@ func getTween():
 	tween = create_tween()
 	return tween;
 
+func setPendingMove(move:Move):
+	PendingMove.setMove(move,creature)
 
 func _on_button_pressed():
 	pressed.emit();

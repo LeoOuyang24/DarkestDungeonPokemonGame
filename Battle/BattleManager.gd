@@ -107,7 +107,8 @@ func handleMoveDone() -> void:
 		changeState(BATTLE_STATES.BATTLE)
 	else:
 		changeState(BATTLE_STATES.SELECTING_MOVE)
-		
+	
+	UI.getCreatureSlot(curMove.user).setPendingMove(curMove.move)
 	curMove = Move.MoveRecord.new() #make a new record
 
 func createBattle(player,allies,enemies):

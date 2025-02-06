@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://bqsfei63od030"]
+[gd_scene load_steps=11 format=3 uid="uid://bqsfei63od030"]
 
 [ext_resource type="Script" path="res://Battle/UI/CreatureSlot.gd" id="1_kmmwv"]
 [ext_resource type="Shader" path="res://Battle/UI/CreatureSlot.gdshader" id="1_v7n5r"]
 [ext_resource type="PackedScene" uid="uid://bjln7kkve4d5a" path="res://Battle/UI/health_bar.tscn" id="2_1ocdj"]
 [ext_resource type="PackedScene" uid="uid://5t1xxv227xqw" path="res://StatusEffects/StatusEffectsUI.tscn" id="3_2kmqv"]
+[ext_resource type="PackedScene" uid="uid://cpg5w77s8sbsw" path="res://Battle/UI/pending_move.tscn" id="5_kc8uo"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t3clw"]
 resource_local_to_scene = true
@@ -75,6 +76,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
+offset_left = -53.0
+offset_top = -210.0
+offset_right = 47.0
+offset_bottom = -110.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 8
@@ -82,6 +87,7 @@ size_flags_vertical = 8
 ignore_texture_size = true
 stretch_mode = 5
 script = ExtResource("1_kmmwv")
+testing = true
 onHoverOutline = false
 
 [node name="TickerAnimation" type="AnimationPlayer" parent="."]
@@ -142,4 +148,17 @@ anchor_top = 1.0
 anchor_bottom = 1.0
 grow_vertical = 0
 
+[node name="PendingMove" parent="." instance=ExtResource("5_kc8uo")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -37.0
+offset_top = -110.0
+offset_right = 37.0
+offset_bottom = -46.0
+grow_horizontal = 2
+
 [editable path="HealthBar"]
+[editable path="PendingMove"]
