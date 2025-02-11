@@ -6,6 +6,7 @@ var texture = Anime.new()
 # Called when the node enters the scene tree for the first time.
 func _init():
 	super("Mend",1,10)
+	icon = load("res://sprites/icons/heart_icon.png")
 	targetingCriteria = TARGETING_CRITERIA.ONLY_ALLIES
 	summary = "Restore " + str(amount) + " health to an ally."
 	pass # Replace with function body.

@@ -1,6 +1,6 @@
 [gd_resource type="SpriteFrames" load_steps=14 format=3 uid="uid://bcgia7u0y46sc"]
 
-[ext_resource type="Texture2D" uid="uid://dldkufjpux577" path="res://sprites/spritesheets/moves/entangle.png" id="1_d5w1b"]
+[ext_resource type="Texture2D" uid="uid://c5kvpvpt3d4o5" path="res://sprites/spritesheets/moves/entangle.png" id="1_d5w1b"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_inu22"]
 atlas = ExtResource("1_d5w1b")
@@ -91,5 +91,5 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
-"speed": 24.0
+"speed": 12.0
 }]

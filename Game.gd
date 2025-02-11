@@ -98,6 +98,7 @@ func _on_map_room_selected(roomInfo):
 			for i in range(size):
 				enemies.push_back(CreatureLoader.getRandCreature(["chomper","giant","masked","princess","siren","silent"]))
 			#enemies[2].traits.addStatus(Steadfast.new())
+			enemies = [CreatureLoader.loadJSON("Princess"),CreatureLoader.loadJSON("Princess")]
 			newScene.createBattle(GameState.PlayerState.getPlayer(),GameState.PlayerState.getTeam(),enemies)
 			GameState.setBattle(newScene.BattleSim)
 		Room.ROOM_TYPES.WELL:

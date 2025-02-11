@@ -6,6 +6,7 @@ const amount:int = 3 #amount of health to restore
 func _init():
 	super("Give Attack",1,10)
 	targetingCriteria = TARGETING_CRITERIA.ONLY_ALLIES
+	icon = load("res://sprites/icons/moves/upicon.png")
 	summary = "Increase ally attack by 1.5x."
 	pass # Replace with function body.
 

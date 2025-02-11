@@ -1,6 +1,6 @@
 [gd_resource type="SpriteFrames" load_steps=16 format=3 uid="uid://ccp4pur1hr20h"]
 
-[ext_resource type="Texture2D" uid="uid://sbf6ianj7avp" path="res://sprites/spritesheets/moves/poison.png" id="1_go07g"]
+[ext_resource type="Texture2D" uid="uid://byfqg2guuixpr" path="res://sprites/spritesheets/moves/poison.png" id="1_go07g"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cd65v"]
 atlas = ExtResource("1_go07g")
@@ -103,7 +103,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_d0oep")
 }],
-"loop": true,
+"loop": false,
 "name": &"default",
-"speed": 26.0
+"speed": 12.0
 }]

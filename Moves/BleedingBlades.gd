@@ -4,6 +4,7 @@ class_name BleedingBlades extends Move
 func _init():
 	super("Bleeding Blades",1,1)
 	summary = "Deal %s damage to a chosen target and inflict 3 stacks of bleed."
+	icon = load("res://sprites/icons/moves/claw.png")
 	pass # Replace with function body.
 
 func getModifiers(user:Creature) -> Array:

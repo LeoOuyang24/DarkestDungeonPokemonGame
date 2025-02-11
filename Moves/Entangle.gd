@@ -8,6 +8,7 @@ func _ready():
 func _init():
 	manualTargets = 0;
 	moveName="Entangle"
+	icon = load("res://sprites/icons/moves/entangle.png")
 	summary="Paralyze two frontmost targets for two turns."
 	
 func runAnimation(user:Creature, enemies: Array, UI:BattleUI,battlefield:Battlefield) -> void:

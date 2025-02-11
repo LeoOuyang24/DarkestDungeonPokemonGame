@@ -38,9 +38,7 @@ func _ready() -> void:
 	UI.battle_finished.connect(battleFinished)
 	
 	
-	BattleSim.add_move_queue.connect(func (queue:Array):
-		UI.updateQueue(queue)
-		)
+	BattleSim.add_move_queue.connect(UI.updateQueue)
 	BattleSim.creature_added.connect(UI.addCreature)
 	BattleSim.creature_removed.connect(UI.removeCreature)
 	BattleSim.creature_order_changed.connect(UI.updateSlots.bind(BattleSim))
@@ -53,7 +51,7 @@ func _ready() -> void:
 
 	if testing:
 		test();
-	
+	UI.updateSlots(BattleSim)
 	await UI.is_ready;
 	
 	newTurn(true)
@@ -86,7 +84,7 @@ func test() -> void:
 func handleTargetSelect(index:int) -> void:
 	if state == BATTLE_STATES.SELECTING_TARGET && curMove.move:
 		var target = BattleSim.getCreature(index)
-		if target && curMove.move.isTargetValid(curMove.move.targetingCriteria,true,target.getIsFriendly()):
+		if target && curMove.move.isTargetValid(curMove.move.targetingCriteria,BattleSim.getCurrentCreature(),target):
 			curMove.targets.push_back(index);
 			if curMove.targets.size() >= curMove.move.getNumOfTargets():
 				handleMoveDone()
@@ -108,7 +106,6 @@ func handleMoveDone() -> void:
 	else:
 		changeState(BATTLE_STATES.SELECTING_MOVE)
 	
-	UI.getCreatureSlot(curMove.user).setPendingMove(curMove.move)
 	curMove = Move.MoveRecord.new() #make a new record
 
 func createBattle(player,allies,enemies):
@@ -148,7 +145,7 @@ func newTurn(first:bool=false):
 	else:
 		BattleSim.newTurn();
 	UI.newTurn(BattleSim);
-	await UI.AllyRow.sort_children
+	#await UI.AllyRow.sort_children
 
 	changeState(BATTLE_STATES.SELECTING_MOVE);
 
@@ -188,7 +185,8 @@ func runDeath(dead:Creature) -> void:
 
 func runBattle():
 	await UI.startBattle()
-	var runThis := BattleSim.top()
+	
+	var runThis := BattleSim.getNextMove()
 
 	while runThis:
 		#print(BattleSim.moveQueue.data)
@@ -203,8 +201,8 @@ func runBattle():
 			changeState(BATTLE_STATES.WE_LOST)
 			return 
 		else:
-			BattleSim.nextMove();
-			runThis = BattleSim.top()
+			#BattleSim.nextMove();
+			runThis = BattleSim.getNextMove()
 		UI.resetAllSlotPos()
 			
 	if BattleSim.isDone():

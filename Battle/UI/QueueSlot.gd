@@ -6,7 +6,7 @@ class_name QueueSlot extends AnimatedButton
 var creature:Creature = null
 
 func updateSpeed(speed:int = creature.stats.getCurStat(CreatureStats.STATS.SPEED) if creature else 0) -> void:
-	SpeedCounter.set_text(str(speed))
+	SpeedCounter.set_text("[outline_color=black][outline_size=10][font_size=25]"+str(speed)+"[/font_size][/outline_size][/outline_color]")
 
 func setCreature(creature:Creature) -> void:
 	self.creature = creature

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cn5l2y4sqh7an"]
+
+[ext_resource type="SpriteFrames" uid="uid://c07gjo4ml3o0w" path="res://sprites/spritesheets/creatures/player.tres" id="1_jnlgr"]
+
+[node name="AnimeTester" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_jnlgr")
+frame_progress = 0.733126

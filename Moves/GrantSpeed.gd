@@ -6,6 +6,8 @@ const amount:int = 3 #amount of health to restore
 # Called when the node enters the scene tree for the first time.
 func _init():
 	super("Give Speed",1,10)
+	icon = load("res://sprites/icons/moves/upicon.png")
+
 	targetingCriteria = TARGETING_CRITERIA.ONLY_ALLIES
 	summary = "Give a creature +5 speed"
 	pass # Replace with function body.

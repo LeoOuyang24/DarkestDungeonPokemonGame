@@ -45,19 +45,47 @@ script = ExtResource("1_pxd7g")
 material = SubResource("ShaderMaterial_wcy7y")
 layout_mode = 2
 script = ExtResource("3_xwr6i")
-testing = true
+
+[node name="PendingMove" parent="Slot1" index="5"]
+visible = false
 
 [node name="Slot2" parent="." instance=ExtResource("1_t0i4w")]
 material = SubResource("ShaderMaterial_dpucv")
 layout_mode = 2
 script = ExtResource("3_xwr6i")
 
+[node name="PendingMove" parent="Slot2" index="5"]
+visible = false
+
 [node name="Slot3" parent="." instance=ExtResource("1_t0i4w")]
 material = SubResource("ShaderMaterial_5a7lj")
 layout_mode = 2
 script = ExtResource("3_xwr6i")
 
+[node name="PendingMove" parent="Slot3" index="5"]
+visible = false
+
+[node name="PendingMove" parent="Slot3/PendingMove" index="0"]
+offset_left = -37.0
+offset_right = 13.0
+
 [node name="Slot4" parent="." instance=ExtResource("1_t0i4w")]
 material = SubResource("ShaderMaterial_hfjkr")
 layout_mode = 2
 script = ExtResource("3_xwr6i")
+
+[node name="PendingMove" parent="Slot4" index="5"]
+visible = false
+
+[editable path="Slot1"]
+[editable path="Slot1/HealthBar"]
+[editable path="Slot1/PendingMove"]
+[editable path="Slot2"]
+[editable path="Slot2/HealthBar"]
+[editable path="Slot2/PendingMove"]
+[editable path="Slot3"]
+[editable path="Slot3/HealthBar"]
+[editable path="Slot3/PendingMove"]
+[editable path="Slot4"]
+[editable path="Slot4/HealthBar"]
+[editable path="Slot4/PendingMove"]

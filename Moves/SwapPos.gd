@@ -4,6 +4,7 @@ class_name SwapPos extends Move
 
 func _init():
 	moveName = "Tactic: Swap"
+	icon = load("res://sprites/icons/speed_icon.png")
 	manualTargets = 1
 	baseCooldown = 3
 	targetingCriteria=Move.TARGETING_CRITERIA.ONLY_ALLIES

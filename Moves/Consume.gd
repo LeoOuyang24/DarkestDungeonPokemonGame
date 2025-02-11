@@ -5,7 +5,7 @@ class_name Consume extends Move
 func _init():
 	super("Consume",1,5)
 	summary = "Kill an ALLY. Gain a portion of their BASE stats."
-	targetingCriteria = Move.TARGETING_CRITERIA.ONLY_ALLIES;
+	targetingCriteria = Move.TARGETING_CRITERIA.OTHER_ALLIES;
 	pass # Replace with function body.
 
 

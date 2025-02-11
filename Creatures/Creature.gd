@@ -106,33 +106,25 @@ func getMove(index):
 	if index < 0 || index >= moves.size():
 		return null
 	return moves[index];
-func getRandomMove():
-	return moves[randi()%moves.size()]
+func getRandomMove() -> Move:
+	var possible:Array[Move] = []
+	for i:Move in moves:
+		if i.isUsable():
+			possible.push_back(i)
+	if possible.size() == 0:
+		return PassTurn.new()
+	return possible[randi()%possible.size()]
 	
 func addTrait(t:Trait):
 	traits.addStatus(t)
 
-#given a creature, its allies, and its targets,
+#given a creature and the current battlefield
 #run the AI for the creature
 #return the move it would use
-static func AI(user,allies,enemies) -> Move.MoveRecord:
-	if len(user.moves) > 0 and len(enemies) > 0:
+static func AI(user:Creature, battlefield:Battlefield) -> Move.MoveRecord:
+	if user:
 		var move = user.getRandomMove()
-		var targets = []
-		var targetingCriteria = move.getTargetingCriteria()
-		for i in move.getNumOfTargets():
-			var targetArray = null
-			if targetingCriteria == Move.TARGETING_CRITERIA.ONLY_ENEMIES:
-				targetArray = enemies
-			elif targetingCriteria == Move.TARGETING_CRITERIA.ONLY_ALLIES:
-				targetArray = allies
-			elif targetingCriteria == Move.TARGETING_CRITERIA.ALLIES_AND_ENEMIES:
-				targetArray = allies + enemies
-			var chosen = -1
-			while (chosen == -1 || targetArray[chosen] == null || targets.find(chosen) != -1) && targets.size()< targetArray.size():
-				chosen = randi()%targetArray.size()
-			targets.push_back(chosen)
-		return Move.MoveRecord.new(user,move,targets)
+		return Move.MoveRecord.new(user,move,battlefield.getTargets(user,move))
 	return null
 		#user.attacks[randi()%len(user.attacks)].move(user,[targets[0]])
 		

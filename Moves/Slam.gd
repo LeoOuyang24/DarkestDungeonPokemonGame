@@ -7,7 +7,7 @@ func _ready():
 	
 func _init():
 	super("Slam",0,10)
-	
+	icon = load("res://sprites/icons/moves/fist.png")
 	summary="Deal 1.5x damage to frontmost target. Excess damage passes to the next creature."
 	
 func runAnimation(user:Creature, enemies: Array, UI:BattleUI,battlefield:Battlefield) -> void:

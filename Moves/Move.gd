@@ -11,15 +11,18 @@ class MoveRecord extends Object:
 
 	var move:Move = null #the move
 	var user:Creature = null #user of the move
-	var targets:Array = [] #indicies of creatures that are the target
+	var targets:Array[int] = [] #indicies of creatures that are the target
 
-	func _init( user:Creature = null, move:Move = null, targets:Array = []):
+	func _init( user:Creature = null, move:Move = null, targets:Array[int] = []):
 		self.move = move;
 		self.user = user;
 		self.targets = targets;
 		
 	func copy() -> MoveRecord:
 		return MoveRecord.new(self.user,self.move,self.targets)
+		
+	func _to_string() -> String:
+		return "{ " + str(user) + ", " + str(move)+", "+ str(targets)+ "}"
 
 #the name of the move
 var moveName:StringName = "move"
@@ -45,9 +48,11 @@ var manualTargets:int = 0;
 #this only applies to manually targeting
 enum TARGETING_CRITERIA
 {
+	OTHER_ALLIES, #allies, not including itself
 	ONLY_ALLIES,
 	ONLY_ENEMIES,
-	ALLIES_AND_ENEMIES
+	ALL_OTHERS, #allies and enemies, but not itself
+	ALL
 }
 
 var targetingCriteria:TARGETING_CRITERIA = TARGETING_CRITERIA.ONLY_ENEMIES
@@ -61,12 +66,18 @@ func _init(moveName:String,manualTargets:int = 0,baseCooldown:int = 1):
 	self.baseCooldown = baseCooldown
 
 #based on the friendliness of the target and user, determine if the target is valid
-static func isTargetValid(targetingCriteria:TARGETING_CRITERIA, areWeFriendly:bool, isTargetFriendly:bool):
-	if targetingCriteria == TARGETING_CRITERIA.ALLIES_AND_ENEMIES:
-		return true
-	if areWeFriendly == isTargetFriendly:
-		return targetingCriteria == TARGETING_CRITERIA.ONLY_ALLIES
-	return targetingCriteria == TARGETING_CRITERIA.ONLY_ENEMIES
+static func isTargetValid(targetingCriteria:TARGETING_CRITERIA, user:Creature, target:Creature):
+	if user and target:
+		if targetingCriteria == TARGETING_CRITERIA.ALL:
+			return true	
+		elif targetingCriteria == TARGETING_CRITERIA.ALL_OTHERS:
+			return user != target
+		if user.getIsFriendly() == target.getIsFriendly():
+			return user == target if targetingCriteria == TARGETING_CRITERIA.OTHER_ALLIES else targetingCriteria == TARGETING_CRITERIA.ONLY_ALLIES
+		return targetingCriteria == TARGETING_CRITERIA.ONLY_ENEMIES
+	else:
+		return false
+
 
 func getMoveName():
 	return moveName

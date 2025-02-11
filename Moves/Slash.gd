@@ -7,6 +7,7 @@ func _ready():
 	
 func _init():
 	manualTargets = 0;
+	icon = load("res://sprites/icons/moves/claw.png")
 	moveName="Slash"
 	summary="Deal 0.5x damage to two frontmost targets"
 	

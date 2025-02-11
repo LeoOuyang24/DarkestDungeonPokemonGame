@@ -7,6 +7,7 @@ func _ready():
 
 func _init():
 	super("Grow",0,1)
+	icon = load("res://sprites/icons/moves/upicon.png")
 	summary = "Double user's attack"
 
 	

@@ -19,9 +19,8 @@ var creaturesNum:int = 0
 
 var moveQueue:MoveQueue = MoveQueue.new();
 
-#emitted when a NEW record is added to the queue, NOT when a record is updated 
-#(ie, a move is selected for a creature(
-signal add_move_queue(record:Move.MoveRecord, index:int);
+#emitted when a record is added/updated in moveQueue
+signal add_move_queue(record:Move.MoveRecord);
 #emitted when the queue order changes, emits the new queue for copying
 signal queue_order_changed(data:Array);
 #emitted when a record is popped, basically when a move is run
@@ -121,18 +120,18 @@ func moveCreature(creature:Creature, index:int):
 		creature_order_changed.emit();
 			
 #return allies based on if the creature is friendly or not
-func getAllies(isFriendly:bool = true):
+func getAllies(isFriendly:bool = true) -> Array[Creature]:
 	if isFriendly:
-		var allies = []
+		var allies:Array[Creature] = []
 		for i in range(maxAllies):
 			allies.push_back(creatures[i])
 		return allies
 	else:
 		return getEnemies(true)
 	
-func getEnemies(isFriendly:bool = true):
+func getEnemies(isFriendly:bool = true) -> Array[Creature]:
 	if isFriendly:
-		var enemies = []
+		var enemies:Array[Creature] = []
 		for i in range(maxAllies,creatures.size(),1):
 			enemies.push_back(creatures[i])
 		return enemies	
@@ -158,15 +157,56 @@ func getFrontMostCreatures(front:int = 1, enemies:bool = true, index:bool = true
 func getEnemyMoves():
 	for creature in getEnemies():
 		if creature:
-			moveQueue.addMove(creature,Creature.AI(creature,getEnemies(),getAllies()))
+			addMoveToQueue(Creature.AI(creature,self))
+			#moveQueue.addMove(creature,)
 
+#given a user and a targeting criteria, returns all creatures that could potentially
+#be targeted
+func getLegalTargets(user:Creature, criteria:Move.TARGETING_CRITERIA) -> Array[Creature]:
+	var targetArray:Array[Creature] = []
+	match criteria:
+		Move.TARGETING_CRITERIA.ONLY_ENEMIES:
+			targetArray = getEnemies(user.getIsFriendly())
+		Move.TARGETING_CRITERIA.ONLY_ALLIES:
+			targetArray = getAllies(user.getIsFriendly())
+		Move.TARGETING_CRITERIA.OTHER_ALLIES:
+			targetArray.assign(getAllies(user.getIsFriendly()).map(func(asdf:Creature) -> Creature:
+				return asdf if asdf != user else null
+				) )
+		Move.TARGETING_CRITERIA.ALL:
+			targetArray = creatures
+		Move.TARGETING_CRITERIA.ALL_OTHERS:
+			targetArray = creatures.map(func(asdf:Creature):
+				return asdf if asdf != user else null
+				)
+	#filter out null creatures
+	return targetArray.filter(func(creature:Creature):
+		return creature != null
+		)
+#given a move used by a creature, calculate the appropriate targets
+#returns the indicies since that's what MoveRecord uses
+func getTargets(user:Creature, move:Move) -> Array[int]:
+	if move:
+		var criteria = move.getTargetingCriteria()
+		var targetArray := getLegalTargets(user,criteria)
+		if targetArray.size() > 0:
+			targetArray.shuffle()
+			var arr:Array[int] = []
+			#have to do this cringe ass .assign call because from what I can tell, .map will always return an untyped array
+			#https://github.com/godotengine/godot/issues/72566
+			arr.assign(targetArray.slice(0,min(move.getNumOfTargets(),targetArray.size())).map(func(creature):
+				return getCreatureIndex(creature))) #get as many targets as possible	
+			return arr
+
+	return []	
+					
 #what to run on the very first turn
 func firstTurn() -> void:
 	moveQueue.reset();
 	#moveQueue.clear()
-	#for creature in creatures:
-		#if creature:
-			#moveQueue.insert(Move.MoveRecord.new(creature,null,[]))
+	for creature in creatures:
+		if creature:
+			moveQueue.insert(Move.MoveRecord.new(creature,null,[]))
 	getEnemyMoves();
 	if creaturesNum > 0:
 		setCurrentCreature(getFrontMostCreatures(1,false,false)[0])	
@@ -198,26 +238,24 @@ func getFullQueue() -> Array:
 #update creature's spot in queue
 func updateMoveQueue(creature:Creature) -> void:
 	if creature:
-		queue_order_changed.emit(creature,moveQueue.getSpotInQueue(creature),moveQueue.updateSpot(creature));
+		#print(moveQueue.find(creature)," ",moveQueue.updateSpot(creature))
+		#print(moveQueue.data)
+		queue_order_changed.emit(creature,moveQueue.find(creature),moveQueue.updateSpot(creature));
 		
 	
 #add a move to the move queue
 func addMoveToQueue(record:Move.MoveRecord) -> void:
-	if record.user:
-		#if creature is already in queue, update what move it's gonna do
-		#this avoids a sort
-		if moveQueue.getSpotInQueue(record.user) != -1:
-			moveQueue.addMove(record.user,record)
-		else:
-			moveQueue.insert(record)
+	#if creature is already in queue, update what move it's gonna do
+	if record:
+		moveQueue.insert(record)
+		add_move_queue.emit(record)
 
-#return the topmost move
-func top() -> Move.MoveRecord:
-	return moveQueue.top()
+func getNextMove() -> Move.MoveRecord:
+	return moveQueue.pop();
 	
-#just increments the queue
-func nextMove() -> void:
-	moveQueue.increment();
+##just increments the queue
+#func nextMove() -> void:
+	#moveQueue.increment();
 	
 #returns whether all players have selected a move
 func allMovesProcessed() -> bool:

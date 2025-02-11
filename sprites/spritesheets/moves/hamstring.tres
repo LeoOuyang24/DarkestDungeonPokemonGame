@@ -1,6 +1,6 @@
 [gd_resource type="SpriteFrames" load_steps=9 format=3 uid="uid://isb3cksy3nd4"]
 
-[ext_resource type="Texture2D" uid="uid://q3l8fvgt7p47" path="res://sprites/spritesheets/moves/strike.png" id="1_jgnx4"]
+[ext_resource type="Texture2D" uid="uid://bjmargwpp1lb2" path="res://sprites/spritesheets/moves/strike.png" id="1_jgnx4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6fccq"]
 atlas = ExtResource("1_jgnx4")
@@ -56,5 +56,5 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
-"speed": 21.0
+"speed": 12.0
 }]

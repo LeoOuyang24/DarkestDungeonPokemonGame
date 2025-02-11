@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://b3hux6c6p4pfu"]
 
 [ext_resource type="Script" path="res://Battle/UI/BattleUI.gd" id="1_0uu34"]
-[ext_resource type="Texture2D" uid="uid://b18gkey5jgqun" path="res://sprites/backgrounds/BW.png" id="2_o8eal"]
+[ext_resource type="Texture2D" uid="uid://fdrwkx1bfjr4" path="res://sprites/backgrounds/BW.png" id="2_o8eal"]
 [ext_resource type="PackedScene" uid="uid://bgy4kes6sp7tp" path="res://Battle/UI/EndScreen.tscn" id="3_1dct8"]
 [ext_resource type="Script" path="res://sprites/Anime.gd" id="4_tevqn"]
 [ext_resource type="PackedScene" uid="uid://daxhjw473xi4b" path="res://Battle/UI/turn_ui.tscn" id="6_1dtmw"]
@@ -17,9 +17,9 @@ script = ExtResource("1_0uu34")
 [node name="Rows" type="ReferenceRect" parent="."]
 layout_mode = 0
 offset_left = 79.0
-offset_top = 221.0
+offset_top = 255.0
 offset_right = 1851.0
-offset_bottom = 736.0
+offset_bottom = 770.0
 mouse_filter = 2
 
 [node name="EnemyRow" type="HBoxContainer" parent="Rows"]

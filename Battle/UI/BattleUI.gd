@@ -42,7 +42,7 @@ var currentCreature:Creature = null
 
 func newTurn(state:Battlefield):
 	updateQueue(state.getFullQueue())
-	updateSlots(state)
+	#updateSlots(state)
 
 	
 	await get_tree().create_timer(1).timeout
@@ -169,7 +169,7 @@ func updateQueue(queue:Array):
 	for i in range(Battlefield.maxAllies + Battlefield.maxEnemies):
 		children[i].modulate = Color(1,1,1,1)
 		if i < queue.size():
-			children[i].setCreature(queue[i])
+			children[i].setCreature(queue[i].user)
 		else:
 			children[i].setCreature(null)
 		
@@ -179,7 +179,7 @@ func choosingTargets(targets:Move.TARGETING_CRITERIA = Move.TARGETING_CRITERIA.O
 		var tween = creatureSlots[i].getTween().set_loops();
 		var sprite = creatureSlots[i]
 		#only turn on flashing if the target is valid (an ally for an only ally move, an enemy for an only enemy move, etc)
-		if sprite && Move.isTargetValid(targets,true, i < Battlefield.maxAllies):
+		if sprite && Move.isTargetValid(targets,currentCreature,creatureSlots[i].getCreature()):
 			tween.tween_property(sprite, "modulate", Color.BLACK, 1)
 			tween.tween_property(sprite,"modulate",Color.WHITE,1)
 		##if "flash" is false, turn off the flashing for all creatures

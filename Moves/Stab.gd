@@ -5,6 +5,7 @@ class_name Stab extends Move
 func _init():
 	super("Stab",1,3)
 	summary = "Deal %s damage to a chosen target"
+	icon = load("res://sprites/icons/moves/claw.png")
 	pass # Replace with function body.
 func getModifiers(user:Creature) -> Array:
 	return [{"value":user.stats.getCurStat(CreatureStats.STATS.ATTACK),"color":Color.RED,"calc":"1x"}]

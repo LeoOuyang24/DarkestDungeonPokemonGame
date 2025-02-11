@@ -1,6 +1,6 @@
 [gd_resource type="SpriteFrames" load_steps=22 format=3 uid="uid://c52mqexbww7uy"]
 
-[ext_resource type="Texture2D" uid="uid://dp2jmkt786seq" path="res://sprites/spritesheets/moves/soporifics.png" id="1_5pnyj"]
+[ext_resource type="Texture2D" uid="uid://dqj0mhhi0jvlt" path="res://sprites/spritesheets/moves/soporifics.png" id="1_5pnyj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ued7w"]
 atlas = ExtResource("1_5pnyj")
@@ -147,5 +147,5 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
-"speed": 40.0
+"speed": 16.0
 }]

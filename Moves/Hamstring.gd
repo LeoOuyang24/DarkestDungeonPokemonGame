@@ -4,6 +4,7 @@ class_name Hamstring extends Move
 func _init():
 	super("Hamstring",1,1)
 	summary = "Deal %s damage to a chosen target and inflict 2 turns of paralysis"
+	icon = load("res://sprites/statuses/paralyzed.png")
 	pass # Replace with function body.
 
 func getModifiers(user:Creature) -> Array:

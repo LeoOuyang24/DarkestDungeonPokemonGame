@@ -5,6 +5,3 @@ class_name PassTurn extends Move
 func _init():
 	moveName = "Pass Turn"
 	summary = "Skip the turn like the coward you are."
-
-
-

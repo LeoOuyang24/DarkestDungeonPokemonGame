@@ -77,6 +77,7 @@ func updateHealth(stat:CreatureStats.STATS,amount:int):
 				Game.GameCamera.shake(100)
 			else:
 				Game.GameCamera.shake(30)
+		HealthBar.set_max(creature.stats.getBaseStat(CreatureStats.STATS.HEALTH))
 		HealthBar.setHealth(creature.stats.getCurStat(CreatureStats.STATS.HEALTH))
 
 		Ticker.clear()
@@ -92,6 +93,7 @@ func onHover():
 func setCreature(creature:Creature):
 	removeCreature()
 	self.creature = creature;
+	PendingMove.PendingMove.creature = creature
 	if creature:
 
 		var sprite = creature.spriteFrame
@@ -113,6 +115,7 @@ func setCreature(creature:Creature):
 		setSpriteAndSize(null,Vector2(0,0))
 	if HealthBar:
 		HealthBar.visible = (creature != null)
+
 		
 	
 func setAnimation(string:String) -> void:
@@ -129,9 +132,6 @@ func getTween():
 		tween.kill()
 	tween = create_tween()
 	return tween;
-
-func setPendingMove(move:Move):
-	PendingMove.setMove(move,creature)
 
 func _on_button_pressed():
 	pressed.emit();
