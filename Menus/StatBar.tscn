@@ -9,7 +9,7 @@ default_font_size = 200
 RichTextLabel/font_sizes/normal_font_size = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7wk8l"]
-resource_local_to_scene = true
+bg_color = Color(1, 0.698039, 0.0980392, 1)
 
 [node name="Control" type="HBoxContainer"]
 offset_left = 256.0

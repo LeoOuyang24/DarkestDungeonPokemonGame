@@ -1,11 +1,18 @@
-extends TextureButton
+extends Control
+
+@onready var Icon:TextureRect = %MoveIcon
 
 var move:Move = null:
 	set(val):
 		move = val
 		visible = (creature != null and move != null)
 		if move:
-			set_texture_normal(move.icon)
+			if Icon:
+				Icon.set_texture(move.icon)
+			elif !is_node_ready():
+				#if Icon is null because we haven't been mounted yet, wait for it to be mounted
+				await ready
+				Icon.set_texture(move.icon)
 			
 var creature:Creature = null:
 	set(val):

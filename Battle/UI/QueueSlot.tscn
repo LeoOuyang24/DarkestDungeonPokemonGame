@@ -1,6 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://bl3rf7csarlv0"]
+[gd_scene load_steps=5 format=3 uid="uid://bl3rf7csarlv0"]
 
 [ext_resource type="Script" path="res://Battle/UI/QueueSlot.gd" id="1_eb2sy"]
+[ext_resource type="PackedScene" uid="uid://bk0gnk03sgxh1" path="res://Battle/UI/PendingMove.tscn" id="2_ujdrc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3b435"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 0.32549)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4xbee"]
+resource_local_to_scene = true
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
 
 [node name="QueueSlot" type="TextureButton"]
 custom_minimum_size = Vector2(100, 100)
@@ -9,6 +22,7 @@ stretch_mode = 5
 script = ExtResource("1_eb2sy")
 
 [node name="Background" type="ColorRect" parent="."]
+visible = false
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 1
 anchors_preset = 15
@@ -31,3 +45,19 @@ mouse_filter = 2
 bbcode_enabled = true
 text = "1"
 scroll_active = false
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3b435")
+
+[node name="PendingMove" parent="." instance=ExtResource("2_ujdrc")]
+unique_name_in_owner = true
+layout_mode = 1
+offset_top = 1.0
+offset_bottom = 31.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_4xbee")

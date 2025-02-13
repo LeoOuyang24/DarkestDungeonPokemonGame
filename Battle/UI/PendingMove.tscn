@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://bk0gnk03sgxh1"]
+
+[ext_resource type="Texture2D" uid="uid://bssj0uxehprpt" path="res://icon.svg" id="1_1cl62"]
+[ext_resource type="Script" path="res://Battle/UI/PendingMove.gd" id="1_hcfjp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qm7oo"]
+resource_local_to_scene = true
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+
+[node name="PendingMove" type="PanelContainer"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 33.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_qm7oo")
+script = ExtResource("1_hcfjp")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 2
+
+[node name="MoveIcon" type="TextureRect" parent="CenterContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("1_1cl62")
+expand_mode = 1
+stretch_mode = 5

@@ -1,24 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://b10n7jankcsc1"]
+[gd_scene load_steps=9 format=3 uid="uid://b10n7jankcsc1"]
 
 [ext_resource type="Theme" uid="uid://fmhayxk6i3ei" path="res://UI/margins.tres" id="1_6b7s8"]
 [ext_resource type="Script" path="res://Menus/TeamSlot.gd" id="1_phug7"]
 [ext_resource type="Script" path="res://UI/creature_stats.gd" id="2_gbbt7"]
 [ext_resource type="PackedScene" uid="uid://b6nxjul7v18y3" path="res://Menus/StatBar.tscn" id="2_n6pso"]
-[ext_resource type="Texture2D" uid="uid://c1u1tuqrcdmmc" path="res://sprites/icons/claw_icon.png" id="3_ew4me"]
+[ext_resource type="Texture2D" uid="uid://cp4s8dnh0c48e" path="res://sprites/icons/claw_icon.png" id="3_ew4me"]
+[ext_resource type="Theme" uid="uid://8reuecd1io3g" path="res://Battle/UI/BattleUI.tres" id="3_f2aab"]
 [ext_resource type="Script" path="res://UI/Name.gd" id="3_kpv8i"]
-[ext_resource type="Texture2D" uid="uid://dkm5fbovv5fr" path="res://sprites/icons/speed_icon.png" id="4_h4rfv"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1dxyc"]
-bg_color = Color(0.572549, 0.32549, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b716l"]
-resource_local_to_scene = true
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1vwbc"]
-resource_local_to_scene = true
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fbub1"]
-resource_local_to_scene = true
+[ext_resource type="Texture2D" uid="uid://ds2kw1pcwxvcn" path="res://sprites/icons/speed_icon.png" id="4_h4rfv"]
 
 [node name="CreatureStats" type="MarginContainer"]
 offset_right = 489.0
@@ -33,7 +22,7 @@ script = ExtResource("2_gbbt7")
 [node name="Background" type="PanelContainer" parent="."]
 layout_mode = 2
 mouse_filter = 1
-theme_override_styles/panel = SubResource("StyleBoxFlat_1dxyc")
+theme = ExtResource("3_f2aab")
 
 [node name="Profile" type="HBoxContainer" parent="Background"]
 layout_mode = 2
@@ -94,9 +83,6 @@ metadata/_edit_use_anchors_ = true
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="ProgressBar" parent="Background/Profile/Stats/Control/Health" index="1"]
-theme_override_styles/fill = SubResource("StyleBoxFlat_b716l")
-
 [node name="Attack" parent="Background/Profile/Stats/Control" instance=ExtResource("2_n6pso")]
 unique_name_in_owner = true
 layout_mode = 2
@@ -104,9 +90,6 @@ BarColor = Color(1, 0, 0, 1)
 
 [node name="Icon" parent="Background/Profile/Stats/Control/Attack" index="0"]
 texture = ExtResource("3_ew4me")
-
-[node name="ProgressBar" parent="Background/Profile/Stats/Control/Attack" index="1"]
-theme_override_styles/fill = SubResource("StyleBoxFlat_1vwbc")
 
 [node name="Speed" parent="Background/Profile/Stats/Control" instance=ExtResource("2_n6pso")]
 unique_name_in_owner = true
@@ -116,9 +99,5 @@ BarColor = Color(0, 1, 1, 1)
 [node name="Icon" parent="Background/Profile/Stats/Control/Speed" index="0"]
 texture = ExtResource("4_h4rfv")
 
-[node name="ProgressBar" parent="Background/Profile/Stats/Control/Speed" index="1"]
-theme_override_styles/fill = SubResource("StyleBoxFlat_fbub1")
-
-[editable path="Background/Profile/Stats/Control/Health"]
 [editable path="Background/Profile/Stats/Control/Attack"]
 [editable path="Background/Profile/Stats/Control/Speed"]

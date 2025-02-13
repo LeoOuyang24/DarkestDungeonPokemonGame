@@ -69,11 +69,9 @@ func _make_custom_tooltip(_text:String):
 	return tooltip
 
 func _ready():
-	#Bar.add = BarColor
-	Bar.get("theme_override_styles/fill").bg_color = BarColor
+	#\Bar.get("theme_override_styles/fill").bg_color = BarColor
 	#Bar.custom_minimum_size.x = get_parent_control().get_size().x
 
-	
 	setBonus(10)
 	growTo(100)
 	pass

@@ -1,11 +1,22 @@
-[gd_scene load_steps=7 format=3 uid="uid://b3hux6c6p4pfu"]
+[gd_scene load_steps=11 format=3 uid="uid://b3hux6c6p4pfu"]
 
 [ext_resource type="Script" path="res://Battle/UI/BattleUI.gd" id="1_0uu34"]
-[ext_resource type="Texture2D" uid="uid://fdrwkx1bfjr4" path="res://sprites/backgrounds/BW.png" id="2_o8eal"]
+[ext_resource type="Theme" uid="uid://cqh01hvor6ut3" path="res://Battle/UI/Rows.tres" id="2_27lud"]
+[ext_resource type="Texture2D" uid="uid://b18gkey5jgqun" path="res://sprites/backgrounds/BW.png" id="2_o8eal"]
 [ext_resource type="PackedScene" uid="uid://bgy4kes6sp7tp" path="res://Battle/UI/EndScreen.tscn" id="3_1dct8"]
 [ext_resource type="Script" path="res://sprites/Anime.gd" id="4_tevqn"]
 [ext_resource type="PackedScene" uid="uid://daxhjw473xi4b" path="res://Battle/UI/turn_ui.tscn" id="6_1dtmw"]
+[ext_resource type="Theme" uid="uid://fmhayxk6i3ei" path="res://UI/margins.tres" id="7_id080"]
+[ext_resource type="Theme" uid="uid://ctnx7oi2vcxu" path="res://UI/menu.tres" id="9_05v0j"]
 [ext_resource type="PackedScene" uid="uid://cvmuwhverwiv0" path="res://Battle/UI/InBattleSummary.tscn" id="9_d62vi"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ytwnp"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
 
 [node name="BattleUI" type="Control"]
 layout_mode = 3
@@ -14,41 +25,26 @@ offset_right = 1920.0
 offset_bottom = 1080.0
 script = ExtResource("1_0uu34")
 
-[node name="Rows" type="ReferenceRect" parent="."]
+[node name="Rows" type="HBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 79.0
+offset_left = -12.0
 offset_top = 255.0
-offset_right = 1851.0
-offset_bottom = 770.0
+offset_right = 1919.0
+offset_bottom = 682.0
 mouse_filter = 2
-
-[node name="EnemyRow" type="HBoxContainer" parent="Rows"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -531.0
-offset_top = -174.5
-offset_bottom = 175.5
-grow_horizontal = 0
-grow_vertical = 2
-mouse_filter = 2
-theme_override_constants/separation = 20
+theme = ExtResource("2_27lud")
+theme_override_constants/separation = 100
 
 [node name="AllyRow" type="HBoxContainer" parent="Rows"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -174.5
-offset_right = 70.0
-offset_bottom = 174.5
-grow_vertical = 2
+layout_mode = 2
+size_flags_horizontal = 3
 mouse_filter = 2
-theme_override_constants/separation = 20
 alignment = 2
+
+[node name="EnemyRow" type="HBoxContainer" parent="Rows"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
 
 [node name="BattleLog" type="RichTextLabel" parent="."]
 visible = false
@@ -95,14 +91,6 @@ offset_top = 192.0
 offset_right = 1447.0
 offset_bottom = 836.0
 
-[node name="CreatureSummary" parent="." instance=ExtResource("9_d62vi")]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 230.0
-offset_top = 738.0
-offset_right = 1712.0
-offset_bottom = 1025.0
-
 [node name="TurnUI" parent="." instance=ExtResource("6_1dtmw")]
 unique_name_in_owner = true
 layout_mode = 0
@@ -118,3 +106,31 @@ offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 2
 color = Color(1, 0.788235, 0.054902, 0.337255)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+offset_left = 113.0
+offset_top = 757.0
+offset_right = 1917.0
+offset_bottom = 1064.0
+theme = ExtResource("7_id080")
+theme_override_constants/margin_right = 150
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 200
+
+[node name="CreatureSummary" parent="MarginContainer/HBoxContainer" instance=ExtResource("9_d62vi")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+size_flags_vertical = 4
+theme = ExtResource("9_05v0j")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_ytwnp")
+text = "End Turn"
