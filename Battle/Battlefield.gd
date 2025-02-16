@@ -2,10 +2,6 @@ class_name Battlefield extends Node
 
 #general battle logic
 
-#index of the current player creature we are choosing moves for
-#-1 if all creatures have selected a move
-var currentCreature:Creature = null;
-
 const maxAllies:int = Player.MAX_TEAM_SIZE + 1;
 const maxEnemies:int = 3;
 
@@ -58,12 +54,6 @@ func isDone() -> bool:
 #friendly is "true" if "ind" is relative to allies, "false" if relative to enemies
 static func relPosToAbs(ind:int, friendly:bool):
 	return ind + int(!friendly)*maxAllies
-
-func getCurrentCreature() -> Creature:
-	return currentCreature
-
-func setCurrentCreature(creature:Creature) -> void:
-	currentCreature = creature
 
 func getCreature(index:int) -> Creature:
 	if index < 0 || index >= creatures.size():
@@ -208,8 +198,6 @@ func firstTurn() -> void:
 		if creature:
 			moveQueue.insert(Move.MoveRecord.new(creature,null,[]))
 	getEnemyMoves();
-	if creaturesNum > 0:
-		setCurrentCreature(getFrontMostCreatures(1,false,false)[0])	
 
 
 #what to run on every turn after the first
@@ -258,16 +246,14 @@ func getNextMove() -> Move.MoveRecord:
 ##just increments the queue
 #func nextMove() -> void:
 	#moveQueue.increment();
-	
-#returns whether all players have selected a move
-func allMovesProcessed() -> bool:
-	return currentCreature == null
-
 
 #add a record to queue, then return another creature that has not taken a turn yet
-func handlePlayerMove(record:Move.MoveRecord) -> Creature :
+func handlePlayerMove(record:Move.MoveRecord) -> void :
 	addMoveToQueue(record)
-	#whether or not theres another ally that hasn't taken a turn yet
+
+#returns the next creature with no move selected
+func getCreatureWithNoRecord() -> Creature:
+		#whether or not theres another ally that hasn't taken a turn yet
 	for i in range(0,maxAllies):
 		if creatures[i] && !moveQueue.hasMove(creatures[i]):
 			return creatures[i];

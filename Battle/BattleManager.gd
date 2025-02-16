@@ -6,8 +6,7 @@ var BattleSim:Battlefield = Battlefield.new();
 @onready var UI:BattleUI = $BattleUI
 
 enum BATTLE_STATES {
-	SELECTING_MOVE,
-	SELECTING_TARGET,
+	PLAYER_TURN, #used for when we are still taking our turn
 	BATTLE,
 	WE_LOST,
 	WE_WON,
@@ -16,12 +15,9 @@ enum BATTLE_STATES {
 	
 	
 	
-var state:BATTLE_STATES = BATTLE_STATES.SELECTING_MOVE;
+var state:BATTLE_STATES = BATTLE_STATES.PLAYER_TURN;
 
 @export var testing:bool = false;
-
-#current move being run
-var curMove:Move.MoveRecord = Move.MoveRecord.new()
 
 var reward:Rewards = null
 
@@ -83,38 +79,8 @@ func test() -> void:
 		] );
 
 func handleRecord(record:Move.MoveRecord) -> void:
-	var next := BattleSim.handlePlayerMove(record)
-	if !next:
-		UI.EndTurn.disabled = false
-	else:
-		UI.setCurrentCreature(next)
-		
-func handleTargetSelect(index:int) -> void:
-	if state == BATTLE_STATES.SELECTING_TARGET && curMove.move:
-		var target = BattleSim.getCreature(index)
-		if target && curMove.move.isTargetValid(curMove.move.targetingCriteria,BattleSim.getCurrentCreature(),target):
-			curMove.targets.push_back(index);
-			if curMove.targets.size() >= curMove.move.getNumOfTargets():
-				handleMoveDone()
-
-func handleMoveSelect(move:Move):
-		if state == BATTLE_STATES.SELECTING_MOVE && move:
-			curMove.move = move;
-			if move.getNumOfTargets() == 0:
-				handleMoveDone()
-			else:
-				changeState(BATTLE_STATES.SELECTING_TARGET)
-
-#handle a move that has had targets selected
-func handleMoveDone() -> void:
-	curMove.user = BattleSim.getCurrentCreature()
-	BattleSim.handlePlayerMove(curMove.copy())
-	if BattleSim.allMovesProcessed():
-		UI.EndTurn.disabled = false
-	else:
-		changeState(BATTLE_STATES.SELECTING_MOVE)
-	
-	curMove = Move.MoveRecord.new() #make a new record
+	BattleSim.handlePlayerMove(record)
+	changeState(BATTLE_STATES.PLAYER_TURN)
 
 func createBattle(player,allies,enemies):
 	#allies += [player]
@@ -129,14 +95,12 @@ func changeState(state):
 	self.state = state;
 	#UI.setBattleState(BattleSim);
 	#UI.resetSlotUIs()
-	UI.setCurrentCreature(BattleSim.getCurrentCreature())
-	if self.state == BATTLE_STATES.SELECTING_MOVE:
-		#UI.resetSlotUIs();
-		#UI.setCurrentCreature(BattleSim.getCurrentCreature())
-		UI.setBattleText("Choose a move!");
-	elif self.state == BATTLE_STATES.SELECTING_TARGET:
-		UI.choosingTargets(curMove.move.targetingCriteria)
-		UI.setBattleText("Choose targets!");
+	if self.state == BATTLE_STATES.PLAYER_TURN:
+		var next := BattleSim.getCreatureWithNoRecord() #get next creature that has not taken a turn
+		if next: 
+			UI.setCurrentCreature(next)
+		else: #if there is none, enable the End Turn button
+			UI.EndTurn.disabled = false
 	elif self.state == BATTLE_STATES.BATTLE:
 		await runBattle()
 	elif self.state == BATTLE_STATES.WE_WON:
@@ -145,7 +109,7 @@ func changeState(state):
 
 
 func isPlayerTurn():
-	return state == BATTLE_STATES.SELECTING_MOVE || state == BATTLE_STATES.SELECTING_TARGET;
+	return state == BATTLE_STATES.PLAYER_TURN
 
 func newTurn(first:bool=false):
 	if first:
@@ -155,12 +119,11 @@ func newTurn(first:bool=false):
 	UI.newTurn(BattleSim);
 	#await UI.AllyRow.sort_children
 
-	changeState(BATTLE_STATES.SELECTING_MOVE);
+	changeState(BATTLE_STATES.PLAYER_TURN);
 
 func reset():
 	UI.reset();
 	BattleSim.reset();
-	curMove = Move.MoveRecord.new()
 
 func runMove(user:Creature,move:Move,targets:Array) -> void:
 	if user.statuses.getStatus("Sleep"):
