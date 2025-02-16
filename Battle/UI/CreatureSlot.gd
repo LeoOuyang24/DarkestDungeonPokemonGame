@@ -39,16 +39,15 @@ func _ready():
 		print(creature)
 		)
 
-func setSpriteAndSize(spriteFrames:SpriteFrames,size:Vector2) -> void:
+#set the sprite and also scale
+func setSpriteAndSize(spriteFrames:SpriteFrames,scale:float) -> void:
 	setSprite(spriteFrames)
 	if spriteFrames:
-		var newsize = 2*size
 		#make sure sprite isnt' too big
-		var larger = max(newsize.x,newsize.y)
+		var larger = scale*max(size.x,size.y);
 		if larger >= MAX_DIMEN:
-			setSize(Vector2(MAX_DIMEN,MAX_DIMEN))
-		else:
-			setSize(newsize)
+			scale = MAX_DIMEN/larger;
+		setSize(scale*size)
 
 func removeCreature():
 	if creature:
@@ -97,7 +96,7 @@ func setCreature(creature:Creature):
 	if creature:
 
 		var sprite = creature.spriteFrame
-		setSpriteAndSize(sprite,creature.size)
+		setSpriteAndSize(sprite,1)
 		if (HealthBar):
 			HealthBar.set_max(creature.stats.getBaseStat(CreatureStats.STATS.HEALTH))
 			HealthBar.setHealth(creature.stats.getCurStat(CreatureStats.STATS.HEALTH))
@@ -112,7 +111,7 @@ func setCreature(creature:Creature):
 		EffectsUI.setIsOnEnemy(creature.getIsFriendly())
 	else:
 		Resources.highlight(self,Color(0,0,0,0));
-		setSpriteAndSize(null,Vector2(0,0))
+		setSpriteAndSize(null,0)
 	if HealthBar:
 		HealthBar.visible = (creature != null)
 

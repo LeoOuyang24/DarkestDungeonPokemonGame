@@ -12,7 +12,6 @@ var paused:bool = false
 func setSprite(newFrames:SpriteFrames,setSize:bool = false):
 	self.frames = newFrames;
 	if newFrames:
-
 		set_texture(getCurrentFrame());
 		if setSize:
 			var newSize = newFrames.get_frame_texture(currentAnimation,0).get_size()

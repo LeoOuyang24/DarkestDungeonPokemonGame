@@ -36,8 +36,6 @@ static func loadJSON(file_path:String, startingLevel:int = 1) -> Creature:
 							json.data.levelMoves.map(func (moveName:String): return loadMove(moveName)) if json.data.get("levelMoves") else []
 							) 
 			creature.flying = json.data.flying if json.data.get("flying") != null else false
-			creature.size.x = json.data.width if json.data.get("width") else 100
-			creature.size.y = json.data.height if json.data.get("height") else 100
 			if json.data.get("startPassive"):
 				creature.traits.addStatus(loadTrait(json.data.startPassive))
 			return creature

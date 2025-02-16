@@ -1,7 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://bl3rf7csarlv0"]
+[gd_scene load_steps=8 format=3 uid="uid://bl3rf7csarlv0"]
 
 [ext_resource type="Script" path="res://Battle/UI/QueueSlot.gd" id="1_eb2sy"]
+[ext_resource type="SpriteFrames" uid="uid://vuog78tjvb6e" path="res://sprites/spritesheets/creatures/chomper.tres" id="2_rylbf"]
 [ext_resource type="PackedScene" uid="uid://bk0gnk03sgxh1" path="res://Battle/UI/PendingMove.tscn" id="2_ujdrc"]
+[ext_resource type="Script" path="res://sprites/Anime.gd" id="3_puhgc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nd5c3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3b435"]
 resource_local_to_scene = true
@@ -15,10 +19,11 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color(0, 0, 0, 1)
 
-[node name="QueueSlot" type="TextureButton"]
+[node name="QueueSlot" type="Button"]
 custom_minimum_size = Vector2(100, 100)
-ignore_texture_size = true
-stretch_mode = 5
+offset_right = 100.0
+offset_bottom = 100.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_nd5c3")
 script = ExtResource("1_eb2sy")
 
 [node name="Background" type="ColorRect" parent="."]
@@ -34,6 +39,7 @@ mouse_filter = 2
 color = Color(0, 0, 0, 0.32549)
 
 [node name="SpeedCounter" type="RichTextLabel" parent="."]
+z_index = 1
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -54,6 +60,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_3b435")
+
+[node name="Anime" type="TextureRect" parent="PanelContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_vertical = 8
+script = ExtResource("3_puhgc")
+frames = ExtResource("2_rylbf")
 
 [node name="PendingMove" parent="." instance=ExtResource("2_ujdrc")]
 unique_name_in_owner = true

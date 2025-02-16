@@ -60,5 +60,7 @@ title = "Level Up"
 [connection signal="pressed" from="Panel/Window/Moves/LevelUp" to="." method="_on_level_up_pressed"]
 
 [editable path="Panel/Window/StatsMargin/CreatureStats"]
+[editable path="Panel/Window/StatsMargin/CreatureStats/Background/Profile/Stats/Control/Attack"]
+[editable path="Panel/Window/StatsMargin/CreatureStats/Background/Profile/Stats/Control/Speed"]
 [editable path="Panel/Window/Moves/LearnNewMove"]
 [editable path="Panel/Window/Moves/LevelUp"]

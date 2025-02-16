@@ -28,9 +28,9 @@ script = ExtResource("1_0uu34")
 [node name="Rows" type="HBoxContainer" parent="."]
 layout_mode = 0
 offset_left = -12.0
-offset_top = 255.0
+offset_top = 221.0
 offset_right = 1919.0
-offset_bottom = 682.0
+offset_bottom = 648.0
 mouse_filter = 2
 theme = ExtResource("2_27lud")
 theme_override_constants/separation = 100
@@ -81,7 +81,7 @@ layout_mode = 0
 offset_left = 512.0
 offset_top = 71.0
 offset_right = 1562.0
-offset_bottom = 200.0
+offset_bottom = 177.0
 
 [node name="EndScreen" parent="." instance=ExtResource("3_1dct8")]
 visible = false
@@ -110,9 +110,9 @@ color = Color(1, 0.788235, 0.054902, 0.337255)
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
 offset_left = 113.0
-offset_top = 757.0
-offset_right = 1917.0
-offset_bottom = 1064.0
+offset_top = 740.0
+offset_right = 1909.0
+offset_bottom = 1055.0
 theme = ExtResource("7_id080")
 theme_override_constants/margin_right = 150
 
@@ -125,7 +125,8 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button" type="Button" parent="MarginContainer/HBoxContainer"]
+[node name="EndTurn" type="Button" parent="MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
 size_flags_vertical = 4
@@ -133,4 +134,7 @@ theme = ExtResource("9_05v0j")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxFlat_ytwnp")
+disabled = true
 text = "End Turn"
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/EndTurn" to="." method="_on_end_turn_pressed"]

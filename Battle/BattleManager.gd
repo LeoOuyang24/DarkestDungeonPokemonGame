@@ -33,10 +33,11 @@ func getBattleUI() -> BattleUI:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	UI.target_selected.connect(handleTargetSelect)
-	UI.move_selected.connect(handleMoveSelect)
+	#UI.target_selected.connect(handleTargetSelect)
+	#UI.move_selected.connect(handleMoveSelect)
+	UI.turn_made.connect(handleRecord)
 	UI.battle_finished.connect(battleFinished)
-	
+	UI.end_turn.connect(changeState.bind(BATTLE_STATES.BATTLE))
 	
 	BattleSim.add_move_queue.connect(UI.updateQueue)
 	BattleSim.creature_added.connect(UI.addCreature)
@@ -81,6 +82,13 @@ func test() -> void:
 			enemy3
 		] );
 
+func handleRecord(record:Move.MoveRecord) -> void:
+	var next := BattleSim.handlePlayerMove(record)
+	if !next:
+		UI.EndTurn.disabled = false
+	else:
+		UI.setCurrentCreature(next)
+		
 func handleTargetSelect(index:int) -> void:
 	if state == BATTLE_STATES.SELECTING_TARGET && curMove.move:
 		var target = BattleSim.getCreature(index)
@@ -102,7 +110,7 @@ func handleMoveDone() -> void:
 	curMove.user = BattleSim.getCurrentCreature()
 	BattleSim.handlePlayerMove(curMove.copy())
 	if BattleSim.allMovesProcessed():
-		changeState(BATTLE_STATES.BATTLE)
+		UI.EndTurn.disabled = false
 	else:
 		changeState(BATTLE_STATES.SELECTING_MOVE)
 	
@@ -120,7 +128,7 @@ func createBattle(player,allies,enemies):
 func changeState(state):
 	self.state = state;
 	#UI.setBattleState(BattleSim);
-	UI.resetSlotUIs()
+	#UI.resetSlotUIs()
 	UI.setCurrentCreature(BattleSim.getCurrentCreature())
 	if self.state == BATTLE_STATES.SELECTING_MOVE:
 		#UI.resetSlotUIs();

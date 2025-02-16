@@ -1,9 +1,9 @@
-class_name QueueSlot extends AnimatedButton
+class_name QueueSlot extends Button
 
 @onready var SpeedCounter:RichTextLabel = $SpeedCounter
 @onready var Background:PanelContainer = $PanelContainer
 @onready var PendingMove:Control = %PendingMove
-
+@onready var Sprite:Anime = %Anime
 
 var creature:Creature  = null
 
@@ -19,7 +19,7 @@ func setCreature(creature:Creature) -> void:
 	PendingMove.creature = creature
 	if creature:
 		visible = true
-		setSprite(creature.getSprite())
+		Sprite.setSprite(creature.getSprite())
 		updateSpeed()
 		creature.stats.stat_changed.connect(updateSpeed)
 		setColor(Color(1,.7,.1,0.2) if creature.getIsFriendly() else Color(.5,.5,.5,0.2))

@@ -46,6 +46,7 @@ func insert(moveInfo:Move.MoveRecord) -> int:
 		data.push_back(moveInfo)
 	else:
 		data[index] = moveInfo
+
 	add_move.emit(moveInfo)
 	return updateSpot(moveInfo.user)
 	

@@ -13,6 +13,8 @@ class_name BattleUI extends Control
 @onready var Summary = %CreatureSummary
 @onready var PassButton = %CreatureSummary/%PassButton
 
+@onready var EndTurn = %EndTurn
+
 #signal for when the ui is ready to be used
 #emitted when things like containers have resized their children
 signal is_ready()
@@ -23,9 +25,14 @@ signal target_selected(target)
 #signal for when a move has been selected
 signal move_selected(move:Move)
 
+#signal for when a turn has been made (move and targets selected for a creature)
+signal turn_made(record:Move.MoveRecord)
+
 #finish up this battle
 signal battle_finished()
 
+#end player turn and start battle
+signal end_turn()
 #easy to access, onready list of our CreatureSlots
 #0-maxAllies is the indicies of the allies
 #maxAllies - maxAllies + maxEnemies is the indicies of the enemies
@@ -37,10 +44,11 @@ var creatureSlots = []
 var creatureSlot = preload("./CreatureSlot.tscn")
 var queueSlot = preload("./QueueSlot.tscn")
 
-#currentCreature
-var currentCreature:Creature = null
+var current:Move.MoveRecord = Move.MoveRecord.new() #current creature and move
 
 func newTurn(state:Battlefield):
+	current = Move.MoveRecord.new()
+	EndTurn.disabled = true
 	updateQueue(state.getFullQueue())
 	#updateSlots(state)
 
@@ -98,7 +106,9 @@ func setCurrentCreature(creature:Creature):
 		if queueSlot:
 			setQueueOutline(queueSlot,Color(0.4,0.4,0,1));
 
-		currentCreature = creature
+		current.user = creature
+		current.move = null
+		current.targets = []
 		setCurrentCreatureUI(creature,true)
 
 #sets the current creature in the summary area
@@ -106,10 +116,41 @@ func setCurrentCreatureUI(creature:Creature, isCurrent:bool):
 	if creature:
 		if !isCurrent:
 			Resources.highlight(getCreatureSlot(creature),Color.CYAN);
-		if Summary.creature && Summary.creature != currentCreature:
+		if Summary.creature && Summary.creature != current.user:
 			Resources.highlight(getCreatureSlot(Summary.creature),Color(0,0,0,0));
 
 	Summary.setCurrentCreature(creature,isCurrent)
+
+func emitRecord():
+	resetSlotUIs()
+	turn_made.emit(current.copy())
+
+
+func selectMove(move:Move):
+	current.move = move
+	current.targets = []
+
+	if move:
+		if move.getNumOfTargets() > current.targets.size():
+			choosingTargets(move.getTargetingCriteria())
+		else:
+			emitRecord()
+#called when the target of a move is selected
+func selectTarget(creature:Creature) -> void:		
+	if current.move.isTargetValid(current.move.getTargetingCriteria(),current.user,creature):
+		current.targets.push_back(creatureSlots.find(getCreatureSlot(creature)))
+		if current.targets.size() >= current.move.getNumOfTargets():
+			emitRecord()
+#called when a creature slot is pressed
+func selectCreature(creature:Creature) -> void:
+	if creature:
+		if current.move and current.move.getNumOfTargets() > current.targets.size(): #choosing targets
+			selectTarget(creature)
+		else: #otherwise, chose to preview an enemy or select an ally
+			if creature.getIsFriendly():
+				setCurrentCreature(creature)
+			else:
+				setCurrentCreatureUI(creature,false)
 
 #get teh creatureslot corresponding to the given creature or index
 func getCreatureSlot(creature) -> CreatureSlot:
@@ -179,7 +220,7 @@ func choosingTargets(targets:Move.TARGETING_CRITERIA = Move.TARGETING_CRITERIA.O
 		var tween = creatureSlots[i].getTween().set_loops();
 		var sprite = creatureSlots[i]
 		#only turn on flashing if the target is valid (an ally for an only ally move, an enemy for an only enemy move, etc)
-		if sprite && Move.isTargetValid(targets,currentCreature,creatureSlots[i].getCreature()):
+		if sprite && Move.isTargetValid(targets,current.user,creatureSlots[i].getCreature()):
 			tween.tween_property(sprite, "modulate", Color.BLACK, 1)
 			tween.tween_property(sprite,"modulate",Color.WHITE,1)
 		##if "flash" is false, turn off the flashing for all creatures
@@ -205,7 +246,7 @@ func addSlot(isAlly:bool):
 #if NOTHING is pressed, set the creature summary to our current creature
 func _unhandled_input(event):
 	if event is InputEventMouseButton and event.get_button_index() == MOUSE_BUTTON_LEFT:
-		setCurrentCreatureUI(currentCreature,true)
+		setCurrentCreatureUI(current.user,true)
 		
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -215,14 +256,10 @@ func _ready():
 		addSlot(false);
 	for i in range(creatureSlots.size()):
 		creatureSlots[i].pressed.connect(func():
-			setCurrentCreatureUI(creatureSlots[i].getCreature(),creatureSlots[i].getCreature()==currentCreature)
-			
-			target_selected.emit(i)
+			selectCreature(creatureSlots[i].getCreature())
 			);
 			
-	Summary.move_selected.connect(func(move):
-		move_selected.emit(move)
-		)
+	Summary.move_selected.connect(selectMove)
 			
 	for i in range(Battlefield.maxEnemies + Battlefield.maxAllies):
 		var slot = queueSlot.instantiate()
@@ -258,3 +295,8 @@ func reset():
 	EndScreen.set_visible(false);
 	for i in creatureSlots:
 		i.setCreature(null)
+
+
+func _on_end_turn_pressed() -> void:
+	end_turn.emit()
+	pass # Replace with function body.

@@ -108,7 +108,7 @@ func removeCreature(creature:Creature):
 	if index != -1:
 		creaturesNum -= int(creatures[index] != null)
 		creatures[index] = null
-		moveQueue.removeUser(creature)
+		moveQueue.remove(creature)
 		creature_removed.emit(creature)
 		
 #very simply sets index to be the creature
@@ -211,6 +211,7 @@ func firstTurn() -> void:
 	if creaturesNum > 0:
 		setCurrentCreature(getFrontMostCreatures(1,false,false)[0])	
 
+
 #what to run on every turn after the first
 func newTurn() -> void:
 	new_turn.emit(); #emit first to trigger any on-new-turn effects
@@ -250,6 +251,7 @@ func addMoveToQueue(record:Move.MoveRecord) -> void:
 		moveQueue.insert(record)
 		add_move_queue.emit(record)
 
+
 func getNextMove() -> Move.MoveRecord:
 	return moveQueue.pop();
 	
@@ -261,15 +263,15 @@ func getNextMove() -> Move.MoveRecord:
 func allMovesProcessed() -> bool:
 	return currentCreature == null
 
-func handlePlayerMove(record:Move.MoveRecord) -> void:
+
+#add a record to queue, then return another creature that has not taken a turn yet
+func handlePlayerMove(record:Move.MoveRecord) -> Creature :
 	addMoveToQueue(record)
 	#whether or not theres another ally that hasn't taken a turn yet
-	var newCurrent = null
 	for i in range(0,maxAllies):
 		if creatures[i] && !moveQueue.hasMove(creatures[i]):
-			newCurrent = creatures[i];
-			break
-	setCurrentCreature(newCurrent)
+			return creatures[i];
+	return null
 		
 
 func reset():

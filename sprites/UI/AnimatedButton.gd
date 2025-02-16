@@ -18,6 +18,7 @@ func _ready():
 func setSprite(sprite:SpriteFrames) -> void:
 	self.sprite.setSprite(sprite)
 	if sprite:
+		setSize(self.sprite.getFrameSize())
 		self.sprite.play()
 
 func changeAnimation(animation:String) -> void:
