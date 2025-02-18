@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://b3hux6c6p4pfu"]
+[gd_scene load_steps=12 format=3 uid="uid://b3hux6c6p4pfu"]
 
 [ext_resource type="Script" path="res://Battle/UI/BattleUI.gd" id="1_0uu34"]
 [ext_resource type="Theme" uid="uid://cqh01hvor6ut3" path="res://Battle/UI/Rows.tres" id="2_27lud"]
 [ext_resource type="Texture2D" uid="uid://b18gkey5jgqun" path="res://sprites/backgrounds/BW.png" id="2_o8eal"]
+[ext_resource type="PackedScene" uid="uid://d2nlcyt4tiehq" path="res://Battle/UI/MoveHistory.tscn" id="2_pcm8h"]
 [ext_resource type="PackedScene" uid="uid://bgy4kes6sp7tp" path="res://Battle/UI/EndScreen.tscn" id="3_1dct8"]
 [ext_resource type="Script" path="res://sprites/Anime.gd" id="4_tevqn"]
 [ext_resource type="PackedScene" uid="uid://daxhjw473xi4b" path="res://Battle/UI/turn_ui.tscn" id="6_1dtmw"]
@@ -24,6 +25,17 @@ anchors_preset = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
 script = ExtResource("1_0uu34")
+
+[node name="History" parent="." instance=ExtResource("2_pcm8h")]
+unique_name_in_owner = true
+layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 64.0
+offset_top = 12.0
+offset_right = 239.0
+offset_bottom = 200.0
 
 [node name="Rows" type="HBoxContainer" parent="."]
 layout_mode = 0
@@ -135,6 +147,6 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxFlat_ytwnp")
 disabled = true
-text = "End Turn"
+text = "End Turn "
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/EndTurn" to="." method="_on_end_turn_pressed"]

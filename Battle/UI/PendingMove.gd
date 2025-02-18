@@ -1,4 +1,4 @@
-extends Control
+class_name PendingMove extends Control
 
 @onready var Icon:TextureRect = %MoveIcon
 

@@ -102,6 +102,7 @@ func changeState(state):
 		else: #if there is none, enable the End Turn button
 			UI.EndTurn.disabled = false
 	elif self.state == BATTLE_STATES.BATTLE:
+		UI.EndTurn.disabled = true
 		await runBattle()
 	elif self.state == BATTLE_STATES.WE_WON:
 		reward = Rewards.new(5)
@@ -125,28 +126,29 @@ func reset():
 	UI.reset();
 	BattleSim.reset();
 
-func runMove(user:Creature,move:Move,targets:Array) -> void:
-	if user.statuses.getStatus("Sleep"):
-		UI.setBattleText(user.getName() + " is asleep");
+func runMove(record:Move.MoveRecord) -> void:
+	if record.user.statuses.getStatus("Sleep"):
+		UI.setBattleText(record.user.getName() + " is asleep");
 		await get_tree().create_timer(1).timeout
 	else:
-		if !move:
+		if !record.move:
 			#null moves are handeled like PassTurns
-			await runMove(user,PassTurn.new(),targets)
+			Move.MoveRecord.new()
+			await runMove(Move.MoveRecord.new(record.user,PassTurn.new(),record.targets))
 		else:
-			targets.append_array(move.getPreselectedTargets(user,BattleSim))
-			UI.setBattleText(user.getName() + " used " + move.getMoveName() + "!")
+			record.targets.append_array(record.move.getPreselectedTargets(record.user,BattleSim))
+			UI.setBattleText(record.user.getName() + " used " + record.move.getMoveName() + "!")
 			await get_tree().create_timer(1).timeout
 			var call:Callable = func():
 				pass
-
-			await move.runAnimation(user,targets,UI,BattleSim)
+			await UI.showMove(record)
+			await record.move.runAnimation(record.user,record.targets,UI,BattleSim)
 			
-			move.doMove(user,targets,BattleSim)
+			record.move.doMove(record.user,record.targets,BattleSim)
 			
-			if move.getPostMessage(user,targets,BattleSim) != "":
-				UI.setBattleText(move.getPostMessage(user,targets,BattleSim))
-				await get_tree().create_timer(1).timeout
+			UI.clearMove()
+				
+			UI.History.addMove(record)
 
 func runDeath(dead:Creature) -> void:
 	UI.setBattleText(dead.getName() + " died.")
@@ -162,7 +164,7 @@ func runBattle():
 	while runThis:
 		#print(BattleSim.moveQueue.data)
 		UI.setCurrentCreature(runThis.user)
-		await runMove(runThis.user,runThis.move,runThis.targets)
+		await runMove(runThis)
 		var dead = BattleSim.checkForDeath()
 		while dead != -1:
 			await runDeath(BattleSim.getCreature(dead))

@@ -9,9 +9,10 @@ class_name BattleUI extends Control
 @onready var QueueSlotOutline = %Outline
 @onready var TurnUI = %TurnUI
 @onready var TurnUIAnime = %TurnUI/TurnUIAnime
-
 @onready var Summary = %CreatureSummary
 @onready var PassButton = %CreatureSummary/%PassButton
+@onready var History = %History
+
 
 @onready var EndTurn = %EndTurn
 
@@ -45,6 +46,7 @@ var creatureSlot = preload("./CreatureSlot.tscn")
 var queueSlot = preload("./QueueSlot.tscn")
 
 var current:Move.MoveRecord = Move.MoveRecord.new() #current creature and move
+var MoveSummary:Control = null #summary of move currently being used
 
 func newTurn(state:Battlefield):
 	current = Move.MoveRecord.new()
@@ -243,6 +245,34 @@ func addSlot(isAlly:bool):
 		creatureSlots.push_back(slot)
 		EnemyRow.add_child(slot)
 
+#show move that is currently being used
+func showMove(record:Move.MoveRecord) -> void:
+	var slot :=  getCreatureSlot(record.user)
+	var duration := 0.5
+	if slot:
+		var tween := create_tween()
+		var control := MoveButton.getMoveTooltip(record.move,record.user)
+
+		var userPos := slot.global_position + slot.size*0.5 - control.size*0.5
+		var finalPos := Vector2(userPos.x,slot.global_position.y - control.size.y)
+		control.global_position = userPos
+		control.pivot_offset = control.size*0.5
+		control.scale = Vector2(0.0,0.0)
+
+		add_child(control)
+		tween.parallel().tween_property(control,"global_position",finalPos,duration)
+		tween.parallel().tween_property(control,"scale",Vector2(1,1),duration)
+
+		MoveSummary = control
+
+		await tween.finished
+
+#undo showMove
+func clearMove() -> void:
+	remove_child(MoveSummary)
+	MoveSummary.queue_free()
+	MoveSummary = null
+		
 #if NOTHING is pressed, set the creature summary to our current creature
 func _unhandled_input(event):
 	if event is InputEventMouseButton and event.get_button_index() == MOUSE_BUTTON_LEFT:

@@ -26,7 +26,7 @@ func update(mgr:StatusManager):
 	
 
 func addStatusEffect(status:StatusEffect):
-	var effect = effectUI.instantiate() as SingleEffectUI
+	var effect = effectUI.instantiate()
 	add_child(effect)
 	effect.setStatusEffect(status)
 	status.stacks_changed.connect(func(_amount):

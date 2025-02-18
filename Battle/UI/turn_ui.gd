@@ -17,4 +17,3 @@ func setText(str:String) -> void:
 func play() -> void:
 	$TurnUIAnime.play("default");
 	
-

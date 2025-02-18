@@ -145,9 +145,6 @@ func getPreselectedTargets(user:Creature, battle:Battlefield):
 func runAnimation(user:Creature, targets:Array, UI:BattleUI,battlefield:Battlefield) -> void:
 	await MoveAnimations.genericAttackAnimation(user,targets,UI,self)
 	
-func getPostMessage(user:Creature, targets:Array, battle:Battlefield) -> String:
-	return ""
-	
 
 	
 	
