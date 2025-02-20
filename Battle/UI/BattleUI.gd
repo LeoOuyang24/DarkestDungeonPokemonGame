@@ -12,8 +12,6 @@ class_name BattleUI extends Control
 @onready var Summary = %CreatureSummary
 @onready var PassButton = %CreatureSummary/%PassButton
 @onready var History = %History
-
-
 @onready var EndTurn = %EndTurn
 
 #signal for when the ui is ready to be used

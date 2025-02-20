@@ -1,8 +1,6 @@
 extends PanelContainer
 
-signal done #emitted when done
-signal selected(c:Creature) #which creature was selected
-signal selected_move(m:Move) # which move was selected
+signal selected(c:Creature,m:int) #which creature/movebutton index was selected
 
 @onready var summary := %Summary
 
@@ -10,49 +8,53 @@ signal selected_move(m:Move) # which move was selected
 @onready var label := %RichTextLabel
 @onready var creatures := %Creatures2
 
-var current:Creature = null;
-var currentMove:Move = null;
+var current:Creature = null:
+	set(val):
+		current = val
+		if needCreature:
+			submit.disabled = false
+var currentMove:int = -1:
+	set(val):
+		currentMove = val
+		if !needCreature:
+			submit.disabled = false
 var teamViewSlot := preload("res://Menus/TeamSlot.tscn")
 var teamViewScript := preload("res://Menus/TeamViewSlot.gd")
+
+var needCreature:bool = true #true if you need a creature selected, false if you need a move selected
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var hbox = creatures
 	var i := 0
 	for creature in GameState.PlayerState.getTeam():
-		#var slot := teamViewSlot.instantiate();
-
-		#hbox.add_child(slot);
 		var slot := creatures.get_children()[i]
 		slot.setCreature(creature)	
 		slot.pressed.connect(select.bind(slot.creature))
 		i+=1;
-	
+	summary.Moves.move_selected.connect(selectMove)
+	submit.disabled = true
 
-func selectMove(m:MoveButton):
-	currentMove = m.getMove();
+func selectMove(_m,m:MoveButton):
+	currentMove = summary.Moves.Moves.find(m)
 	
 func select(creature:Creature):
 	current = creature;
-	summary.setCreature(creature)
+	#if needCreature, disable move buttons
+	#technically not what this 2nd parameter is made for but hey it works
+	summary.setCurrentCreature(creature,!needCreature)
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton and event.get_button_index() == MOUSE_BUTTON_LEFT:
-		done.emit()
+		finish()
 
 func setText(str:String) -> void:
 	label.set_text(str)
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 
 func _on_confirm_pressed():
-	selected.emit(current)
-	selected_move.emit(currentMove);
+	selected.emit(current,currentMove)
 	pass # Replace with function body.
 	
-	
-func _on_cancel_pressed():
-	done.emit();
-	pass # Replace with function body.
+func finish():
+	visible = false
+	submit.disabled = true

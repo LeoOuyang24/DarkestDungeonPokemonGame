@@ -1,25 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://6f7frt3ng1c8"]
+[gd_scene load_steps=7 format=3 uid="uid://6f7frt3ng1c8"]
 
 [ext_resource type="PackedScene" uid="uid://bvxv6kih6bx3" path="res://Map/Rooms/EventRoom.tscn" id="1_katkq"]
 [ext_resource type="Script" path="res://Map/Rooms/CombineMoveRoom/LabMovesRoom.gd" id="1_xsu3n"]
 [ext_resource type="Script" path="res://sprites/UI/AnimatedButton.gd" id="4_8wa73"]
-[ext_resource type="Texture2D" uid="uid://cbw4hx0pxwl2j" path="res://sprites/map/lab.png" id="4_e7umc"]
-[ext_resource type="Shader" path="res://Map/Rooms/ShopRoom/Unscanned.gdshader" id="4_o77do"]
+[ext_resource type="Texture2D" uid="uid://bcyn2c0xfrlvq" path="res://sprites/map/lab.png" id="4_e7umc"]
 [ext_resource type="PackedScene" uid="uid://1m34rwnl48vd" path="res://Battle/UI/moves_ui.tscn" id="6_wkuiw"]
 [ext_resource type="Theme" uid="uid://ctnx7oi2vcxu" path="res://UI/menu.tres" id="7_xtlvh"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_b1rsf"]
-resource_local_to_scene = true
-shader = ExtResource("4_o77do")
-shader_parameter/color = Vector3(0, 1, 0)
-shader_parameter/reach = 1.0
-shader_parameter/disabled = 0.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_vfdyq"]
-shader = ExtResource("4_o77do")
-shader_parameter/color = Vector3(1, 0, 0)
-shader_parameter/reach = 1.0
-shader_parameter/disabled = 0.0
 
 [node name="EventRoom" instance=ExtResource("1_katkq")]
 script = ExtResource("1_xsu3n")
@@ -85,8 +71,9 @@ grow_horizontal = 2
 grow_vertical = 2
 ignore_texture_size = true
 script = ExtResource("4_8wa73")
+lockSize = true
 
-[node name="Background" parent="." index="3"]
+[node name="Background" parent="." index="2"]
 mouse_filter = 2
 texture = ExtResource("4_e7umc")
 
@@ -120,7 +107,6 @@ offset_bottom = 1775.0
 
 [node name="Green" type="TextureButton" parent="Active/Rects" index="0"]
 unique_name_in_owner = true
-material = SubResource("ShaderMaterial_b1rsf")
 layout_mode = 0
 offset_left = -1226.0
 offset_top = -1458.0
@@ -128,10 +114,10 @@ offset_right = -1053.0
 offset_bottom = -1031.0
 ignore_texture_size = true
 script = ExtResource("4_8wa73")
+lockSize = true
 
 [node name="Red" type="TextureButton" parent="Active/Rects" index="1"]
 unique_name_in_owner = true
-material = SubResource("ShaderMaterial_vfdyq")
 layout_mode = 0
 offset_left = 144.0
 offset_top = -1503.0
@@ -139,5 +125,6 @@ offset_right = 317.0
 offset_bottom = -1076.0
 ignore_texture_size = true
 script = ExtResource("4_8wa73")
+lockSize = true
 
 [connection signal="pressed" from="ResultRect/MovesUI/Accept" to="." method="_on_accept_pressed"]

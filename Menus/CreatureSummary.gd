@@ -39,10 +39,22 @@ func setCreature(creature:Creature) -> void:
 
 			
 		creature.level.leveled_up.connect(updateCreature)
-			
+		creature.stats.stat_changed.connect(func(_a,_b):
+				updateCreature())
+		
+		var bigBoosts = get_tree().get_nodes_in_group("BigBoosts")
+		for i:int in bigBoosts.size():
+			var node := bigBoosts[i] as TextureButton
+			node.mouse_entered.connect(Stats[i].setBonus.bind(Stat.BIG_BOOST_AMOUNT,Color.BLUE))
+			node.mouse_exited.connect(Stats[i].setBonus.bind(0))
+			node.pressed.connect(addBigBoost.bind(Stats[i].stat))
 		#add everything else to UI
 		updateCreature()
-		
+
+func addBigBoost(stat:CreatureStats.STATS) -> void:
+	if creature:
+		creature.addBigBoost(stat)
+
 func updateCreature() -> void:
 
 	#LevelUpCost.set_text(str(getLevelUpCost()))
@@ -55,7 +67,12 @@ func updateCreature() -> void:
 	Name.set_text(str(creature.getName()) + "\nLevel "+str(creature.getLevel()))
 	Name.creature = creature
 
-		
+	var bigBoosts = get_tree().get_nodes_in_group("BigBoosts")
+
+	for i:TextureButton in bigBoosts:
+		i.visible = (creature.level.getPendingBigBoosts() > 0)
+
+	
 #update summary when hovering over the levelup button to see what the new stats will be
 func onHover() -> void:		
 	if creature:

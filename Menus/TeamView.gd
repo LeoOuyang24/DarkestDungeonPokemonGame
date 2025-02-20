@@ -36,9 +36,7 @@ func viewSummary(teamSlot:CreatureSlot):
 		var tween := create_tween()
 		tween.tween_property(CreateHorror,"position",Vector2(size.x,0),.5)
 		#CreatureSummary.visible = false
-
-
-
+		
 func _on_create_horror_horror_created(creature:Creature):
 	GameState.PlayerState.addCreatureToTeam(creature)
 	pass # Replace with function body.

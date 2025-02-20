@@ -3,7 +3,6 @@
 [ext_resource type="Shader" path="res://Battle/UI/CreatureSlot.gdshader" id="1_lixqo"]
 [ext_resource type="Texture2D" uid="uid://ddqfx6uvgjmsf" path="res://sprites/icons/FLASK.png" id="2_6ipll"]
 [ext_resource type="Script" path="res://Map/Rooms/ShopRoom/ScanItem.gd" id="3_a4w1a"]
-[ext_resource type="Texture2D" uid="uid://r08j6xoi731j" path="res://sprites/icons/empty_flask.png" id="3_j3k0g"]
 [ext_resource type="Script" path="res://sprites/Anime.gd" id="4_ccxy3"]
 [ext_resource type="Script" path="res://Components/OnHoverHighlight.gd" id="5_4356f"]
 [ext_resource type="Texture2D" uid="uid://cgxsxxx5aw2nn" path="res://sprites/icons/dna_icon.png" id="5_neflv"]
@@ -15,12 +14,16 @@ shader_parameter/outline_width = 3.0
 shader_parameter/outline_color = null
 shader_parameter/isSpectral = false
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_w34vp"]
+resource_local_to_scene = true
+load_path = "res://.godot/imported/empty_flask.png-70c22f52b06d2a230ccc509b430d4b04.ctex"
+
 [node name="Item" type="TextureButton"]
 z_as_relative = false
 material = SubResource("ShaderMaterial_3kttv")
 custom_minimum_size = Vector2(100, 100)
 texture_normal = ExtResource("2_6ipll")
-texture_disabled = ExtResource("3_j3k0g")
+texture_disabled = SubResource("CompressedTexture2D_w34vp")
 ignore_texture_size = true
 stretch_mode = 5
 script = ExtResource("3_a4w1a")

@@ -2,6 +2,7 @@ class_name AnimatedButton extends TextureButton
 
 @export var onHoverOutline:bool = true #true if we want to show an outline when hovered over
 @export var source:SpriteFrames = null
+@export var lockSize:bool = false # if true, size will not be affected by sprite
 var sprite:Anime = Anime.new()
 
 func _init():
@@ -17,7 +18,7 @@ func _ready():
 #set the sprite and it if it's not null, play it, and scale the button to fit the sprite size
 func setSprite(sprite:SpriteFrames) -> void:
 	self.sprite.setSprite(sprite)
-	if sprite:
+	if sprite and !lockSize:
 		setSize(self.sprite.getFrameSize())
 		self.sprite.play()
 

@@ -17,12 +17,12 @@ func _ready():
 	onSelect()
 	MergeInto.pressed.connect(loadTeam.bind(MergeInto))
 	MergeFrom.pressed.connect(loadTeam.bind(MergeFrom))
-	for i in GameState.PlayerState.getTeam():
-		if i:
+	for i:Creature in GameState.PlayerState.getTeam():
+		if i and i != GameState.PlayerState.getPlayer():
 			var teamSlot := AnimatedButton.new();
 			teamSlot.ignore_texture_size = true
-			teamSlot.custom_minimum_size = Vector2(100,100)
 			teamSlot.setSprite(i.getSprite())
+			Resources.resize(Vector2(100,100),teamSlot)
 			teamSlot.pressed.connect(loadCreatureIntoTube.bind(i))
 			#teamSlot.setSprite(load("res://sprites/spritesheets/creatures/beholder.tres"))
 			TeamView.add_child(teamSlot)

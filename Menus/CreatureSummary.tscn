@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://cybp46vb5wblt"]
+[gd_scene load_steps=8 format=3 uid="uid://cybp46vb5wblt"]
 
 [ext_resource type="Script" path="res://Menus/CreatureSummary.gd" id="1_6r03a"]
 [ext_resource type="PackedScene" uid="uid://b10n7jankcsc1" path="res://UI/CreatureStats.tscn" id="2_2ldh2"]
+[ext_resource type="Texture2D" uid="uid://dgig17q1rxhn0" path="res://sprites/icons/big_boost_icon.png" id="3_m3g62"]
 [ext_resource type="PackedScene" uid="uid://ddwtgmifyeeon" path="res://Menus/CostButton.tscn" id="4_4fe2k"]
 [ext_resource type="Script" path="res://Menus/LevelUpButton.gd" id="6_2cbse"]
 [ext_resource type="PackedScene" uid="uid://c434ifxltx2da" path="res://Menus/LearnNewMove.tscn" id="8_i1cfh"]
@@ -39,6 +40,30 @@ theme_override_constants/margin_bottom = 30
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="BigBoost" type="TextureButton" parent="Panel/Window/StatsMargin/CreatureStats/Background/Profile/Stats/Control/Health" index="3" groups=["BigBoosts"]]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 4
+texture_normal = ExtResource("3_m3g62")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="BigBoost" type="TextureButton" parent="Panel/Window/StatsMargin/CreatureStats/Background/Profile/Stats/Control/Attack" index="3" groups=["BigBoosts"]]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 4
+texture_normal = ExtResource("3_m3g62")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="BigBoost" type="TextureButton" parent="Panel/Window/StatsMargin/CreatureStats/Background/Profile/Stats/Control/Speed" index="3" groups=["BigBoosts"]]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 4
+texture_normal = ExtResource("3_m3g62")
+ignore_texture_size = true
+stretch_mode = 4
+
 [node name="Moves" type="HBoxContainer" parent="Panel/Window"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -60,6 +85,7 @@ title = "Level Up"
 [connection signal="pressed" from="Panel/Window/Moves/LevelUp" to="." method="_on_level_up_pressed"]
 
 [editable path="Panel/Window/StatsMargin/CreatureStats"]
+[editable path="Panel/Window/StatsMargin/CreatureStats/Background/Profile/Stats/Control/Health"]
 [editable path="Panel/Window/StatsMargin/CreatureStats/Background/Profile/Stats/Control/Attack"]
 [editable path="Panel/Window/StatsMargin/CreatureStats/Background/Profile/Stats/Control/Speed"]
 [editable path="Panel/Window/Moves/LearnNewMove"]

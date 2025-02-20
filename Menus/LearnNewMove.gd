@@ -3,7 +3,7 @@ extends Control
 
 @onready var LevelUpMove:MoveButton = %Pending
 @onready var ConfirmButton:Button = %Confirm 
-@onready var Moves:Array[MoveButton] = [$Moves/Button,$Moves/Button2,$Moves/Button3,$Moves/Button4] 
+@onready var Moves = $Moves 
 @onready var NewMove=$NewMove
 
 signal new_move_confirmed(moves:Array) #emitted after we've learned a new move (or rejected learning one). Parameter is the creature's new set of moves
@@ -13,24 +13,20 @@ var creature:Creature = null
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	setNewMove(null)
-	for i:MoveButton in Moves:
-		i.move_selected.connect(func(move):
-			if LevelUpMove.getMove():
-				swapMove(i)
-				)
+	Moves.move_selected.connect(func(_move,button) -> void:
+		if LevelUpMove.getMove():
+			swapMove(button)
+		)
 	pass # Replace with function body.
 
 func setMoves(creature:Creature):
-	self.creature = creature
-	if creature:
-		for i in range(Creature.maxMoves):
-			Moves[i].setMove(creature.getMove(i),creature)
+	Moves.setMoves(creature)
 
+#update the next move to be learned via level up
 func setNewMove(move:Move) -> void:
 	LevelUpMove.setMove(move,null)
 	var moveExists:bool = (move != null)
-	for i in Moves:
-		i.disabled = !moveExists
+	Moves.disableMoves(!moveExists)
 	for i in NewMove.get_children():
 		i.visible = moveExists
 	ConfirmButton.disabled = !moveExists
@@ -47,8 +43,8 @@ func swapMove(moveButton:MoveButton):
 func _on_confirm_pressed():
 	setNewMove(null)
 		
-	new_move_confirmed.emit(Moves.map(func (button):
-		return button.getMove()
+	new_move_confirmed.emit(Moves.Moves.map(func(butt:MoveButton): 
+		return butt.getMove()
 		))
 	
 	pass # Replace with function body.

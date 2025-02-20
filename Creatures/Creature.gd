@@ -24,6 +24,8 @@ var level:CreatureLevel = null
 var statuses:StatusManager = null
 var traits:TraitManager = null
 
+signal move_changed(index:int,move:Move)
+
 # "a" deals damage to "b", based on attack and defense stats. "damage" is the base damage
 #returns how much damage is dealt
 static func dealDamage(a:Creature,b:Creature, damage:int) -> int:
@@ -93,6 +95,16 @@ func tickMoves() -> void:
 func setMoves(attacks_):
 	moves = attacks_.slice(0,min(maxMoves,len(attacks_)),1,true); #deep copy the first 4 attacks, or fewer if fewer were provided
 
+func setMove(move:Move,index:int):
+	if index >= 0 and index < maxMoves:
+		if index >= moves.size():
+			moves.push_back(move)
+			move_changed.emit(moves.size()-1,move)
+
+		else:
+			moves[index] = move
+			move_changed.emit(index,move)
+
 #used for dealing damage/healing
 func addHealth(amount:int):
 	stats.getStatObj(CreatureStats.STATS.HEALTH).modStat(amount)
@@ -102,7 +114,7 @@ func addHealth(amount:int):
 func useMove(move,targets):
 	move.move(self,targets)
 	
-func getMove(index):
+func getMove(index) -> Move:
 	if index < 0 || index >= moves.size():
 		return null
 	return moves[index];

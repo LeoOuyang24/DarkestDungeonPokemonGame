@@ -51,6 +51,9 @@ func removeCreatureFromTeam(creature:Creature) -> void:
 
 func updateTeam(creatures:Array) -> void:
 	team = creatures
+	for i:Creature in team:
+		if i:
+			i.isFriendly = true
 	teamSize = team.reduce(func(n:int,creature:Creature):
 		return n + int(creature != null)
 		,0)

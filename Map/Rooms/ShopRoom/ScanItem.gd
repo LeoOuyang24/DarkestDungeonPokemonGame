@@ -8,15 +8,13 @@ func _ready():
 	GameState.PlayerState.added_scan.connect(addedScan)
 	pass
 
-
 func addedScan(creatureName:StringName) -> void:
 	if creature == creatureName:
 		disable = true
 		modulate = Color.GRAY
 		
 		creatureSprite.pause(true);
-		
-		
+				
 func setCreature(creature:StringName):
 	var loaded := CreatureLoader.loadJSON(creature);
 	if loaded:
@@ -28,13 +26,9 @@ func setCreature(creature:StringName):
 	else:
 		push_error("COULDNT LOAD TEXTURE FOR SCAN BUTTON: " + creature)
 
-func onPurchase():
+func onPurchase(_c,_m):
 	GameState.PlayerState.addScan(creature);
-	super();
 	pass
-#func _pressed():
-	#if GameState.getDNA() >= cost:
-		#GameState.setDNA(GameState.getDNA() - cost)
-		#GameState.PlayerState.addScan(creature);
+
 
 	

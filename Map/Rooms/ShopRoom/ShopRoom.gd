@@ -8,6 +8,7 @@ extends EventRoom
 @onready var DNAItems := %DNA;
 @onready var ShopWindow := %Shop;
 @onready var TraitItems := %AddTraits
+@onready var MoveItems := %AddMoves
 
 var item:ShopItem = null
 
@@ -30,12 +31,22 @@ func _ready():
 		traitItem.setItem(traitButton,15)
 		traitButton.setTrait(placeholderTraits[i])
 		traitButton.need_apply_item.connect(applyItem.bind(traitButton))
+		
+		var addMove := ShopItemScene.instantiate()
+		var moveButton = load("res://Map/Rooms/ShopRoom/InjectMove.tscn").instantiate()
+		MoveItems.add_child(addMove)
+		addMove.setItem(moveButton,10)
+		moveButton.move = PassTurn.new()
+		moveButton.need_apply_item.connect(applyItem.bind(moveButton))
+		
 
 	onSelect()
 	pass # Replace with function body.
 
-func applyItem(item:ShopItem) -> void:
+#open the apply item menu
+func applyItem( needCreature:bool,item:ShopItem) -> void:
 	self.item = item
+	ApplyItem.needCreature = needCreature
 	ApplyItem.set_visible(true);
 	ApplyItem.setText(item.getDescription())
 
@@ -49,19 +60,9 @@ func onSelect():
 	tween.play()
 	await tween.finished;
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
-#when applyItem is done
-func _on_apply_item_done():
-	ApplyItem.set_visible(false)
-	pass # Replace with function body.
-
 #when a creature has been selected from the team
-func _on_apply_item_selected(c:Creature):
+func _on_apply_item_selected(c:Creature,m:int):
 	if self.item:
-		self.item.useOnCreature(c);
+		self.item.applyItem(c,m)
 		await get_tree().create_timer(1).timeout
-		_on_apply_item_done()
-	pass # Replace with function body.
+		ApplyItem.finish()

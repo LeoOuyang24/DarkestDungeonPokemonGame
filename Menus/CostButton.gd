@@ -13,13 +13,13 @@ class_name CostButton extends BaseButton
 var disable:bool = false:
 	set(val):
 		disable = val
-		toggle()
+		toggle(GameState.getDNA())
 
 @export var title:String = ""
 @export var cost:int = 0:
 	set(val):
 		cost = val
-		toggle()
+		toggle(GameState.getDNA())
 		if label and label is PriceLabel:
 			label.formatLabel(cost,title,is_disabled())
 	
@@ -29,8 +29,8 @@ func applyCost():
 func _init():
 	GameState.DNA_changed.connect(toggle)
 	
-func toggle(_val = 0):
-	set_disabled(disable || cost > GameState.getDNA())
-	
+func toggle(amount:int):
+	set_disabled(disable || cost > amount)
+		
 func _pressed():
 	applyCost()

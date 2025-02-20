@@ -17,6 +17,7 @@ func setCreature(creature:Creature) -> void:
 		#var texture = load("res://sprites/UI/empty_creatureslot.tres")
 		#print(texture.get_frame_count("default"))
 		setSprite(load("res://sprites/UI/empty_creatureslot.tres"))
+		Resources.resize(Vector2(150,150),self)
 
 	#size is 150x150
 	#Resources.resize(Vector2(150,150),self)

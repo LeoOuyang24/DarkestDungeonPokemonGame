@@ -31,21 +31,24 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="LearnNewMove" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
 
-[node name="Moves" parent="MarginContainer/HBoxContainer/LearnNewMove" instance=ExtResource("3_agv26")]
+[node name="Moves" parent="MarginContainer/HBoxContainer/HBoxContainer" instance=ExtResource("3_agv26")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Spacer" type="Control" parent="MarginContainer/HBoxContainer/LearnNewMove"]
-custom_minimum_size = Vector2(40, 0)
+[node name="Spacing" type="Control" parent="MarginContainer/HBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 
-[node name="PassButton" parent="MarginContainer/HBoxContainer/LearnNewMove" instance=ExtResource("3_dm2aa")]
+[node name="PassButton" parent="MarginContainer/HBoxContainer/HBoxContainer" instance=ExtResource("3_dm2aa")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 10
 size_flags_vertical = 4
+
+[editable path="MarginContainer/HBoxContainer/CreatureStats"]
+[editable path="MarginContainer/HBoxContainer/CreatureStats/Background/Profile/Stats/Control/Health"]
+[editable path="MarginContainer/HBoxContainer/CreatureStats/Background/Profile/Stats/Control/Attack"]
+[editable path="MarginContainer/HBoxContainer/CreatureStats/Background/Profile/Stats/Control/Speed"]

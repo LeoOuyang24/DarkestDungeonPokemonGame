@@ -1,17 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://ln6v2ege33t7"]
+[gd_scene load_steps=10 format=3 uid="uid://ln6v2ege33t7"]
 
 [ext_resource type="Script" path="res://Map/ApplyItem.gd" id="1_ndx3b"]
 [ext_resource type="PackedScene" uid="uid://d1us7egl1mag1" path="res://Menus/TeamSlot.tscn" id="3_7s8co"]
 [ext_resource type="Shader" path="res://Battle/UI/CreatureSlot.gdshader" id="3_edo11"]
 [ext_resource type="PackedScene" uid="uid://b0htmbdsm8806" path="res://Map/ApplyItemSummary.tscn" id="4_lyunl"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mytf6"]
-bg_color = Color(0.641138, 0.641138, 1.92523e-07, 1)
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color(0, 0, 0, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uaoo3"]
 resource_local_to_scene = true
@@ -49,7 +41,6 @@ offset_left = 379.0
 offset_top = 308.0
 offset_right = 1638.0
 offset_bottom = 877.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_mytf6")
 script = ExtResource("1_ndx3b")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -76,21 +67,25 @@ size_flags_vertical = 0
 material = SubResource("ShaderMaterial_uaoo3")
 layout_mode = 2
 size_flags_horizontal = 0
+lockSize = true
 
 [node name="TeamSlot" parent="VBoxContainer2/CenterContainer/Creatures2" instance=ExtResource("3_7s8co")]
 material = SubResource("ShaderMaterial_bjud3")
 layout_mode = 2
 size_flags_horizontal = 0
+lockSize = true
 
 [node name="TeamSlot3" parent="VBoxContainer2/CenterContainer/Creatures2" instance=ExtResource("3_7s8co")]
 material = SubResource("ShaderMaterial_j0by0")
 layout_mode = 2
 size_flags_horizontal = 0
+lockSize = true
 
 [node name="TeamSlot4" parent="VBoxContainer2/CenterContainer/Creatures2" instance=ExtResource("3_7s8co")]
 material = SubResource("ShaderMaterial_8w1y4")
 layout_mode = 2
 size_flags_horizontal = 0
+lockSize = true
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer2"]
 layout_mode = 2
@@ -133,4 +128,4 @@ layout_mode = 2
 text = "Cancel"
 
 [connection signal="pressed" from="VBoxContainer2/CenterContainer2/MarginContainer/Buttons/Submit" to="." method="_on_confirm_pressed"]
-[connection signal="pressed" from="VBoxContainer2/CenterContainer2/MarginContainer/Buttons/Cancel" to="." method="_on_cancel_pressed"]
+[connection signal="pressed" from="VBoxContainer2/CenterContainer2/MarginContainer/Buttons/Cancel" to="." method="finish"]

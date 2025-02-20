@@ -5,9 +5,6 @@ class_name StatBar extends Control
 @onready var StatLabel:RichTextLabel = $Label
 @onready var Bar := $ProgressBar
 @onready var Icon:TextureRect = $Icon
-@onready var BigBoost:TextureButton = $BigBoost
-
-@export var BarColor:Color = Color.GREEN
 
 var popup := load("res://UI/OnHoverUI.tscn");
 
@@ -53,7 +50,6 @@ func setCreature(creature:Creature, stat:CreatureStats.STATS):
 func onStatChanged(stat:CreatureStats.STATS,amount):
 	if stat == self.stat:
 		growTo(creature.stats.getCurStat(stat))
-	BigBoost.set_visible(creature.level.getPendingBigBoosts()>0)
 	
 #set the maximum width our bar can grow to
 func setMaxWidth(maxWidth:int) -> void:
@@ -75,16 +71,3 @@ func _ready():
 	setBonus(10)
 	growTo(100)
 	pass
-
-func _on_big_boost_mouse_entered():
-	setBonus(Stat.BIG_BOOST_AMOUNT,Color.BLUE)
-	pass # Replace with function body.
-
-
-func _on_big_boost_mouse_exited():
-	setBonus(0)
-	pass # Replace with function body.
-
-func _on_big_boost_pressed():
-	if creature:
-		creature.addBigBoost(stat,1)
