@@ -138,9 +138,12 @@ func getTargetingCriteria():
 #passing in the indicies gives us a bit of flexiblity. We can hit the front two targets OR
 #we can hit the front two POSITIONS, sometimes potentially hitting only 1 or 0 targets
 #it also means with moves that manually target, we can potentially miss if a creature moves out of the targeted position
-func getPreselectedTargets(user:Creature, battle:Battlefield):	
-	var preselected = [];
-	return preselected;
+
+#the reason we do this instead of just calculating the targets in move() is because runAnimation also needs targets.
+#this way we abstract it to just one function.
+#separating it also makes it so we can improve the AI later to make decisions based on how many creatures a move targets
+func getPreselectedTargets(user:Creature, battle:Battlefield) -> Array[int]:	
+	return []
 	
 func runAnimation(user:Creature, targets:Array, UI:BattleUI,battlefield:Battlefield) -> void:
 	await MoveAnimations.genericAttackAnimation(user,targets,UI,self)

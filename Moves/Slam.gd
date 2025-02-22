@@ -17,7 +17,7 @@ func runAnimation(user:Creature, enemies: Array, UI:BattleUI,battlefield:Battlef
 #technically this move can hit all enemies
 func getPreselectedTargets(user:Creature, battle:Battlefield):
 	if user:
-		return battle.getEnemies(user.getIsFriendly())
+		return battle.getEnemies(user.getIsFriendly(),false,true)
 	return []
 
 	
@@ -25,7 +25,9 @@ func move(user, targets, battlefield):
 	#var arr = battlefield.getEnemies(user.getIsFriendly()) 
 	#var count = 0
 	var damage = user.stats.getCurStat(CreatureStats.STATS.ATTACK)*1.5
-	for target in targets:
+	for index in targets:
+		var target:Creature = battlefield.getCreature(index)
+
 		if target:
 			var damageDealt := Creature.dealDamage(user,target,damage);
 			if !target.isAlive() and damage > damageDealt: #if creature died and there's excess damage left, move to the next target

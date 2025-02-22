@@ -1,46 +1,45 @@
-[gd_scene load_steps=5 format=3 uid="uid://csyroyi13nt66"]
+[gd_scene load_steps=7 format=3 uid="uid://csyroyi13nt66"]
 
+[ext_resource type="Theme" uid="uid://8reuecd1io3g" path="res://Battle/UI/BattleUI.tres" id="1_u18w2"]
 [ext_resource type="Script" path="res://Menus/TeamView.gd" id="1_womks"]
 [ext_resource type="PackedScene" uid="uid://mftrks2txgif" path="res://UI/team_slots_rect.tscn" id="2_1lhlk"]
 [ext_resource type="PackedScene" uid="uid://cybp46vb5wblt" path="res://Menus/CreatureSummary.tscn" id="3_lyigu"]
+[ext_resource type="Theme" uid="uid://fmhayxk6i3ei" path="res://UI/margins.tres" id="3_v403o"]
 [ext_resource type="PackedScene" uid="uid://chsbok4nq5wgs" path="res://Menus/CreateHorror.tscn" id="4_yluxj"]
 
-[node name="TeamView" type="ColorRect"]
+[node name="TeamView" type="PanelContainer"]
 z_index = -1
 offset_right = 1126.0
 offset_bottom = 712.0
-color = Color(0.054902, 0.2, 0.172549, 1)
+theme = ExtResource("1_u18w2")
 script = ExtResource("1_womks")
 
-[node name="TeamSlotsRect" parent="." instance=ExtResource("2_1lhlk")]
-layout_mode = 0
-offset_left = 2.0
-offset_top = 125.0
-offset_right = 1126.0
-offset_bottom = 330.0
-
 [node name="CreateHorror" parent="." instance=ExtResource("4_yluxj")]
+unique_name_in_owner = true
 z_index = -1
-layout_mode = 1
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -274.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
-grow_horizontal = 0
-grow_vertical = 2
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 8
 
-[node name="CreatureSummary" parent="." instance=ExtResource("3_lyigu")]
-layout_mode = 0
-offset_left = 209.0
-offset_top = 377.0
-offset_right = 1489.0
-offset_bottom = 858.0
-scale = Vector2(0.6, 0.6)
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
 
-[connection signal="sort_children" from="TeamSlotsRect" to="." method="_on_team_slots_rect_sort_children"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme = ExtResource("3_v403o")
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="TeamSlotsRect" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_1lhlk")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="CreatureSummary" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_lyigu")]
+unique_name_in_owner = true
+layout_mode = 2
+
 [connection signal="horror_created" from="CreateHorror" to="." method="_on_create_horror_horror_created"]
 [connection signal="horror_selected" from="CreateHorror" to="." method="_on_create_horror_horror_selected"]

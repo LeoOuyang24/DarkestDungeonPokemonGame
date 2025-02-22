@@ -18,9 +18,13 @@ func _input(event):
 				#once we have finished dragging a slot, update our team order
 				dragging = null
 				draggingIndex = -1
-				GameState.PlayerState.updateTeam(get_children().map(func(butt):
+				var creatures = get_children().map(func(butt):
 					return butt.getCreature()
-					))
+					)
+				#have to reverse first because creatures with a lower index in our container 
+				#are actually closer to the back, which is opposite to how it is in Battlefield
+				creatures.reverse() 
+				GameState.PlayerState.updateTeam(creatures)
 			queue_sort()
 				
 	elif event is InputEventMouseMotion:

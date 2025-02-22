@@ -1,0 +1,144 @@
+[gd_resource type="SpriteFrames" load_steps=21 format=3 uid="uid://branw55ld1yj7"]
+
+[ext_resource type="Texture2D" uid="uid://d4hivauwr6c56" path="res://sprites/spritesheets/creatures/4morph.png" id="1_qjiao"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bxfrk"]
+atlas = ExtResource("1_qjiao")
+region = Rect2(0, 0, 409, 409)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ky61"]
+atlas = ExtResource("1_qjiao")
+region = Rect2(409, 0, 409, 409)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yal14"]
+atlas = ExtResource("1_qjiao")
+region = Rect2(818, 0, 409, 409)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f3l44"]
+atlas = ExtResource("1_qjiao")
+region = Rect2(1227, 0, 409, 409)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k07o6"]
+atlas = ExtResource("1_qjiao")
+region = Rect2(1636, 0, 409, 409)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ey38"]
+atlas = ExtResource("1_qjiao")
+region = Rect2(0, 409, 409, 409)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_72ixb"]
+atlas = ExtResource("1_qjiao")
+region = Rect2(409, 409, 409, 409)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3vk67"]
+atlas = ExtResource("1_qjiao")
+region = Rect2(818, 409, 409, 409)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_056xy"]
+atlas = ExtResource("1_qjiao")
+region = Rect2(1227, 409, 409, 409)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c2xyy"]
+atlas = ExtResource("1_qjiao")
+region = Rect2(1636, 409, 409, 409)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1fjdq"]
+atlas = ExtResource("1_qjiao")
+region = Rect2(0, 818, 409, 409)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b38ba"]
+atlas = ExtResource("1_qjiao")
+region = Rect2(409, 818, 409, 409)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gf8k7"]
+atlas = ExtResource("1_qjiao")
+region = Rect2(818, 818, 409, 409)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lda6x"]
+atlas = ExtResource("1_qjiao")
+region = Rect2(1227, 818, 409, 409)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cc5ig"]
+atlas = ExtResource("1_qjiao")
+region = Rect2(1636, 818, 409, 409)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2kkrd"]
+atlas = ExtResource("1_qjiao")
+region = Rect2(0, 1227, 409, 409)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ecej"]
+atlas = ExtResource("1_qjiao")
+region = Rect2(409, 1227, 409, 409)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_worfl"]
+atlas = ExtResource("1_qjiao")
+region = Rect2(818, 1227, 409, 409)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wf84j"]
+atlas = ExtResource("1_qjiao")
+region = Rect2(1227, 1227, 409, 409)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bxfrk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ky61")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yal14")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f3l44")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k07o6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ey38")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_72ixb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3vk67")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_056xy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c2xyy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fjdq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b38ba")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gf8k7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lda6x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cc5ig")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2kkrd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ecej")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_worfl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wf84j")
+}],
+"loop": true,
+"name": &"default",
+"speed": 16.0
+}]

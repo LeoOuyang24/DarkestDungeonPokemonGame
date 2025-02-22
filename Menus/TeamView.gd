@@ -1,8 +1,8 @@
-extends ColorRect
+extends Control
 
-@onready var TeamSlotsRect = $TeamSlotsRect
-@onready var CreatureSummary = $CreatureSummary
-@onready var CreateHorror = $CreateHorror
+@onready var TeamSlotsRect = %TeamSlotsRect
+@onready var CreatureSummary = %CreatureSummary
+@onready var CreateHorror = %CreateHorror
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -20,10 +20,10 @@ func updateTeamSlots(allies):
 	#add player to UI
 	#PlayerSlot.setCreature(player)
 	#add allies, adding any necessary slots in the process
-	
-	for i in range(TeamSlotsRect.get_children().size()):
+	var size := TeamSlotsRect.get_children().size()
+	for i in range(size):
 		var creature = allies[i] if i < allies.size() else null
-		var slot = TeamSlotsRect.get_children()[i]
+		var slot = TeamSlotsRect.get_children()[size - i - 1]
 		slot.setCreature(creature)
 	
 func viewSummary(teamSlot:CreatureSlot):

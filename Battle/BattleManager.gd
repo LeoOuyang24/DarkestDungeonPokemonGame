@@ -118,9 +118,10 @@ func newTurn(first:bool=false):
 	else:
 		BattleSim.newTurn();
 	UI.newTurn(BattleSim);
-	#await UI.AllyRow.sort_children
-
-	changeState(BATTLE_STATES.PLAYER_TURN);
+	if BattleSim.isDone():
+		changeState(BATTLE_STATES.WE_WON)
+	else:
+		changeState(BATTLE_STATES.PLAYER_TURN);
 
 func reset():
 	UI.reset();
@@ -173,15 +174,16 @@ func runBattle():
 		if !GameState.PlayerState.getPlayer().isAlive():
 			changeState(BATTLE_STATES.WE_LOST)
 			return 
+		elif BattleSim.isDone():
+			changeState(BATTLE_STATES.WE_WON)
+			break;
 		else:
 			#BattleSim.nextMove();
 			runThis = BattleSim.getNextMove()
 		UI.resetAllSlotPos()
 			
-	if BattleSim.isDone():
-		changeState(BATTLE_STATES.WE_WON)
-	else:
-		newTurn()
+
+	newTurn()
 
 func battleFinished():
 	BattleSim.battle_ended.emit()

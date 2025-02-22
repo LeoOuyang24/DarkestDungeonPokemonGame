@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://b6nxjul7v18y3"]
 
-[ext_resource type="Texture2D" uid="uid://yokh3lt3hrra" path="res://sprites/icons/heart_icon.png" id="1_6thjs"]
+[ext_resource type="Texture2D" uid="uid://dlqyr0s1dmur3" path="res://sprites/icons/heart_icon.png" id="1_6thjs"]
 [ext_resource type="Script" path="res://Menus/StatBar.gd" id="2_eu0au"]
 
 [sub_resource type="Theme" id="Theme_1q0n1"]

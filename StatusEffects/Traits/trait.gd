@@ -17,4 +17,3 @@ func inBattle(battlefield:Battlefield) -> void:
 func newTurn() -> void:
 	pass
 	
-

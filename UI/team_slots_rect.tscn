@@ -35,11 +35,12 @@ shader_parameter/outline_color = null
 shader_parameter/isSpectral = false
 
 [node name="TeamSlotsRect" type="HBoxContainer"]
-offset_left = 112.0
-offset_top = 96.0
-offset_right = 1236.0
-offset_bottom = 301.0
+offset_left = 7.0
+offset_top = 82.0
+offset_right = 729.0
+offset_bottom = 287.0
 theme_override_constants/separation = 100
+alignment = 2
 script = ExtResource("1_pxd7g")
 
 [node name="Slot1" parent="." instance=ExtResource("1_t0i4w")]
@@ -48,15 +49,24 @@ layout_mode = 2
 script = ExtResource("3_xwr6i")
 source = ExtResource("5_2gvyt")
 
+[node name="TextureButton" parent="Slot1" index="0"]
+texture_normal = null
+
 [node name="Slot2" parent="." instance=ExtResource("1_t0i4w")]
 material = SubResource("ShaderMaterial_dpucv")
 layout_mode = 2
 script = ExtResource("3_xwr6i")
 
+[node name="TextureButton" parent="Slot2" index="0"]
+texture_normal = null
+
 [node name="Slot3" parent="." instance=ExtResource("1_t0i4w")]
 material = SubResource("ShaderMaterial_5a7lj")
 layout_mode = 2
 script = ExtResource("3_xwr6i")
+
+[node name="TextureButton" parent="Slot3" index="0"]
+texture_normal = null
 
 [node name="PendingMove" parent="Slot3/PendingMove" index="0"]
 offset_left = -37.0
@@ -66,6 +76,9 @@ offset_right = 13.0
 material = SubResource("ShaderMaterial_hfjkr")
 layout_mode = 2
 script = ExtResource("3_xwr6i")
+
+[node name="TextureButton" parent="Slot4" index="0"]
+texture_normal = null
 
 [editable path="Slot1"]
 [editable path="Slot1/HealthBar"]

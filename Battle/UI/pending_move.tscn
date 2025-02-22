@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://cpg5w77s8sbsw"]
 
-[ext_resource type="Texture2D" uid="uid://cp4s8dnh0c48e" path="res://sprites/icons/claw_icon.png" id="1_d5sgp"]
+[ext_resource type="Texture2D" uid="uid://cnbmv1a853j4" path="res://sprites/icons/claw_icon.png" id="1_d5sgp"]
 [ext_resource type="Script" path="res://Battle/UI/pending_move.gd" id="2_bstoe"]
 [ext_resource type="Script" path="res://Battle/UI/PendingMove.gd" id="3_xbb20"]
 

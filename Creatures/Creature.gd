@@ -86,6 +86,10 @@ func newTurn() -> void:
 	tickMoves()
 	statuses.newTurn()
 	traits.newTurn()
+	
+#called when acreature first enters battlefield
+func firstTurn(battlefield:Battlefield) -> void:
+	traits.inBattle(battlefield)
 
 #decrease cooldown for each move
 func tickMoves() -> void:
@@ -93,7 +97,12 @@ func tickMoves() -> void:
 		i.decRemainingCD()
 	
 func setMoves(attacks_):
-	moves = attacks_.slice(0,min(maxMoves,len(attacks_)),1,true); #deep copy the first 4 attacks, or fewer if fewer were provided
+	var dup = attacks_.duplicate(true);
+	var index:= 0;
+	moves = []
+	for move:Move in dup:
+		setMove(move,index)
+		index += 1
 
 func setMove(move:Move,index:int):
 	if index >= 0 and index < maxMoves:

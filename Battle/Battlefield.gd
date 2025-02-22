@@ -26,6 +26,7 @@ signal new_current_creature(creature:Creature)
 
 signal battle_ended();
 signal new_turn(); #new turn
+signal first_turn(); #first turn
 
 #emitted when creature order changes
 signal creature_order_changed(creature:Creature, oldIndex:int, newIndex:int)
@@ -83,7 +84,8 @@ func addCreature(creature:Creature, index:int):
 		if creature:
 			creature.isFriendly = (index < maxAllies)
 			new_turn.connect(creature.newTurn)
-			creature.traits.inBattle(self)
+			first_turn.connect(creature.firstTurn.bind(self))
+			#creature.traits.inBattle(self)
 			creature.stats.stat_changed.connect(func(stat:CreatureStats.STATS,amount:int):
 				if stat == CreatureStats.STATS.SPEED:
 					updateMoveQueue(creature))
@@ -110,20 +112,30 @@ func moveCreature(creature:Creature, index:int):
 		creature_order_changed.emit();
 			
 #return allies based on if the creature is friendly or not
-func getAllies(isFriendly:bool = true) -> Array[Creature]:
+#getNull is whether or not we want null creatures too
+#"index" is true if we want indicies rather than creatures
+func getAllies(isFriendly:bool = true, getNull:bool = true, index:bool = false) -> Array:
 	if isFriendly:
-		var allies:Array[Creature] = []
+		var allies:Array = []
 		for i in range(maxAllies):
-			allies.push_back(creatures[i])
+			if creatures[i] or getNull:
+				if index:
+					allies.push_back(i)
+				else:
+					allies.push_back(creatures[i])
 		return allies
 	else:
 		return getEnemies(true)
 	
-func getEnemies(isFriendly:bool = true) -> Array[Creature]:
+func getEnemies(isFriendly:bool = true, getNull:bool = true, index:bool = false) -> Array:
 	if isFriendly:
-		var enemies:Array[Creature] = []
+		var enemies:Array = []
 		for i in range(maxAllies,creatures.size(),1):
-			enemies.push_back(creatures[i])
+			if creatures[i] or getNull:
+				if index:
+					enemies.push_back(i)
+				else:
+					enemies.push_back(creatures[i])
 		return enemies	
 	else:
 		return getAllies(true)
@@ -152,8 +164,8 @@ func getEnemyMoves():
 
 #given a user and a targeting criteria, returns all creatures that could potentially
 #be targeted
-func getLegalTargets(user:Creature, criteria:Move.TARGETING_CRITERIA) -> Array[Creature]:
-	var targetArray:Array[Creature] = []
+func getLegalTargets(user:Creature, criteria:Move.TARGETING_CRITERIA) -> Array:
+	var targetArray:Array = []
 	match criteria:
 		Move.TARGETING_CRITERIA.ONLY_ENEMIES:
 			targetArray = getEnemies(user.getIsFriendly())
@@ -189,21 +201,26 @@ func getTargets(user:Creature, move:Move) -> Array[int]:
 			return arr
 
 	return []	
-					
-#what to run on the very first turn
-func firstTurn() -> void:
+			
+#what to do at the start of every turn
+#code that is common to firstTurn and newTurn
+func startTurn() -> void:
 	moveQueue.reset();
-	#moveQueue.clear()
-	for creature in creatures:
-		if creature:
-			moveQueue.insert(Move.MoveRecord.new(creature,null,[]))
+	for creature:Creature in creatures:
+		moveQueue.insert(Move.MoveRecord.new(creature,null,[]))
 	getEnemyMoves();
 
-
+		
+#what to run on the very first turn
+func firstTurn() -> void:
+	first_turn.emit();
+	startTurn()
+	
+	
 #what to run on every turn after the first
 func newTurn() -> void:
 	new_turn.emit(); #emit first to trigger any on-new-turn effects
-	firstTurn()
+	startTurn()
 
 func onBattleEnd() -> void:
 	for i in GameState.PlayerState.getTeam():
