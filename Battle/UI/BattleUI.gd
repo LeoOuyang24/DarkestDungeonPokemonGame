@@ -179,6 +179,7 @@ func addCreature(creature:Creature, index:int):
 				creatureSlots[index].offset_bottom = -50
 
 func removeCreature(creature:Creature):
+	print(getCreatureSlot(creature))
 	if getCreatureSlot(creature):
 		getCreatureSlot(creature).setCreature(null)
 		await removeCreatureFromQueue(creature);

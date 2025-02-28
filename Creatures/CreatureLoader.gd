@@ -32,7 +32,7 @@ static func loadJSON(file_path:String, startingLevel:int = 1) -> Creature:
 							json.data.baseSpeed if json.data.get("baseSpeed") != null else 1,
 							json.data.name if json.data.get("name") != null else "Creature",
 							startingLevel,
-							json.data.startMoves.map(func (moveName:String): return loadMove(moveName)) if json.data.get("startMoves") else [],
+							json.data.startMoves.map(func (moveName:String) -> Move: return loadMove(moveName)) if json.data.get("startMoves") else [],
 							json.data.levelMoves.map(func (moveName:String): return loadMove(moveName)) if json.data.get("levelMoves") else []
 							) 
 			creature.flying = json.data.flying if json.data.get("flying") != null else false

@@ -19,7 +19,7 @@ func setMoves(creature:Creature) -> void:
 	if creature:
 		for i in range(Creature.maxMoves):
 			var butt := Moves[i] as MoveButton
-			butt.setMove(creature.getMove(i),creature)
+			butt.setSlot(creature.getMoveSlot(i),creature)
 			
 #"disable" is true if we want to disable all buttons, false otherwise if we want to enable all of them
 #if "useOld" is true, the button is only enabled if it currently is already enabled

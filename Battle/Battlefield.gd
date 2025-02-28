@@ -29,7 +29,8 @@ signal new_turn(); #new turn
 signal first_turn(); #first turn
 
 #emitted when creature order changes
-signal creature_order_changed(creature:Creature, oldIndex:int, newIndex:int)
+#this can be if a creature is moved or if a creature is removed/added
+signal creature_order_changed()
 signal creature_added(creature:Creature, index:int)
 signal creature_removed(creature:Creature)
 	
@@ -42,6 +43,15 @@ enum BATTLE_OUTCOME{
 func _init():
 	creatures.resize(maxAllies + maxEnemies)
 	creatures.fill(null)
+	
+	#creature_added.connect(func(c,i):
+		#creature_order_changed.emit()
+		#)
+		#
+	#creature_removed.connect(func(c):
+		#creature_order_changed.emit()
+		#)
+	
 
 #return whether or not all enemies are dead
 func isDone() -> bool:

@@ -2,7 +2,7 @@ class_name Creature extends Object
 #A Creature is any entity with up to 4 attacks
 
 const maxMoves = 4;
-var moves = []
+var moves:Array[MoveSlot] = []
 
 #is the player character
 var isPlayer = false
@@ -42,7 +42,7 @@ static var count = 0;
 func _to_string() -> String:
 	return "{ " + getName() + ", Health:" + str(stats.getStatObj(CreatureStats.STATS.HEALTH)) + " Attack:" + str(stats.getStatObj(CreatureStats.STATS.ATTACK)) + " Speed:" + str(stats.getStatObj(CreatureStats.STATS.SPEED)) + " }"
 
-func _init( sprite_path:String, maxHealth_:int,baseAttack_:int,baseSpeed_:int, name_:String, levels:int = 1, moves_:Array = [], pendingMoves_:Array = []) -> void:
+func _init( sprite_path:String, maxHealth_:int,baseAttack_:int,baseSpeed_:int, name_:String, levels:int = 1, moves_ = [], pendingMoves_:Array = []) -> void:
 	spriteFrame = SpriteLoader.getSprite(sprite_path)
 	creatureName = name_;
 	#TODO: level up stats, currently they are stuck at level 1 regardless of what level we put into the constructor
@@ -53,6 +53,7 @@ func _init( sprite_path:String, maxHealth_:int,baseAttack_:int,baseSpeed_:int, n
 	statuses = StatusManager.new(self)
 	traits = TraitManager.new(self)
 	
+	self.moves = [MoveSlot.new(),MoveSlot.new(),MoveSlot.new(),MoveSlot.new()]
 	setMoves(moves_)
 	
 func addBigBoost(stat:CreatureStats.STATS,num:int = 1) -> void:
@@ -99,20 +100,14 @@ func tickMoves() -> void:
 func setMoves(attacks_):
 	var dup = attacks_.duplicate(true);
 	var index:= 0;
-	moves = []
 	for move:Move in dup:
 		setMove(move,index)
 		index += 1
 
 func setMove(move:Move,index:int):
-	if index >= 0 and index < maxMoves:
-		if index >= moves.size():
-			moves.push_back(move)
-			move_changed.emit(moves.size()-1,move)
-
-		else:
-			moves[index] = move
-			move_changed.emit(index,move)
+	if index >= 0 and index < moves.size():
+		moves[index].move = move
+		move_changed.emit(index,move)
 
 #used for dealing damage/healing
 func addHealth(amount:int):
@@ -123,15 +118,28 @@ func addHealth(amount:int):
 func useMove(move,targets):
 	move.move(self,targets)
 	
+func getMoves() -> Array[Move]:
+	var arr:Array[Move] = []
+	for i in range(moves.size()):
+		arr.push_back(getMove(i))
+	return arr
+		
+	
 func getMove(index) -> Move:
 	if index < 0 || index >= moves.size():
 		return null
-	return moves[index];
+	return moves[index].move;
+	
+func getMoveSlot(index:int) -> MoveSlot:
+	if index < 0 || index >= moves.size():
+		return null
+	return moves[index];	
+	
 func getRandomMove() -> Move:
 	var possible:Array[Move] = []
-	for i:Move in moves:
+	for i:MoveSlot in moves:
 		if i.isUsable():
-			possible.push_back(i)
+			possible.push_back(i.move)
 	if possible.size() == 0:
 		return PassTurn.new()
 	return possible[randi()%possible.size()]

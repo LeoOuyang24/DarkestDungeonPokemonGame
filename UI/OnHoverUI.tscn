@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://c8kx77lvjxrm8"]
+[gd_scene load_steps=4 format=3 uid="uid://c8kx77lvjxrm8"]
 
 [ext_resource type="Script" path="res://UI/OnHoverUI.gd" id="1_nggs0"]
+[ext_resource type="Theme" uid="uid://cldb2lva0qqst" path="res://Battle/UI/MoveSummary.tres" id="1_teddf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mttbl"]
 bg_color = Color(0, 0, 0, 0.443137)
@@ -9,6 +10,7 @@ bg_color = Color(0, 0, 0, 0.443137)
 custom_minimum_size = Vector2(450, 0)
 offset_right = 120.0
 offset_bottom = 130.0
+theme = ExtResource("1_teddf")
 theme_override_styles/panel = SubResource("StyleBoxFlat_mttbl")
 script = ExtResource("1_nggs0")
 

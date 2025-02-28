@@ -1,6 +1,6 @@
 class_name MoveButton extends Button
 
-var move:Move = null
+var slot:MoveSlot= null
 var creature:Creature = null
 
 static var popup = preload("res://UI/OnHoverUI.tscn")
@@ -10,16 +10,22 @@ signal move_selected(move:Move)
 func _ready():
 	pass # Replace with function body.
 
-func setMove(move:Move,creature:Creature) -> void:
-	self.move = move
+func setSlot(slot:MoveSlot, creature:Creature) -> void:
+	self.slot = slot
 	self.creature = creature
+	
+	if slot.move:
+		setMove(slot.move)
+
+func setMove(move:Move) -> void:
+	if !slot: #this should really only occur if this button is not associated with a creature
+		self.slot = MoveSlot.new()
+	self.slot.move = move
 	if move:
-		self.text = move.getMoveName()
-		self.move.cooldown_changed.connect(cdChanged)
-		cdChanged(0,0)
+		#self.move.cooldown_changed.connect(cdChanged)
+		#cdChanged(0,0)
 		set_tooltip_text(move.summary +"\nCooldown: " + str(move.baseCooldown))
 	else:
-		self.text = ""
 		set_tooltip_text("")
 	
 static func getMoveTooltip(move:Move,creature:Creature) -> Control:
@@ -28,6 +34,7 @@ static func getMoveTooltip(move:Move,creature:Creature) -> Control:
 		label.custom_minimum_size = Vector2(200,0)
 		label.fit_content = true
 		label.bbcode_enabled = true
+		label.theme = load("res://Battle/UI/MoveButton.tres")
 
 		var tooltip = popup.instantiate()
 		tooltip.setName(move.getMoveName())
@@ -48,8 +55,8 @@ static func getMoveTooltip(move:Move,creature:Creature) -> Control:
 			)
 		
 		var string = move.summary % values;
-		if !move.isUsable():
-			string += ("\n[color=RED]" + str(move.getRemainingCD()) + " turns left before move can be used.[/color]")
+		if move.slot and !move.slot.isUsable():
+			string += ("\n[color=RED]" + str(move.slot.getRemainingCD()) + " turns left before move can be used.[/color]")
 		
 		tooltip.setMessage(string)
 		
@@ -59,19 +66,20 @@ static func getMoveTooltip(move:Move,creature:Creature) -> Control:
 #makes the tooltip for each button, which changes dynamically 
 #ie, having more attack will change the damage number
 func _make_custom_tooltip(summary:String):
-	return getMoveTooltip(move,creature)
-	
-func cdChanged(_amount:int,_newCD:int) -> void:
-	if move:
-		if move.isUsable():
-			self.text = move.getMoveName()
-			self.disabled = false
-		else:
-			self.text = str(move.getRemainingCD())
-			self.disabled = true
+	return getMoveTooltip(slot.getMove(),creature)
+
 			
 func getMove() -> Move:
-	return move
+	return slot.move if slot else null
 	
 func _pressed() -> void:
-	move_selected.emit(move)
+	move_selected.emit(slot.move if slot else null)
+	
+func _process(delta:float) -> void:
+	if slot:
+		if slot.isUsable():
+			self.text = slot.getMove().getMoveName()
+			self.disabled = false
+		else:
+			self.disabled = true	
+			self.text = str(slot.getRemainingCD()) if slot.move else ""

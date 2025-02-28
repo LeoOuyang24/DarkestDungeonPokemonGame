@@ -85,7 +85,7 @@ func handleRecord(record:Move.MoveRecord) -> void:
 func createBattle(player,allies,enemies):
 	#allies += [player]
 	for i in range(allies.size()):
-		if allies[i] && allies[i].isAlive():
+		if allies[i] && (allies[i].isAlive()):
 			BattleSim.addCreature(allies[i],i);
 	for i in range(enemies.size()):
 		if enemies[i] && enemies[i].isAlive():
@@ -145,7 +145,10 @@ func runMove(record:Move.MoveRecord) -> void:
 			await UI.showMove(record)
 			await record.move.runAnimation(record.user,record.targets,UI,BattleSim)
 			
-			record.move.doMove(record.user,record.targets,BattleSim)
+			if record.move.slot:
+				record.move.slot.doMove(record.user,record.targets,BattleSim)
+			else:
+				record.move.move(record.user,record.targets,BattleSim)
 			
 			UI.clearMove()
 				

@@ -13,7 +13,7 @@ func _ready():
 		move_selected.emit(move)
 		)
 	
-	PassButton.setMove(PassTurn.new(),null)
+	PassButton.setMove(PassTurn.new())
 	PassButton.move_selected.connect(move_selected.emit)
 
 

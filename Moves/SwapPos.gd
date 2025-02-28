@@ -6,8 +6,7 @@ func _init():
 	moveName = "Tactic: Swap"
 	icon = load("res://sprites/icons/speed_icon.png")
 	manualTargets = 1
-	baseCooldown = 3
-	targetingCriteria=Move.TARGETING_CRITERIA.ONLY_ALLIES
+	targetingCriteria=Move.TARGETING_CRITERIA.OTHER_ALLIES
 	summary = "Swap position with an ally"
 
 func move(user:Creature, targets:Array, battlefield):

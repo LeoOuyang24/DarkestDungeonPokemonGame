@@ -24,7 +24,7 @@ func setMoves(creature:Creature):
 
 #update the next move to be learned via level up
 func setNewMove(move:Move) -> void:
-	LevelUpMove.setMove(move,null)
+	LevelUpMove.setMove(move)
 	var moveExists:bool = (move != null)
 	Moves.disableMoves(!moveExists)
 	for i in NewMove.get_children():
@@ -35,9 +35,9 @@ func setNewMove(move:Move) -> void:
 #swap the chosen move with the move on the LevelUpMove button
 func swapMove(moveButton:MoveButton):
 	var move = moveButton.getMove()
-	moveButton.setMove(LevelUpMove.getMove(),null)
+	moveButton.setMove(LevelUpMove.getMove())
 	#moveButton.setMove(LevelUpMove.getMove(),creature)
-	LevelUpMove.setMove(move,null)
+	LevelUpMove.setMove(move)
 
 
 func _on_confirm_pressed():

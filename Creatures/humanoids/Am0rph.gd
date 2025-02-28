@@ -5,6 +5,7 @@ class_name Am0rph extends Creature
 func _init(levels:int = 1, moves_:Array = [], pendingMoves_:Array = []) -> void:
 	super("spritesheets/creatures/am0rph", 8,5,5, "AMORPH",levels,moves_,pendingMoves_)
 	
+#find the creature to copy and copy
 func copyMoves(battlefield:Battlefield) -> void:
 	if battlefield:
 		var enemies = battlefield.getEnemies(getIsFriendly(),false)
@@ -16,7 +17,7 @@ func copyMoves(battlefield:Battlefield) -> void:
 		#get the corresponding enemy
 		#if we are too far back (3rd from the front, and there's only 2 enemies), copy the furthest back enemy
 		if enemies.size() > 0:
-			setMoves(enemies[min(index,enemies.size() - 1)].moves)
+			setMoves(enemies[min(index,enemies.size() - 1)].getMoves())
 
 func firstTurn(battlefield:Battlefield) -> void:
 	super(battlefield)
@@ -25,8 +26,3 @@ func firstTurn(battlefield:Battlefield) -> void:
 func newTurn() -> void:
 	super()
 	copyMoves(GameState.getBattle())
-			
-func setMoves(attacks) -> void:
-	super(attacks)
-	for move:Move in moves:
-		move.cooldown = 0 #this avoids emitting the signal for when a cooldown changes

@@ -11,7 +11,7 @@ const PLAYER_BASE_SPEED:int = 5
 const MAX_TEAM_SIZE:int = 4
 
 var player:Creature = null
-var team:Array = [] #all friendly creatures, including the player
+var team:Array = [] #all friendly creatures, including the player and nulls
 var teamSize:int = 0
 
 #array of creatures we've scanned
@@ -77,9 +77,9 @@ func reset() -> void:
 	player.isPlayer = true	
 #
 	var ally1 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/giant.json")
-	#var ally2 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/masked.json")
+	var ally2 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json")
 	ally1.traits.addStatus(Spectral.new())
-	updateTeam([player,ally1,Am0rph.new(),null])
+	updateTeam([player,ally2,Banshee.new(),ally1,])
 
 	#team[1].traits.addStatus(Spectral.new())
 	#team[0].traits.addStatus(Big.new())

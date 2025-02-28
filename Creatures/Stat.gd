@@ -25,6 +25,7 @@ func _init(baseVal:int, levels:int = 1,bigBoosts:int = 0) -> void:
 	rootStat = baseVal
 	baseStat = predictBaseStat(rootStat,levels,bigBoosts)
 	curStat = getBaseStat()
+	
 func _to_string():
 	return str(getStat());
 
