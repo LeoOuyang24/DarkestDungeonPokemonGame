@@ -73,7 +73,7 @@ static func isTargetValid(targetingCriteria:TARGETING_CRITERIA, user:Creature, t
 		elif targetingCriteria == TARGETING_CRITERIA.ALL_OTHERS:
 			return user != target
 		if user.getIsFriendly() == target.getIsFriendly():
-			return user == target if targetingCriteria == TARGETING_CRITERIA.OTHER_ALLIES else targetingCriteria == TARGETING_CRITERIA.ONLY_ALLIES
+			return user != target if targetingCriteria == TARGETING_CRITERIA.OTHER_ALLIES else targetingCriteria == TARGETING_CRITERIA.ONLY_ALLIES
 		return targetingCriteria == TARGETING_CRITERIA.ONLY_ENEMIES
 	else:
 		return false

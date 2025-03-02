@@ -11,6 +11,8 @@ func _init():
 
 func move(user:Creature, targets:Array, battlefield):
 	battlefield.swapCreature(battlefield.getCreatureIndex(user),targets[0])
+#	await UI.AllyRow.sort_children
+
 
 func runAnimation(user:Creature, targets:Array, UI:BattleUI,battlefield:Battlefield):
 	var slot = UI.getCreatureSlot(user)
