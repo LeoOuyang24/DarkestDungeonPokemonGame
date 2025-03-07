@@ -144,12 +144,12 @@ func runMove(record:Move.MoveRecord) -> void:
 				pass
 			await UI.showMove(record)
 			await record.move.runAnimation(record.user,record.targets,UI,BattleSim)
-			
+
 			if record.move.slot:
 				record.move.slot.doMove(record.user,record.targets,BattleSim)
 			else:
 				record.move.move(record.user,record.targets,BattleSim)
-			
+
 			UI.clearMove()
 				
 			UI.History.addMove(record)

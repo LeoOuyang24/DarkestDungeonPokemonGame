@@ -67,12 +67,18 @@ func startBattle() -> void:
 func updateSlots(state:Battlefield):
 	for i in range(state.creatures.size()):
 		addCreature(state.creatures[i],i);
-
+	
 #reset slot appearances
 func resetSlotUIs():
 	for i in creatureSlots:
 		i.getTween()
 		i.modulate = Color.WHITE
+	
+#if the order of creatureslots changes, we have to reorganize "creatureSlots"
+#to match the order in battlefield
+func resetCreatureSlots():
+	creatureSlots = AllyRow.get_children().slice(-1,0,-1) + [AllyRow.get_children()[0]] + EnemyRow.get_children()
+
 	
 func resetAllSlotPos():
 	AllyRow.queue_sort()
@@ -170,6 +176,22 @@ func getQueueSlot(creature:Creature) -> QueueSlot:
 			return slots;
 	return null
 
+#swaps position of two slots
+func swapSlots(slot1:CreatureSlot,slot2:CreatureSlot):
+	if slot1 and slot2 and slot1.get_parent() == slot2.get_parent(): #only works if they are in the same container
+
+		slot1.getTween().tween_property(slot1,"global_position",Vector2(slot2.global_position.x,slot1.global_position.y),0.5)
+		var tween = slot2.getTween().tween_property(slot2,"global_position",Vector2(slot1.global_position.x,slot2.global_position.y),0.5)
+		await tween.finished
+		
+		var row = slot1.get_parent()
+		var index1 = row.get_children().find(slot1)
+		var index2 = row.get_children().find(slot2)
+		row.move_child(slot2,index1)
+		#row.remove_child(slot1)
+		row.move_child(slot1,index2)
+		resetCreatureSlots()
+			
 func addCreature(creature:Creature, index:int):
 	if (creatureSlots[index].getCreature() != creature):
 		if index < creatureSlots.size() && creatureSlots[index]:
@@ -179,7 +201,6 @@ func addCreature(creature:Creature, index:int):
 				creatureSlots[index].offset_bottom = -50
 
 func removeCreature(creature:Creature):
-	print(getCreatureSlot(creature))
 	if getCreatureSlot(creature):
 		getCreatureSlot(creature).setCreature(null)
 		await removeCreatureFromQueue(creature);
@@ -234,14 +255,8 @@ func addSlot(isAlly:bool):
 	var slot = creatureSlot.instantiate();
 	#slot.size_flags_vertical = SIZE_SHRINK_END
 	if isAlly:
-		#due to how the creature slots are set up in an Hbox, (lower index = further to the left)
-		#we have to flip the index if the creature is friendly. So we insert in the beginnign
-		#rather than the end. This makes it so that the newly created slot is the new front-most (right-most)
-		#slot with a 0 index.
-		creatureSlots.insert(0,slot);
 		AllyRow.add_child(slot)
 	else:
-		creatureSlots.push_back(slot)
 		EnemyRow.add_child(slot)
 
 #show move that is currently being used
@@ -283,6 +298,7 @@ func _ready():
 		addSlot(true)
 	for i in range(Battlefield.maxEnemies):
 		addSlot(false);
+	resetCreatureSlots()
 	for i in range(creatureSlots.size()):
 		creatureSlots[i].pressed.connect(func():
 			selectCreature(creatureSlots[i].getCreature())

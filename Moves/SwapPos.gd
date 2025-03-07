@@ -18,7 +18,5 @@ func runAnimation(user:Creature, targets:Array, UI:BattleUI,battlefield:Battlefi
 	var slot = UI.getCreatureSlot(user)
 	var enemySlot = UI.getCreatureSlot(targets[0])
 	
-	slot.getTween().tween_property(slot,"global_position",enemySlot.global_position,0.5)
-	var tween = enemySlot.getTween().tween_property(enemySlot,"global_position",slot.global_position,0.5)
-	await tween.finished
+	await UI.swapSlots(slot,enemySlot)
 	

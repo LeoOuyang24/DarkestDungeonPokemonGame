@@ -82,6 +82,7 @@ func swapCreature(index1:int, index2:int) -> void:
 	#addCreature(creature,index1)
 	creatures[index2] = creatures[index1]
 	creatures[index1] = creature
+	print(creatures)
 	creature_order_changed.emit();
 
 
