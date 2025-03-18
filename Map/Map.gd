@@ -37,7 +37,6 @@ func generate():
 		var rowSize = rng.randi_range(minRowSize,maxRowSize) if i > 0 && i < maxRows - 1 else 1
 		for j in range(rowSize):
 			var room = RoomScene.instantiate()
-			#var room = Room.new(RoomInfo.new(RoomInfo.ROOM_TYPES.WELL if randi()%2 == 0 else RoomInfo.ROOM_TYPES.BATTLE))
 			addRoom(room,i,j,rowSize)
 			room.setRoomType(randi()%Room.ROOM_TYPES.ROOM_TYPES_SIZE)
 			row.push_back(room);
@@ -48,7 +47,9 @@ func generate():
 				#this complicated mess evenly divides the number of connections from the previous row among the rooms in the current row
 				#there is a 50% chance of one additional connection, to add some variety
 				#the last room will also connect to any rooms that don't have a connection yet
-				for g:int in max(1,ceil( neigh) + (randi()%2) + int(i == rowSize - 1)*leftovers):  
+				var neighbors = max(1,ceil( neigh) + (randi()%2) + int(i == rowSize - 1)*leftovers)
+				print(i, " ", j, " ", neighbors)
+				for g:int in neighbors:  
 					var index = min(rooms[-1].size() - 1,g + j*max(1,floor(neigh)))
 					var neighbor =rooms[-1][index]
 					routes[[neighbor,row[j]]] = true
