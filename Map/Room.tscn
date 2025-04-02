@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://b2gqho2xtjgek"]
+[gd_scene load_steps=8 format=3 uid="uid://b2gqho2xtjgek"]
 
-[ext_resource type="Texture2D" uid="uid://dc25w0ser263v" path="res://sprites/map/enemy_room.png" id="1_4awlq"]
+[ext_resource type="Texture2D" uid="uid://cff6tulwjeoqb" path="res://sprites/map/enemy_room.png" id="1_4awlq"]
+[ext_resource type="Texture2D" uid="uid://cidcgihmcj3fg" path="res://sprites/icons/moves/enemy_room.png" id="1_5h5kf"]
 [ext_resource type="Script" path="res://Map/Room.gd" id="1_78lvt"]
 
 [sub_resource type="Animation" id="Animation_at4dd"]
@@ -66,8 +67,16 @@ _data = {
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ufmqg"]
 
-[node name="Room" type="Area2D"]
-scale = Vector2(1.61615, 1.61615)
+[node name="Room" type="TextureButton"]
+custom_minimum_size = Vector2(10, 10)
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 90.0
+offset_bottom = 90.0
+pivot_offset = Vector2(50, 25)
+texture_normal = ExtResource("1_5h5kf")
+ignore_texture_size = true
+stretch_mode = 4
 script = ExtResource("1_78lvt")
 
 [node name="anime" type="AnimationPlayer" parent="."]
@@ -77,9 +86,9 @@ libraries = {
 autoplay = "reset"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 texture = ExtResource("1_4awlq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("CircleShape2D_ufmqg")
-
-[connection signal="input_event" from="." to="." method="_on_input_event"]

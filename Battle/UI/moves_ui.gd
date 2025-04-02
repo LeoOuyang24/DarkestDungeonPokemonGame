@@ -9,7 +9,7 @@ var MoveButtonScene = preload("res://Battle/UI/MoveButton.tscn")
 func _ready():
 	for i in Creature.maxMoves:
 		var move := MoveButtonScene.instantiate()
-		move.setMove(null,null)
+		move.setMove(null)
 		MovesUI.add_child(move)
 	pass # Replace with function body.
 
@@ -17,9 +17,9 @@ func loadMoves(creature:Creature):
 	if creature:
 		for i in range(creature.maxMoves):
 			if i >= creature.moves.size():
-				MovesUI.get_children()[i].setMove(null,creature)
+				MovesUI.get_children()[i].setMove(null)
 			else:
-				MovesUI.get_children()[i].setMove(creature.moves[i],creature)
+				MovesUI.get_children()[i].setMove(creature.moves[i])
 			
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.

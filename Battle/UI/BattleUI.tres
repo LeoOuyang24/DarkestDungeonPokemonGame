@@ -1,4 +1,19 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://8reuecd1io3g"]
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://8reuecd1io3g"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ksx14"]
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jl0ru"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w2kol"]
 bg_color = Color(1, 1, 1, 1)
@@ -9,6 +24,10 @@ border_width_bottom = 7
 border_color = Color(0, 0, 0, 1)
 
 [resource]
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/styles/hover = SubResource("StyleBoxFlat_ksx14")
+Button/styles/hover_pressed_mirrored = null
+Button/styles/normal = SubResource("StyleBoxFlat_jl0ru")
 MarginContainer/constants/margin_bottom = 10
 MarginContainer/constants/margin_left = 10
 MarginContainer/constants/margin_right = 10

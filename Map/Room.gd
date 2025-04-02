@@ -1,4 +1,4 @@
-class_name Room extends Area2D
+class_name Room extends TextureButton
 
 @onready var anime = $anime
 @onready var sprite = $Sprite2D
@@ -52,7 +52,8 @@ static func getRoomIcon(roomType:ROOM_TYPES):
 func setRoomType(roomType:ROOM_TYPES):
 	self.roomType = roomType
 
-	sprite.texture = getRoomIcon(roomType)
+	#sprite.texture = getRoomIcon(roomType)
+	texture_normal = getRoomIcon(roomType)
 	#pivot_offset = texture_normal.rec
 	changeState(ROOM_STATE.INACCESSIBLE)
 	#pressed.connect(func():
@@ -68,9 +69,6 @@ func getColNum():
 
 func getRoomNum():
 	return roomNum
-
-func get_rect() -> Rect2:
-	return shape.get_shape().get_rect()
 
 func getState() -> ROOM_STATE:
 	return visited
@@ -91,7 +89,7 @@ func changeState(state:ROOM_STATE):
 func _draw():
 	var rect = get_rect()
 	if visited == ROOM_STATE.CURRENT:
-		draw_arc(Vector2(0,0),10,0,TAU,1000,Color.WHITE)
+		draw_arc(size/2,10,0,TAU,1000,Color.WHITE)
 	elif visited == ROOM_STATE.VISITED:
 		draw_line(Vector2(0,0),rect.size,Color.RED,3)
 		draw_line(Vector2(0,rect.size.y),Vector2(rect.size.x,0),Color.RED,3)
@@ -101,9 +99,14 @@ func _process(delta):
 	pass
 
 
-func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if event.is_action_pressed("click") && visited == ROOM_STATE.ACCESSIBLE:
+#func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+	#if event.is_action_pressed("click") && visited == ROOM_STATE.ACCESSIBLE:
+		#new_room.emit(roomType)
+
+func _pressed() -> void:
+	if visited == ROOM_STATE.ACCESSIBLE:
 		new_room.emit(roomType)
+
 
 func _input(event) -> void:
 	if event is InputEventKey && event.pressed && event.keycode == KEY_BACKSPACE && visited != ROOM_STATE.VISITED:

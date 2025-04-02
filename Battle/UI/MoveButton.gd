@@ -45,18 +45,29 @@ static func getMoveTooltip(move:Move,creature:Creature) -> Control:
 		#this is done by taking the value and adding in the color
 		#if the creature is null, we instead show a formula (1x damage, 2.5x damage, etc)
 		values = values.map(func(obj):
-			if creature:
-				var val:int = obj.value if obj.value else -1
-				var color:Color = obj.color if obj.color else Color.RED
-				return ("[color=%s]%d[/color]") % [color.to_html(),val]
-			else:
-				return obj.calc
+			#if creature:
+				#var val:int = obj.value if obj.value else -1
+				#var color:Color = obj.color if obj.color else Color.RED
+				#return ("[color=%s]%d[/color]") % [color.to_html(),val]
+			#else:
+			return obj.calc #for now, let's only do the calculation
 				
 			)
-		
-		var string = move.summary % values;
+		#color each damage calc with yellow and bold
+		var summary := move.summary % values
+		var string := ""
+		var regex := RegEx.new()
+		regex.compile("([0-9]*\\.?)([0-9]+)x")
+		var i := 0;
+		for result in regex.search_all(summary):
+			string += summary.substr(i,result.get_start() - i) + ("[b][color=%s]" % Color.YELLOW.to_html()) + result.get_string() + "[/color][/b]"
+			i = result.get_end()
+		string += summary.substr(i,summary.length() - i)
+		#var string = move.summary % values;
 		if move.slot and !move.slot.isUsable():
 			string += ("\n[color=RED]" + str(move.slot.getRemainingCD()) + " turns left before move can be used.[/color]")
+		
+		string += "\n\nTargets: " + str(move.manualTargets);
 		
 		tooltip.setMessage(string)
 		

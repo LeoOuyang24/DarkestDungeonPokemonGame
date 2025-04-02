@@ -1,10 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://ddwtgmifyeeon"]
 
 [ext_resource type="Script" path="res://Menus/CostButton.gd" id="1_55eai"]
+[ext_resource type="Theme" uid="uid://8reuecd1io3g" path="res://Battle/UI/BattleUI.tres" id="1_wb62n"]
 [ext_resource type="Script" path="res://Menus/PriceLabel.gd" id="3_0c3e4"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_264yr"]
-bg_color = Color(7.06319e-06, 0.484259, 0.0892392, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6e8x1"]
 
@@ -14,10 +12,10 @@ offset_right = 200.0
 offset_bottom = 87.0
 size_flags_horizontal = 4
 size_flags_vertical = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_264yr")
+theme = ExtResource("1_wb62n")
 script = ExtResource("1_55eai")
 
-[node name="CenterContainer" type="PanelContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -27,7 +25,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_6e8x1")
 
-[node name="Label" type="RichTextLabel" parent="CenterContainer"]
+[node name="Label" type="RichTextLabel" parent="PanelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3

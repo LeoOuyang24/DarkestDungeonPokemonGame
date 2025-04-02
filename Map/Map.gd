@@ -48,7 +48,6 @@ func generate():
 				#there is a 50% chance of one additional connection, to add some variety
 				#the last room will also connect to any rooms that don't have a connection yet
 				var neighbors = max(1,ceil( neigh) + (randi()%2) + int(i == rowSize - 1)*leftovers)
-				print(i, " ", j, " ", neighbors)
 				for g:int in neighbors:  
 					var index = min(rooms[-1].size() - 1,g + j*max(1,floor(neigh)))
 					var neighbor =rooms[-1][index]
@@ -61,8 +60,8 @@ func _draw():
 	const DOT_SIZE = 5
 	
 	for i in routes:
-		var p1 = i[0].position
-		var p2 = i[1].position
+		var p1 = i[0].position + i[0].size/2
+		var p2 = i[1].position + i[1].size/2
 		#print(i[0].get_rect(),i[1].get_rect())
 		var normal = (p2 - p1).normalized()
 		p1 += ROOM_SPACING*normal;
