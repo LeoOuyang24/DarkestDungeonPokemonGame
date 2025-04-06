@@ -1,7 +1,7 @@
 [gd_resource type="SpriteFrames" load_steps=20 format=3 uid="uid://c07gjo4ml3o0w"]
 
-[ext_resource type="Texture2D" uid="uid://c6hpfdrstxi0i" path="res://sprites/spritesheets/creatures/player_die.png" id="1_v7n6a"]
-[ext_resource type="Texture2D" uid="uid://04xhqjdjkk60" path="res://sprites/spritesheets/creatures/protagidlespritesheet.png" id="2_15awl"]
+[ext_resource type="Texture2D" uid="uid://c1xaicb4xv3eh" path="res://sprites/spritesheets/creatures/player_die.png" id="1_v7n6a"]
+[ext_resource type="Texture2D" uid="uid://cthb0t7wpcfbn" path="res://sprites/spritesheets/creatures/protagidlespritesheet.png" id="2_15awl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_albnv"]
 atlas = ExtResource("2_15awl")

@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://b0htmbdsm8806"]
+[gd_scene load_steps=9 format=3 uid="uid://b0htmbdsm8806"]
 
 [ext_resource type="PackedScene" uid="uid://cvmuwhverwiv0" path="res://Battle/UI/InBattleSummary.tscn" id="1_7r5iu"]
+[ext_resource type="Script" path="res://Map/ApplyItemSummary.gd" id="2_esgu0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s5slj"]
 bg_color = Color(0.466181, 0.466181, 0.466181, 1)
@@ -17,8 +18,11 @@ resource_local_to_scene = true
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c27dw"]
 resource_local_to_scene = true
 
+[sub_resource type="Theme" id="Theme_jedje"]
+
 [node name="Window" instance=ExtResource("1_7r5iu")]
 theme_override_styles/panel = SubResource("StyleBoxFlat_s5slj")
+script = ExtResource("2_esgu0")
 
 [node name="Background" parent="MarginContainer/HBoxContainer/CreatureStats" index="0"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_fmamt")
@@ -32,8 +36,12 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_6ee8u")
 [node name="ProgressBar" parent="MarginContainer/HBoxContainer/CreatureStats/Background/Profile/Stats/Control/Speed" index="1"]
 theme_override_styles/fill = SubResource("StyleBoxFlat_c27dw")
 
+[node name="Moves" parent="MarginContainer/HBoxContainer/HBoxContainer" index="0"]
+moveSlots = true
+
 [node name="PassButton" parent="MarginContainer/HBoxContainer/HBoxContainer" index="2"]
 visible = false
+theme = SubResource("Theme_jedje")
 
 [editable path="MarginContainer/HBoxContainer/CreatureStats"]
 [editable path="MarginContainer/HBoxContainer/CreatureStats/Background/Profile/Stats/Control/Health"]

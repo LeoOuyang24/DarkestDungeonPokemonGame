@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://c434ifxltx2da"]
 
 [ext_resource type="Script" path="res://Menus/LearnNewMove.gd" id="1_4fl2n"]
-[ext_resource type="Texture2D" uid="uid://bvacba1davf2w" path="res://sprites/effects/upArrow.png" id="1_8xwyf"]
+[ext_resource type="Texture2D" uid="uid://c2dnlo18svoma" path="res://sprites/effects/upArrow.png" id="1_8xwyf"]
 [ext_resource type="PackedScene" uid="uid://ogtoeaqdniwj" path="res://Menus/moves.tscn" id="2_k3m5x"]
 [ext_resource type="Script" path="res://Battle/UI/MoveButton.gd" id="2_lpgbc"]
 
@@ -13,19 +13,22 @@ offset_bottom = 307.0
 scale = Vector2(1.5, 1.5)
 size_flags_horizontal = 8
 size_flags_vertical = 4
+theme_override_constants/separation = 100
 script = ExtResource("1_4fl2n")
 
 [node name="Moves" parent="." instance=ExtResource("2_k3m5x")]
 layout_mode = 2
+moveSlots = true
 
-[node name="ArrowSprite" type="TextureRect" parent="."]
+[node name="NewMove" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 100
+
+[node name="ArrowSprite" type="TextureRect" parent="NewMove"]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 texture = ExtResource("1_8xwyf")
-
-[node name="NewMove" type="HBoxContainer" parent="."]
-layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="NewMove"]
 layout_mode = 2

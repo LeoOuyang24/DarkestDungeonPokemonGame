@@ -14,7 +14,7 @@ var move:Move = null:
 
 
 func getMove() -> Move:
-	return move if move else PassTurn.new()
+	return move if move else null
 
 #returns whether this move is usable
 func isUsable() -> bool:

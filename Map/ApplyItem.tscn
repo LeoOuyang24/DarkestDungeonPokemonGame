@@ -1,9 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://ln6v2ege33t7"]
+[gd_scene load_steps=12 format=3 uid="uid://ln6v2ege33t7"]
 
+[ext_resource type="Theme" uid="uid://fmhayxk6i3ei" path="res://UI/margins.tres" id="1_k2hb7"]
 [ext_resource type="Script" path="res://Map/ApplyItem.gd" id="1_ndx3b"]
 [ext_resource type="PackedScene" uid="uid://d1us7egl1mag1" path="res://Menus/TeamSlot.tscn" id="3_7s8co"]
 [ext_resource type="Shader" path="res://Battle/UI/CreatureSlot.gdshader" id="3_edo11"]
 [ext_resource type="PackedScene" uid="uid://b0htmbdsm8806" path="res://Map/ApplyItemSummary.tscn" id="4_lyunl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j5dny"]
+bg_color = Color(0, 0, 0, 0.768627)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uaoo3"]
 resource_local_to_scene = true
@@ -41,14 +45,12 @@ offset_left = 379.0
 offset_top = 308.0
 offset_right = 1638.0
 offset_bottom = 877.0
+theme = ExtResource("1_k2hb7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_j5dny")
 script = ExtResource("1_ndx3b")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -56,32 +58,44 @@ layout_mode = 2
 [node name="CenterContainer" type="CenterContainer" parent="VBoxContainer2"]
 layout_mode = 2
 
-[node name="Creatures2" type="HBoxContainer" parent="VBoxContainer2/CenterContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/CenterContainer"]
+layout_mode = 2
+
+[node name="Directions" type="RichTextLabel" parent="VBoxContainer2/CenterContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Creatures2" type="HBoxContainer" parent="VBoxContainer2/CenterContainer/HBoxContainer"]
 unique_name_in_owner = true
 clip_contents = true
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="TeamSlot2" parent="VBoxContainer2/CenterContainer/Creatures2" instance=ExtResource("3_7s8co")]
+[node name="TeamSlot2" parent="VBoxContainer2/CenterContainer/HBoxContainer/Creatures2" instance=ExtResource("3_7s8co")]
 material = SubResource("ShaderMaterial_uaoo3")
 layout_mode = 2
 size_flags_horizontal = 0
 lockSize = true
 
-[node name="TeamSlot" parent="VBoxContainer2/CenterContainer/Creatures2" instance=ExtResource("3_7s8co")]
+[node name="TeamSlot" parent="VBoxContainer2/CenterContainer/HBoxContainer/Creatures2" instance=ExtResource("3_7s8co")]
 material = SubResource("ShaderMaterial_bjud3")
 layout_mode = 2
 size_flags_horizontal = 0
 lockSize = true
 
-[node name="TeamSlot3" parent="VBoxContainer2/CenterContainer/Creatures2" instance=ExtResource("3_7s8co")]
+[node name="TeamSlot3" parent="VBoxContainer2/CenterContainer/HBoxContainer/Creatures2" instance=ExtResource("3_7s8co")]
 material = SubResource("ShaderMaterial_j0by0")
 layout_mode = 2
 size_flags_horizontal = 0
 lockSize = true
 
-[node name="TeamSlot4" parent="VBoxContainer2/CenterContainer/Creatures2" instance=ExtResource("3_7s8co")]
+[node name="TeamSlot4" parent="VBoxContainer2/CenterContainer/HBoxContainer/Creatures2" instance=ExtResource("3_7s8co")]
 material = SubResource("ShaderMaterial_8w1y4")
 layout_mode = 2
 size_flags_horizontal = 0
@@ -90,14 +104,6 @@ lockSize = true
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer2/VBoxContainer2"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-text = "ADd the following asdfuasodfuiasodfu"
-fit_content = true
-scroll_active = false
 
 [node name="Summary" parent="VBoxContainer2/VBoxContainer2" instance=ExtResource("4_lyunl")]
 unique_name_in_owner = true
@@ -120,6 +126,7 @@ theme_override_constants/separation = 100
 [node name="Submit" type="Button" parent="VBoxContainer2/CenterContainer2/MarginContainer/Buttons"]
 unique_name_in_owner = true
 layout_mode = 2
+disabled = true
 text = "Apply
 "
 

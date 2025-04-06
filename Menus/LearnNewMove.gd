@@ -26,7 +26,7 @@ func setMoves(creature:Creature):
 func setNewMove(move:Move) -> void:
 	LevelUpMove.setMove(move)
 	var moveExists:bool = (move != null)
-	Moves.disableMoves(!moveExists)
+	#Moves.disableMoves(!moveExists)
 	for i in NewMove.get_children():
 		i.visible = moveExists
 	ConfirmButton.disabled = !moveExists

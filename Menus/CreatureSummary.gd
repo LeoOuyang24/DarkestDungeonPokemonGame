@@ -1,4 +1,4 @@
-class_name CreatureSummary extends Control
+class_name CreatureSummary extends InBattleSummary
 
 var creature:Creature = null
 
@@ -21,47 +21,45 @@ func _ready():
 
 	setCreature(CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json"))
 	pass # Replace with function body.
-	
-#set the creature we are currently changing
-func setCreature(creature:Creature) -> void:
-	if creature:
-		self.creature = creature
-		StatsWindow.setCreature(creature)
-		#Sprite.setCreature(creature)
-		#Sprite.setSprite(creature.getSprite())
-
-		#add moves to UI
-		if LearnNewMove:
-			LearnNewMove.setMoves(creature)
-			if LevelUpButton:
-				LevelUpButton.setCreature(creature)
-	
-
-			
-		creature.level.leveled_up.connect(updateCreature)
-		creature.stats.stat_changed.connect(func(_a,_b):
-				updateCreature())
-		
-		var bigBoosts = get_tree().get_nodes_in_group("BigBoosts")
-		for i:int in bigBoosts.size():
-			var node := bigBoosts[i] as TextureButton
-			node.mouse_entered.connect(Stats[i].setBonus.bind(Stat.BIG_BOOST_AMOUNT,Color.BLUE))
-			node.mouse_exited.connect(Stats[i].setBonus.bind(0))
-			node.pressed.connect(addBigBoost.bind(Stats[i].stat))
-		#add everything else to UI
-		updateCreature()
+	#
+##set the creature we are currently changing
+#func setCreature(creature:Creature) -> void:
+	#if creature:
+		#self.creature = creature
+		#StatsWindow.setCreature(creature)
+		#
+		##add moves to UI
+		#if LearnNewMove:
+			#LearnNewMove.setMoves(creature)
+			#if LevelUpButton:
+				#LevelUpButton.setCreature(creature)
+	#
+#
+			#
+		#creature.level.leveled_up.connect(updateCreature)
+		#creature.stats.stat_changed.connect(func(_a,_b):
+				#updateCreature())
+		#
+		#var bigBoosts = get_tree().get_nodes_in_group("BigBoosts")
+		#for i:int in bigBoosts.size():
+			#var node := bigBoosts[i] as TextureButton
+			#node.mouse_entered.connect(Stats[i].setBonus.bind(Stat.BIG_BOOST_AMOUNT,Color.BLUE))
+			#node.mouse_exited.connect(Stats[i].setBonus.bind(0))
+			#node.pressed.connect(addBigBoost.bind(Stats[i].stat))
+		##add everything else to UI
+		#updateCreature()
 
 func addBigBoost(stat:CreatureStats.STATS) -> void:
 	if creature:
 		creature.addBigBoost(stat)
 
+#stuff that has to happen any time the creature gets updated
 func updateCreature() -> void:
 
 	#LevelUpCost.set_text(str(getLevelUpCost()))
 	#if we have the option of learning a new move, update
 	var nextMove = creature.level.getNextLevelUpMove()
-	if nextMove:
-		LearnNewMove.setNewMove(nextMove)
+	LearnNewMove.setNewMove(nextMove)
 	
 	#update the label to reflect our new level
 	Name.set_text(str(creature.getName()) + "\nLevel "+str(creature.getLevel()))

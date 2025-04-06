@@ -8,7 +8,7 @@ func _init():
 	pass # Replace with function body.
 
 func getModifiers(user:Creature) -> Array:
-	return [{"value":user.stats.getCurStat(CreatureStats.STATS.ATTACK),"color":Color.RED,"calc":"1x"}]
+	return [{"value":user.stats.getCurStat(CreatureStats.STATS.ATTACK) if user else 1,"color":Color.RED,"calc":"1x"}]
 	#return [MoveButton.getCreatureStatUI(user,Creature.STATS.ATTACK)]
 
 func getPreselectedTargets(user:Creature, battle:Battlefield):

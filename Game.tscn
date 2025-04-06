@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://d2hi4k6uyeill"]
+[gd_scene load_steps=12 format=3 uid="uid://d2hi4k6uyeill"]
 
 [ext_resource type="Script" path="res://Game.gd" id="1_c6sbs"]
 [ext_resource type="Script" path="res://GlobalCamera.gd" id="2_03rtm"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://b6cgwbi1q0bpd" path="res://sprites/UI/NewScan!.tscn" id="6_2twt4"]
 [ext_resource type="PackedScene" uid="uid://bx5ugehc8gnq4" path="res://UI/GameOver.tscn" id="7_ep71o"]
 [ext_resource type="PackedScene" uid="uid://owrn7mpjalnv" path="res://UI/DNACounter.tscn" id="8_gfmos"]
+[ext_resource type="AudioStream" uid="uid://y4fm0mij52qp" path="res://audio/ambient.wav" id="9_o7dw0"]
 
 [sub_resource type="Animation" id="Animation_qh5rq"]
 resource_name = "hurt"
@@ -103,6 +104,10 @@ offset_top = 3.0
 offset_right = 2509.0
 offset_bottom = 503.0
 scale = Vector2(0.2, 0.2)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_o7dw0")
+autoplay = true
 
 [connection signal="room_selected" from="Scenes/Map" to="." method="_on_map_room_selected"]
 

@@ -1,10 +1,14 @@
 extends GridContainer
 
+
 signal move_selected(move:Move,button:MoveButton)
 
 #generic scene for collection of 4 moves that every creature has, not including PassTurn
 
 @onready var Moves:Array[Node] = get_children()
+@export var moveSlots:bool = false #true if the moves are moveSlotButtons
+
+const moveSlotsScript := preload("res://Menus/MoveSlotButton.gd")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -13,6 +17,11 @@ func _ready() -> void:
 			i.pressed.connect(func() -> void:
 				move_selected.emit(i.getMove(),i)			
 				)
+		if moveSlots:
+			i.set_script(moveSlotsScript)
+			#usually, if a movebutton is a moveSlotButton, it should not be disabled, 
+			#at least not initially
+			i.disabled = false 
 	pass # Replace with function body.
 
 func setMoves(creature:Creature) -> void:

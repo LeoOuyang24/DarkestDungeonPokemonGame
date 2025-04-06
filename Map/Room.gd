@@ -43,7 +43,7 @@ static func getRoomIcon(roomType:ROOM_TYPES):
 		ROOM_TYPES.SHOP:
 			spritePath = "res://sprites/map/shop_room.png"
 		ROOM_TYPES.COMBINE_MOVES:
-			spritePath = "res://sprites/map/lab_moves_room.png"
+			spritePath = "res://sprites/map/lab_room.png"
 		_:
 			push_error("Room:getRoomIcon: roomtype did not match: ", roomType)
 	var texture = load(spritePath)

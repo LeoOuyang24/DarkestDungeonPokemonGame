@@ -47,7 +47,9 @@ func generate():
 				#this complicated mess evenly divides the number of connections from the previous row among the rooms in the current row
 				#there is a 50% chance of one additional connection, to add some variety
 				#the last room will also connect to any rooms that don't have a connection yet
-				var neighbors = max(1,ceil( neigh) + (randi()%2) + int(i == rowSize - 1)*leftovers)
+
+				var neighbors = max(1,ceil( neigh) + (randi()%2) + int(j == rowSize - 1)*leftovers)
+
 				for g:int in neighbors:  
 					var index = min(rooms[-1].size() - 1,g + j*max(1,floor(neigh)))
 					var neighbor =rooms[-1][index]
@@ -140,3 +142,8 @@ func setCurrentRoom(colNum:int,roomNum:int):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+
+func _input(event):
+	if event is InputEventKey and event.pressed:
+		if event.keycode == KEY_R:
+			reset()

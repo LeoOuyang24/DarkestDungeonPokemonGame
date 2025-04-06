@@ -48,7 +48,8 @@ func applyItem( needCreature:bool,item:ShopItem) -> void:
 	self.item = item
 	ApplyItem.needCreature = needCreature
 	ApplyItem.set_visible(true);
-	ApplyItem.setText(item.getDescription())
+		
+	ApplyItem.setDirections(item.getDescription())
 
 func onSelect():
 	await playIntro("You see \"a man\".")
@@ -62,7 +63,7 @@ func onSelect():
 
 #when a creature has been selected from the team
 func _on_apply_item_selected(c:Creature,m:int):
-	if self.item:
+	if self.item and c:
 		self.item.applyItem(c,m)
 		await get_tree().create_timer(1).timeout
 		ApplyItem.finish()

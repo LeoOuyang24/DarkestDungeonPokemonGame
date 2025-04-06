@@ -1,11 +1,15 @@
 class_name InBattleSummary extends Control
 
-var creature:Creature = null
+#var creature:Creature = null
 
 signal move_selected(move:Move);
 
+@onready var Stats = %CreatureStats
 @onready var PassButton = %PassButton;
 @onready var Moves = %Moves
+@onready var Name:RichTextLabel = %CreatureStats.find_child("Name")
+
+var creature:Creature = null
 #in-battle creature summary
 
 func _ready():
@@ -16,12 +20,12 @@ func _ready():
 	PassButton.setMove(PassTurn.new())
 	PassButton.move_selected.connect(move_selected.emit)
 
-
 #sets the current creature, which is rendered differently based on whether or not the creature is current or not
 #and whether or not it is friendly
 func setCurrentCreature(creature:Creature, isCurrent:bool) -> void:
 	self.creature = creature
-	%CreatureStats.setCreature(creature)
+	Stats.setCreature(creature)	
+	#%CreatureStats.setCreature(creature)
 	
 	#if is an enemy or a non-current ally...
 	#disable all buttons

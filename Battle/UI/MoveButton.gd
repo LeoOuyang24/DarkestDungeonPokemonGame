@@ -14,7 +14,7 @@ func setSlot(slot:MoveSlot, creature:Creature) -> void:
 	self.slot = slot
 	self.creature = creature
 	
-	if slot.move:
+	if slot:
 		setMove(slot.move)
 
 func setMove(move:Move) -> void:

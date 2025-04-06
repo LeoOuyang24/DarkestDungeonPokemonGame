@@ -2,6 +2,8 @@ class_name StatBar extends Control
 
 #represents a bar of a stat in the bargraph in the CreatureSummary Scene
 
+signal add_big_boost(stat:CreatureStats.STATS)
+
 @onready var StatLabel:RichTextLabel = $Label
 @onready var Bar := $ProgressBar
 @onready var Icon:TextureRect = $Icon
