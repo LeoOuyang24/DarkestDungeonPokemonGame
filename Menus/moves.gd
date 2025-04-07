@@ -24,11 +24,21 @@ func _ready() -> void:
 			i.disabled = false 
 	pass # Replace with function body.
 
-func setMoves(creature:Creature) -> void:
+#set the moves equal to that of a creature
+#if copy is true, set the slots too
+#the big difference is the slots are set, any modification to the move button will also impact
+#the creature.
+#this is useful in-combat
+#but not useful in some menus
+func setMoves(creature:Creature,copy:bool = true) -> void:
 	if creature:
 		for i in range(Creature.maxMoves):
 			var butt := Moves[i] as MoveButton
-			butt.setSlot(creature.getMoveSlot(i),creature)
+			if copy:
+				butt.setSlot(creature.getMoveSlot(i),creature)
+			else:
+				butt.setSlot(null,creature)
+				butt.setMove(creature.getMove(i))
 			
 #"disable" is true if we want to disable all buttons, false otherwise if we want to enable all of them
 #if "useOld" is true, the button is only enabled if it currently is already enabled

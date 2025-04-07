@@ -1,7 +1,7 @@
 extends Control
 
 @onready var TeamSlotsRect = %TeamSlotsRect
-@onready var CreatureSummary = %CreatureSummary
+@onready var Summary = %CreatureSummary
 @onready var CreateHorror = %CreateHorror
 
 # Called when the node enters the scene tree for the first time.
@@ -28,7 +28,7 @@ func updateTeamSlots(allies):
 	
 func viewSummary(teamSlot:CreatureSlot):
 	if teamSlot.getCreature():
-		CreatureSummary.setCreature(teamSlot.getCreature())
+		Summary.setCreature(teamSlot.getCreature())
 		if CreateHorror.position.x >= size.x: #if CreateHorror tab is out, move it back
 			var tween := create_tween()
 			tween.tween_property(CreateHorror,"position",Vector2(size.x - CreateHorror.size.x,0),.5)
@@ -43,5 +43,5 @@ func _on_create_horror_horror_created(creature:Creature):
 
 
 func _on_create_horror_horror_selected(creature:Creature):
-	CreatureSummary.setCreature(creature)	
+	Summary.setCreature(creature)	
 	pass # Replace with function body.

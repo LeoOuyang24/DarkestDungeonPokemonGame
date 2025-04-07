@@ -3,11 +3,11 @@
 [ext_resource type="Theme" uid="uid://fmhayxk6i3ei" path="res://UI/margins.tres" id="1_6b7s8"]
 [ext_resource type="Script" path="res://UI/creature_stats.gd" id="2_gbbt7"]
 [ext_resource type="PackedScene" uid="uid://b6nxjul7v18y3" path="res://Menus/StatBar.tscn" id="2_n6pso"]
-[ext_resource type="Texture2D" uid="uid://cp4s8dnh0c48e" path="res://sprites/icons/claw_icon.png" id="3_ew4me"]
+[ext_resource type="Texture2D" uid="uid://cnbmv1a853j4" path="res://sprites/icons/claw_icon.png" id="3_ew4me"]
 [ext_resource type="Theme" uid="uid://8reuecd1io3g" path="res://Battle/UI/BattleUI.tres" id="3_f2aab"]
 [ext_resource type="Script" path="res://UI/Name.gd" id="3_kpv8i"]
 [ext_resource type="Script" path="res://sprites/Anime.gd" id="4_3xog8"]
-[ext_resource type="Texture2D" uid="uid://ds2kw1pcwxvcn" path="res://sprites/icons/speed_icon.png" id="4_h4rfv"]
+[ext_resource type="Texture2D" uid="uid://5exm7nv8rq6u" path="res://sprites/icons/speed_icon.png" id="4_h4rfv"]
 
 [node name="CreatureStats" type="MarginContainer"]
 offset_right = 489.0
@@ -27,32 +27,12 @@ theme = ExtResource("3_f2aab")
 [node name="Profile" type="HBoxContainer" parent="Background"]
 layout_mode = 2
 
-[node name="SpriteSpacer" type="Control" parent="Background/Profile"]
+[node name="SpriteSpacer" type="VBoxContainer" parent="Background/Profile"]
 clip_contents = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 
-[node name="Anime" type="HBoxContainer" parent="Background/Profile/SpriteSpacer"]
-z_index = 1
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_right = 200.0
-grow_vertical = 2
-
-[node name="Sprite" type="TextureRect" parent="Background/Profile/SpriteSpacer/Anime"]
-unique_name_in_owner = true
-z_index = 1
-custom_minimum_size = Vector2(200, 153)
-layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 8
-expand_mode = 1
-stretch_mode = 4
-script = ExtResource("4_3xog8")
-
-[node name="Name" type="RichTextLabel" parent="Background/Profile"]
+[node name="Name" type="RichTextLabel" parent="Background/Profile/SpriteSpacer"]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "a"
@@ -63,6 +43,22 @@ Chomper"
 fit_content = true
 autowrap_mode = 0
 script = ExtResource("3_kpv8i")
+
+[node name="Sprite" type="TextureRect" parent="Background/Profile/SpriteSpacer"]
+unique_name_in_owner = true
+z_index = 1
+custom_minimum_size = Vector2(200, 153)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 8
+expand_mode = 1
+stretch_mode = 4
+script = ExtResource("4_3xog8")
+
+[node name="Anime" type="HBoxContainer" parent="Background/Profile/SpriteSpacer"]
+z_index = 1
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
 
 [node name="Line2D" type="ColorRect" parent="Background/Profile"]
 custom_minimum_size = Vector2(10, 0)
@@ -86,7 +82,6 @@ layout_mode = 2
 [node name="Attack" parent="Background/Profile/Stats/Control" instance=ExtResource("2_n6pso")]
 unique_name_in_owner = true
 layout_mode = 2
-BarColor = Color(1, 0, 0, 1)
 
 [node name="Icon" parent="Background/Profile/Stats/Control/Attack" index="0"]
 texture = ExtResource("3_ew4me")
@@ -94,7 +89,6 @@ texture = ExtResource("3_ew4me")
 [node name="Speed" parent="Background/Profile/Stats/Control" instance=ExtResource("2_n6pso")]
 unique_name_in_owner = true
 layout_mode = 2
-BarColor = Color(0, 1, 1, 1)
 
 [node name="Icon" parent="Background/Profile/Stats/Control/Speed" index="0"]
 texture = ExtResource("4_h4rfv")

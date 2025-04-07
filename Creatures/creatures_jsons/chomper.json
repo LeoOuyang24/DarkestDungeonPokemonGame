@@ -1,8 +1,8 @@
 {
 	"sprite": "chomper",
-	"baseHealth": 10,
-	"baseAttack": 3,
-	"baseSpeed": 1,
+	"baseHealth": 100,
+	"baseAttack": 30,
+	"baseSpeed": 10,
 	"name": "Chomper",
 	"flying": false,
 	"startMoves": [

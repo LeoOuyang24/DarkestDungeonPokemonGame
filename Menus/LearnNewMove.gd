@@ -3,8 +3,7 @@ extends Control
 
 @onready var LevelUpMove:MoveButton = %Pending
 @onready var ConfirmButton:Button = %Confirm 
-@onready var Moves = $Moves 
-@onready var NewMove=$NewMove
+@export var Moves:Control = null #make sure to set this to a Moves object in the scene
 
 signal new_move_confirmed(moves:Array) #emitted after we've learned a new move (or rejected learning one). Parameter is the creature's new set of moves
 
@@ -13,22 +12,25 @@ var creature:Creature = null
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	setNewMove(null)
-	Moves.move_selected.connect(func(_move,button) -> void:
-		if LevelUpMove.getMove():
-			swapMove(button)
-		)
+	if Moves:
+		Moves.move_selected.connect(func(_move,button) -> void:
+			if LevelUpMove.getMove():
+				swapMove(button)
+			)
+	else:
+		push_error("LearnNewMove error: need to set Moves field to an instance of the Moves scene")
 	pass # Replace with function body.
 
 func setMoves(creature:Creature):
-	Moves.setMoves(creature)
+	Moves.setMoves(creature,false)
 
 #update the next move to be learned via level up
 func setNewMove(move:Move) -> void:
 	LevelUpMove.setMove(move)
 	var moveExists:bool = (move != null)
 	#Moves.disableMoves(!moveExists)
-	for i in NewMove.get_children():
-		i.visible = moveExists
+	#for i in NewMove.get_children():
+	#	i.visible = moveExists
 	ConfirmButton.disabled = !moveExists
 		
 

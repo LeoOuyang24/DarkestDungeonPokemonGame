@@ -8,6 +8,7 @@ func setMove(move:Move):
 		self.text = move.getMoveName()
 	else:
 		self.text = ""
+		
 func _process(delta) -> void:
 	#disabled = false
 	pass

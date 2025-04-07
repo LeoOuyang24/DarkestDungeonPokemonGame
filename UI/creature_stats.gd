@@ -7,3 +7,7 @@ func setCreature(creature:Creature) -> void:
 	#add stats to UI
 	for i in range(Stats.size()):
 		Stats[i].setCreature(creature,i)
+
+func forEachStat(callable:Callable) -> void:
+	for i in Stats:
+		callable.call(i)

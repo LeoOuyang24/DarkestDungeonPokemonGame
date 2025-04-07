@@ -1,97 +1,99 @@
-[gd_scene load_steps=9 format=3 uid="uid://cybp46vb5wblt"]
+[gd_scene load_steps=10 format=3 uid="uid://b8whcaqa1wcvu"]
 
-[ext_resource type="Script" path="res://Menus/CreatureSummary.gd" id="1_6r03a"]
-[ext_resource type="Theme" uid="uid://8reuecd1io3g" path="res://Battle/UI/BattleUI.tres" id="1_cljlw"]
-[ext_resource type="PackedScene" uid="uid://b10n7jankcsc1" path="res://UI/CreatureStats.tscn" id="2_2ldh2"]
-[ext_resource type="Texture2D" uid="uid://cydnw6pbpcjn7" path="res://sprites/icons/big_boost_icon.png" id="3_m3g62"]
-[ext_resource type="PackedScene" uid="uid://ddwtgmifyeeon" path="res://Menus/CostButton.tscn" id="4_4fe2k"]
-[ext_resource type="Script" path="res://Menus/LevelUpButton.gd" id="6_2cbse"]
-[ext_resource type="Script" path="res://Menus/MoveSlotButton.gd" id="6_m4lwj"]
-[ext_resource type="PackedScene" uid="uid://c434ifxltx2da" path="res://Menus/LearnNewMove.tscn" id="8_i1cfh"]
+[ext_resource type="Theme" uid="uid://8reuecd1io3g" path="res://Battle/UI/BattleUI.tres" id="1_a2hiy"]
+[ext_resource type="Script" path="res://Menus/CreatureSummary.gd" id="2_ie6ek"]
+[ext_resource type="PackedScene" uid="uid://d2xqht3dqgdjn" path="res://Menus/big_boost.tscn" id="3_bxb07"]
+[ext_resource type="PackedScene" uid="uid://b10n7jankcsc1" path="res://UI/CreatureStats.tscn" id="3_jgosg"]
+[ext_resource type="PackedScene" uid="uid://c434ifxltx2da" path="res://Menus/LearnNewMove.tscn" id="4_pkdav"]
+[ext_resource type="PackedScene" uid="uid://ogtoeaqdniwj" path="res://Menus/moves.tscn" id="5_lnibl"]
+[ext_resource type="PackedScene" uid="uid://ddwtgmifyeeon" path="res://Menus/CostButton.tscn" id="5_sdona"]
+[ext_resource type="Script" path="res://Menus/LevelUpButton.gd" id="6_8og28"]
 
-[node name="Margins" type="MarginContainer"]
-offset_left = 384.0
-offset_top = 192.0
-offset_right = 1664.0
-offset_bottom = 692.0
-theme = ExtResource("1_cljlw")
-theme_override_constants/margin_left = 30
-theme_override_constants/margin_top = 30
-theme_override_constants/margin_right = 30
-theme_override_constants/margin_bottom = 30
-script = ExtResource("1_6r03a")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yd8dr"]
+bg_color = Color(1, 0.843137, 0.411765, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
 
-[node name="Panel" type="PanelContainer" parent="."]
-layout_mode = 2
-
-[node name="Window" type="VBoxContainer" parent="Panel"]
-layout_mode = 2
-
-[node name="StatsMargin" type="MarginContainer" parent="Panel/Window"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/margin_left = 30
-theme_override_constants/margin_top = 30
-theme_override_constants/margin_right = 30
-theme_override_constants/margin_bottom = 30
-
-[node name="CreatureStats" parent="Panel/Window/StatsMargin" instance=ExtResource("2_2ldh2")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="BigBoost" type="TextureButton" parent="Panel/Window/StatsMargin/CreatureStats/Background/Profile/Stats/Control/Health" index="3" groups=["BigBoosts"]]
-custom_minimum_size = Vector2(30, 30)
-layout_mode = 2
-size_flags_vertical = 4
-texture_normal = ExtResource("3_m3g62")
-ignore_texture_size = true
-stretch_mode = 4
-
-[node name="BigBoost" type="TextureButton" parent="Panel/Window/StatsMargin/CreatureStats/Background/Profile/Stats/Control/Attack" index="3" groups=["BigBoosts"]]
-custom_minimum_size = Vector2(30, 30)
-layout_mode = 2
-size_flags_vertical = 4
-texture_normal = ExtResource("3_m3g62")
-ignore_texture_size = true
-stretch_mode = 4
-
-[node name="BigBoost" type="TextureButton" parent="Panel/Window/StatsMargin/CreatureStats/Background/Profile/Stats/Control/Speed" index="3" groups=["BigBoosts"]]
-custom_minimum_size = Vector2(30, 30)
-layout_mode = 2
-size_flags_vertical = 4
-texture_normal = ExtResource("3_m3g62")
-ignore_texture_size = true
-stretch_mode = 4
-
-[node name="MarginContainer" type="MarginContainer" parent="Panel/Window"]
-layout_mode = 2
-
-[node name="Moves" type="HBoxContainer" parent="Panel/Window/MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_constants/separation = 140
-
-[node name="LearnNewMove" parent="Panel/Window/MarginContainer/Moves" instance=ExtResource("8_i1cfh")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
+[node name="CreatureSummary" type="PanelContainer"]
+offset_left = 17.0
+offset_top = 130.0
+offset_right = 1168.0
+offset_bottom = 425.0
 mouse_filter = 2
+theme = ExtResource("1_a2hiy")
+script = ExtResource("2_ie6ek")
 
-[node name="Pending" parent="Panel/Window/MarginContainer/Moves/LearnNewMove/NewMove/VBoxContainer" index="0"]
-script = ExtResource("6_m4lwj")
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
 
-[node name="LevelUp" parent="Panel/Window/MarginContainer/Moves" instance=ExtResource("4_4fe2k")]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="CreatureStats" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_jgosg")]
 unique_name_in_owner = true
 layout_mode = 2
-script = ExtResource("6_2cbse")
+size_flags_horizontal = 3
+
+[node name="BigBoost" parent="MarginContainer/VBoxContainer/CreatureStats/Background/Profile/Stats/Control/Health" index="3" node_paths=PackedStringArray("statBar") instance=ExtResource("3_bxb07")]
+layout_mode = 2
+statBar = NodePath("..")
+
+[node name="BigBoost" parent="MarginContainer/VBoxContainer/CreatureStats/Background/Profile/Stats/Control/Attack" index="3" node_paths=PackedStringArray("statBar") instance=ExtResource("3_bxb07")]
+layout_mode = 2
+stat = 1
+statBar = NodePath("..")
+
+[node name="BigBoost" parent="MarginContainer/VBoxContainer/CreatureStats/Background/Profile/Stats/Control/Speed" index="3" node_paths=PackedStringArray("statBar") instance=ExtResource("3_bxb07")]
+layout_mode = 2
+stat = 2
+statBar = NodePath("..")
+
+[node name="MovesStuff" type="CenterContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MovesStuff"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MovesStuff/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Moves" parent="MarginContainer/VBoxContainer/MovesStuff/VBoxContainer2/HBoxContainer" instance=ExtResource("5_lnibl")]
+unique_name_in_owner = true
+layout_mode = 2
+moveSlots = true
+
+[node name="LearnNewMove" parent="MarginContainer/VBoxContainer/MovesStuff/VBoxContainer2/HBoxContainer" node_paths=PackedStringArray("Moves") instance=ExtResource("4_pkdav")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 30
+Moves = NodePath("../Moves")
+
+[node name="LevelUp" parent="MarginContainer/VBoxContainer/MovesStuff/VBoxContainer2" instance=ExtResource("5_sdona")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme = null
+theme_override_styles/normal = SubResource("StyleBoxFlat_yd8dr")
+script = ExtResource("6_8og28")
 title = "Level Up"
 
-[connection signal="new_move_confirmed" from="Panel/Window/MarginContainer/Moves/LearnNewMove" to="." method="_on_learn_new_move_new_move_confirmed"]
-[connection signal="pressed" from="Panel/Window/MarginContainer/Moves/LevelUp" to="." method="_on_level_up_pressed"]
+[connection signal="big_boost" from="MarginContainer/VBoxContainer/CreatureStats/Background/Profile/Stats/Control/Health/BigBoost" to="." method="addBigBoost"]
+[connection signal="big_boost" from="MarginContainer/VBoxContainer/CreatureStats/Background/Profile/Stats/Control/Attack/BigBoost" to="." method="addBigBoost"]
+[connection signal="big_boost" from="MarginContainer/VBoxContainer/CreatureStats/Background/Profile/Stats/Control/Speed/BigBoost" to="." method="addBigBoost"]
+[connection signal="new_move_confirmed" from="MarginContainer/VBoxContainer/MovesStuff/VBoxContainer2/HBoxContainer/LearnNewMove" to="." method="_on_learn_new_move_new_move_confirmed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MovesStuff/VBoxContainer2/LevelUp" to="." method="_on_level_up_pressed"]
 
-[editable path="Panel/Window/StatsMargin/CreatureStats"]
-[editable path="Panel/Window/StatsMargin/CreatureStats/Background/Profile/Stats/Control/Health"]
-[editable path="Panel/Window/StatsMargin/CreatureStats/Background/Profile/Stats/Control/Attack"]
-[editable path="Panel/Window/StatsMargin/CreatureStats/Background/Profile/Stats/Control/Speed"]
-[editable path="Panel/Window/MarginContainer/Moves/LearnNewMove"]
-[editable path="Panel/Window/MarginContainer/Moves/LevelUp"]
+[editable path="MarginContainer/VBoxContainer/CreatureStats"]
+[editable path="MarginContainer/VBoxContainer/CreatureStats/Background/Profile/Stats/Control/Health"]
+[editable path="MarginContainer/VBoxContainer/CreatureStats/Background/Profile/Stats/Control/Attack"]
+[editable path="MarginContainer/VBoxContainer/CreatureStats/Background/Profile/Stats/Control/Speed"]

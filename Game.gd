@@ -80,7 +80,7 @@ func showTeamView(val:bool):
 	#how long it takes for the menu to pull up
 	var time = 0.25
 	if showTeam:
-		TeamView.CreatureSummary.setCreature(GameState.PlayerState.getPlayer())
+		TeamView.Summary.setCreature(GameState.PlayerState.getPlayer())
 		TeamView.updateTeamSlots(GameState.PlayerState.getTeam())
 		tween.tween_property(TeamView, "position",Vector2(TeamView.position.x,0.1*get_viewport().get_visible_rect().size.y),time)
 	else:

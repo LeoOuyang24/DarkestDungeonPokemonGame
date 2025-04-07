@@ -22,8 +22,6 @@ func setMove(move:Move) -> void:
 		self.slot = MoveSlot.new()
 	self.slot.move = move
 	if move:
-		#self.move.cooldown_changed.connect(cdChanged)
-		#cdChanged(0,0)
 		set_tooltip_text(move.summary +"\nCooldown: " + str(move.baseCooldown))
 	else:
 		set_tooltip_text("")

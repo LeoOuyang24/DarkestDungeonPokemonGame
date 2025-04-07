@@ -3,9 +3,9 @@
 [ext_resource type="Theme" uid="uid://8reuecd1io3g" path="res://Battle/UI/BattleUI.tres" id="1_u18w2"]
 [ext_resource type="Script" path="res://Menus/TeamView.gd" id="1_womks"]
 [ext_resource type="PackedScene" uid="uid://mftrks2txgif" path="res://UI/team_slots_rect.tscn" id="2_1lhlk"]
-[ext_resource type="PackedScene" uid="uid://cybp46vb5wblt" path="res://Menus/CreatureSummary.tscn" id="3_lyigu"]
 [ext_resource type="Theme" uid="uid://fmhayxk6i3ei" path="res://UI/margins.tres" id="3_v403o"]
 [ext_resource type="PackedScene" uid="uid://chsbok4nq5wgs" path="res://Menus/CreateHorror.tscn" id="4_yluxj"]
+[ext_resource type="PackedScene" uid="uid://b8whcaqa1wcvu" path="res://Menus/CreatureSummary.tscn" id="6_px3f0"]
 
 [node name="TeamView" type="PanelContainer"]
 z_index = -1
@@ -37,7 +37,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="CreatureSummary" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_lyigu")]
+[node name="CreatureSummary" parent="MarginContainer/VBoxContainer" instance=ExtResource("6_px3f0")]
 unique_name_in_owner = true
 layout_mode = 2
 
