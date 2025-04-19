@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://b6nxjul7v18y3"]
 
 [ext_resource type="Texture2D" uid="uid://dlqyr0s1dmur3" path="res://sprites/icons/heart_icon.png" id="1_6thjs"]
-[ext_resource type="Script" path="res://Menus/StatBar.gd" id="2_eu0au"]
+[ext_resource type="Script" uid="uid://cr64rbxm4hsuw" path="res://Menus/StatBar.gd" id="2_eu0au"]
 
 [sub_resource type="Theme" id="Theme_1q0n1"]
 default_font_size = 200
@@ -30,6 +30,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 theme_override_styles/fill = SubResource("StyleBoxFlat_7wk8l")
+max_value = 1000.0
 value = 40.0
 show_percentage = false
 

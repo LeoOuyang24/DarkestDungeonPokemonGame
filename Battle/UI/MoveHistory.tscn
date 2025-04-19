@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d2nlcyt4tiehq"]
 
-[ext_resource type="Script" path="res://Battle/UI/move_history.gd" id="1_d2sco"]
+[ext_resource type="Script" uid="uid://vv0fhabuxc5s" path="res://Battle/UI/move_history.gd" id="1_d2sco"]
 
 [node name="Control" type="ScrollContainer"]
 anchors_preset = -1

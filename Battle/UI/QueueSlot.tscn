@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://bl3rf7csarlv0"]
 
-[ext_resource type="Script" path="res://Battle/UI/QueueSlot.gd" id="1_eb2sy"]
+[ext_resource type="Script" uid="uid://cyfrahq2qnevf" path="res://Battle/UI/QueueSlot.gd" id="1_eb2sy"]
 [ext_resource type="SpriteFrames" uid="uid://vuog78tjvb6e" path="res://sprites/spritesheets/creatures/chomper.tres" id="2_rylbf"]
 [ext_resource type="PackedScene" uid="uid://bk0gnk03sgxh1" path="res://Battle/UI/PendingMove.tscn" id="2_ujdrc"]
-[ext_resource type="Script" path="res://sprites/Anime.gd" id="3_puhgc"]
+[ext_resource type="Script" uid="uid://thkoy077g3y7" path="res://sprites/Anime.gd" id="3_puhgc"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nd5c3"]
 

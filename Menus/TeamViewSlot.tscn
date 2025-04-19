@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://bttb8572axc4a"]
 
-[ext_resource type="Texture2D" uid="uid://cp4s8dnh0c48e" path="res://sprites/icons/claw_icon.png" id="1_gqh82"]
-[ext_resource type="Script" path="res://Menus/TeamViewSlotDraggable.gd" id="1_gx0hy"]
-[ext_resource type="Shader" path="res://Battle/UI/CreatureSlot.gdshader" id="1_h7f4a"]
-[ext_resource type="Script" path="res://Components/SingleHighlight.gd" id="2_gvfy5"]
+[ext_resource type="Texture2D" uid="uid://cnbmv1a853j4" path="res://sprites/icons/claw_icon.png" id="1_gqh82"]
+[ext_resource type="Script" uid="uid://rtlo0auqlg6u" path="res://Menus/TeamViewSlotDraggable.gd" id="1_gx0hy"]
+[ext_resource type="Shader" uid="uid://cmtn21hvyxdmp" path="res://Battle/UI/CreatureSlot.gdshader" id="1_h7f4a"]
+[ext_resource type="Script" uid="uid://d3a1mellsydcs" path="res://Components/SingleHighlight.gd" id="2_gvfy5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hwt21"]
 bg_color = Color(0.6, 0.6, 0.6, 0)

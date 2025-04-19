@@ -49,7 +49,7 @@ var MoveSummary:Control = null #summary of move currently being used
 func newTurn(state:Battlefield):
 	current = Move.MoveRecord.new()
 	EndTurn.disabled = true
-	updateQueue(state.getFullQueue())
+#	updateQueue(state.getFullQueue())
 	#updateSlots(state)
 
 	
@@ -204,7 +204,6 @@ func removeCreature(creature:Creature):
 	if getCreatureSlot(creature):
 		getCreatureSlot(creature).setCreature(null)
 		await removeCreatureFromQueue(creature);
-		is_ready.emit()
 
 #remove a creature from queue because we are running its move NOT because it died
 func popCreatureFromQueue(creature:Creature) -> void:

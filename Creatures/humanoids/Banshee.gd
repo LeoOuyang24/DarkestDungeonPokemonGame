@@ -6,10 +6,9 @@ static func getStartMoves() -> Array:
 static func getPendingMoves() -> Array:
 	return []
 
-#a creature that can't be killed or targeted (always counts as dead)
-#so you have one additional attacker and one less healthbar
+#a creature that reflects damage taken to all other allies
 func _init(levels:int = 1, moves_:Array = [], pendingMoves_:Array = []) -> void:
-	super("spritesheets/creatures/shapeless", 1,7,4, "???",levels,getStartMoves(),pendingMoves_)
+	super("spritesheets/creatures/shapeless", 1,70,40, "???",levels,getStartMoves(),pendingMoves_)
 	stats.stats[CreatureStats.STATS.HEALTH] = BansheeHealth.new(self)
 	#stats.stats[]
 	#GameState.PlayerState.team_changed.connect(findTarget.bind(GameState.PlayerState.getTeam()))

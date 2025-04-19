@@ -1,11 +1,11 @@
 [gd_scene load_steps=12 format=3 uid="uid://b3hux6c6p4pfu"]
 
-[ext_resource type="Script" path="res://Battle/UI/BattleUI.gd" id="1_0uu34"]
+[ext_resource type="Script" uid="uid://bp0tvabrfp1k6" path="res://Battle/UI/BattleUI.gd" id="1_0uu34"]
 [ext_resource type="Theme" uid="uid://cqh01hvor6ut3" path="res://Battle/UI/Rows.tres" id="2_27lud"]
 [ext_resource type="Texture2D" uid="uid://fdrwkx1bfjr4" path="res://sprites/backgrounds/BW.png" id="2_o8eal"]
 [ext_resource type="PackedScene" uid="uid://d2nlcyt4tiehq" path="res://Battle/UI/MoveHistory.tscn" id="2_pcm8h"]
 [ext_resource type="PackedScene" uid="uid://bgy4kes6sp7tp" path="res://Battle/UI/EndScreen.tscn" id="3_1dct8"]
-[ext_resource type="Script" path="res://sprites/Anime.gd" id="4_tevqn"]
+[ext_resource type="Script" uid="uid://thkoy077g3y7" path="res://sprites/Anime.gd" id="4_tevqn"]
 [ext_resource type="PackedScene" uid="uid://daxhjw473xi4b" path="res://Battle/UI/turn_ui.tscn" id="6_1dtmw"]
 [ext_resource type="Theme" uid="uid://fmhayxk6i3ei" path="res://UI/margins.tres" id="7_id080"]
 [ext_resource type="Theme" uid="uid://ctnx7oi2vcxu" path="res://UI/menu.tres" id="9_05v0j"]
@@ -57,6 +57,7 @@ alignment = 2
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
+theme_override_constants/separation = 100
 
 [node name="BattleLog" type="RichTextLabel" parent="."]
 visible = false

@@ -75,7 +75,9 @@ static func getMoveTooltip(move:Move,creature:Creature) -> Control:
 #makes the tooltip for each button, which changes dynamically 
 #ie, having more attack will change the damage number
 func _make_custom_tooltip(summary:String):
-	return getMoveTooltip(slot.getMove(),creature)
+	if slot:
+		return getMoveTooltip(slot.getMove(),creature)
+	return ""
 
 			
 func getMove() -> Move:
@@ -85,7 +87,8 @@ func _pressed() -> void:
 	move_selected.emit(slot.move if slot else null)
 	
 func _process(delta:float) -> void:
-	if slot:
+	#enemy move buttons shouldn't be allowed to be pressed
+	if slot && creature && creature.getIsFriendly():
 		if slot.isUsable():
 			self.text = slot.getMove().getMoveName()
 			self.disabled = false

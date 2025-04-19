@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://c3a2cw0fq1ln"]
+
+[ext_resource type="Shader" uid="uid://bcns2wfmokcyw" path="res://tutorial.gdshader" id="1_iphlo"]
+[ext_resource type="Script" uid="uid://xnrvo788cboq" path="res://TutorialState.gd" id="2_028ew"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sijms"]
+shader = ExtResource("1_iphlo")
+shader_parameter/screenWidth = 1920.0
+shader_parameter/screenHeight = 1080.0
+shader_parameter/rect = Vector4(100, 100, 100, 100)
+shader_parameter/color = Vector4(0, 0, 0, 0.7)
+
+[node name="TutorialState" type="ColorRect"]
+material = SubResource("ShaderMaterial_sijms")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_028ew")

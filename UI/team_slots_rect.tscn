@@ -1,37 +1,37 @@
 [gd_scene load_steps=10 format=3 uid="uid://mftrks2txgif"]
 
-[ext_resource type="Script" path="res://UI/DraggableContainer.gd" id="1_pxd7g"]
+[ext_resource type="Script" uid="uid://d4gxg2ss6avom" path="res://UI/DraggableContainer.gd" id="1_pxd7g"]
 [ext_resource type="PackedScene" uid="uid://bqsfei63od030" path="res://Battle/UI/CreatureSlot.tscn" id="1_t0i4w"]
-[ext_resource type="Shader" path="res://Battle/UI/CreatureSlot.gdshader" id="2_yhdon"]
-[ext_resource type="Script" path="res://Menus/TeamViewSlot.gd" id="3_xwr6i"]
+[ext_resource type="Shader" uid="uid://cmtn21hvyxdmp" path="res://Battle/UI/CreatureSlot.gdshader" id="2_yhdon"]
+[ext_resource type="Script" uid="uid://dcyaps57e2cul" path="res://Menus/TeamViewSlot.gd" id="3_xwr6i"]
 [ext_resource type="SpriteFrames" uid="uid://c07gjo4ml3o0w" path="res://sprites/spritesheets/creatures/player.tres" id="5_2gvyt"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wcy7y"]
 resource_local_to_scene = true
 shader = ExtResource("2_yhdon")
 shader_parameter/outline_width = 3.0
-shader_parameter/outline_color = null
+shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/isSpectral = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dpucv"]
 resource_local_to_scene = true
 shader = ExtResource("2_yhdon")
 shader_parameter/outline_width = 3.0
-shader_parameter/outline_color = null
+shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/isSpectral = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5a7lj"]
 resource_local_to_scene = true
 shader = ExtResource("2_yhdon")
 shader_parameter/outline_width = 3.0
-shader_parameter/outline_color = null
+shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/isSpectral = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hfjkr"]
 resource_local_to_scene = true
 shader = ExtResource("2_yhdon")
 shader_parameter/outline_width = 3.0
-shader_parameter/outline_color = null
+shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/isSpectral = false
 
 [node name="TeamSlotsRect" type="HBoxContainer"]

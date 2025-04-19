@@ -9,7 +9,6 @@ var move:Move = null:
 func _init():
 	needApplyItem = true
 	needCreature = false
-	super()
 
 	
 func getDescription() -> String:

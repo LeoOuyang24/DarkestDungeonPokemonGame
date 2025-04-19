@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dtofox40acyrt"]
 
-[ext_resource type="Script" path="res://Map/Rooms/ShopRoom/InjectMove.gd" id="1_v1qe0"]
+[ext_resource type="Script" uid="uid://dshkrvpd383f7" path="res://Map/Rooms/ShopRoom/InjectMove.gd" id="1_v1qe0"]
 
 [node name="InjectMove" type="TextureButton"]
 script = ExtResource("1_v1qe0")

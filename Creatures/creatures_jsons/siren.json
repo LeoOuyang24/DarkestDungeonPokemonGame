@@ -2,9 +2,9 @@
 	"sprite":"siren",
 	"width": 50,
 	"height": 50,
-	"baseHealth": 5,
-	"baseAttack": 4,
-	"baseSpeed": 4,
+	"baseHealth": 50,
+	"baseAttack": 40,
+	"baseSpeed": 40,
 	"name": "Siren",
 	"startMoves": [
 		"Lure"

@@ -1,9 +1,9 @@
 [gd_scene load_steps=12 format=3 uid="uid://ln6v2ege33t7"]
 
 [ext_resource type="Theme" uid="uid://fmhayxk6i3ei" path="res://UI/margins.tres" id="1_k2hb7"]
-[ext_resource type="Script" path="res://Map/ApplyItem.gd" id="1_ndx3b"]
+[ext_resource type="Script" uid="uid://diq7ll56dbsar" path="res://Map/ApplyItem.gd" id="1_ndx3b"]
 [ext_resource type="PackedScene" uid="uid://d1us7egl1mag1" path="res://Menus/TeamSlot.tscn" id="3_7s8co"]
-[ext_resource type="Shader" path="res://Battle/UI/CreatureSlot.gdshader" id="3_edo11"]
+[ext_resource type="Shader" uid="uid://cmtn21hvyxdmp" path="res://Battle/UI/CreatureSlot.gdshader" id="3_edo11"]
 [ext_resource type="PackedScene" uid="uid://b0htmbdsm8806" path="res://Map/ApplyItemSummary.tscn" id="4_lyunl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j5dny"]
@@ -13,28 +13,28 @@ bg_color = Color(0, 0, 0, 0.768627)
 resource_local_to_scene = true
 shader = ExtResource("3_edo11")
 shader_parameter/outline_width = 3.0
-shader_parameter/outline_color = null
+shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/isSpectral = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bjud3"]
 resource_local_to_scene = true
 shader = ExtResource("3_edo11")
 shader_parameter/outline_width = 3.0
-shader_parameter/outline_color = null
+shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/isSpectral = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_j0by0"]
 resource_local_to_scene = true
 shader = ExtResource("3_edo11")
 shader_parameter/outline_width = 3.0
-shader_parameter/outline_color = null
+shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/isSpectral = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8w1y4"]
 resource_local_to_scene = true
 shader = ExtResource("3_edo11")
 shader_parameter/outline_width = 3.0
-shader_parameter/outline_color = null
+shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/isSpectral = false
 
 [sub_resource type="Theme" id="Theme_o14bs"]

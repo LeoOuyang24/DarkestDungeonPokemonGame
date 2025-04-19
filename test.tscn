@@ -1,16 +1,16 @@
 [gd_scene load_steps=7 format=3 uid="uid://c05vh7ktb4nte"]
 
-[ext_resource type="Texture2D" uid="uid://bke6xvcbi45w4" path="res://sprites/icons/attack_up_icon.png" id="1_8t1ty"]
-[ext_resource type="Script" path="res://sprites/Anime.gd" id="2_fngvu"]
+[ext_resource type="Texture2D" uid="uid://dt2xwgcctiab0" path="res://sprites/icons/attack_up_icon.png" id="1_8t1ty"]
+[ext_resource type="Script" uid="uid://thkoy077g3y7" path="res://sprites/Anime.gd" id="2_fngvu"]
 [ext_resource type="SpriteFrames" uid="uid://bdjqp3vlld8qh" path="res://sprites/spritesheets/creatures/dreemer.tres" id="3_1j44t"]
-[ext_resource type="Script" path="res://UI/BottomContainer.gd" id="4_wxyux"]
+[ext_resource type="Script" uid="uid://bbgq3d8k31p4o" path="res://UI/BottomContainer.gd" id="4_wxyux"]
 
 [sub_resource type="Animation" id="Animation_1bo0a"]
 resource_name = "new_animation"
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5anqe"]
 _data = {
-"new_animation": SubResource("Animation_1bo0a")
+&"new_animation": SubResource("Animation_1bo0a")
 }
 
 [node name="Node2D" type="Node2D"]

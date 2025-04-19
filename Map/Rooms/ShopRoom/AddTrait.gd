@@ -7,7 +7,6 @@ var gene:Trait = null
 
 func _init():
 	needApplyItem = true
-	super()
 	
 func setColor(color:Color) -> void:
 	SyringeColor.setColor(color)

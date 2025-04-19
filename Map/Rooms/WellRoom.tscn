@@ -1,10 +1,10 @@
 [gd_scene load_steps=9 format=3 uid="uid://qpa4j0a7ff6e"]
 
-[ext_resource type="Texture2D" uid="uid://btytdd3oomd3q" path="res://sprites/backgrounds/well_background.png" id="1_3l7mv"]
-[ext_resource type="Script" path="res://Map/Rooms/WellRoom.gd" id="1_v6qic"]
+[ext_resource type="Texture2D" uid="uid://d11mkq8osi88k" path="res://sprites/backgrounds/well_background.png" id="1_3l7mv"]
+[ext_resource type="Script" uid="uid://bufmkknc5ifck" path="res://Map/Rooms/WellRoom.gd" id="1_v6qic"]
 [ext_resource type="PackedScene" uid="uid://bvxv6kih6bx3" path="res://Map/Rooms/EventRoom.tscn" id="1_vfwjy"]
-[ext_resource type="Script" path="res://Map/Rooms/WellRoomButtons.gd" id="4_gxly4"]
-[ext_resource type="Texture2D" uid="uid://dy30mxgsrpu46" path="res://sprites/effects/sparkle.png" id="5_fym8e"]
+[ext_resource type="Script" uid="uid://csnwq4kecooi4" path="res://Map/Rooms/WellRoomButtons.gd" id="4_gxly4"]
+[ext_resource type="Texture2D" uid="uid://cif50pukqqc8c" path="res://sprites/effects/sparkle.png" id="5_fym8e"]
 
 [sub_resource type="Theme" id="Theme_7dp5o"]
 Button/font_sizes/font_size = 100
@@ -113,7 +113,7 @@ tracks/7/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fni6g"]
 _data = {
-"default": SubResource("Animation_b4nf7")
+&"default": SubResource("Animation_b4nf7")
 }
 
 [node name="Control" instance=ExtResource("1_vfwjy")]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://chsbok4nq5wgs"]
 
-[ext_resource type="Script" path="res://Menus/CreateHorror.gd" id="1_e0tjc"]
+[ext_resource type="Script" uid="uid://bjg4mppj1dcwo" path="res://Menus/CreateHorror.gd" id="1_e0tjc"]
 [ext_resource type="Theme" uid="uid://fmhayxk6i3ei" path="res://UI/margins.tres" id="2_alrcw"]
 [ext_resource type="PackedScene" uid="uid://ddwtgmifyeeon" path="res://Menus/CostButton.tscn" id="3_ine1w"]
 

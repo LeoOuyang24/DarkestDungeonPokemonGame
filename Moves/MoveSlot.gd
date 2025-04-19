@@ -18,14 +18,14 @@ func getMove() -> Move:
 
 #returns whether this move is usable
 func isUsable() -> bool:
-	return cooldown <= 1 and move
+	return cooldown <= 0 and move
 	
 #get amount of cooldown left to wait
 func getRemainingCD() -> int: 
 	return cooldown
 	
 func setCooldown(amount:int) -> void:
-	var old = cooldown
+	#var old = cooldown
 	cooldown = max(0,amount)
 	#cooldown_changed.emit(amount - old,cooldown)
 

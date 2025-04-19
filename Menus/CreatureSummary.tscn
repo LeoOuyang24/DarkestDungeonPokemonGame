@@ -1,13 +1,13 @@
 [gd_scene load_steps=10 format=3 uid="uid://b8whcaqa1wcvu"]
 
 [ext_resource type="Theme" uid="uid://8reuecd1io3g" path="res://Battle/UI/BattleUI.tres" id="1_a2hiy"]
-[ext_resource type="Script" path="res://Menus/CreatureSummary.gd" id="2_ie6ek"]
+[ext_resource type="Script" uid="uid://ca3wpkh4ejmyx" path="res://Menus/CreatureSummary.gd" id="2_ie6ek"]
 [ext_resource type="PackedScene" uid="uid://d2xqht3dqgdjn" path="res://Menus/big_boost.tscn" id="3_bxb07"]
 [ext_resource type="PackedScene" uid="uid://b10n7jankcsc1" path="res://UI/CreatureStats.tscn" id="3_jgosg"]
 [ext_resource type="PackedScene" uid="uid://c434ifxltx2da" path="res://Menus/LearnNewMove.tscn" id="4_pkdav"]
 [ext_resource type="PackedScene" uid="uid://ogtoeaqdniwj" path="res://Menus/moves.tscn" id="5_lnibl"]
 [ext_resource type="PackedScene" uid="uid://ddwtgmifyeeon" path="res://Menus/CostButton.tscn" id="5_sdona"]
-[ext_resource type="Script" path="res://Menus/LevelUpButton.gd" id="6_8og28"]
+[ext_resource type="Script" uid="uid://1ia21yxkmhpi" path="res://Menus/LevelUpButton.gd" id="6_8og28"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yd8dr"]
 bg_color = Color(1, 0.843137, 0.411765, 1)

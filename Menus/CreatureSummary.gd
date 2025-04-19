@@ -1,10 +1,10 @@
 class_name CreatureSummary extends InBattleSummary
 
-@onready var Sprite = %CreatureStats.find_child("Sprite")
+#@onready var Sprite = %CreatureStats.find_child("Sprite")
 
 @onready var LearnNewMove = %LearnNewMove
 @onready var LevelUpButton = %LevelUp
-@onready var Name:RichTextLabel = %CreatureStats.find_child("Name")
+#@onready var Name:RichTextLabel = %CreatureStats.find_child("Name")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -40,9 +40,7 @@ func updateCreature() -> void:
 	var nextMove = creature.level.getNextLevelUpMove()
 	LearnNewMove.setNewMove(nextMove)
 	
-	#update the label to reflect our new level
-	Name.set_text(str(creature.getName()) + "\nLevel "+str(creature.getLevel()))
-	Name.creature = creature
+	%CreatureStats.setLabel(creature)
 
 	var bigBoosts = get_tree().get_nodes_in_group("BigBoosts")
 	for i:TextureButton in bigBoosts:

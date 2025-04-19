@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bxut1p1g15m30"]
 
-[ext_resource type="Texture2D" uid="uid://dc25w0ser263v" path="res://sprites/map/enemy_room.png" id="1_474l0"]
+[ext_resource type="Texture2D" uid="uid://bjangcxcfn023" path="res://sprites/map/enemy_room.png" id="1_474l0"]
 
 [sub_resource type="GDScript" id="GDScript_issk2"]
 script/source = "class_name BattleRoom extends Room

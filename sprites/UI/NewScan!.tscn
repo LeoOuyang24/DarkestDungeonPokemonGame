@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://b6cgwbi1q0bpd"]
 
-[ext_resource type="Script" path="res://sprites/UI/NewScan!.gd" id="1_cxnib"]
-[ext_resource type="Script" path="res://sprites/Anime.gd" id="1_xhkdy"]
+[ext_resource type="Script" uid="uid://5bpxga3ht5uh" path="res://sprites/UI/NewScan!.gd" id="1_cxnib"]
+[ext_resource type="Script" uid="uid://thkoy077g3y7" path="res://sprites/Anime.gd" id="1_xhkdy"]
 [ext_resource type="SpriteFrames" uid="uid://bkvoijpggqmyi" path="res://sprites/spritesheets/creatures/beholder.tres" id="2_j8cwp"]
 
 [node name="NewScan!" type="ColorRect"]

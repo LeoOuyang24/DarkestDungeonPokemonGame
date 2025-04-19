@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dxsiuao5kklcy"]
 
 [ext_resource type="Theme" uid="uid://8reuecd1io3g" path="res://Battle/UI/BattleUI.tres" id="1_cguhs"]
-[ext_resource type="Script" path="res://Battle/UI/MoveButton.gd" id="1_q7wl6"]
+[ext_resource type="Script" uid="uid://b4mt8smcgx47r" path="res://Battle/UI/MoveButton.gd" id="1_q7wl6"]
 
 [node name="MoveButton" type="Button"]
 custom_minimum_size = Vector2(100, 50)

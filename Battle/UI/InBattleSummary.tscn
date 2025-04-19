@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://cvmuwhverwiv0"]
 
 [ext_resource type="Theme" uid="uid://8reuecd1io3g" path="res://Battle/UI/BattleUI.tres" id="1_ieebx"]
-[ext_resource type="Script" path="res://Battle/UI/InBattleSummary.gd" id="2_hq8d4"]
+[ext_resource type="Script" uid="uid://ddgo3lpw23w0r" path="res://Battle/UI/InBattleSummary.gd" id="2_hq8d4"]
 [ext_resource type="PackedScene" uid="uid://b10n7jankcsc1" path="res://UI/CreatureStats.tscn" id="2_ua8v8"]
 [ext_resource type="PackedScene" uid="uid://ogtoeaqdniwj" path="res://Menus/moves.tscn" id="3_agv26"]
 [ext_resource type="PackedScene" uid="uid://dxsiuao5kklcy" path="res://Battle/UI/MoveButton.tscn" id="3_dm2aa"]

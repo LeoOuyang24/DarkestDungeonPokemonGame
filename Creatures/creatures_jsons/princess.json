@@ -2,9 +2,9 @@
 	"sprite":"princess",
 	"width": 75,
 	"height": 75,
-	"baseHealth": 10,
-	"baseAttack": 1,
-	"baseSpeed": 3,
+	"baseHealth": 100,
+	"baseAttack": 10,
+	"baseSpeed": 30,
 	"name": "Princess",
 	"startMoves": [
 		"PoisonedBlades",

@@ -1,8 +1,8 @@
 {
 	"sprite": "silent",
-	"baseHealth": 5,
-	"baseAttack": 5,
-	"baseSpeed": 5,
+	"baseHealth": 50,
+	"baseAttack": 50,
+	"baseSpeed": 50,
 	"name": "Silent",
 	"flying": false,
 	"startMoves": [

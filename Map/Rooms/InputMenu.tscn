@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cxvto5dpammsj"]
 
-[ext_resource type="Script" path="res://Map/Rooms/InputMenu.gd" id="1_87kho"]
+[ext_resource type="Script" uid="uid://tjw8g8jfhcgy" path="res://Map/Rooms/InputMenu.gd" id="1_87kho"]
 
 [node name="InputMenu" type="ColorRect"]
 anchors_preset = 7

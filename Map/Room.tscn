@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://b2gqho2xtjgek"]
 
-[ext_resource type="Texture2D" uid="uid://cff6tulwjeoqb" path="res://sprites/map/enemy_room.png" id="1_4awlq"]
-[ext_resource type="Texture2D" uid="uid://cidcgihmcj3fg" path="res://sprites/icons/moves/enemy_room.png" id="1_5h5kf"]
-[ext_resource type="Script" path="res://Map/Room.gd" id="1_78lvt"]
+[ext_resource type="Texture2D" uid="uid://bjangcxcfn023" path="res://sprites/map/enemy_room.png" id="1_4awlq"]
+[ext_resource type="Texture2D" uid="uid://77vmmbwlwek7" path="res://sprites/icons/moves/enemy_room.png" id="1_5h5kf"]
+[ext_resource type="Script" uid="uid://u05hce6h8sjw" path="res://Map/Room.gd" id="1_78lvt"]
 
 [sub_resource type="Animation" id="Animation_at4dd"]
 resource_name = "accessible"
@@ -61,8 +61,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0114p"]
 _data = {
-"accessible": SubResource("Animation_at4dd"),
-"reset": SubResource("Animation_fmt5i")
+&"accessible": SubResource("Animation_at4dd"),
+&"reset": SubResource("Animation_fmt5i")
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ufmqg"]

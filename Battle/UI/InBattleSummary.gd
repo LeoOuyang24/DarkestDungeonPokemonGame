@@ -38,5 +38,6 @@ func setCurrentCreature(creature:Creature, isCurrent:bool) -> void:
 
 		#for the passbutton, the disabled is purelly based on whether the creature is current or not
 		if PassButton:
+			PassButton.creature = creature #this allows proper updating of the button
 			PassButton.disabled = !isCurrent
-			PassButton.visible = creature.getIsFriendly() 
+			#PassButton.visible = creature.getIsFriendly() 

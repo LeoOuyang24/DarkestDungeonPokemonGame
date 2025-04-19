@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://4iwnqm7b1q50"]
 
-[ext_resource type="Script" path="res://FadeOut.gd" id="1_1qdes"]
+[ext_resource type="Script" uid="uid://grwh80wxmy3t" path="res://FadeOut.gd" id="1_1qdes"]
 
 [sub_resource type="Animation" id="Animation_ff5ly"]
 resource_name = "fade"
@@ -20,7 +20,7 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6on2n"]
 _data = {
-"fade": SubResource("Animation_ff5ly")
+&"fade": SubResource("Animation_ff5ly")
 }
 
 [node name="FadeOut" type="ColorRect"]

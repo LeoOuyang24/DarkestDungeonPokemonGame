@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bjln7kkve4d5a"]
 
-[ext_resource type="Script" path="res://Battle/UI/health_bar.gd" id="1_msr36"]
+[ext_resource type="Script" uid="uid://c5jdcmt3uxo27" path="res://Battle/UI/health_bar.gd" id="1_msr36"]
 [ext_resource type="Theme" uid="uid://erve1xfn7p82" path="res://Battle/UI/healthbars.tres" id="1_tdbmc"]
 
 [node name="ProgressBar" type="ProgressBar"]
@@ -8,6 +8,7 @@ offset_top = -2.0
 offset_right = 64.0
 offset_bottom = 25.0
 theme = ExtResource("1_tdbmc")
+max_value = 1000.0
 show_percentage = false
 script = ExtResource("1_msr36")
 

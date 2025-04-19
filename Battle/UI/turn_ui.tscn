@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://daxhjw473xi4b"]
 
-[ext_resource type="Texture2D" uid="uid://cfqg03pwqfejx" path="res://sprites/icons/skull.png" id="1_blbdy"]
+[ext_resource type="Texture2D" uid="uid://dspt8beciqush" path="res://sprites/icons/skull.png" id="1_blbdy"]
 [ext_resource type="Theme" uid="uid://ctnx7oi2vcxu" path="res://UI/menu.tres" id="1_ruqd4"]
-[ext_resource type="Script" path="res://Battle/UI/turn_ui.gd" id="2_x68wi"]
+[ext_resource type="Script" uid="uid://ddtxnujqrc7q1" path="res://Battle/UI/turn_ui.gd" id="2_x68wi"]
 
 [sub_resource type="Animation" id="Animation_7d5er"]
 resource_name = "default"
@@ -22,7 +22,7 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_68cvi"]
 _data = {
-"default": SubResource("Animation_7d5er")
+&"default": SubResource("Animation_7d5er")
 }
 
 [node name="PanelContainer" type="CenterContainer"]

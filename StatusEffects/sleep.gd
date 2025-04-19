@@ -7,10 +7,17 @@ func _init():
 
 func onAdd(creature:Creature) -> void:
 	super(creature)
-	creature.stats.stat_changed.connect(func(stat:CreatureStats.STATS,amount:int):
-		if stat == CreatureStats.STATS.HEALTH && amount < 0:
-			setStacks(0);
-		)
+	if creature:
+		creature.stats.stat_changed.connect(func(stat:CreatureStats.STATS,amount:int):
+			if stat == CreatureStats.STATS.HEALTH && amount < 0:
+				setStacks(0);
+			)
+		creature.addActive(1)
+	
+func onRemove() -> void:
+	if self.creature:
+		creature.addActive(-1)
+
 
 var anime := preload("res://sprites/effects/animations/sleep_status_anime.tres")
 

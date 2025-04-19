@@ -1,12 +1,12 @@
 [gd_scene load_steps=9 format=3 uid="uid://b10n7jankcsc1"]
 
 [ext_resource type="Theme" uid="uid://fmhayxk6i3ei" path="res://UI/margins.tres" id="1_6b7s8"]
-[ext_resource type="Script" path="res://UI/creature_stats.gd" id="2_gbbt7"]
+[ext_resource type="Script" uid="uid://knhm1ko6it8d" path="res://UI/creature_stats.gd" id="2_gbbt7"]
 [ext_resource type="PackedScene" uid="uid://b6nxjul7v18y3" path="res://Menus/StatBar.tscn" id="2_n6pso"]
 [ext_resource type="Texture2D" uid="uid://cnbmv1a853j4" path="res://sprites/icons/claw_icon.png" id="3_ew4me"]
 [ext_resource type="Theme" uid="uid://8reuecd1io3g" path="res://Battle/UI/BattleUI.tres" id="3_f2aab"]
-[ext_resource type="Script" path="res://UI/Name.gd" id="3_kpv8i"]
-[ext_resource type="Script" path="res://sprites/Anime.gd" id="4_3xog8"]
+[ext_resource type="Script" uid="uid://bt58jldcy5ri8" path="res://UI/Name.gd" id="3_kpv8i"]
+[ext_resource type="Script" uid="uid://thkoy077g3y7" path="res://sprites/Anime.gd" id="4_3xog8"]
 [ext_resource type="Texture2D" uid="uid://5exm7nv8rq6u" path="res://sprites/icons/speed_icon.png" id="4_h4rfv"]
 
 [node name="CreatureStats" type="MarginContainer"]

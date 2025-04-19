@@ -18,11 +18,16 @@ var size:Vector2 = Vector2(100,100) #size of the creature, used purely for rende
 
 var creatureName = "Creature"
 
+var active := 0; #0 if creature can use moves, add 1 whenever something has a reason for it to be inactive
+var inactiveReason := "" #reason for being inactive #TODO: make this show up on UI
+
 
 var stats:CreatureStats = null
 var level:CreatureLevel = null
 var statuses:StatusManager = null
 var traits:TraitManager = null
+
+static var NullSprite := preload("res://sprites/spritesheets/creatures/nullsprite.tres")
 
 signal move_changed(index:int,move:Move)
 
@@ -44,6 +49,8 @@ func _to_string() -> String:
 
 func _init( sprite_path:String, maxHealth_:int,baseAttack_:int,baseSpeed_:int, name_:String, levels:int = 1, moves_ = [], pendingMoves_:Array = []) -> void:
 	spriteFrame = SpriteLoader.getSprite(sprite_path)
+	if !spriteFrame:
+		spriteFrame = NullSprite
 	creatureName = name_;
 	#TODO: level up stats, currently they are stuck at level 1 regardless of what level we put into the constructor
 	stats = CreatureStats.new(maxHealth_,baseAttack_,baseSpeed_)
@@ -60,6 +67,12 @@ func addBigBoost(stat:CreatureStats.STATS,num:int = 1) -> void:
 	level.appliedBigBoost(num)
 	#this is second so any triggers from stat_changed signal will already have the updated big boost amount
 	stats.getStatObj(stat).addBigBoost(num) 
+
+func isActive() -> bool:
+	return active == 0
+
+func addActive(a:int) -> void:
+	active = max(0,active + a)
 
 func getLevel() -> int:
 	return level.getLevel()
@@ -153,7 +166,8 @@ func addTrait(t:Trait):
 static func AI(user:Creature, battlefield:Battlefield) -> Move.MoveRecord:
 	if user:
 		var move = user.getRandomMove()
-		return Move.MoveRecord.new(user,move,battlefield.getTargets(user,move))
+		var record = Move.MoveRecord.new(user,move,battlefield.getTargets(user,move))
+		return record
 	return null
 		#user.attacks[randi()%len(user.attacks)].move(user,[targets[0]])
 		

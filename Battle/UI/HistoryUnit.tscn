@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bmbg4fgml6vh2"]
 
 [ext_resource type="PackedScene" uid="uid://bk0gnk03sgxh1" path="res://Battle/UI/PendingMove.tscn" id="1_7org6"]
-[ext_resource type="Script" path="res://Battle/UI/HistoryUnit.gd" id="2_q61fp"]
+[ext_resource type="Script" uid="uid://kj0xoh7mipic" path="res://Battle/UI/HistoryUnit.gd" id="2_q61fp"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c852k"]
 resource_local_to_scene = true

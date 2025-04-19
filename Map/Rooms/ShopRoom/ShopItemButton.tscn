@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://lksoelrcoiko"]
 
-[ext_resource type="Script" path="res://Map/Rooms/ShopRoom/ShopItemButton.gd" id="1_cbi6v"]
-[ext_resource type="Texture2D" uid="uid://bjwh0sokmjo3h" path="res://sprites/icons/tape.png" id="2_p1o3e"]
+[ext_resource type="Script" uid="uid://dfrn8pf2wr0st" path="res://Map/Rooms/ShopRoom/ShopItemButton.gd" id="1_cbi6v"]
+[ext_resource type="Texture2D" uid="uid://b4vjv5tmsm5w2" path="res://sprites/icons/tape.png" id="2_p1o3e"]
 [ext_resource type="Theme" uid="uid://ctnx7oi2vcxu" path="res://UI/menu.tres" id="3_qe51q"]
-[ext_resource type="Script" path="res://Menus/PriceLabel.gd" id="4_t2pd2"]
+[ext_resource type="Script" uid="uid://by1m6sirym2j4" path="res://Menus/PriceLabel.gd" id="4_t2pd2"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0j2wj"]
 texture = ExtResource("2_p1o3e")

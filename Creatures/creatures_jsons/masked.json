@@ -2,9 +2,9 @@
 	"sprite":"masked",
 	"width": 110,
 	"height": 110,
-	"baseHealth": 30,
-	"baseAttack": 0,
-	"baseSpeed": 4,
+	"baseHealth": 300,
+	"baseAttack": 00,
+	"baseSpeed": 40,
 	"name": "masked",
 	"startMoves": [
 	],

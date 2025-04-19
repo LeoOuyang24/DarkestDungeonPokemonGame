@@ -3,7 +3,7 @@ class_name Shoot extends Move
 
 # Called when the node enters the scene tree for the first time.
 func _init():
-	super("Shoot",1,10)
+	super("Shoot",1,2)
 	summary = "Deal %s damage to a chosen target"
 	pass # Replace with function body.
 func getModifiers(user:Creature) -> Array:

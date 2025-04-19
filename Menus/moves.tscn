@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ogtoeaqdniwj"]
 
 [ext_resource type="PackedScene" uid="uid://dxsiuao5kklcy" path="res://Battle/UI/MoveButton.tscn" id="1_0vhm6"]
-[ext_resource type="Script" path="res://Menus/moves.gd" id="1_xxx58"]
+[ext_resource type="Script" uid="uid://bcxb5g0t8mlo5" path="res://Menus/moves.gd" id="1_xxx58"]
 
 [node name="Moves" type="GridContainer"]
 size_flags_horizontal = 8

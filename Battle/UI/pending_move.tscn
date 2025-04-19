@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://cpg5w77s8sbsw"]
 
 [ext_resource type="Texture2D" uid="uid://cnbmv1a853j4" path="res://sprites/icons/claw_icon.png" id="1_d5sgp"]
-[ext_resource type="Script" path="res://Battle/UI/pending_move.gd" id="2_bstoe"]
-[ext_resource type="Script" path="res://Battle/UI/PendingMove.gd" id="3_xbb20"]
+[ext_resource type="Script" uid="uid://bs4q426t4iyei" path="res://Battle/UI/pending_move.gd" id="2_bstoe"]
+[ext_resource type="Script" uid="uid://8t0mj2xoya31" path="res://Battle/UI/PendingMove.gd" id="3_xbb20"]
 
 [sub_resource type="Animation" id="Animation_oeraa"]
 loop_mode = 1
@@ -37,8 +37,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1iqkt"]
 _data = {
-"RESET": SubResource("Animation_oeraa"),
-"default": SubResource("Animation_5ybfe")
+&"RESET": SubResource("Animation_oeraa"),
+&"default": SubResource("Animation_5ybfe")
 }
 
 [node name="Control" type="Control"]

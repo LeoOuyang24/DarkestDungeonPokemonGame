@@ -1,4 +1,4 @@
-class_name Game extends Node2D
+class_name Game extends Node
 
 @onready var Scenes := %Scenes
 @onready var Map := %Map
@@ -9,8 +9,12 @@ class_name Game extends Node2D
 @onready var GameOver := %GameOver
 @onready var GameOverButton := %GameOver/Button
 @onready var DNACounter := %DNACounter/Counter
+@onready var Tutorial := %TutorialState
 
 static var GameCamera:GlobalCamera = null
+
+signal swapped_to_room(room:RoomBase)
+
 
 var curScene = null
 var showTeam := false
@@ -19,7 +23,7 @@ var showTeam := false
 #used to track game state
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready():	
 	GameCamera = $Camera
 	GameState.DNA_changed.connect(func(amount):
 		DNACounter.set_text(str(GameState.getDNA()))
@@ -42,6 +46,9 @@ func _ready():
 	DNACounter.set_text(str(GameState.getDNA()))
 	Map.updateRooms() #this is called in two places, one here and one when the battle ends. It really should be added to a single function called "SwaptoMap" or something
 	swapToScene(Map)
+	if (GameState.isTutorial):
+		Tutorial.run(self)
+
 	pass # Replace with function body.
 
 
@@ -52,10 +59,13 @@ func _process(delta):
 
 #switch to scene, deleting the previous current scene if necessary
 func swapToScene(scene:RoomBase):
-	#GameState.PlayerState.addScan("Beholder");
 	Scenes.remove_child(curScene)
 	Scenes.add_child(scene)
 	curScene = scene
+	swapped_to_room.emit(scene)
+	if scene is BattleManager:
+		GameState.setBattle(scene.BattleSim)
+
 
 #same as swapToScene except we do the fadeout animation
 func swapToSceneWithFade(scene:RoomBase):
@@ -97,10 +107,9 @@ func _on_map_room_selected(roomInfo):
 			var size = randi()%(Battlefield.maxEnemies - 1) + 1
 			for i in range(size):
 				enemies.push_back(CreatureLoader.getRandCreature(["chomper","giant","masked","princess","siren","silent"]))
-			#enemies[2].traits.addStatus(Steadfast.new())
-			#enemies = [CreatureLoader.loadJSON("Princess"),CreatureLoader.loadJSON("Princess")]
-			newScene.createBattle(GameState.PlayerState.getPlayer(),GameState.PlayerState.getTeam(),enemies)
-			GameState.setBattle(newScene.BattleSim)
+
+			#newScene.createBattle(enemies)
+			Bosses.boss1(newScene)
 		Room.ROOM_TYPES.WELL:
 			var wellRoom = load("res://Map/Rooms/WellRoom.tscn").instantiate()
 			newScene = wellRoom
@@ -134,3 +143,4 @@ func loseGame():
 		#GameState.PlayerState.reset()
 	#else:
 		#room_finished()
+		

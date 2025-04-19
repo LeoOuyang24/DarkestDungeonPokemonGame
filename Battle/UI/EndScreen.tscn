@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://bgy4kes6sp7tp"]
 
-[ext_resource type="Script" path="res://Battle/UI/EndScreen.gd" id="1_sutgw"]
-[ext_resource type="Texture2D" uid="uid://cgxsxxx5aw2nn" path="res://sprites/icons/dna_icon.png" id="2_at5s7"]
-[ext_resource type="FontFile" uid="uid://bhijg3nwptqpm" path="res://Fonts/Unutterable-rv3x8.ttf" id="3_qejp1"]
+[ext_resource type="Script" uid="uid://0vgak1wwtdxh" path="res://Battle/UI/EndScreen.gd" id="1_sutgw"]
+[ext_resource type="Texture2D" uid="uid://bn12lek6wtl6u" path="res://sprites/icons/dna_icon.png" id="2_at5s7"]
+[ext_resource type="FontFile" uid="uid://qkj0qa3lj33w" path="res://Fonts/Unutterable-rv3x8.ttf" id="3_qejp1"]
 
 [node name="ColorRect" type="PanelContainer"]
 offset_right = 1031.0

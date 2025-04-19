@@ -1,10 +1,10 @@
 [gd_scene load_steps=8 format=3 uid="uid://yisen3x4p70h"]
 
-[ext_resource type="Script" path="res://sprites/UI/AnimatedButton.gd" id="1_2svu3"]
-[ext_resource type="Shader" path="res://Battle/UI/CreatureSlot.gdshader" id="1_hslr8"]
-[ext_resource type="Script" path="res://Menus/CreateHorrorButton.gd" id="1_knmlb"]
+[ext_resource type="Script" uid="uid://dru77h1u6vjj0" path="res://sprites/UI/AnimatedButton.gd" id="1_2svu3"]
+[ext_resource type="Shader" uid="uid://cmtn21hvyxdmp" path="res://Battle/UI/CreatureSlot.gdshader" id="1_hslr8"]
+[ext_resource type="Script" uid="uid://bakii6wgdk1t5" path="res://Menus/CreateHorrorButton.gd" id="1_knmlb"]
 [ext_resource type="SpriteFrames" uid="uid://bkvoijpggqmyi" path="res://sprites/spritesheets/creatures/beholder.tres" id="2_88l8u"]
-[ext_resource type="Script" path="res://Components/SingleHighlight.gd" id="5_c5a28"]
+[ext_resource type="Script" uid="uid://d3a1mellsydcs" path="res://Components/SingleHighlight.gd" id="5_c5a28"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ng67"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -18,7 +18,7 @@ border_color = Color(0, 1, 0.705882, 1)
 resource_local_to_scene = true
 shader = ExtResource("1_hslr8")
 shader_parameter/outline_width = 10.0
-shader_parameter/outline_color = null
+shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/isSpectral = false
 
 [node name="CreateHorrorButton" type="PanelContainer"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://1m34rwnl48vd"]
 
-[ext_resource type="Script" path="res://Battle/UI/moves_ui.gd" id="1_kf5hw"]
+[ext_resource type="Script" uid="uid://bivkn3oxbq4rs" path="res://Battle/UI/moves_ui.gd" id="1_kf5hw"]
 
 [node name="ReferenceRect" type="ReferenceRect"]
 custom_minimum_size = Vector2(300, 150)

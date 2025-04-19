@@ -82,7 +82,6 @@ func swapCreature(index1:int, index2:int) -> void:
 	#addCreature(creature,index1)
 	creatures[index2] = creatures[index1]
 	creatures[index1] = creature
-	print(creatures)
 	creature_order_changed.emit();
 
 
@@ -136,7 +135,7 @@ func getAllies(isFriendly:bool = true, getNull:bool = true, index:bool = false) 
 					allies.push_back(creatures[i])
 		return allies
 	else:
-		return getEnemies(true)
+		return getEnemies(true,getNull,index)
 	
 func getEnemies(isFriendly:bool = true, getNull:bool = true, index:bool = false) -> Array:
 	if isFriendly:
@@ -149,7 +148,7 @@ func getEnemies(isFriendly:bool = true, getNull:bool = true, index:bool = false)
 					enemies.push_back(creatures[i])
 		return enemies	
 	else:
-		return getAllies(true)
+		return getAllies(true,getNull,index)
 
 #get the frontmost creatures.
 #if "enemies" is true, gets frontmost not-friendly creatures, other wise frontmost friendly creatures
@@ -179,23 +178,20 @@ func getLegalTargets(user:Creature, criteria:Move.TARGETING_CRITERIA) -> Array:
 	var targetArray:Array = []
 	match criteria:
 		Move.TARGETING_CRITERIA.ONLY_ENEMIES:
-			targetArray = getEnemies(user.getIsFriendly())
+			targetArray = getEnemies(user.getIsFriendly(),false)
 		Move.TARGETING_CRITERIA.ONLY_ALLIES:
-			targetArray = getAllies(user.getIsFriendly())
+			targetArray = getAllies(user.getIsFriendly(),false)
 		Move.TARGETING_CRITERIA.OTHER_ALLIES:
-			targetArray.assign(getAllies(user.getIsFriendly()).map(func(asdf:Creature) -> Creature:
-				return asdf if asdf != user else null
-				) )
+			targetArray = getAllies(user.getIsFriendly(),false).filter(func(asdf:Creature) -> bool:
+				return asdf != user
+				)
 		Move.TARGETING_CRITERIA.ALL:
 			targetArray = creatures
 		Move.TARGETING_CRITERIA.ALL_OTHERS:
-			targetArray = creatures.map(func(asdf:Creature):
-				return asdf if asdf != user else null
+			targetArray = creatures.filter(func(asdf:Creature):
+				return asdf != user
 				)
-	#filter out null creatures
-	return targetArray.filter(func(creature:Creature):
-		return creature != null
-		)
+	return targetArray
 #given a move used by a creature, calculate the appropriate targets
 #returns the indicies since that's what MoveRecord uses
 func getTargets(user:Creature, move:Move) -> Array[int]:
@@ -216,9 +212,11 @@ func getTargets(user:Creature, move:Move) -> Array[int]:
 #what to do at the start of every turn
 #code that is common to firstTurn and newTurn
 func startTurn() -> void:
+
 	moveQueue.reset();
 	for creature:Creature in creatures:
-		moveQueue.insert(Move.MoveRecord.new(creature,null,[]))
+		addMoveToQueue(Move.MoveRecord.new(creature,null,[]))
+		#moveQueue.insert()
 	getEnemyMoves();
 
 		
@@ -248,24 +246,17 @@ func checkForDeath() -> int:
 			return i
 	return -1
 
-#get full queue order of creatures
-func getFullQueue() -> Array:
-	return moveQueue.data
-	
 #update creature's spot in queue
 func updateMoveQueue(creature:Creature) -> void:
 	if creature:
-		#print(moveQueue.find(creature)," ",moveQueue.updateSpot(creature))
-		#print(moveQueue.data)
-		queue_order_changed.emit(creature,moveQueue.find(creature),moveQueue.updateSpot(creature));
-		
+		queue_order_changed.emit(moveQueue.data);
 	
 #add a move to the move queue
 func addMoveToQueue(record:Move.MoveRecord) -> void:
 	#if creature is already in queue, update what move it's gonna do
 	if record:
 		moveQueue.insert(record)
-		add_move_queue.emit(record)
+		queue_order_changed.emit(moveQueue.data)
 
 
 func getNextMove() -> Move.MoveRecord:
@@ -287,7 +278,9 @@ func getCreatureWithNoRecord() -> Creature:
 			return creatures[i];
 	return null
 		
-
 func reset():
 	for i in range(creatures.size()):
 		removeCreature(getCreature(i))
+		
+
+	

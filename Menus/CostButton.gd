@@ -26,7 +26,7 @@ var disable:bool = false:
 func applyCost():
 	GameState.setDNA(GameState.getDNA() - cost)
 
-func _init():
+func _ready():
 	GameState.DNA_changed.connect(toggle)
 	
 func toggle(amount:int):

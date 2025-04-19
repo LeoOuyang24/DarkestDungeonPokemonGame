@@ -1,13 +1,13 @@
-class_name Player extends Node
+class_name Player extends Object
 
 #stores player state
 
 signal team_changed()
 signal added_scan(creatureName:StringName)
 
-const PLAYER_BASE_MAX_HEALTH:int = 20
-const PLAYER_BASE_ATTACK:int = 5
-const PLAYER_BASE_SPEED:int = 5
+const PLAYER_BASE_MAX_HEALTH:int = 200
+const PLAYER_BASE_ATTACK:int = 50
+const PLAYER_BASE_SPEED:int = 50
 const MAX_TEAM_SIZE:int = 4
 
 var player:Creature = null
@@ -71,9 +71,12 @@ func addScan(creatureName:StringName):
 		scans.push_back(creatureName)
 		added_scan.emit(creatureName)
 
+
 #reset player state
 func reset() -> void:
-	player = Creature.new("spritesheets/creatures/player",PLAYER_BASE_MAX_HEALTH,PLAYER_BASE_ATTACK,PLAYER_BASE_SPEED,"Player",5,[SwapPos.new(),Slam.new(),Hamstring.new(),GrantSpeed.new()])
+	#player = Creature.new("spritesheets/creatures/player",PLAYER_BASE_MAX_HEALTH,PLAYER_BASE_ATTACK,PLAYER_BASE_SPEED,"Player",5,[SwapPos.new(),Brutalize.new(),Hamstring.new(),GrantSpeed.new()])
+	player = Creature.new("spritesheets/creatures/player",PLAYER_BASE_MAX_HEALTH,PLAYER_BASE_ATTACK,PLAYER_BASE_SPEED,"Player",5,[Brutalize.new(),Shoot.new(),Scan.new()])
+
 	player.isPlayer = true	
 #
 	var ally1 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/giant.json")
@@ -81,7 +84,7 @@ func reset() -> void:
 	var ally3 = Banshee.new()
 	var ally4 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/silent.json")
 	ally1.traits.addStatus(Spectral.new())
-	updateTeam([player,ally2,ally3,ally4])
+	updateTeam([player,ally2])
 
 	#team[1].traits.addStatus(Spectral.new())
 	#team[0].traits.addStatus(Big.new())

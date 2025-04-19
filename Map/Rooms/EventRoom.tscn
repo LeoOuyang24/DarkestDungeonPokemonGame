@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bvxv6kih6bx3"]
 
-[ext_resource type="Script" path="res://Map/Rooms/EventRoom.gd" id="1_f1b4w"]
+[ext_resource type="Script" uid="uid://ulslhmvflld6" path="res://Map/Rooms/EventRoom.gd" id="1_f1b4w"]
 [ext_resource type="PackedScene" uid="uid://cxvto5dpammsj" path="res://Map/Rooms/InputMenu.tscn" id="1_yfu8u"]
 
 [node name="Control" type="Control"]

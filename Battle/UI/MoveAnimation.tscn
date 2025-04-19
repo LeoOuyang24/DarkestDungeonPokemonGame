@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bmkh7whuwnmvs"]
 
 [ext_resource type="SpriteFrames" uid="uid://dbajfcl0lny7y" path="res://sprites/spritesheets/moves/slash.tres" id="1_vblok"]
-[ext_resource type="Script" path="res://Battle/UI/AnimeEffect.gd" id="2_0m3xe"]
+[ext_resource type="Script" uid="uid://brbj5ft7yhwbi" path="res://Battle/UI/AnimeEffect.gd" id="2_0m3xe"]
 
 [node name="Anime" type="AnimatedSprite2D"]
 position = Vector2(841, 293)

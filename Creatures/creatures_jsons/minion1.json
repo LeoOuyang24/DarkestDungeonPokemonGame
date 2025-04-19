@@ -1,0 +1,14 @@
+{
+	"name": "Minion",
+	"sprite": "Minion",
+	"baseHealth": 100,
+	"baseAttack": 30,
+	"baseSpeed": 50,
+	"flying": false,
+	"startMoves": [
+		"Cleanse"
+	],
+	"levelMoves": [	
+
+	]
+}

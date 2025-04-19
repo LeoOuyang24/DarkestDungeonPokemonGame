@@ -1,8 +1,5 @@
 extends CostButton
 
-func _ready():
-	GameState.battle_started.connect(set_disabled.bind(true))
-
 func setCreature(creature:Creature) -> void:
 	if creature:
 		cost = getLevelUpCost(creature)

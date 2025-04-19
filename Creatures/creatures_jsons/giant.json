@@ -1,8 +1,8 @@
 {
 	"sprite":"giant",
-	"baseHealth": 15,
-	"baseAttack": 6,
-	"baseSpeed": 4,
+	"baseHealth": 150,
+	"baseAttack": 60,
+	"baseSpeed": 40,
 	"name": "Giant",
 	"startMoves": [
 		"Slam",

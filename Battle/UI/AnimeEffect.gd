@@ -2,6 +2,8 @@ class_name AnimeEffect extends AnimatedSprite2D
 
 #animated effects that die when they end
 
+signal finished #emitted when finished
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	self.animation_looped.connect(_on_animation_looped)
@@ -20,6 +22,7 @@ func start(str:StringName = "default") -> void:
 func _on_animation_looped():
 	set_visible(false)
 	queue_free()
+	finished.emit()
 	pass # Replace with function body.
 
 #run an animation once, useful for move animations
@@ -38,7 +41,8 @@ static func createEffect(sprite:SpriteFrames,scale:float = 1, flipped:bool = fal
 	return null;
 	
 #same as above but add an effect to the center of a control
-static func createEffectOnControl(sprite:SpriteFrames,control:Control,scale:float = 1,flipped:bool = false ) -> void:
+static func createEffectOnControl(sprite:SpriteFrames,control:Control,scale:float = 1,flipped:bool = false ) -> AnimeEffect:
 	var effect := createEffect(sprite,scale,flipped);
 	control.add_child(effect)
 	effect.set_position(0.5*control.size)
+	return effect

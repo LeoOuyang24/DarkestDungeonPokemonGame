@@ -29,8 +29,6 @@ func getBattleUI() -> BattleUI:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	#UI.target_selected.connect(handleTargetSelect)
-	#UI.move_selected.connect(handleMoveSelect)
 	UI.turn_made.connect(handleRecord)
 	UI.battle_finished.connect(battleFinished)
 	UI.end_turn.connect(changeState.bind(BATTLE_STATES.BATTLE))
@@ -39,8 +37,8 @@ func _ready() -> void:
 	BattleSim.creature_added.connect(UI.addCreature)
 	BattleSim.creature_removed.connect(UI.removeCreature)
 	BattleSim.creature_order_changed.connect(UI.updateSlots.bind(BattleSim))
-	BattleSim.queue_order_changed.connect(func(_c,_i,_n):
-		UI.updateQueue(BattleSim.getFullQueue())
+	BattleSim.queue_order_changed.connect(func(data):
+		UI.updateQueue(data)
 		)
 	BattleSim.pop_move_queue.connect(func(record:Move.MoveRecord):
 		UI.popCreatureFromQueue(record.user)
@@ -48,6 +46,7 @@ func _ready() -> void:
 
 	if testing:
 		test();
+		
 	UI.updateSlots(BattleSim)
 	await UI.is_ready;
 	
@@ -65,7 +64,7 @@ func test() -> void:
 	var enemy3 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/silent.json")
 	
 	
-	createBattle(
+	createBattleFull(
 		ally3,
 		[
 			ally1,
@@ -82,8 +81,12 @@ func handleRecord(record:Move.MoveRecord) -> void:
 	BattleSim.handlePlayerMove(record)
 	changeState(BATTLE_STATES.PLAYER_TURN)
 
-func createBattle(player,allies,enemies):
+func createBattle(enemies):
+	createBattleFull(GameState.PlayerState.getPlayer(),GameState.PlayerState.getTeam(),enemies)
+
+func createBattleFull(player,allies,enemies):
 	#allies += [player]
+	BattleSim.reset()
 	for i in range(allies.size()):
 		if allies[i] && (allies[i].isAlive()):
 			BattleSim.addCreature(allies[i],i);
@@ -128,8 +131,7 @@ func reset():
 	BattleSim.reset();
 
 func runMove(record:Move.MoveRecord) -> void:
-	if record.user.statuses.getStatus("Sleep"):
-		UI.setBattleText(record.user.getName() + " is asleep");
+	if !record.user.isActive():
 		await get_tree().create_timer(1).timeout
 	else:
 		if !record.move:
@@ -173,7 +175,6 @@ func runBattle():
 		while dead != -1:
 			await runDeath(BattleSim.getCreature(dead))
 			dead = BattleSim.checkForDeath()
-			await UI.is_ready
 		if !GameState.PlayerState.getPlayer().isAlive():
 			changeState(BATTLE_STATES.WE_LOST)
 			return 

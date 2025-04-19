@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ch2yb5r50w7yo"]
 
-[ext_resource type="Script" path="res://Menus/RichButton.gd" id="1_mxta1"]
+[ext_resource type="Script" uid="uid://c1yip3v5pv333" path="res://Menus/RichButton.gd" id="1_mxta1"]
 
 [node name="RichButton" type="Button"]
 offset_right = 91.0

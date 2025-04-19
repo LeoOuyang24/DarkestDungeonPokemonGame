@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://csyroyi13nt66"]
 
 [ext_resource type="Theme" uid="uid://8reuecd1io3g" path="res://Battle/UI/BattleUI.tres" id="1_u18w2"]
-[ext_resource type="Script" path="res://Menus/TeamView.gd" id="1_womks"]
+[ext_resource type="Script" uid="uid://vic42bwt7w1r" path="res://Menus/TeamView.gd" id="1_womks"]
 [ext_resource type="PackedScene" uid="uid://mftrks2txgif" path="res://UI/team_slots_rect.tscn" id="2_1lhlk"]
 [ext_resource type="Theme" uid="uid://fmhayxk6i3ei" path="res://UI/margins.tres" id="3_v403o"]
 [ext_resource type="PackedScene" uid="uid://chsbok4nq5wgs" path="res://Menus/CreateHorror.tscn" id="4_yluxj"]

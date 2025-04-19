@@ -3,7 +3,7 @@ class_name Am0rph extends Creature
 #creature that copies the moves of the corresponding enemy, similar to Amorph
 
 func _init(levels:int = 1, moves_:Array = [], pendingMoves_:Array = []) -> void:
-	super("spritesheets/creatures/am0rph", 8,5,5, "AMORPH",levels,moves_,pendingMoves_)
+	super("spritesheets/creatures/am0rph", 80,50,50, "AMORPH",levels,moves_,pendingMoves_)
 	
 #find the creature to copy and copy
 func copyMoves(battlefield:Battlefield) -> void:

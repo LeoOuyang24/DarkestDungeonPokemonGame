@@ -1,4 +1,4 @@
-extends RoomBase
+class_name GameMap extends RoomBase
 
 @onready var Background = $Background 
 var RoomScene = preload("res://Map/Room.tscn")
@@ -27,7 +27,6 @@ func addRoom(room:Room, row:int, column:int, rowSize:int):
 	room.position = Vector2(100 + row*horizSpacing,
 			50 + column*vertSpacing + (maxRowSize - rowSize)*( vertSpacing/2) );
 			
-	
 
 func generate():
 	var rng = RandomNumberGenerator.new()

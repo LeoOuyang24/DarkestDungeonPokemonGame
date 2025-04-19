@@ -1,8 +1,8 @@
 {
 	"sprite":"dreemer",
-	"baseHealth": 20,
-	"baseAttack": 4,
-	"baseSpeed": 4,
+	"baseHealth": 200,
+	"baseAttack": 40,
+	"baseSpeed": 40,
 	"name": "Dreamer",
 	"startMoves": [
 		"Slash"

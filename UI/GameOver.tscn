@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bx5ugehc8gnq4"]
 
 [ext_resource type="Theme" uid="uid://ctnx7oi2vcxu" path="res://UI/menu.tres" id="1_q5id7"]
-[ext_resource type="Script" path="res://UI/GameOver.gd" id="2_v51n2"]
+[ext_resource type="Script" uid="uid://bm5f1v7ghyugd" path="res://UI/GameOver.gd" id="2_v51n2"]
 
 [sub_resource type="Animation" id="Animation_yf7rf"]
 resource_name = "deadge"
@@ -20,7 +20,7 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jnd6r"]
 _data = {
-"deadge": SubResource("Animation_yf7rf")
+&"deadge": SubResource("Animation_yf7rf")
 }
 
 [node name="GameOver" type="ColorRect"]

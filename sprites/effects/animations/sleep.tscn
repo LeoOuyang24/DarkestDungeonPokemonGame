@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://w8dmbmmut72e"]
 
-[ext_resource type="Texture2D" uid="uid://b5euo0ly5elcv" path="res://sprites/statuses/sleep.png" id="1_tilg2"]
-[ext_resource type="Script" path="res://sprites/effects/animations/sleep_anime.gd" id="1_v0vse"]
+[ext_resource type="Texture2D" uid="uid://cdy30361egjk" path="res://sprites/statuses/sleep.png" id="1_tilg2"]
+[ext_resource type="Script" uid="uid://h14yxq3aljbp" path="res://sprites/effects/animations/sleep_anime.gd" id="1_v0vse"]
 
 [sub_resource type="Animation" id="Animation_dbuxv"]
 resource_name = "default"
@@ -69,7 +69,7 @@ tracks/4/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qap8h"]
 _data = {
-"default": SubResource("Animation_dbuxv")
+&"default": SubResource("Animation_dbuxv")
 }
 
 [node name="Control" type="Control"]

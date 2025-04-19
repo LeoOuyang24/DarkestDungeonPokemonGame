@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://d2xqht3dqgdjn"]
 
 [ext_resource type="Texture2D" uid="uid://cydnw6pbpcjn7" path="res://sprites/icons/big_boost_icon.png" id="1_452g8"]
-[ext_resource type="Script" path="res://Menus/BigBoost.gd" id="2_0eftk"]
+[ext_resource type="Script" uid="uid://5d3x63lgkqnc" path="res://Menus/BigBoost.gd" id="2_0eftk"]
 
 [node name="BigBoost" type="TextureButton" groups=["BigBoosts"]]
 custom_minimum_size = Vector2(30, 30)

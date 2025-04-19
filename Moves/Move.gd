@@ -34,7 +34,7 @@ var summary:String = ""
 var icon:Texture2D = load("res://sprites/icons/claw_icon.png")
 
 #number of turns to wait between usage
-var baseCooldown:int = 1
+var baseCooldown:int = 0
 
 #number of targets
 #not necessarily the number of targets that actually get hit but the number of targets

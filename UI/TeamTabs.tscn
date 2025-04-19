@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://caxrq57inc1ar"]
 
-[ext_resource type="Script" path="res://UI/TeamTabs.gd" id="1_pcfms"]
+[ext_resource type="Script" uid="uid://cdnqgcmwm1dwl" path="res://UI/TeamTabs.gd" id="1_pcfms"]
 [ext_resource type="PackedScene" uid="uid://cvmuwhverwiv0" path="res://Battle/UI/InBattleSummary.tscn" id="2_u35ws"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_si3nq"]

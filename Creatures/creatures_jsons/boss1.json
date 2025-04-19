@@ -1,0 +1,13 @@
+{
+	"sprite": "Boss",
+	"baseHealth": 500,
+	"baseAttack": 50,
+	"baseSpeed": 30,
+	"name": "Boss",
+	"flying": false,
+	"startMoves": [
+		"Brutalize"
+	],
+	"levelMoves": [	
+	]
+}

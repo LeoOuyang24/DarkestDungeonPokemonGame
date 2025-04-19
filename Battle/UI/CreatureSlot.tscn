@@ -1,11 +1,11 @@
 [gd_scene load_steps=14 format=3 uid="uid://bqsfei63od030"]
 
-[ext_resource type="Script" path="res://Battle/UI/CreatureSlot.gd" id="1_kmmwv"]
-[ext_resource type="Shader" path="res://Battle/UI/CreatureSlot.gdshader" id="1_v7n5r"]
+[ext_resource type="Script" uid="uid://bug0of7xlb33" path="res://Battle/UI/CreatureSlot.gd" id="1_kmmwv"]
+[ext_resource type="Shader" uid="uid://cmtn21hvyxdmp" path="res://Battle/UI/CreatureSlot.gdshader" id="1_v7n5r"]
 [ext_resource type="PackedScene" uid="uid://bjln7kkve4d5a" path="res://Battle/UI/health_bar.tscn" id="2_1ocdj"]
 [ext_resource type="PackedScene" uid="uid://5t1xxv227xqw" path="res://StatusEffects/StatusEffectsUI.tscn" id="3_2kmqv"]
 [ext_resource type="Texture2D" uid="uid://dlcgqdd117o8j" path="res://sprites/spritesheets/creatures/frame.png" id="3_tplww"]
-[ext_resource type="Script" path="res://sprites/UI/AnimatedButton.gd" id="4_yob5j"]
+[ext_resource type="Script" uid="uid://dru77h1u6vjj0" path="res://sprites/UI/AnimatedButton.gd" id="4_yob5j"]
 [ext_resource type="SpriteFrames" uid="uid://vuog78tjvb6e" path="res://sprites/spritesheets/creatures/chomper.tres" id="5_cbxec"]
 [ext_resource type="PackedScene" uid="uid://cpg5w77s8sbsw" path="res://Battle/UI/pending_move.tscn" id="5_kc8uo"]
 
@@ -13,7 +13,7 @@
 resource_local_to_scene = true
 shader = ExtResource("1_v7n5r")
 shader_parameter/outline_width = 10.0
-shader_parameter/outline_color = null
+shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/isSpectral = false
 
 [sub_resource type="Animation" id="Animation_g1k0o"]
@@ -46,7 +46,7 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pb7ge"]
 _data = {
-"hurt": SubResource("Animation_g1k0o")
+&"hurt": SubResource("Animation_g1k0o")
 }
 
 [sub_resource type="Animation" id="Animation_yci5t"]
@@ -67,7 +67,7 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6k17u"]
 _data = {
-"hurt": SubResource("Animation_yci5t")
+&"hurt": SubResource("Animation_yci5t")
 }
 
 [node name="Button" type="TextureButton"]

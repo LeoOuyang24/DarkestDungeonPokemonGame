@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dm5gsh3mg802h"]
 
-[ext_resource type="Script" path="res://Map/Rooms/WellRoom.gd" id="1_ekws5"]
-[ext_resource type="Texture2D" uid="uid://btytdd3oomd3q" path="res://sprites/backgrounds/well_background.png" id="2_iktvj"]
+[ext_resource type="Script" uid="uid://bufmkknc5ifck" path="res://Map/Rooms/WellRoom.gd" id="1_ekws5"]
+[ext_resource type="Texture2D" uid="uid://d11mkq8osi88k" path="res://sprites/backgrounds/well_background.png" id="2_iktvj"]
 [ext_resource type="PackedScene" uid="uid://ch2yb5r50w7yo" path="res://Menus/RichButton.tscn" id="3_nq1bn"]
 
 [sub_resource type="Theme" id="Theme_8hc7r"]
