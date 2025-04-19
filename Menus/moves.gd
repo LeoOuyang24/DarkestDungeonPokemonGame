@@ -8,7 +8,7 @@ signal move_selected(move:Move,button:MoveButton)
 @onready var Moves:Array[Node] = get_children()
 @export var moveSlots:bool = false #true if the moves are moveSlotButtons
 
-const moveSlotsScript := preload("res://Menus/MoveSlotButton.gd")
+const moveSlotsScript := preload("res://Battle/UI/MoveSlotButton.gd")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -19,26 +19,18 @@ func _ready() -> void:
 				)
 		if moveSlots:
 			i.set_script(moveSlotsScript)
-			#usually, if a movebutton is a moveSlotButton, it should not be disabled, 
-			#at least not initially
-			i.disabled = false 
 	pass # Replace with function body.
 
 #set the moves equal to that of a creature
-#if copy is true, set the slots too
-#the big difference is the slots are set, any modification to the move button will also impact
-#the creature.
-#this is useful in-combat
-#but not useful in some menus
-func setMoves(creature:Creature,copy:bool = true) -> void:
+
+func setMoves(creature:Creature) -> void:
 	if creature:
 		for i in range(Creature.maxMoves):
 			var butt := Moves[i] as MoveButton
-			if copy:
+			if moveSlots:
 				butt.setSlot(creature.getMoveSlot(i),creature)
 			else:
-				butt.setSlot(null,creature)
-				butt.setMove(creature.getMove(i))
+				butt.setMove(creature.getMove(i),creature)
 			
 #"disable" is true if we want to disable all buttons, false otherwise if we want to enable all of them
 #if "useOld" is true, the button is only enabled if it currently is already enabled

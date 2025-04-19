@@ -14,8 +14,9 @@ func _ready():
 func _process(delta):
 	pass
 
-func start(str:StringName = "default") -> void:
+func start(str:StringName = "default",speed:float = 1.0) -> void:
 	set_visible(true);
+	set_speed_scale(speed)
 	play(str);
 
 
@@ -27,7 +28,7 @@ func _on_animation_looped():
 
 #run an animation once, useful for move animations
 #scale only affects the width, the height is scaled appropriately
-static func createEffect(sprite:SpriteFrames,scale:float = 1, flipped:bool = false) -> AnimeEffect:
+static func createEffect(sprite:SpriteFrames,scale:float = 1, flipped:bool = false, speed:float = 1.0) -> AnimeEffect:
 	if sprite:
 		var battleSprite := AnimeEffect.new();
 
@@ -35,14 +36,14 @@ static func createEffect(sprite:SpriteFrames,scale:float = 1, flipped:bool = fal
 		var size := sprite.get_frame_texture("default",0).get_size()
 		battleSprite.set_scale(Vector2(scale,scale*size.y/size.x))
 		battleSprite.set_flip_h(flipped)
-		battleSprite.start();
+		battleSprite.start("default",speed);
 		
 		return battleSprite
 	return null;
 	
 #same as above but add an effect to the center of a control
-static func createEffectOnControl(sprite:SpriteFrames,control:Control,scale:float = 1,flipped:bool = false ) -> AnimeEffect:
-	var effect := createEffect(sprite,scale,flipped);
+static func createEffectOnControl(sprite:SpriteFrames,control:Control,scale:float = 1,flipped:bool = false, speed=1.0 ) -> AnimeEffect:
+	var effect := createEffect(sprite,scale,flipped,speed);
 	control.add_child(effect)
 	effect.set_position(0.5*control.size)
 	return effect

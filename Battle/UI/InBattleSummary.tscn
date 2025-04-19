@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://cvmuwhverwiv0"]
+[gd_scene load_steps=7 format=3 uid="uid://cvmuwhverwiv0"]
 
 [ext_resource type="Theme" uid="uid://8reuecd1io3g" path="res://Battle/UI/BattleUI.tres" id="1_ieebx"]
 [ext_resource type="Script" uid="uid://ddgo3lpw23w0r" path="res://Battle/UI/InBattleSummary.gd" id="2_hq8d4"]
 [ext_resource type="PackedScene" uid="uid://b10n7jankcsc1" path="res://UI/CreatureStats.tscn" id="2_ua8v8"]
 [ext_resource type="PackedScene" uid="uid://ogtoeaqdniwj" path="res://Menus/moves.tscn" id="3_agv26"]
-[ext_resource type="PackedScene" uid="uid://dxsiuao5kklcy" path="res://Battle/UI/MoveButton.tscn" id="3_dm2aa"]
+[ext_resource type="PackedScene" uid="uid://kebegd7jm3i5" path="res://Battle/UI/MoveButton.tscn" id="3_dm2aa"]
+[ext_resource type="Script" uid="uid://do4wt1kjnvoyc" path="res://Battle/UI/MoveSlotButton.gd" id="6_kt7gd"]
 
 [node name="Window" type="PanelContainer"]
 offset_left = 17.0
@@ -37,6 +38,7 @@ layout_mode = 2
 [node name="Moves" parent="MarginContainer/HBoxContainer/HBoxContainer" instance=ExtResource("3_agv26")]
 unique_name_in_owner = true
 layout_mode = 2
+moveSlots = true
 
 [node name="Spacing" type="Control" parent="MarginContainer/HBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(10, 0)
@@ -47,6 +49,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 4
+script = ExtResource("6_kt7gd")
 
 [editable path="MarginContainer/HBoxContainer/CreatureStats"]
 [editable path="MarginContainer/HBoxContainer/CreatureStats/Background/Profile/Stats/Control/Health"]

@@ -132,7 +132,7 @@ func reset():
 
 func runMove(record:Move.MoveRecord) -> void:
 	if !record.user.isActive():
-		await get_tree().create_timer(1).timeout
+		await get_tree().create_timer(1*BattleUI.battleSpeed).timeout
 	else:
 		if !record.move:
 			#null moves are handeled like PassTurns
@@ -140,10 +140,8 @@ func runMove(record:Move.MoveRecord) -> void:
 			await runMove(Move.MoveRecord.new(record.user,PassTurn.new(),record.targets))
 		else:
 			record.targets.append_array(record.move.getPreselectedTargets(record.user,BattleSim))
-			UI.setBattleText(record.user.getName() + " used " + record.move.getMoveName() + "!")
 			await get_tree().create_timer(1).timeout
-			var call:Callable = func():
-				pass
+
 			await UI.showMove(record)
 			await record.move.runAnimation(record.user,record.targets,UI,BattleSim)
 
@@ -157,7 +155,6 @@ func runMove(record:Move.MoveRecord) -> void:
 			UI.History.addMove(record)
 
 func runDeath(dead:Creature) -> void:
-	UI.setBattleText(dead.getName() + " died.")
 	await get_tree().create_timer(1).timeout
 	BattleSim.removeCreature(dead)
 
@@ -168,7 +165,6 @@ func runBattle():
 	var runThis := BattleSim.getNextMove()
 
 	while runThis:
-		#print(BattleSim.moveQueue.data)
 		UI.setCurrentCreature(runThis.user)
 		await runMove(runThis)
 		var dead = BattleSim.checkForDeath()
@@ -185,8 +181,6 @@ func runBattle():
 			#BattleSim.nextMove();
 			runThis = BattleSim.getNextMove()
 		UI.resetAllSlotPos()
-			
-
 	newTurn()
 
 func battleFinished():
@@ -202,5 +196,5 @@ func _input(event):
 	if event is InputEventKey and event.pressed:
 		if event.keycode == KEY_BACKSLASH:
 			changeState(BATTLE_STATES.WE_WON)
-		if event.keycode == KEY_BACKSPACE:
-			GameState.PlayerState.getPlayer().stats.getStatObj(CreatureStats.STATS.HEALTH).modStat(0,false,self)	
+		#if event.keycode == KEY_BACKSPACE:
+			#GameState.PlayerState.getPlayer().stats.getStatObj(CreatureStats.STATS.HEALTH).modStat(0,false,self)	

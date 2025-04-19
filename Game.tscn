@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://d2hi4k6uyeill"]
+[gd_scene load_steps=14 format=3 uid="uid://d2hi4k6uyeill"]
 
 [ext_resource type="Script" uid="uid://co4r2n4yk2nfx" path="res://Game.gd" id="1_c6sbs"]
 [ext_resource type="Script" uid="uid://csedqdmon5uhp" path="res://GlobalCamera.gd" id="2_03rtm"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://owrn7mpjalnv" path="res://UI/DNACounter.tscn" id="8_gfmos"]
 [ext_resource type="PackedScene" uid="uid://c3a2cw0fq1ln" path="res://TutorialState.tscn" id="9_8g0b7"]
 [ext_resource type="AudioStream" uid="uid://y4fm0mij52qp" path="res://audio/ambient.wav" id="9_o7dw0"]
+[ext_resource type="Script" uid="uid://cbkt5bj5n25fa" path="res://DebugState.gd" id="11_yhmtn"]
 
 [sub_resource type="Animation" id="Animation_qh5rq"]
 resource_name = "hurt"
@@ -113,6 +114,13 @@ scale = Vector2(0.2, 0.2)
 [node name="TutorialState" parent="CanvasLayer" instance=ExtResource("9_8g0b7")]
 unique_name_in_owner = true
 visible = false
+
+[node name="DebugLabel" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "DEBUG ON"
+script = ExtResource("11_yhmtn")
 
 [connection signal="room_selected" from="Scenes/Map" to="." method="_on_map_room_selected"]
 

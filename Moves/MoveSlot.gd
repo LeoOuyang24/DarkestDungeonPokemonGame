@@ -3,6 +3,9 @@ class_name MoveSlot extends Object
 #represents a move slot.
 #move slots have a cooldown, that is not removed if a move is changed
 
+#emitted when the cooldown changes
+signal cooldown_changed(amount:int, newCD:int)
+
 #current cooldown, number of turns left to wait
 var cooldown:int = 0
 
@@ -25,9 +28,9 @@ func getRemainingCD() -> int:
 	return cooldown
 	
 func setCooldown(amount:int) -> void:
-	#var old = cooldown
+	var old = cooldown
 	cooldown = max(0,amount)
-	#cooldown_changed.emit(amount - old,cooldown)
+	cooldown_changed.emit(amount - old,cooldown)
 
 #decrement the cooldown
 func decRemainingCD(amount:int = 1) -> void:

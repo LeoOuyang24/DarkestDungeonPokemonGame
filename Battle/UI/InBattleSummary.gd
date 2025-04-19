@@ -34,7 +34,8 @@ func setCurrentCreature(creature:Creature, isCurrent:bool) -> void:
 		#disable the button if the creature is not current or if its already disabled for whatever reason
 		#and we are in battle
 		Moves.setMoves(creature)
-		Moves.disableMoves((!creature.getIsFriendly() || !isCurrent) && GameState.getBattle(),true)
+
+		Moves.disableMoves(!isCurrent && GameState.getBattle(),true)
 
 		#for the passbutton, the disabled is purelly based on whether the creature is current or not
 		if PassButton:

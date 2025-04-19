@@ -13,8 +13,10 @@ func runAnimation(user:Creature, enemies: Array, UI:BattleUI,battlefield:Battlef
 	
 func move(user, targets, battlefield):
 	if targets.size() > 0:
-		var statusManager = battlefield.getCreature(targets[0]).statuses
-		var statuses = statusManager.getAllStatuses()
-		for statusName in statuses:
-			if !statuses[statusName].getIsDebuff():
-				statusManager.removeStatus(statuses[statusName])
+		var creature:Creature = battlefield.getCreature(targets[0])
+		if creature:
+			var statusManager = creature.statuses
+			var statuses = statusManager.getAllStatuses()
+			for statusName in statuses:
+				if !statuses[statusName].getIsDebuff():
+					statusManager.removeStatus(statuses[statusName])

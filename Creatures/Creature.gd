@@ -169,5 +169,4 @@ static func AI(user:Creature, battlefield:Battlefield) -> Move.MoveRecord:
 		var record = Move.MoveRecord.new(user,move,battlefield.getTargets(user,move))
 		return record
 	return null
-		#user.attacks[randi()%len(user.attacks)].move(user,[targets[0]])
 		

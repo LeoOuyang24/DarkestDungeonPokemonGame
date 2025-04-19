@@ -1,31 +1,23 @@
 class_name MoveButton extends Button
 
-var slot:MoveSlot= null
+# a generic button that shows a move
+#does not worry about cooldowns or anything like that
+
+var move:Move = null
 var creature:Creature = null
 
 static var popup = preload("res://UI/OnHoverUI.tscn")
 
 signal move_selected(move:Move)
 
-func _ready():
-	pass # Replace with function body.
-
-func setSlot(slot:MoveSlot, creature:Creature) -> void:
-	self.slot = slot
-	self.creature = creature
-	
-	if slot:
-		setMove(slot.move)
-
-func setMove(move:Move) -> void:
-	if !slot: #this should really only occur if this button is not associated with a creature
-		self.slot = MoveSlot.new()
-	self.slot.move = move
+func setMove(move_:Move,creature_:Creature = null) -> void:
+	move = move_
 	if move:
-		set_tooltip_text(move.summary +"\nCooldown: " + str(move.baseCooldown))
+		self.text = move.getMoveName()
 	else:
-		set_tooltip_text("")
-	
+		self.text = ""
+	creature = creature_;
+
 static func getMoveTooltip(move:Move,creature:Creature) -> Control:
 	if move:
 		var label = RichTextLabel.new()
@@ -75,23 +67,14 @@ static func getMoveTooltip(move:Move,creature:Creature) -> Control:
 #makes the tooltip for each button, which changes dynamically 
 #ie, having more attack will change the damage number
 func _make_custom_tooltip(summary:String):
-	if slot:
-		return getMoveTooltip(slot.getMove(),creature)
+	if move:
+		return getMoveTooltip(move,creature)
 	return ""
 
 			
 func getMove() -> Move:
-	return slot.move if slot else null
+	return move
 	
 func _pressed() -> void:
-	move_selected.emit(slot.move if slot else null)
+	move_selected.emit(move)
 	
-func _process(delta:float) -> void:
-	#enemy move buttons shouldn't be allowed to be pressed
-	if slot && creature && creature.getIsFriendly():
-		if slot.isUsable():
-			self.text = slot.getMove().getMoveName()
-			self.disabled = false
-		else:
-			self.disabled = true	
-			self.text = str(slot.getRemainingCD()) if slot.move else ""

@@ -1,11 +1,6 @@
 class_name Move extends Object
 # A Move is something a Creature can do. Like Tackle in Pokemon!
 
-#emitted when the move is used
-signal move_used()
-#emitted when the cooldown changes
-signal cooldown_changed(amount:int, newCD:int)
-
 class MoveRecord extends Object:
 	#represents the info associated with the use of a move
 
@@ -87,8 +82,6 @@ func getMoveName():
 func getModifiers(user:Creature) -> Array:
 	return []
 
-
-	move_used.emit()
 	
 #the actual move
 #user is the guy doing the move

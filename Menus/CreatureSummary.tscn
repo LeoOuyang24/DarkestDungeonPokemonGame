@@ -69,7 +69,6 @@ layout_mode = 2
 [node name="Moves" parent="MarginContainer/VBoxContainer/MovesStuff/VBoxContainer2/HBoxContainer" instance=ExtResource("5_lnibl")]
 unique_name_in_owner = true
 layout_mode = 2
-moveSlots = true
 
 [node name="LearnNewMove" parent="MarginContainer/VBoxContainer/MovesStuff/VBoxContainer2/HBoxContainer" node_paths=PackedStringArray("Moves") instance=ExtResource("4_pkdav")]
 unique_name_in_owner = true

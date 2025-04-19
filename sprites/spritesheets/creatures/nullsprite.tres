@@ -2,15 +2,15 @@
 
 [ext_resource type="Texture2D" uid="uid://b73feywy1kc02" path="res://sprites/spritesheets/creatures/ghost.png" id="1_dd4jy"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_eidmm"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_dd4jy"]
 atlas = ExtResource("1_dd4jy")
-region = Rect2(0, 0, 411, 935)
+region = Rect2(0, 0, 277, 784)
 
 [resource]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_eidmm")
+"texture": SubResource("AtlasTexture_dd4jy")
 }],
 "loop": true,
 "name": &"default",

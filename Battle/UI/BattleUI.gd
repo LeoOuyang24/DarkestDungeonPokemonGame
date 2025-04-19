@@ -46,6 +46,9 @@ var queueSlot = preload("./QueueSlot.tscn")
 var current:Move.MoveRecord = Move.MoveRecord.new() #current creature and move
 var MoveSummary:Control = null #summary of move currently being used
 
+#multiplier of how fast we want animations
+static var battleSpeed := 1.0
+
 func newTurn(state:Battlefield):
 	current = Move.MoveRecord.new()
 	EndTurn.disabled = true
@@ -106,7 +109,7 @@ func setCurrentCreature(creature:Creature):
 			var rect := slot.get_global_rect()
 			$ColorRect.set_size(Vector2(rect.size.x,slot.global_position.y - $Rows.global_position.y + slot.size.y));
 			var tween := create_tween()
-			tween.tween_property($ColorRect,"global_position",Vector2(slot.global_position.x,$Rows.global_position.y),.3)
+			tween.tween_property($ColorRect,"global_position",Vector2(slot.global_position.x,$Rows.global_position.y),.3*battleSpeed)
 			#$ColorRect.set_global_position()
 		var queueSlot := getQueueSlot(creature)
 		if queueSlot:
@@ -127,6 +130,7 @@ func setCurrentCreatureUI(creature:Creature, isCurrent:bool):
 
 	Summary.setCurrentCreature(creature,isCurrent)
 
+#called when a move record has been made
 func emitRecord():
 	resetSlotUIs()
 	turn_made.emit(current.copy())
@@ -156,7 +160,11 @@ func selectCreature(creature:Creature) -> void:
 			if creature.getIsFriendly():
 				setCurrentCreature(creature)
 			else:
-				setCurrentCreatureUI(creature,false)
+				#we ARE allowed to set enemy moves if we are debugging
+				if DebugState.isDebugging():
+					setCurrentCreature(creature)
+				else:
+					setCurrentCreatureUI(creature,false)
 
 #get teh creatureslot corresponding to the given creature or index
 func getCreatureSlot(creature) -> CreatureSlot:
@@ -180,8 +188,8 @@ func getQueueSlot(creature:Creature) -> QueueSlot:
 func swapSlots(slot1:CreatureSlot,slot2:CreatureSlot):
 	if slot1 and slot2 and slot1.get_parent() == slot2.get_parent(): #only works if they are in the same container
 
-		slot1.getTween().tween_property(slot1,"global_position",Vector2(slot2.global_position.x,slot1.global_position.y),0.5)
-		var tween = slot2.getTween().tween_property(slot2,"global_position",Vector2(slot1.global_position.x,slot2.global_position.y),0.5)
+		slot1.getTween().tween_property(slot1,"global_position",Vector2(slot2.global_position.x,slot1.global_position.y),0.5*battleSpeed)
+		var tween = slot2.getTween().tween_property(slot2,"global_position",Vector2(slot1.global_position.x,slot2.global_position.y),0.5*battleSpeed)
 		await tween.finished
 		
 		var row = slot1.get_parent()
@@ -205,12 +213,6 @@ func removeCreature(creature:Creature):
 		getCreatureSlot(creature).setCreature(null)
 		await removeCreatureFromQueue(creature);
 
-#remove a creature from queue because we are running its move NOT because it died
-func popCreatureFromQueue(creature:Creature) -> void:
-	var slot := getQueueSlot(creature);	
-	var tween := create_tween()
-	#tween.tween_property(slot,"modulate",Color(1,1,1,0.0),1)
-
 func removeCreatureFromQueue(creature:Creature):
 		var thisSlot := getQueueSlot(creature)
 		if thisSlot:
@@ -218,14 +220,13 @@ func removeCreatureFromQueue(creature:Creature):
 			var height = thisSlot.get_rect().size.y
 
 			#tween.parallel().tween_property(thisSlot,"position",Vector2(thisSlot.position.x,height),1)
-			tween.parallel().tween_property(thisSlot,"modulate",Color(0,0,0,0),1)
+			tween.parallel().tween_property(thisSlot,"modulate",Color(0,0,0,0),1*battleSpeed)
 			tween.tween_callback(func ():
 				thisSlot.setCreature(null)
 				)
 			await tween.finished
-			#await TurnQueue.sort_children
 
-
+#update the queue to match that in the MoveQueue
 func updateQueue(queue:Array):
 	var children = TurnQueue.get_children()
 	for i in range(Battlefield.maxAllies + Battlefield.maxEnemies):
@@ -244,11 +245,7 @@ func choosingTargets(targets:Move.TARGETING_CRITERIA = Move.TARGETING_CRITERIA.O
 		if sprite && Move.isTargetValid(targets,current.user,creatureSlots[i].getCreature()):
 			tween.tween_property(sprite, "modulate", Color.BLACK, 1)
 			tween.tween_property(sprite,"modulate",Color.WHITE,1)
-		##if "flash" is false, turn off the flashing for all creatures
-		#else:
-			#sprite.set("modulate",Color.WHITE)
-			#tween.kill();
-		
+
 #adds a new slot
 func addSlot(isAlly:bool):
 	var slot = creatureSlot.instantiate();
@@ -261,7 +258,7 @@ func addSlot(isAlly:bool):
 #show move that is currently being used
 func showMove(record:Move.MoveRecord) -> void:
 	var slot :=  getCreatureSlot(record.user)
-	var duration := 0.5
+	var duration := 0.5*battleSpeed
 	if slot:
 		var tween := create_tween()
 		var control := MoveButton.getMoveTooltip(record.move,record.user)
@@ -290,6 +287,9 @@ func clearMove() -> void:
 func _unhandled_input(event):
 	if event is InputEventMouseButton and event.get_button_index() == MOUSE_BUTTON_LEFT:
 		setCurrentCreatureUI(current.user,true)
+	elif event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+		setCurrentCreatureUI(current.user,true)
+
 		
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -316,15 +316,7 @@ func _ready():
 		
 	await TurnQueue.sort_children
 	is_ready.emit()	
-	
-func setBattleText(str:String):
-	BattleLog.set_text(str);
-		
-	
-func stopBattleSprite():
-	if BattleSprite:
-		BattleSprite.visible = false;
-		
+
 #set the end screen,
 #dna is the amount of dna we won as a result of winning the battle
 func setEndScreen(rewards:Rewards = null):

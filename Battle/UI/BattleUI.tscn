@@ -1,11 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://b3hux6c6p4pfu"]
+[gd_scene load_steps=11 format=3 uid="uid://b3hux6c6p4pfu"]
 
 [ext_resource type="Script" uid="uid://bp0tvabrfp1k6" path="res://Battle/UI/BattleUI.gd" id="1_0uu34"]
 [ext_resource type="Theme" uid="uid://cqh01hvor6ut3" path="res://Battle/UI/Rows.tres" id="2_27lud"]
 [ext_resource type="Texture2D" uid="uid://fdrwkx1bfjr4" path="res://sprites/backgrounds/BW.png" id="2_o8eal"]
 [ext_resource type="PackedScene" uid="uid://d2nlcyt4tiehq" path="res://Battle/UI/MoveHistory.tscn" id="2_pcm8h"]
 [ext_resource type="PackedScene" uid="uid://bgy4kes6sp7tp" path="res://Battle/UI/EndScreen.tscn" id="3_1dct8"]
-[ext_resource type="Script" uid="uid://thkoy077g3y7" path="res://sprites/Anime.gd" id="4_tevqn"]
 [ext_resource type="PackedScene" uid="uid://daxhjw473xi4b" path="res://Battle/UI/turn_ui.tscn" id="6_1dtmw"]
 [ext_resource type="Theme" uid="uid://fmhayxk6i3ei" path="res://UI/margins.tres" id="7_id080"]
 [ext_resource type="Theme" uid="uid://ctnx7oi2vcxu" path="res://UI/menu.tres" id="9_05v0j"]
@@ -57,29 +56,13 @@ alignment = 2
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
-theme_override_constants/separation = 100
-
-[node name="BattleLog" type="RichTextLabel" parent="."]
-visible = false
-layout_mode = 0
-offset_left = 880.0
-offset_top = 842.0
-offset_right = 1176.0
-offset_bottom = 866.0
+theme_override_constants/separation = 80
 
 [node name="Background" type="Sprite2D" parent="."]
 z_index = -2
 position = Vector2(954.196, 544.538)
 scale = Vector2(1.00605, 1.02123)
 texture = ExtResource("2_o8eal")
-
-[node name="BattleSprite" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 424.0
-offset_top = 80.0
-offset_right = 766.0
-offset_bottom = 443.0
-script = ExtResource("4_tevqn")
 
 [node name="Outline" type="ReferenceRect" parent="."]
 unique_name_in_owner = true

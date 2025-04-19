@@ -6,22 +6,22 @@ class_name MoveAnimations extends Object
 static func genericAttackAnimation(user:Creature,enemies:Array,UI:BattleUI,move:Move,scale:float = 1):
 
 	if enemies.size() > 0:
-
 		var slot = UI.getCreatureSlot(user)
 
 		var tween = slot.getTween()
-		tween.tween_property(slot,"global_position",Vector2(slot.global_position.x + 100*(1 if user.getIsFriendly() else -1),slot.global_position.y),0.25).set_trans(Tween.TRANS_EXPO)
+		#move user forward
+		tween.tween_property(slot,"global_position",Vector2(slot.global_position.x + 100*(1 if user.getIsFriendly() else -1),slot.global_position.y),0.25*BattleUI.battleSpeed).set_trans(Tween.TRANS_EXPO)
 		await tween.finished
 		var spriteFrames:SpriteFrames = SpriteLoader.getSprite("spritesheets/moves/" + move.getMoveName())
 		if spriteFrames:
 			for enemy in enemies:
 				var enemyslot = UI.getCreatureSlot(enemy)
+				if enemyslot:
+					AnimeEffect.createEffectOnControl(spriteFrames,enemyslot,scale,!user.getIsFriendly(),BattleUI.battleSpeed);
 
-				AnimeEffect.createEffectOnControl(spriteFrames,enemyslot,scale,!user.getIsFriendly());
-			#
-			#await UI.BattleSprite.looping
 		tween = slot.getTween()
-		tween.tween_property(slot,"global_position",Vector2(slot.global_position.x,slot.global_position.y),0.25).set_trans(Tween.TRANS_EXPO)
+		#reset user position
+		tween.tween_property(slot,"global_position",Vector2(slot.global_position.x,slot.global_position.y),0.25*BattleUI.battleSpeed).set_trans(Tween.TRANS_EXPO)
 		for i in enemies:
 			var enemy := UI.getCreatureSlot(i)
 			if enemy.getCreature():
