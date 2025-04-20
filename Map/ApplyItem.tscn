@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://diq7ll56dbsar" path="res://Map/ApplyItem.gd" id="1_ndx3b"]
 [ext_resource type="PackedScene" uid="uid://d1us7egl1mag1" path="res://Menus/TeamSlot.tscn" id="3_7s8co"]
 [ext_resource type="Shader" uid="uid://cmtn21hvyxdmp" path="res://Battle/UI/CreatureSlot.gdshader" id="3_edo11"]
-[ext_resource type="PackedScene" uid="uid://b0htmbdsm8806" path="res://Map/ApplyItemSummary.tscn" id="4_lyunl"]
+[ext_resource type="PackedScene" uid="uid://eiram4nkk7fk" path="res://Menus/BaseCreatureSummary.tscn" id="6_xp2ss"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j5dny"]
 bg_color = Color(0, 0, 0, 0.768627)
@@ -105,7 +105,7 @@ lockSize = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Summary" parent="VBoxContainer2/VBoxContainer2" instance=ExtResource("4_lyunl")]
+[node name="Summary" parent="VBoxContainer2/VBoxContainer2" instance=ExtResource("6_xp2ss")]
 unique_name_in_owner = true
 layout_mode = 2
 

@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=3 uid="uid://eiram4nkk7fk"]
+
+[ext_resource type="Theme" uid="uid://8reuecd1io3g" path="res://Battle/UI/BattleUI.tres" id="1_t8ogw"]
+[ext_resource type="Script" uid="uid://c0w4n552w48db" path="res://Menus/BaseCreatureSummary.gd" id="2_86qve"]
+[ext_resource type="PackedScene" uid="uid://b10n7jankcsc1" path="res://UI/CreatureStats.tscn" id="3_ewf0x"]
+[ext_resource type="PackedScene" uid="uid://ogtoeaqdniwj" path="res://Menus/moves.tscn" id="4_1wfwq"]
+
+[node name="Window" type="PanelContainer"]
+offset_left = 17.0
+offset_top = 130.0
+offset_right = 1168.0
+offset_bottom = 425.0
+mouse_filter = 2
+theme = ExtResource("1_t8ogw")
+script = ExtResource("2_86qve")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 90
+
+[node name="CreatureStats" parent="MarginContainer/HBoxContainer" instance=ExtResource("3_ewf0x")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Moves" parent="MarginContainer/HBoxContainer/HBoxContainer" instance=ExtResource("4_1wfwq")]
+unique_name_in_owner = true
+layout_mode = 2
+moveSlots = true
+
+[editable path="MarginContainer/HBoxContainer/CreatureStats"]
+[editable path="MarginContainer/HBoxContainer/CreatureStats/Background/Profile/Stats/Control/Health"]
+[editable path="MarginContainer/HBoxContainer/CreatureStats/Background/Profile/Stats/Control/Attack"]
+[editable path="MarginContainer/HBoxContainer/CreatureStats/Background/Profile/Stats/Control/Speed"]

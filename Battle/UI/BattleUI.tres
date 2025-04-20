@@ -25,6 +25,7 @@ border_color = Color(0, 0, 0, 1)
 
 [resource]
 Button/colors/font_color = Color(0, 0, 0, 1)
+Button/colors/font_disabled_color = Color(0, 0, 0, 1)
 Button/colors/font_focus_color = Color(0.201525, 0.201527, 0.201527, 1)
 Button/colors/font_pressed_color = Color(0.18359, 0.18359, 0.18359, 1)
 Button/styles/hover = SubResource("StyleBoxFlat_ksx14")

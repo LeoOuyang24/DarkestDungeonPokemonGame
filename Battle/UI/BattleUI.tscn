@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://daxhjw473xi4b" path="res://Battle/UI/turn_ui.tscn" id="6_1dtmw"]
 [ext_resource type="Theme" uid="uid://fmhayxk6i3ei" path="res://UI/margins.tres" id="7_id080"]
 [ext_resource type="Theme" uid="uid://ctnx7oi2vcxu" path="res://UI/menu.tres" id="9_05v0j"]
-[ext_resource type="PackedScene" uid="uid://cvmuwhverwiv0" path="res://Battle/UI/InBattleSummary.tscn" id="9_d62vi"]
+[ext_resource type="PackedScene" uid="uid://cvmuwhverwiv0" path="res://Battle/UI/InBattleSummaryBackup.tscn" id="9_d62vi"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ytwnp"]
 bg_color = Color(1, 1, 1, 1)

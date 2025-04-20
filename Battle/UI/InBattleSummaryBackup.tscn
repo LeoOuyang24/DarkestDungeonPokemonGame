@@ -1,0 +1,57 @@
+[gd_scene load_steps=7 format=3 uid="uid://cvmuwhverwiv0"]
+
+[ext_resource type="Theme" uid="uid://8reuecd1io3g" path="res://Battle/UI/BattleUI.tres" id="1_ieebx"]
+[ext_resource type="Script" uid="uid://ddgo3lpw23w0r" path="res://Battle/UI/InBattleSummary.gd" id="2_hq8d4"]
+[ext_resource type="PackedScene" uid="uid://b10n7jankcsc1" path="res://UI/CreatureStats.tscn" id="2_ua8v8"]
+[ext_resource type="PackedScene" uid="uid://ogtoeaqdniwj" path="res://Menus/moves.tscn" id="3_agv26"]
+[ext_resource type="PackedScene" uid="uid://kebegd7jm3i5" path="res://Battle/UI/MoveButton.tscn" id="3_dm2aa"]
+[ext_resource type="Script" uid="uid://do4wt1kjnvoyc" path="res://Battle/UI/MoveSlotButton.gd" id="6_kt7gd"]
+
+[node name="Window" type="PanelContainer"]
+offset_left = 17.0
+offset_top = 130.0
+offset_right = 1168.0
+offset_bottom = 425.0
+mouse_filter = 2
+theme = ExtResource("1_ieebx")
+script = ExtResource("2_hq8d4")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 90
+
+[node name="CreatureStats" parent="MarginContainer/HBoxContainer" instance=ExtResource("2_ua8v8")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Moves" parent="MarginContainer/HBoxContainer/HBoxContainer" instance=ExtResource("3_agv26")]
+unique_name_in_owner = true
+layout_mode = 2
+moveSlots = true
+
+[node name="Spacing" type="Control" parent="MarginContainer/HBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="PassButton" parent="MarginContainer/HBoxContainer/HBoxContainer" instance=ExtResource("3_dm2aa")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+script = ExtResource("6_kt7gd")
+
+[editable path="MarginContainer/HBoxContainer/CreatureStats"]
+[editable path="MarginContainer/HBoxContainer/CreatureStats/Background/Profile/Stats/Control/Health"]
+[editable path="MarginContainer/HBoxContainer/CreatureStats/Background/Profile/Stats/Control/Attack"]
+[editable path="MarginContainer/HBoxContainer/CreatureStats/Background/Profile/Stats/Control/Speed"]

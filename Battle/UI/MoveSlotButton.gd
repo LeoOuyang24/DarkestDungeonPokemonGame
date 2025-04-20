@@ -6,7 +6,6 @@ class_name MoveSlotButton extends MoveButton
 var slot:MoveSlot = null
 
 func setSlot(newSlot:MoveSlot, creature:Creature) -> void:
-	
 	if slot:
 		slot.cooldown_changed.disconnect(update)
 	
