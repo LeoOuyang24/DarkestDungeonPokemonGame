@@ -41,6 +41,9 @@ func getDNA() -> int:
 func setDNA(amount:int) -> void:
 	DNA = amount
 	DNA_changed.emit(amount)
+	
+func increaseDNA(amount:int ) -> void:
+	setDNA(getDNA() + amount)
 
 func getBattle() -> Battlefield:
 	return currentBattle

@@ -10,8 +10,10 @@ class_name InBattleSummary extends BaseCreatureSummary
 func _ready():
 	super()
 	if PassButton:
-		PassButton.setMove(PassTurn.new())
+		var move := PassTurn.new()
+		PassButton.setMove(move)
 		PassButton.move_selected.connect(move_selected.emit)
+
 
 #sets the current creature, which is rendered differently based on whether or not the creature is current or not
 #and whether or not it is friendly

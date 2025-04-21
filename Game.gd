@@ -44,7 +44,6 @@ func _ready():
 	GameState.game_lost.connect(loseGame)
 	
 	DNACounter.set_text(str(GameState.getDNA()))
-	Map.updateRooms() #this is called in two places, one here and one when the battle ends. It really should be added to a single function called "SwaptoMap" or something
 	swapToScene(Map)
 	if (GameState.isTutorial):
 		Tutorial.run(self)
@@ -65,6 +64,8 @@ func swapToScene(scene:RoomBase):
 	swapped_to_room.emit(scene)
 	if scene is BattleManager:
 		GameState.setBattle(scene.BattleSim)
+	#if DebugState.isDebugging():
+	%DebugState.swapToRoom(scene)
 
 
 #same as swapToScene except we do the fadeout animation

@@ -1,4 +1,4 @@
-class_name CreatureSummary extends InBattleSummary
+class_name CreatureSummary extends BaseCreatureSummary
 
 #@onready var Sprite = %CreatureStats.find_child("Sprite")
 

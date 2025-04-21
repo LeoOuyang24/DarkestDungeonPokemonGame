@@ -5,6 +5,8 @@ class_name CreatureSlot extends AnimatedButton
 @export var testing:bool = false
 
 
+signal right_clicked()
+
 #@onready var Sprite = $Button
 @onready var HealthBar = $HealthBar;
 @onready var Animations = %SpriteAnimations;
@@ -21,9 +23,13 @@ var tween = null
 #a reference to the creature we are referring to
 var creature:Creature = null 
 
-#func _input(event):
-	#if event is InputEventMouseButton:
-		#print(get_global_rect().has_point(event.position))
+func _input(event):
+	if event is InputEventMouseButton and event.is_pressed()\
+	and get_global_rect().has_point(event.position):
+		if event.button_index == MOUSE_BUTTON_RIGHT:
+			right_clicked.emit()
+		elif event.button_index == MOUSE_BUTTON_LEFT:
+			print(creature)
 
 
 	
@@ -33,11 +39,7 @@ func _ready():
 	setCreature(null)
 	if testing:
 		setCreature(CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json"))
-	
-	#for debugging purposes, clicking on a creature slot will print the creature
-	pressed.connect(func():
-		print(creature)
-		)
+
 
 #set the sprite and also scale
 func setSpriteAndSize(spriteFrames:SpriteFrames,scale:float) -> void:

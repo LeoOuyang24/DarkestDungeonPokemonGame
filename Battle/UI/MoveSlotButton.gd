@@ -24,11 +24,18 @@ func setMove(move:Move,creature_:Creature = null) -> void:
 	if !slot: 
 		var newSlot:MoveSlot = MoveSlot.new()
 		newSlot.move = move
+		#this weird recursion where we go to setSlot and then back to setMove
+		#ensures that any setSlot specific stuff (disconnecting signals)
+		#and setMove stuff (connecting signal) all gets done
 		setSlot(newSlot,creature_)
 	else:
+		#ensures we emit the right move when pressed
+		#a bit redundant to have slot.move and self.move
+		self.move = move 
 		slot.move = move
-	slot.cooldown_changed.connect(update.unbind(2))
-	update()
+		slot.cooldown_changed.connect(update.unbind(2))
+		update()
+
 
 func getMove() -> Move:
 	return slot.getMove() if slot else null

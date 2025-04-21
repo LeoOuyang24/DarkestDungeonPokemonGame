@@ -90,6 +90,8 @@ func reset():
 	rooms = []
 	generate()
 	queue_redraw()
+	updateRooms()
+
 	#setCurrentRoom(0,0)
 
 func getCurrentRoom():
@@ -138,11 +140,14 @@ func setCurrentRoom(colNum:int,roomNum:int):
 			
 		room_selected.emit(rooms[colNum][roomNum].getRoomType())
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+#call a function on each room
+func forEachRoom(call:Callable):
+	for column in rooms:
+		for room in column:
+			call.call(room)
 
-func _input(event):
-	if event is InputEventKey and event.pressed:
-		if event.keycode == KEY_R:
-			reset()
+#func _input(event):
+	#if event is InputEventKey and event.pressed:
+		#if event.keycode == KEY_R:
+			#reset()
+			

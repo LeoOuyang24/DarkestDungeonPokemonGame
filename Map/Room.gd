@@ -108,6 +108,6 @@ func _pressed() -> void:
 		new_room.emit(roomType)
 
 
-func _input(event) -> void:
-	if event is InputEventKey && event.pressed && event.keycode == KEY_BACKSPACE && visited != ROOM_STATE.VISITED:
-		changeState(ROOM_STATE.ACCESSIBLE)
+#func _input(event) -> void:
+	#if event is InputEventKey && event.pressed && event.keycode == KEY_BACKSPACE && visited != ROOM_STATE.VISITED:
+		#changeState(ROOM_STATE.ACCESSIBLE)
