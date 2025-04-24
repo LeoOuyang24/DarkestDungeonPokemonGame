@@ -7,9 +7,16 @@ static var SpriteSheetsDir = "spritesheets/creatures/"
 static var CreatureJSONDir = "res://Creatures/creatures_jsons/"
 
 static func loadMove(moveName:String) -> Move:
-	return load("res://Moves/" + moveName + ".gd").new()
+	#attempt to open the file first
+	moveName = moveName.to_lower()
+	var move := load("res://Moves/" + moveName + ".gd")
+	if move:
+		return move.new()
+	printerr("loadMove ERROR: Could not load move " + moveName)
+	return null
 
 static func loadTrait(traitName:String) -> Trait:
+	traitName = traitName.to_lower()
 	var loaded := load("res://StatusEffects/Traits/" + traitName + ".gd")
 	if loaded:
 		return loaded.new()

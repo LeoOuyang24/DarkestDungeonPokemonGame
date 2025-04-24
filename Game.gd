@@ -23,7 +23,7 @@ var showTeam := false
 #used to track game state
 
 # Called when the node enters the scene tree for the first time.
-func _ready():	
+func _ready():		
 	GameCamera = $Camera
 	GameState.DNA_changed.connect(func(amount):
 		DNACounter.set_text(str(GameState.getDNA()))

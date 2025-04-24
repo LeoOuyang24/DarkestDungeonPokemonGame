@@ -192,9 +192,9 @@ func battleFinished():
 		GameState.loseGame();
 	room_finished.emit()
 	
-func _input(event):
-	if event is InputEventKey and event.pressed:
-		if event.keycode == KEY_BACKSLASH:
-			changeState(BATTLE_STATES.WE_WON)
+#func _input(event):
+	#if event is InputEventKey and event.pressed:
+		#if event.keycode == KEY_BACKSLASH:
+			#changeState(BATTLE_STATES.WE_WON)
 		#if event.keycode == KEY_BACKSPACE:
 			#GameState.PlayerState.getPlayer().stats.getStatObj(CreatureStats.STATS.HEALTH).modStat(0,false,self)	

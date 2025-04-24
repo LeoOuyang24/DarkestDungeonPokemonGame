@@ -64,11 +64,11 @@ func _input(event):
 		if event.keycode == KEY_BACKSPACE and event.ctrl_pressed:
 			isDebug = !isDebug
 			set_modulate(Color(1,1,1,int(isDebug)))
-		elif controls.get(event.keycode):
-			controls[event.keycode].call()
-		elif defaultControls.get(event.keycode):
-			defaultControls[event.keycode].call()
-
+		elif isDebugging():
+			if controls.get(event.keycode):
+				controls[event.keycode].call()
+			elif defaultControls.get(event.keycode):
+				defaultControls[event.keycode].call()
 	
 
 #------------------ Room specific debug stuff ------------------------
@@ -98,31 +98,59 @@ func mapDebug(map:GameMap) -> Array[RoomDebug]:
 
 var searcher = preload("res://DebugSearcher.tscn")
 
+
+
+#long ass function that I decided to put separate from battleDebug
+#for organization
+func rightClickDebugSearch(battle:BattleManager,slot:Control) -> void:
+	if isDebugging():
+		#add a search bar
+		var searchbar := searcher.instantiate()
+		slot.add_child(searchbar)
+		var butt:Button = searchbar.find_child("Button")
+		var text:TextEdit = searchbar.find_child("TextEdit")
+		if butt and text:
+			#wait for the search button to be pressed
+			await butt.pressed
+			#attempt to load the creature
+			if slot is CreatureSlot:
+				var creature := CreatureLoader.loadJSON(text.get_text())
+				if creature:
+					#add it, removing the old creature in the process
+					#the old creature is NOT DEAD, so if player is removed
+					#the game does not end
+					var index := battle.BattleSim.getCreatureIndex(slot.getCreature())
+					battle.BattleSim.removeCreature(slot.getCreature())
+					battle.BattleSim.addCreature(creature,index)
+			elif slot is MoveButton:
+				var move := CreatureLoader.loadMove(text.get_text())
+				if move:
+					slot.setMove(move)
+		slot.remove_child(searchbar)
+		searchbar.queue_free()
+
+#but basically makes right clicking creature slots change creatures
+func battleDebugSignals(battle:BattleManager) -> void:
+	for slot in battle.UI.creatureSlots:
+		if slot:
+			slot.right_clicked.connect(rightClickDebugSearch.bind(battle,slot))
+	for move in battle.UI.Summary.Moves.Moves:
+		if move:
+			move.right_clicked.connect(rightClickDebugSearch.bind(battle,move))
+
 #debugging battleManager
 func battleDebug(battle:BattleManager) -> Array[RoomDebug]:
 	if battle and battle.UI:
-		for slot in battle.UI.creatureSlots:
-			slot.right_clicked.connect(func():
-				#add a search bar
-				var searchbar := searcher.instantiate()
-				slot.add_child(searchbar)
-				var butt:Button = searchbar.find_child("Button")
-				var text:TextEdit = searchbar.find_child("TextEdit")
-				if butt and text:
-					#wait for the search button to be pressed
-					await butt.pressed
-					#attempt to load the creature
-					var creature := CreatureLoader.loadJSON(text.get_text())
-					if creature:
-						#add it, removing the old creature in the process
-						#the old creature is NOT DEAD, so if player is removed
-						#the game does not end
-						var index := battle.BattleSim.getCreatureIndex(slot.getCreature())
-						battle.BattleSim.removeCreature(slot.getCreature())
-						battle.BattleSim.addCreature(creature,index)
-				slot.remove_child(searchbar)
-				searchbar.queue_free()
-				)
+		battleDebugSignals(battle)
 				#slot.add_child(label))
+		return [
+			RoomDebug.new(KEY_BACKSLASH,"win the battle"\
+				,battle.changeState.bind(BattleManager.BATTLE_STATES.WE_WON)),
+			RoomDebug.new(KEY_BACKSPACE,"lose the battle"\
+			#kill the player, using the debug state as the source
+				,GameState.PlayerState.getPlayer().\
+				stats.getStatObj(CreatureStats.STATS.HEALTH).\
+				modStat.bind(0,false,self))
+		]
 	return []
 		

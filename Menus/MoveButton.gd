@@ -9,6 +9,7 @@ var creature:Creature = null
 static var popup = preload("res://UI/OnHoverUI.tscn")
 
 signal move_selected(move:Move)
+signal right_clicked()
 
 func setMove(move_:Move,creature_:Creature = null) -> void:
 	move = move_
@@ -78,3 +79,8 @@ func getMove() -> Move:
 func _pressed() -> void:
 	move_selected.emit(move)
 	
+func _input(event):
+	if event is InputEventMouseButton and event.is_pressed()\
+	and get_global_rect().has_point(event.position):
+		if event.button_index == MOUSE_BUTTON_RIGHT:
+			right_clicked.emit()
