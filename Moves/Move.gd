@@ -31,6 +31,9 @@ var icon:Texture2D = load("res://sprites/icons/claw_icon.png")
 #number of turns to wait between usage
 var baseCooldown:int = 0
 
+#how many times a move can be used before it's used up
+#-1 means unlimited uses
+var uses = -1 
 #number of targets
 #not necessarily the number of targets that actually get hit but the number of targets
 #that the player has to manually choose
@@ -90,6 +93,16 @@ func getModifiers(user:Creature) -> Array:
 #return cooldown
 func move(user:Creature, targets:Array, battlefield:Battlefield) -> int:
 	return baseCooldown
+	
+#run the move and the animation
+func fullMove(record:MoveRecord,battle:BattleManager) -> void:
+	if battle and battle.BattleSim:
+		var preTargets = self.getPreselectedTargets(record.user,battle.BattleSim)
+		record.targets.append_array(preTargets)
+		if battle.UI:
+			await record.move.runAnimation(record.user,record.targets,battle.UI,battle.BattleSim)
+		record.move.move(record.user,record.targets,battle.BattleSim)	
+
 	
 func getNumOfTargets():
 	return manualTargets

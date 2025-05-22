@@ -14,6 +14,7 @@ var creatures:Array = []
 var creaturesNum:int = 0
 
 var moveQueue:MoveQueue = MoveQueue.new();
+var events:BattleEvents = BattleEvents.new(); #event handler
 
 #emitted when a record is added/updated in moveQueue
 signal add_move_queue(record:Move.MoveRecord);
@@ -43,14 +44,6 @@ enum BATTLE_OUTCOME{
 func _init():
 	creatures.resize(maxAllies + maxEnemies)
 	creatures.fill(null)
-	
-	#creature_added.connect(func(c,i):
-		#creature_order_changed.emit()
-		#)
-		#
-	#creature_removed.connect(func(c):
-		#creature_order_changed.emit()
-		#)
 	
 
 #return whether or not all enemies are dead
@@ -149,6 +142,27 @@ func getEnemies(isFriendly:bool = true, getNull:bool = true, index:bool = false)
 		return enemies	
 	else:
 		return getAllies(true,getNull,index)
+		
+#get creatures that are on the side of "creature"
+#if there is an empty slot between two creatures, the empty slot is not returned
+func getNeighbors(creature:Creature) -> Array:
+	var index:int = getCreatureIndex(creature)
+	if index != -1:
+		index -= int(!creature.getIsFriendly())*(maxAllies)
+		var arr:Array = []
+		for i in range(index - 1,-1,-1):
+			var c:Creature = getCreature(relPosToAbs(i,creature.getIsFriendly()))
+			if c:
+				arr.push_back(c)
+				break
+		for i in range(index + 1,maxAllies if creature.getIsFriendly() else maxEnemies):
+			var c:Creature = getCreature(relPosToAbs(i,creature.getIsFriendly()))
+			if c:
+				arr.push_back(c)
+				break
+		return arr
+	return []
+	
 
 #get the frontmost creatures.
 #if "enemies" is true, gets frontmost not-friendly creatures, other wise frontmost friendly creatures
@@ -212,7 +226,6 @@ func getTargets(user:Creature, move:Move) -> Array[int]:
 #what to do at the start of every turn
 #code that is common to firstTurn and newTurn
 func startTurn() -> void:
-
 	moveQueue.reset();
 	for creature:Creature in creatures:
 		addMoveToQueue(Move.MoveRecord.new(creature,null,[]))
@@ -249,6 +262,7 @@ func checkForDeath() -> int:
 #update creature's spot in queue
 func updateMoveQueue(creature:Creature) -> void:
 	if creature:
+		moveQueue.updateSpot(creature)
 		queue_order_changed.emit(moveQueue.data);
 	
 #add a move to the move queue
@@ -281,6 +295,4 @@ func getCreatureWithNoRecord() -> Creature:
 func reset():
 	for i in range(creatures.size()):
 		removeCreature(getCreature(i))
-		
-
 	

@@ -14,9 +14,10 @@ var DNA:int = 0
 
 #the current battlefield, null if not in battle
 var currentBattle:Battlefield = null
+var battleUI:BattleUI = null
 
 func initiate() -> void:
-	setDNA(20)
+	#setDNA(20)
 	PlayerState = Player.new()
 	PlayerState.getPlayer().stats.getStatObj(CreatureStats.STATS.HEALTH).stat_changed.connect(func(amount,val):
 		if !PlayerState.getPlayer().isAlive():
@@ -48,7 +49,9 @@ func increaseDNA(amount:int ) -> void:
 func getBattle() -> Battlefield:
 	return currentBattle
 
-func setBattle(inBattle:Battlefield) -> void:
+func setBattle(inBattle:Battlefield,battleUI:BattleUI) -> void:
 	self.currentBattle = inBattle
+	self.battleUI = battleUI
 	if inBattle:
 		battle_started.emit()
+		

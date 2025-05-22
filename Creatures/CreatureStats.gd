@@ -10,6 +10,7 @@ enum STATS
 	SPEED
 }
 
+signal took_damage(damage:Damage) 
 signal stat_changed(stat:STATS,amount:int) #signal for when a stat changes with the type of stat and the amount it changed by
 
 #maps STATS to a Stat object
@@ -17,13 +18,34 @@ var stats:Dictionary = {}
 
 # #modifies the amount of damage is taken
 #positive change decreases damage, negative increases
-var damageMods:StatModTracker = StatModTracker.new()
+#map from DAMAGE_TYPE to StatModTracker of that damage type
+#TRUE damage type modifiers affect ALL other damage types and are calculated last (might need to change this later becuase it's kind of confusing)
+#so if there's a +5 and 1.2x fire damage modifier and a +3 and 1.8 true damage modifier the formula would be:
+# 1.8*(1.2*(damage + 5) + 3)
+var damageMods:Dictionary = {}
 
-func addDamageMod(amount:int, add:bool, source:Variant) -> void:
+func addDamageMod(amount:float, add:bool, source:Variant, type:Damage.DAMAGE_TYPES = Damage.DAMAGE_TYPES.PHYSICAL) -> void:
 	if add:
-		damageMods.addAdd(amount,source)
+		damageMods[type].addAdd(amount,source)
 	else:
-		damageMods.multMult(amount,source)
+		print(type,Damage.DAMAGE_TYPES.TRUE,damageMods)
+		damageMods[type].multMult(amount,source)
+
+func removeDamageMod(source:Variant,type:Damage.DAMAGE_TYPES = Damage.DAMAGE_TYPES.PHYSICAL) -> void:
+	damageMods[type].removeSource(source)
+
+#take damage
+#return how much damage was actually dealt
+func takeDamage(damage:Damage) -> int: 
+	#first calculate only damage type specific damage
+	var damageVal:int = damageMods[damage.type].getValue(-damage.damage)
+	#then it gets put through all damage modifiers
+	damageVal = damageMods[Damage.DAMAGE_TYPES.TRUE].getValue(damageVal)
+	getStatObj(STATS.HEALTH).modStat(damageVal)
+	
+	took_damage.emit(Damage.new(damageVal,damage.type))
+
+	return damageVal
 
 #pass in a function that takes in a STATS and a Stat and runs it on each stat
 func forEachStat(callable:Callable) -> void:
@@ -45,6 +67,9 @@ func _init(maxHealth:int, maxAttack:int, maxSpeed:int):
 			stat_changed.emit(stat,amount)
 			)	
 		)
+	
+	for type in Damage.DAMAGE_TYPES.keys():
+		damageMods[Damage.DAMAGE_TYPES[type]] = StatModTracker.new()
 
 static func getStatName(stat:STATS) -> String:
 	match stat:
@@ -69,9 +94,9 @@ static func getStatDescription(stat:STATS) -> String:
 			return "getStatDescription: INVALID STAT"
 		
 
-func levelUp() -> void:
+func levelUp(amount:int) -> void:
 	forEachStat(func(stat:STATS,statObj:Stat):
-		statObj.modBaseStat(Stat.perLevelIncrease(statObj.getBaseStat()))
+		statObj.modBaseStat(statObj.perLevelIncrease(statObj.getRootStat())*amount)
 		)
 
 func getCurStat(stat:STATS) -> int:

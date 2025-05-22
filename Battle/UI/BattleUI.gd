@@ -46,17 +46,25 @@ var queueSlot = preload("./QueueSlot.tscn")
 var current:Move.MoveRecord = Move.MoveRecord.new() #current creature and move
 var MoveSummary:Control = null #summary of move currently being used
 
+#new turn ui stuff that we have to await for
+var newTurnEvents:Array = []
+
 #multiplier of how fast we want animations
 static var battleSpeed := 1.0
 
+func requestNewTurnEvent(callable:Callable):
+	newTurnEvents.push_back(callable);
+
 func newTurn(state:Battlefield):
+	for f in newTurnEvents:
+		await f.call()
+	
+	newTurnEvents.clear()
+	
 	current = Move.MoveRecord.new()
 	EndTurn.disabled = true
-#	updateQueue(state.getFullQueue())
-	#updateSlots(state)
-
 	
-	await get_tree().create_timer(1).timeout
+	await get_tree().create_timer(0.5).timeout
 	TurnUI.setText("TURN START");
 	TurnUI.play();
 
@@ -106,11 +114,11 @@ func setCurrentCreature(creature:Creature):
 		#apply outline to both creatureslot and the queueslot
 		var slot := getCreatureSlot(creature)
 		if slot:
+			print(slot.get_global_rect(),slot.getCreature())
 			var rect := slot.get_global_rect()
 			$ColorRect.set_size(Vector2(rect.size.x,slot.global_position.y - $Rows.global_position.y + slot.size.y));
 			var tween := create_tween()
 			tween.tween_property($ColorRect,"global_position",Vector2(slot.global_position.x,$Rows.global_position.y),.3*battleSpeed)
-			#$ColorRect.set_global_position()
 		var queueSlot := getQueueSlot(creature)
 		if queueSlot:
 			setQueueOutline(queueSlot,Color(0.4,0.4,0,1));
@@ -185,21 +193,48 @@ func getQueueSlot(creature:Creature) -> QueueSlot:
 	return null
 
 #swaps position of two slots
-func swapSlots(slot1:CreatureSlot,slot2:CreatureSlot):
+func swapSlots(slot1:CreatureSlot,slot2:CreatureSlot) -> Tween:
 	if slot1 and slot2 and slot1.get_parent() == slot2.get_parent(): #only works if they are in the same container
 
-		slot1.getTween().tween_property(slot1,"global_position",Vector2(slot2.global_position.x,slot1.global_position.y),0.5*battleSpeed)
-		var tween = slot2.getTween().tween_property(slot2,"global_position",Vector2(slot1.global_position.x,slot2.global_position.y),0.5*battleSpeed)
-		await tween.finished
+		#slot1.getTween().tween_property(slot1,"global_position",Vector2(slot2.global_position.x,slot1.global_position.y),.5*battleSpeed)
+		var tween:Tween = create_tween().set_parallel()
+		tween.tween_property(slot1,"global_position",Vector2(slot2.global_position.x,slot1.global_position.y),.5*battleSpeed)
+		tween.tween_property(slot2,"global_position",Vector2(slot1.global_position.x,slot2.global_position.y),.5*battleSpeed)
+		tween.chain().tween_callback(func():
+			var row = slot1.get_parent()
+			var index1 = row.get_children().find(slot1)
+			var index2 = row.get_children().find(slot2)
+			row.move_child(slot2,index1)
+			#row.remove_child(slot1)
+			row.move_child(slot1,index2)
+			#print(row.get_children().find(slot1),row.get_children().find(slot2))
+			resetCreatureSlots()	
+			)
+		return tween
+	return null;
 		
-		var row = slot1.get_parent()
-		var index1 = row.get_children().find(slot1)
-		var index2 = row.get_children().find(slot2)
-		row.move_child(slot2,index1)
-		#row.remove_child(slot1)
-		row.move_child(slot1,index2)
-		resetCreatureSlots()
-			
+#move a creature slot to a position, rendering an animation in the process
+#index is based on battlefield's system
+#so 0 = frontmost ally
+func moveSlot(slot:CreatureSlot, index:int) -> void:
+	var row:Control = slot.get_parent()
+	var old := creatureSlots.find(slot)
+	if index != -1 and slot and old != -1 and index != old and\
+	 index >= 0 and index - Battlefield.maxAllies*int(index >= Battlefield.maxAllies)< row.get_children().size():
+		var up := 1 if index > old else -1
+		var tween := create_tween().set_parallel();
+		for i in range(old,index+up,up): #tween all creature slots to move to the appropriate position
+			tween.tween_property(creatureSlots[i+up],"global_position",\
+			Vector2(creatureSlots[i].global_position.x,creatureSlots[i+up].global_position.y),0.5*battleSpeed)
+		tween.tween_property(slot,"global_position",\
+		Vector2(creatureSlots[index].global_position.x,creatureSlots[index].global_position.y),0.5*battleSpeed)
+		#finally, actually move the appropriate creatureslot
+		tween.chain().tween_callback(func():
+			row.move_child(slot,row.get_children().find(creatureSlots[index]))
+			resetCreatureSlots()
+			)
+		await tween.finished
+
 func addCreature(creature:Creature, index:int):
 	if (creatureSlots[index].getCreature() != creature):
 		if index < creatureSlots.size() && creatureSlots[index]:
@@ -280,7 +315,8 @@ func showMove(record:Move.MoveRecord) -> void:
 #undo showMove
 func clearMove() -> void:
 	remove_child(MoveSummary)
-	MoveSummary.queue_free()
+	if MoveSummary:
+		MoveSummary.queue_free()
 	MoveSummary = null
 		
 #if NOTHING is pressed, set the creature summary to our current creature
@@ -299,9 +335,7 @@ func _ready():
 		addSlot(false);
 	resetCreatureSlots()
 	for i in range(creatureSlots.size()):
-		creatureSlots[i].pressed.connect(func():
-			selectCreature(creatureSlots[i].getCreature())
-			);
+		creatureSlots[i].creature_clicked.connect(selectCreature)
 			
 	Summary.move_selected.connect(selectMove)
 			

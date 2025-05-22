@@ -6,7 +6,7 @@ var RoomScene = preload("res://Map/Room.tscn")
 var rooms = [] #array of arrays that represent the columns of rooms
 var routes = {} #dictionary of pairs of rooms where the first room in the pair can access the 2nd
 
-signal room_selected(room)
+signal room_selected(room:Room)
 
 var currentColumn = 0 
 var currentRoom = -1 #index in the column, -1 if no room selected
@@ -20,9 +20,7 @@ func addRoom(room:Room, row:int, column:int, rowSize:int):
 	var vertSpacing = Background.get_rect().size.y/maxRowSize;
 	var horizSpacing = Background.get_rect().size.x/maxRows;
 	
-	room.new_room.connect(func(_asdf):
-		setCurrentRoom(row,column)
-		)
+	room.pressed.connect(setCurrentRoom.bind(row,column))
 	add_child(room)
 	room.position = Vector2(100 + row*horizSpacing,
 			50 + column*vertSpacing + (maxRowSize - rowSize)*( vertSpacing/2) );
@@ -33,11 +31,14 @@ func generate():
 	const maxRows = 6
 	for i in range(maxRows):
 		var row = []
-		var rowSize = rng.randi_range(minRowSize,maxRowSize) if i > 0 && i < maxRows - 1 else 1
+		var isFirstOrLast := i == 0 or i == maxRows - 1  #true if the room is either the first or last room
+		var rowSize = rng.randi_range(minRowSize,maxRowSize) if !isFirstOrLast else 1
 		for j in range(rowSize):
 			var room = RoomScene.instantiate()
 			addRoom(room,i,j,rowSize)
-			room.setRoomType(randi()%Room.ROOM_TYPES.ROOM_TYPES_SIZE)
+			room.setRoomType(randi()%Room.ROOM_TYPES.ROOM_TYPES_SIZE if !isFirstOrLast\
+			else Room.ROOM_TYPES.BATTLE if i == 0\
+			else Room.ROOM_TYPES.BOSS )
 			row.push_back(room);
 		if i > 0:
 			var neigh:float = float(rooms[-1].size())/row.size() #how many connections per room in this row
@@ -138,7 +139,7 @@ func setCurrentRoom(colNum:int,roomNum:int):
 		
 		getCurrentRoom().changeState(Room.ROOM_STATE.CURRENT)
 			
-		room_selected.emit(rooms[colNum][roomNum].getRoomType())
+		room_selected.emit(rooms[colNum][roomNum])
 
 #call a function on each room
 func forEachRoom(call:Callable):

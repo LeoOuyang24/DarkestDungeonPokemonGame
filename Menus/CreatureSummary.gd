@@ -6,6 +6,7 @@ class_name CreatureSummary extends BaseCreatureSummary
 @onready var LevelUpButton = %LevelUp
 #@onready var Name:RichTextLabel = %CreatureStats.find_child("Name")
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	super()

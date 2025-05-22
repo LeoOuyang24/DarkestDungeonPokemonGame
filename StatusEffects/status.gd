@@ -57,6 +57,23 @@ func getStacks() -> int:
 func onAddUI(slot:Control) -> void:
 	pass
 
-#function to call when a creature is removed
+#function to call when removed
 func onRemoveUI(slot:Control) -> void:
 	pass
+
+#show a status effect icon and have it fade out
+static func showStatusEffectFade(status:StatusEffect,control:Control) -> void:
+	if control:
+		var spr :=  TextureRect.new()
+		spr.set_texture(status.icon)
+		spr.set_size(control.get_size())
+		control.add_child(spr);
+		
+		await control.get_tree().create_timer(0.5*BattleUI.battleSpeed).timeout
+
+		var tween := control.create_tween()
+
+		tween.tween_property(spr,"modulate",Color(0,0,0,0),.75*BattleUI.battleSpeed);
+		await tween.finished
+		control.remove_child(spr);
+		spr.queue_free()

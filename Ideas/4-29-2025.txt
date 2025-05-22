@@ -1,0 +1,20 @@
+creatures have very limited movesets, still 4 maximum moves but only two are usable in teh beginning.
+	Level max is considerably lower, (say, 10?)
+	Moves 3 and 4 are learned at levels 5 and 10 respectively
+	No moves past the initial 4
+	Most creatures have SwapPos as their 2nd move
+	Leveling up is much more expensive
+
+Only one damage type (for now)
+
+Status effects that incentivize stacking them to high amounts:
+	Burn: all stacks consumed at the end of the turn and deals damage equal to stacks, doubled if 10+ stacks
+	Frost: Speed is reduced by the amount of stacks, if at 10 stacks, the creature is frozen and skips its turn
+	Shocked: Adjacent creatures take (half?) stack damage at end of turn
+	Radioactive: Applying radioactive to a creature that already has stacks multiplies the stacks by the applied amount:
+		example: Creature with 3 stacks receiving 4 more stacks instead now has 12 stacks
+		
+Rare creatures that can only be scanned under certain conditions:
+	Scannable only if it's the last remaining creature
+	Scannable only at a certain amount of health
+	Scannable only in certain positions?

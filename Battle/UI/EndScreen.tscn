@@ -48,6 +48,10 @@ fit_content = true
 scroll_active = false
 autowrap_mode = 0
 
+[node name="Rewards" type="VBoxContainer" parent="CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
 [node name="Button" type="Button" parent="CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2

@@ -17,4 +17,4 @@ func _get_tooltip ( _at_position:Vector2 ) -> String:
 	if disabled:
 		return "You lack DNA!"
 	else:
-		return "Level up your creature, increasing all stats by 1!"
+		return "Level up your creature, increasing all stats"

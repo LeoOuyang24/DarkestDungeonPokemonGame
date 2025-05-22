@@ -4,8 +4,8 @@
 [ext_resource type="Script" uid="uid://vic42bwt7w1r" path="res://Menus/TeamView.gd" id="1_womks"]
 [ext_resource type="PackedScene" uid="uid://mftrks2txgif" path="res://UI/team_slots_rect.tscn" id="2_1lhlk"]
 [ext_resource type="Theme" uid="uid://fmhayxk6i3ei" path="res://UI/margins.tres" id="3_v403o"]
-[ext_resource type="PackedScene" uid="uid://chsbok4nq5wgs" path="res://Menus/CreateHorror.tscn" id="4_yluxj"]
 [ext_resource type="PackedScene" uid="uid://b8whcaqa1wcvu" path="res://Menus/CreatureSummary.tscn" id="6_px3f0"]
+[ext_resource type="PackedScene" uid="uid://bfr55f60xvtnf" path="res://Menus/inventory.tscn" id="6_vrw56"]
 
 [node name="TeamView" type="PanelContainer"]
 z_index = -1
@@ -14,32 +14,33 @@ offset_bottom = 712.0
 theme = ExtResource("1_u18w2")
 script = ExtResource("1_womks")
 
-[node name="CreateHorror" parent="." instance=ExtResource("4_yluxj")]
-unique_name_in_owner = true
-z_index = -1
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 2
-size_flags_horizontal = 8
-
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 theme = ExtResource("3_v403o")
 
-[node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
-[node name="TeamSlotsRect" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_1lhlk")]
+[node name="TeamSlotsRect" parent="MarginContainer/HBoxContainer/VBoxContainer" instance=ExtResource("2_1lhlk")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="CreatureSummary" parent="MarginContainer/VBoxContainer" instance=ExtResource("6_px3f0")]
+[node name="CreatureSummary" parent="MarginContainer/HBoxContainer/VBoxContainer" instance=ExtResource("6_px3f0")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[connection signal="horror_created" from="CreateHorror" to="." method="_on_create_horror_horror_created"]
-[connection signal="horror_selected" from="CreateHorror" to="." method="_on_create_horror_horror_selected"]
+[node name="TabContainer" parent="MarginContainer/HBoxContainer" instance=ExtResource("6_vrw56")]
+layout_mode = 2
+
+[connection signal="swapped_current" from="." to="MarginContainer/HBoxContainer/TabContainer/ChooseMove" method="_on_team_view_swapped_current"]
+[connection signal="move_learned" from="MarginContainer/HBoxContainer/TabContainer/ChooseMove" to="." method="_on_choose_move_move_learned"]
+
+[editable path="MarginContainer/HBoxContainer/TabContainer"]

@@ -38,9 +38,9 @@ func decRemainingCD(amount:int = 1) -> void:
 	
 #do a move
 #anything that needs to be done that is universal to all moves (ie, setting the cooldown) is done here
-func doMove(user:Creature, targets:Array, battlefield):
+func doMove(record:Move.MoveRecord,battle:BattleManager):
 	if move:
-		var cooldown = move.move(user,targets,battlefield)
+		var cooldown = await move.fullMove(record,battle)
 		
 		#extremely scuffed way of allowing multiple return values for move.
 		#originally "move" always returned void, there was nothing for it to return
@@ -51,3 +51,9 @@ func doMove(user:Creature, targets:Array, battlefield):
 		#since for 90% of moves that is the case. So this "if" here checks if the returned value is Nil/0 and defaults
 		#to the basecooldown if so
 		setCooldown(cooldown if cooldown && cooldown > 0 else move.baseCooldown)
+		
+		
+		if move.uses != -1:
+			move.uses -=1
+			if move.uses <= 0:
+				move = null

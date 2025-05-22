@@ -11,7 +11,7 @@ func _init():
 
 func inBattle(battle:Battlefield) -> void:
 	spectral = true;
-	creature.stats.addDamageMod(0,false,self);	
+	creature.stats.addDamageMod(0,false,self,Damage.DAMAGE_TYPES.TRUE);	
 
 func onAddUI(slot:Control) -> void:
 	#add the creatureslot to the trigger to remove the shader effect
@@ -21,7 +21,7 @@ func onAddUI(slot:Control) -> void:
 	
 func trigger(amount:int, newVal:int,slot:CreatureSlot) -> void:
 	if spectral:
-		creature.stats.damageMods.removeSource(self)
+		creature.stats.removeDamageMod(self,Damage.DAMAGE_TYPES.TRUE)
 		spectral = false;
 		slot.get_material().set_shader_parameter("isSpectral", spectral)
 		

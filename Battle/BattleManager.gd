@@ -108,7 +108,7 @@ func changeState(state):
 		UI.EndTurn.disabled = true
 		await runBattle()
 	elif self.state == BATTLE_STATES.WE_WON:
-		reward = Rewards.new(5)
+		reward = Rewards.createReward()
 		UI.setEndScreen(reward)
 
 
@@ -120,7 +120,7 @@ func newTurn(first:bool=false):
 		BattleSim.firstTurn();
 	else:
 		BattleSim.newTurn();
-	UI.newTurn(BattleSim);
+	await UI.newTurn(BattleSim);
 	if BattleSim.isDone():
 		changeState(BATTLE_STATES.WE_WON)
 	else:
@@ -136,19 +136,16 @@ func runMove(record:Move.MoveRecord) -> void:
 	else:
 		if !record.move:
 			#null moves are handeled like PassTurns
-			Move.MoveRecord.new()
 			await runMove(Move.MoveRecord.new(record.user,PassTurn.new(),record.targets))
 		else:
-			record.targets.append_array(record.move.getPreselectedTargets(record.user,BattleSim))
 			await get_tree().create_timer(1).timeout
 
 			await UI.showMove(record)
-			await record.move.runAnimation(record.user,record.targets,UI,BattleSim)
 
 			if record.move.slot:
-				record.move.slot.doMove(record.user,record.targets,BattleSim)
+				await record.move.slot.doMove(record,self)
 			else:
-				record.move.move(record.user,record.targets,BattleSim)
+				await record.move.fullMove(record,self)
 
 			UI.clearMove()
 				
@@ -181,6 +178,7 @@ func runBattle():
 			#BattleSim.nextMove();
 			runThis = BattleSim.getNextMove()
 		UI.resetAllSlotPos()
+	await get_tree().create_timer(.5).timeout
 	newTurn()
 
 func battleFinished():
@@ -188,6 +186,8 @@ func battleFinished():
 	BattleSim.onBattleEnd()
 	if state == BATTLE_STATES.WE_WON:
 		GameState.setDNA(GameState.getDNA() + reward.getDNA())
+		if reward.moves.size() > 0:
+			GameState.PlayerState.addMove(reward.moves[0])
 	elif state == BATTLE_STATES.WE_LOST:
 		GameState.loseGame();
 	room_finished.emit()

@@ -24,11 +24,14 @@ func _ready():
 
 func addScan(name:String):
 	var creature:Creature = CreatureLoader.loadJSON(CreatureLoader.CreatureJSONDir + name + ".json")
-	var slot = TeamSlot.instantiate()
-	Grid.add_child(slot)
-	
-	slot.creature = creature
-	slot.get_node("Button").pressed.connect(onCreatureSelect.bind(creature))
+	if creature:
+		var slot = TeamSlot.instantiate()
+		Grid.add_child(slot)
+		
+		slot.creature = creature
+		slot.get_node("Button").pressed.connect(onCreatureSelect.bind(creature))
+	else:
+		printerr("CreateHorror.addScan ERROR: couldn't add scan of name " + name )
 
 func createSlots():
 	var margin = Vector2(0.1*size.x,0.3*size.y)

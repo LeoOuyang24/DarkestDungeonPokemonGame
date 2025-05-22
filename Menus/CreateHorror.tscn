@@ -1,15 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://chsbok4nq5wgs"]
 
-[ext_resource type="Script" uid="uid://bjg4mppj1dcwo" path="res://Menus/CreateHorror.gd" id="1_e0tjc"]
+[ext_resource type="Script" uid="uid://bjg4mppj1dcwo" path="res://Menus/createhorror.gd" id="1_e0tjc"]
+[ext_resource type="Theme" uid="uid://ctnx7oi2vcxu" path="res://UI/menu.tres" id="1_mb3ev"]
 [ext_resource type="Theme" uid="uid://fmhayxk6i3ei" path="res://UI/margins.tres" id="2_alrcw"]
 [ext_resource type="PackedScene" uid="uid://ddwtgmifyeeon" path="res://Menus/CostButton.tscn" id="3_ine1w"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1jx0o"]
-bg_color = Color(0.137255, 0.137255, 0.137255, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
 
 [node name="CreateHorror" type="PanelContainer"]
 offset_left = 1.0
@@ -17,7 +11,7 @@ offset_top = 1.0
 offset_right = 274.0
 offset_bottom = 699.0
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_1jx0o")
+theme = ExtResource("1_mb3ev")
 script = ExtResource("1_e0tjc")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]

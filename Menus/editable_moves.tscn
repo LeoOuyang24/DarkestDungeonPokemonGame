@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://dgkcloq4wm6hl"]
+
+[ext_resource type="PackedScene" uid="uid://ogtoeaqdniwj" path="res://Menus/moves.tscn" id="1_em8w4"]
+[ext_resource type="Script" uid="uid://cafnmtwny4kaq" path="res://Menus/editable_movebutton.gd" id="2_4ay2b"]
+[ext_resource type="Script" uid="uid://dsspf3yc0ellr" path="res://Components/DragReceiver.gd" id="3_jq5t0"]
+
+[node name="Moves" instance=ExtResource("1_em8w4")]
+
+[node name="Button" parent="." index="0"]
+script = ExtResource("2_4ay2b")
+
+[node name="DragReceiver" type="Node" parent="Button" index="0"]
+script = ExtResource("3_jq5t0")
+metadata/_custom_type_script = "uid://dsspf3yc0ellr"
+
+[node name="Button2" parent="." index="1"]
+script = ExtResource("2_4ay2b")
+
+[node name="DragReceiver" type="Node" parent="Button2" index="0"]
+script = ExtResource("3_jq5t0")
+metadata/_custom_type_script = "uid://dsspf3yc0ellr"
+
+[node name="Button3" parent="." index="2"]
+script = ExtResource("2_4ay2b")
+
+[node name="DragReceiver" type="Node" parent="Button3" index="0"]
+script = ExtResource("3_jq5t0")
+metadata/_custom_type_script = "uid://dsspf3yc0ellr"
+
+[node name="Button4" parent="." index="3"]
+script = ExtResource("2_4ay2b")
+
+[node name="DragReceiver" type="Node" parent="Button4" index="0"]
+script = ExtResource("3_jq5t0")
+metadata/_custom_type_script = "uid://dsspf3yc0ellr"

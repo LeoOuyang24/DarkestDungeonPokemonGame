@@ -4,7 +4,7 @@ class_name CreatureSlot extends AnimatedButton
 
 @export var testing:bool = false
 
-
+signal creature_clicked(creature:Creature)
 signal right_clicked()
 
 #@onready var Sprite = $Button
@@ -28,10 +28,11 @@ func _input(event):
 	and get_global_rect().has_point(event.position):
 		if event.button_index == MOUSE_BUTTON_RIGHT:
 			right_clicked.emit()
-		elif event.button_index == MOUSE_BUTTON_LEFT:
-			print(creature)
 
 
+	
+func _pressed():
+	creature_clicked.emit(getCreature())
 	
 func _ready():
 	size_flags_vertical = SIZE_SHRINK_END
@@ -98,7 +99,7 @@ func setCreature(creature:Creature):
 	if creature:
 
 		var sprite = creature.spriteFrame
-		setSpriteAndSize(sprite,1)
+		setSpriteAndSize(sprite,creature.scale)
 		if (HealthBar):
 			HealthBar.set_max(creature.stats.getBaseStat(CreatureStats.STATS.HEALTH))
 			HealthBar.setHealth(creature.stats.getCurStat(CreatureStats.STATS.HEALTH))
@@ -111,6 +112,7 @@ func setCreature(creature:Creature):
 
 		set_flip_h( creature.getIsFriendly())
 		EffectsUI.setIsOnEnemy(creature.getIsFriendly())
+					
 	else:
 		Resources.highlight(self,Color(0,0,0,0));
 		setSpriteAndSize(null,0)
@@ -133,7 +135,3 @@ func getTween():
 		tween.kill()
 	tween = create_tween()
 	return tween;
-
-func _on_button_pressed():
-	pressed.emit();
-	pass # Replace with function body.

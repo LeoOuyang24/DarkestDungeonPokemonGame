@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://d2xqht3dqgdjn" path="res://Menus/big_boost.tscn" id="3_bxb07"]
 [ext_resource type="PackedScene" uid="uid://b10n7jankcsc1" path="res://UI/CreatureStats.tscn" id="3_jgosg"]
 [ext_resource type="PackedScene" uid="uid://c434ifxltx2da" path="res://Menus/LearnNewMove.tscn" id="4_pkdav"]
-[ext_resource type="PackedScene" uid="uid://ogtoeaqdniwj" path="res://Menus/moves.tscn" id="5_lnibl"]
+[ext_resource type="PackedScene" uid="uid://dgkcloq4wm6hl" path="res://Menus/editable_moves.tscn" id="5_4pt3p"]
 [ext_resource type="PackedScene" uid="uid://ddwtgmifyeeon" path="res://Menus/CostButton.tscn" id="5_sdona"]
 [ext_resource type="Script" uid="uid://1ia21yxkmhpi" path="res://Menus/LevelUpButton.gd" id="6_8og28"]
 
@@ -66,7 +66,7 @@ theme_override_constants/separation = 20
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MovesStuff/VBoxContainer2"]
 layout_mode = 2
 
-[node name="Moves" parent="MarginContainer/VBoxContainer/MovesStuff/VBoxContainer2/HBoxContainer" instance=ExtResource("5_lnibl")]
+[node name="Moves" parent="MarginContainer/VBoxContainer/MovesStuff/VBoxContainer2/HBoxContainer" instance=ExtResource("5_4pt3p")]
 unique_name_in_owner = true
 layout_mode = 2
 

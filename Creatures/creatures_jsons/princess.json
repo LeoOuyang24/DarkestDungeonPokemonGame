@@ -8,15 +8,13 @@
 	"name": "Princess",
 	"startMoves": [
 		"PoisonedBlades",
-		"Soporifics",
-		"Entangle"
+		"SwapPos"
 
 	],
 	"levelMoves": [		
 		"GrantAttack",
 		"GrantSpeed",
-		"Entangle",
-		"ArmorPheromone",
+		"Entangle"
 
 	]
 }

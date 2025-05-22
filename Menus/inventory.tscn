@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://bfr55f60xvtnf"]
+
+[ext_resource type="Theme" uid="uid://8reuecd1io3g" path="res://Battle/UI/BattleUI.tres" id="1_bxjha"]
+[ext_resource type="PackedScene" uid="uid://chsbok4nq5wgs" path="res://Menus/CreateHorror.tscn" id="1_sflee"]
+[ext_resource type="Script" uid="uid://bjg4mppj1dcwo" path="res://Menus/CreateHorror.gd" id="2_d4tyt"]
+[ext_resource type="PackedScene" uid="uid://dbww2x15of3ed" path="res://Menus/chooseMove.tscn" id="3_bxjha"]
+
+[node name="TabContainer" type="TabContainer"]
+custom_minimum_size = Vector2(270, 700)
+offset_right = 270.0
+offset_bottom = 700.0
+theme = ExtResource("1_bxjha")
+current_tab = 0
+
+[node name="CreateHorror" parent="." instance=ExtResource("1_sflee")]
+layout_mode = 2
+script = ExtResource("2_d4tyt")
+metadata/_tab_index = 0
+
+[node name="ChooseMove" parent="." instance=ExtResource("3_bxjha")]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1

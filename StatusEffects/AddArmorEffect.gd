@@ -5,10 +5,10 @@ func _init():
 		
 func onAdd(creature:Creature) -> void:
 	super(creature)
-	self.creature.stats.damageMods.addAdd(getStacks(),self)
+	self.creature.stats.addDamageMod(getStacks(),true,self)
 	
 func onRemove() -> void:
-	self.creature.stats.damageMods.removeSource(self)
+	self.creature.stats.removeDamageMod(self)
 	
 func newTurn() -> void:
 	pass

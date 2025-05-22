@@ -17,6 +17,7 @@ func addStatus(status:StatusEffect,stacks:int = 1) -> void:
 	else:
 		#otherwise, add this status effect
 		statuses[status.name] = status
+		#I think it makes more sense to setStacks first so onAdd will have number of stacks
 		status.setStacks(stacks)
 		status.onAdd(creature);
 		#remove the status effect when it reaches 0 stacks
@@ -43,5 +44,9 @@ func getAllStatuses() -> Dictionary:
 	
 	
 func newTurn() -> void:
-	for name in statuses:
-		statuses[name].newTurn()
+	var values := statuses.values()
+	#loop backwards so if a status gets removed there are no issues
+	for i in range(values.size() - 1, -1,-1):
+		if values[i]:
+			values[i].newTurn()
+			

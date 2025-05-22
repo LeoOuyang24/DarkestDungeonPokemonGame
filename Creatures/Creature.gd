@@ -14,7 +14,7 @@ var flying:bool = false
 
 var spriteFrame:SpriteFrames = null;
 
-var size:Vector2 = Vector2(100,100) #size of the creature, used purely for rendering purposes
+var scale:float = 1 #size of the creature, used purely for rendering purposes
 
 var creatureName = "Creature"
 
@@ -33,13 +33,13 @@ signal move_changed(index:int,move:Move)
 
 # "a" deals damage to "b", based on attack and defense stats. "damage" is the base damage
 #returns how much damage is dealt
-static func dealDamage(a:Creature,b:Creature, damage:int) -> int:
+static func dealDamage(a:Creature,b:Creature, damage:int, type:Damage.DAMAGE_TYPES = Damage.DAMAGE_TYPES.PHYSICAL) -> int:
 	if a && b:
-		var totalDamage = b.stats.damageMods.getValue(-damage)
 		var before = b.stats.getCurStat(CreatureStats.STATS.HEALTH)
-		b.addHealth(totalDamage);
+		var totalDamage = b.stats.takeDamage(Damage.new(damage,type))
+		
 		#return the actual amount of damage dealt, potentially less if the creature was overkilled
-		return -1*totalDamage if b.stats.getCurStat(CreatureStats.STATS.HEALTH) >= 0 else before 
+		return -1*totalDamage if b.stats.getCurStat(CreatureStats.STATS.HEALTH) >= 0 else before  
 	return 0 
 
 static var count = 0;
@@ -47,21 +47,28 @@ static var count = 0;
 func _to_string() -> String:
 	return "{ " + getName() + ", Health:" + str(stats.getStatObj(CreatureStats.STATS.HEALTH)) + " Attack:" + str(stats.getStatObj(CreatureStats.STATS.ATTACK)) + " Speed:" + str(stats.getStatObj(CreatureStats.STATS.SPEED)) + " }"
 
-func _init( sprite_path:String, maxHealth_:int,baseAttack_:int,baseSpeed_:int, name_:String, levels:int = 1, moves_ = [], pendingMoves_:Array = []) -> void:
-	spriteFrame = SpriteLoader.getSprite(sprite_path)
+	
+func _init( sprite:SpriteFrames, maxHealth_:int,baseAttack_:int,baseSpeed_:int, name_:String, levels:int = 1, moves_ = [], pendingMoves_:Array = []) -> void:
+	spriteFrame = sprite
 	if !spriteFrame:
 		spriteFrame = NullSprite
 	creatureName = name_;
-	#TODO: level up stats, currently they are stuck at level 1 regardless of what level we put into the constructor
+	
 	stats = CreatureStats.new(maxHealth_,baseAttack_,baseSpeed_)
 
-	level = CreatureLevel.new(pendingMoves_)
+	level = CreatureLevel.new(self,pendingMoves_)
+	levelUp(levels - 1)
 	
 	statuses = StatusManager.new(self)
 	traits = TraitManager.new(self)
 	
 	self.moves = [MoveSlot.new(),MoveSlot.new(),MoveSlot.new(),MoveSlot.new()]
 	setMoves(moves_)
+
+func duplicate() -> Creature:
+	return Creature.new(spriteFrame,stats.getBaseStat(CreatureStats.STATS.HEALTH),\
+	stats.getBaseStat(CreatureStats.STATS.ATTACK),\
+	stats.getBaseStat(CreatureStats.STATS.SPEED),getSpeciesName(),level.getLevel(),getMoves())
 	
 func addBigBoost(stat:CreatureStats.STATS,num:int = 1) -> void:
 	level.appliedBigBoost(num)
@@ -77,9 +84,10 @@ func addActive(a:int) -> void:
 func getLevel() -> int:
 	return level.getLevel()
 
-func levelUp() -> void:
-	level.levelUp()
-	stats.levelUp()	
+func levelUp(amount:int =1) -> void:
+	if amount > 0:
+		level.levelUp(amount)
+		stats.levelUp(amount)	
 
 func isPlayerCreature():
 	return isPlayer
@@ -89,6 +97,9 @@ func getSprite() -> SpriteFrames:
 
 func getIsFriendly():
 	return isFriendly || isPlayerCreature()
+
+func getSpeciesName():
+	return creatureName
 
 func getName():
 	return traits.getAdjective() + creatureName;

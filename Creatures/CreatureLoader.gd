@@ -9,7 +9,7 @@ static var CreatureJSONDir = "res://Creatures/creatures_jsons/"
 static func loadMove(moveName:String) -> Move:
 	#attempt to open the file first
 	moveName = moveName.to_lower()
-	var move := load("res://Moves/" + moveName + ".gd")
+	var move := load("res://Moves/Moves/" + moveName + ".gd")
 	if move:
 		return move.new()
 	printerr("loadMove ERROR: Could not load move " + moveName)
@@ -33,7 +33,7 @@ static func loadJSON(file_path:String, startingLevel:int = 1) -> Creature:
 	if file:
 		var error = json.parse(file.get_as_text())
 		if error == OK:
-			var creature = Creature.new(SpriteSheetsDir + json.data.sprite if json.data.get("sprite") else "spritesheets/creatures/invalid",
+			var creature = Creature.new(SpriteLoader.getSprite(SpriteSheetsDir + json.data.sprite if json.data.get("sprite") else "spritesheets/creatures/invalid"),
 							json.data.baseHealth if json.data.get("baseHealth") != null else 1,
 							 json.data.baseAttack if json.data.get("baseAttack") != null else 1,
 							json.data.baseSpeed if json.data.get("baseSpeed") != null else 1,
@@ -43,6 +43,7 @@ static func loadJSON(file_path:String, startingLevel:int = 1) -> Creature:
 							json.data.levelMoves.map(func (moveName:String): return loadMove(moveName)) if json.data.get("levelMoves") else []
 							) 
 			creature.flying = json.data.flying if json.data.get("flying") != null else false
+			creature.scale = json.data.scale if json.data.get("scale") != null else 1
 			if json.data.get("startPassive"):
 				creature.traits.addStatus(loadTrait(json.data.startPassive))
 			return creature
@@ -52,5 +53,7 @@ static func loadJSON(file_path:String, startingLevel:int = 1) -> Creature:
 		printerr("Creature JSON, " + file_path + " could not be opened!!\nError: " + error_string(FileAccess.get_open_error()));
 	return null
 	
-static func getRandCreature(bucket:Array = []) -> Creature:
-	return loadJSON(bucket[randi()%bucket.size()]) if bucket.size() > 0 else null
+static func getRandCreature(bucket:Array = [],startingLevel:int = 1) -> Creature:
+	return loadJSON(bucket[randi()%bucket.size()],startingLevel) if bucket.size() > 0 else null
+
+	

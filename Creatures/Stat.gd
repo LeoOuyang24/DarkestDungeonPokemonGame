@@ -35,8 +35,12 @@ static func predictBaseStat(rootStat:int, levels:int, bigBoosts:int) -> int:
 	
 #in case in the future I decide to change how stats increase per level, this function offers
 #that functionality
-static func perLevelIncrease(baseStat:int) -> int:
-	return PER_LEVEL_AMOUNT;
+#UPDATE (4/26/2025): THANK YOU LEO FROM THE PAST!
+static func perLevelIncrease(root:int) -> int:
+	return root*.1;
+	
+func getRootStat():
+	return rootStat
 	
 func getBaseStat():
 	return baseMods.getValue(baseStat,canBeLowered,canBeRaised)

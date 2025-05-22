@@ -29,12 +29,7 @@ func _ready():
 		DNACounter.set_text(str(GameState.getDNA()))
 		)
 	GameState.battle_started.connect(showTeamView.bind(false))
-	GameState.PlayerState.added_scan.connect(func (creatureName:StringName):
-			NewScan.setCreature(creatureName)
-			var tween = NewScan.create_tween()
-			tween.tween_property(NewScan,"position",Vector2(NewScan.position.x,0),1);
-			tween.tween_property(NewScan,"position",Vector2(NewScan.position.x,-NewScan.get_size().y),1).set_delay(2);
-			)
+
 	
 	GameState.PlayerState.getPlayer().stats.getStatObj(CreatureStats.STATS.HEALTH).stat_changed.connect(func(amount:int,val:int):
 		if amount < 0:
@@ -63,7 +58,7 @@ func swapToScene(scene:RoomBase):
 	curScene = scene
 	swapped_to_room.emit(scene)
 	if scene is BattleManager:
-		GameState.setBattle(scene.BattleSim)
+		GameState.setBattle(scene.BattleSim,scene.UI)
 	#if DebugState.isDebugging():
 	%DebugState.swapToRoom(scene)
 
@@ -91,26 +86,25 @@ func showTeamView(val:bool):
 	#how long it takes for the menu to pull up
 	var time = 0.25
 	if showTeam:
-		TeamView.Summary.setCreature(GameState.PlayerState.getPlayer())
 		TeamView.updateTeamSlots(GameState.PlayerState.getTeam())
 		tween.tween_property(TeamView, "position",Vector2(TeamView.position.x,0.1*get_viewport().get_visible_rect().size.y),time)
 	else:
 		tween.tween_property(TeamView, "position",Vector2(TeamView.position.x,get_viewport().get_visible_rect().size.y),time)
 
 	
-func _on_map_room_selected(roomInfo):
+func _on_map_room_selected(room:Room):
+	var roomInfo = room.roomType
 	var newScene:RoomBase = null
 	match roomInfo:
 		Room.ROOM_TYPES.BATTLE:
 			newScene = load("res://Battle/BattleManager.tscn").instantiate()
 			#var enemies = [CreatureLoader.loadJSON("silent.json"),CreatureLoader.loadJSON("dreemer.json"),CreatureLoader.loadJSON("beholder.json"),CreatureLoader.loadJSON("beholder.json")]
-			var enemies = []
-			var size = randi()%(Battlefield.maxEnemies - 1) + 1
-			for i in range(size):
-				enemies.push_back(CreatureLoader.getRandCreature(["chomper","giant","masked","princess","siren","silent"]))
-
-			#newScene.createBattle(enemies)
-			Bosses.boss1(newScene)
+			var bruh = Buckets.new()
+			var enemies := bruh.createBattle(bruh.bucketBasic,max(1,room.colNum/3))
+			#var size = randi()%(Battlefield.maxEnemies - 1) + 1
+			#for i in range(size):
+				#enemies.push_back(CreatureLoader.getRandCreature(["chomper","giant","masked","princess","siren","silent"],5))
+			newScene.createBattle(enemies)
 		Room.ROOM_TYPES.WELL:
 			var wellRoom = load("res://Map/Rooms/WellRoom.tscn").instantiate()
 			newScene = wellRoom
@@ -120,6 +114,9 @@ func _on_map_room_selected(roomInfo):
 		Room.ROOM_TYPES.COMBINE_MOVES:
 			var labRoom = load("res://Map/Rooms/CombineMoveRoom/LabMovesRoom.tscn").instantiate()
 			newScene = labRoom
+		Room.ROOM_TYPES.BOSS:
+			newScene = load("res://Battle/BattleManager.tscn").instantiate()
+			Bosses.boss1(newScene)
 		_:
 			push_error("Game.gd: Somehow, RoomInfo ROOM_TYPE was not matched!")
 	if newScene:
@@ -130,7 +127,7 @@ func room_finished():
 	swapToSceneWithFade(Map)
 	Map.updateRooms()
 	if GameState.getBattle():
-		GameState.setBattle(null)
+		GameState.setBattle(null,null)
 
 func loseGame():
 	GameOver.visible = true

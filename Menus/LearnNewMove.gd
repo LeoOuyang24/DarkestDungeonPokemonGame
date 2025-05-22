@@ -9,6 +9,9 @@ signal new_move_confirmed(moves:Array) #emitted after we've learned a new move (
 
 var creature:Creature = null
 
+#item providing the move, null if move is from level up
+var item:MoveButton = null
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	setNewMove(null)
@@ -26,10 +29,16 @@ func setMoves(creature:Creature):
 	Moves.disableMoves(false)
 
 #update the next move to be learned via level up
-func setNewMove(move:Move) -> void:
+#optionally, provide the item that is proviidng the move
+func setNewMove(move:Move,item_:MoveButton = null) -> void:
 	LevelUpMove.setMove(move)
 	var moveExists:bool = (move != null)
 	ConfirmButton.disabled = !moveExists
+	if item:
+		item.set_disabled(false)
+	item = item_
+	if item:
+		item.set_disabled(true)
 		
 
 #swap the chosen move with the move on the LevelUpMove button
@@ -41,7 +50,14 @@ func swapMove(moveButton:MoveButton):
 
 
 func _on_confirm_pressed():
+	#if we pressed confirm and the item move is not in the learn new move slot anymore
+	#that means we learned it
+	if item and LevelUpMove.getMove() != item.getMove():
+		#remove the item
+		item.queue_free()
+		item = null	
 	setNewMove(null)
+
 		
 	new_move_confirmed.emit(Moves.Moves.map(func(butt:MoveButton): 
 		return butt.getMove()

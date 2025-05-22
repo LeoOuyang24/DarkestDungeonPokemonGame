@@ -1,0 +1,14 @@
+{
+	"sprite":"priest",
+	"scale": 0.5,
+	"flying": true,
+	"baseHealth": 50,
+	"baseAttack": 40,
+	"baseSpeed": 40,
+	"name": "Siren",
+	"startMoves": [
+		"Smite",
+		"Judgement"
+	],
+	"levelMoves": []
+}

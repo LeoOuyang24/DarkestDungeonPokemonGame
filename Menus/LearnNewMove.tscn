@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://5q1gxroofgvm" path="res://Menus/LearnNewMove.gd" id="1_4fl2n"]
 [ext_resource type="Texture2D" uid="uid://c2dnlo18svoma" path="res://sprites/effects/upArrow.png" id="1_8xwyf"]
-[ext_resource type="Script" path="res://Menus/MoveButton.gd" id="3_8hcjp"]
+[ext_resource type="Script" uid="uid://b4mt8smcgx47r" path="res://Battle/UI/MoveButton.gd" id="3_8hcjp"]
 
 [node name="NewMove" type="HBoxContainer"]
 offset_right = 200.0

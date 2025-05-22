@@ -1,12 +1,12 @@
 class_name Room extends TextureButton
 
+#represents a room on the map
+
 @onready var anime = $anime
 @onready var sprite = $Sprite2D
 @onready var shape = $CollisionShape2D
 
 var scene = preload("res://Map/Room.tscn")
-
-signal new_room(room)
 
 #represents whether or not a room has been visited
 enum ROOM_STATE
@@ -23,7 +23,9 @@ enum ROOM_TYPES
 	WELL,
 	COMBINE_MOVES,
 	SHOP,
-	ROOM_TYPES_SIZE #number of enums in this enum, should always be the last entry
+	ROOM_TYPES_SIZE, #number of enums in this enum, should always be after all random entries
+	BOSS,
+	
 }
 
 var visited:ROOM_STATE = ROOM_STATE.INACCESSIBLE;
@@ -44,6 +46,8 @@ static func getRoomIcon(roomType:ROOM_TYPES):
 			spritePath = "res://sprites/map/shop_room.png"
 		ROOM_TYPES.COMBINE_MOVES:
 			spritePath = "res://sprites/map/lab_room.png"
+		ROOM_TYPES.BOSS:
+			spritePath="res://sprites/map/enemy_room.png"
 		_:
 			push_error("Room:getRoomIcon: roomtype did not match: ", roomType)
 	var texture = load(spritePath)
@@ -80,6 +84,7 @@ func changeState(state:ROOM_STATE):
 		modulate = Color.DARK_GRAY
 	else:
 		modulate = Color.WHITE	
+	set_disabled(visited != ROOM_STATE.ACCESSIBLE)
 		
 	if visited == ROOM_STATE.ACCESSIBLE:
 		anime.play("accessible")
@@ -97,17 +102,3 @@ func _draw():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
-
-
-#func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	#if event.is_action_pressed("click") && visited == ROOM_STATE.ACCESSIBLE:
-		#new_room.emit(roomType)
-
-func _pressed() -> void:
-	if visited == ROOM_STATE.ACCESSIBLE:
-		new_room.emit(roomType)
-
-
-#func _input(event) -> void:
-	#if event is InputEventKey && event.pressed && event.keycode == KEY_BACKSPACE && visited != ROOM_STATE.VISITED:
-		#changeState(ROOM_STATE.ACCESSIBLE)

@@ -2,7 +2,9 @@ extends Control
 
 @onready var TeamSlotsRect = %TeamSlotsRect
 @onready var Summary = %CreatureSummary
-@onready var CreateHorror = %CreateHorror
+
+#signal for when we swap to a different creature
+signal swapped_current(creature:Creature)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,16 +27,19 @@ func updateTeamSlots(allies):
 		var creature = allies[i] if i < allies.size() else null
 		var slot = TeamSlotsRect.get_children()[size - i - 1]
 		slot.setCreature(creature)
+		if creature:
+			viewSummary(slot)
 	
 func viewSummary(teamSlot:CreatureSlot):
 	if teamSlot.getCreature():
 		Summary.setCreature(teamSlot.getCreature())
-		if CreateHorror.position.x >= size.x: #if CreateHorror tab is out, move it back
-			var tween := create_tween()
-			tween.tween_property(CreateHorror,"position",Vector2(size.x - CreateHorror.size.x,0),.5)
-	else:
-		var tween := create_tween()
-		tween.tween_property(CreateHorror,"position",Vector2(size.x,0),.5)
+		swapped_current.emit(teamSlot.getCreature())
+		#if CreateHorror.position.x >= size.x: #if CreateHorror tab is out, move it back
+			#var tween := create_tween()
+			#tween.tween_property(CreateHorror,"position",Vector2(size.x - CreateHorror.size.x,0),.5)
+	#else:
+		#var tween := create_tween()
+		#tween.tween_property(CreateHorror,"position",Vector2(size.x,0),.5)
 		#CreatureSummary.visible = false
 		
 func _on_create_horror_horror_created(creature:Creature):
@@ -44,4 +49,9 @@ func _on_create_horror_horror_created(creature:Creature):
 
 func _on_create_horror_horror_selected(creature:Creature):
 	Summary.setCreature(creature)	
+	pass # Replace with function body.
+
+
+func _on_choose_move_move_learned(move: MoveButton) -> void:
+	Summary.LearnNewMove.setNewMove(move.getMove(),move)
 	pass # Replace with function body.

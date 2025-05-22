@@ -119,9 +119,10 @@ func rightClickDebugSearch(battle:BattleManager,slot:Control) -> void:
 					#add it, removing the old creature in the process
 					#the old creature is NOT DEAD, so if player is removed
 					#the game does not end
-					var index := battle.BattleSim.getCreatureIndex(slot.getCreature())
+					var index := battle.UI.creatureSlots.find(slot)
 					battle.BattleSim.removeCreature(slot.getCreature())
 					battle.BattleSim.addCreature(creature,index)
+
 			elif slot is MoveButton:
 				var move := CreatureLoader.loadMove(text.get_text())
 				if move:
@@ -146,7 +147,7 @@ func battleDebug(battle:BattleManager) -> Array[RoomDebug]:
 		return [
 			RoomDebug.new(KEY_BACKSLASH,"win the battle"\
 				,battle.changeState.bind(BattleManager.BATTLE_STATES.WE_WON)),
-			RoomDebug.new(KEY_BACKSPACE,"lose the battle"\
+			RoomDebug.new(KEY_BRACKETRIGHT,"lose the battle"\
 			#kill the player, using the debug state as the source
 				,GameState.PlayerState.getPlayer().\
 				stats.getStatObj(CreatureStats.STATS.HEALTH).\

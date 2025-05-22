@@ -4,8 +4,10 @@ class_name Player extends Object
 
 signal team_changed()
 signal added_scan(creatureName:StringName)
+#emitted when a move is added to inventory
+signal added_move(move:Move)
 
-const PLAYER_BASE_MAX_HEALTH:int = 200
+const PLAYER_BASE_MAX_HEALTH:int = 100
 const PLAYER_BASE_ATTACK:int = 50
 const PLAYER_BASE_SPEED:int = 50
 const MAX_TEAM_SIZE:int = 4
@@ -20,6 +22,8 @@ var teamSize:int = 0
 #TODO
 var scans:Array = []
 
+var inventory:Array = []
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -27,6 +31,11 @@ func _ready():
 func _init() -> void:
 	reset()
 	
+func addMove(move:Move):
+	if move:
+		inventory.push_back(move)
+		added_move.emit(move)	
+
 func getPlayer() -> Creature:
 	return player
 
@@ -50,13 +59,16 @@ func removeCreatureFromTeam(creature:Creature) -> void:
 
 
 func updateTeam(creatures:Array) -> void:
-	team = creatures
-	for i:Creature in team:
-		if i:
-			i.isFriendly = true
-	teamSize = team.reduce(func(n:int,creature:Creature):
-		return n + int(creature != null)
-		,0)
+	team = []
+	teamSize = 0
+	for i in range(Battlefield.maxAllies):
+		if i < creatures.size():
+			team.push_back(creatures[i])
+			if creatures[i]:
+				teamSize += 1
+				creatures[i].isFriendly = true
+		else:
+			team.push_back(null)
 	team_changed.emit()
 
 #returns true if the player is dead
@@ -75,7 +87,7 @@ func addScan(creatureName:StringName):
 #reset player state
 func reset() -> void:
 	#player = Creature.new("spritesheets/creatures/player",PLAYER_BASE_MAX_HEALTH,PLAYER_BASE_ATTACK,PLAYER_BASE_SPEED,"Player",5,[SwapPos.new(),Brutalize.new(),Hamstring.new(),GrantSpeed.new()])
-	player = Creature.new("spritesheets/creatures/player",PLAYER_BASE_MAX_HEALTH,PLAYER_BASE_ATTACK,PLAYER_BASE_SPEED,"Player",5,[Brutalize.new(),Shoot.new(),Scan.new()])
+	player = Creature.new(SpriteLoader.getSprite("spritesheets/creatures/player"),PLAYER_BASE_MAX_HEALTH,PLAYER_BASE_ATTACK,PLAYER_BASE_SPEED,"Player",1,[Shoot.new(),Scan.new(),SwapPos.new()])
 
 	player.isPlayer = true	
 #
@@ -83,7 +95,7 @@ func reset() -> void:
 	var ally2 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json")
 	var ally3 = Banshee.new()
 	var ally4 = CreatureLoader.loadJSON("res://Creatures/creatures_jsons/silent.json")
-	ally1.traits.addStatus(Spectral.new())
+	#ally2.traits.addStatus(Spectral.new())
 	updateTeam([player,ally2])
 
 	#team[1].traits.addStatus(Spectral.new())

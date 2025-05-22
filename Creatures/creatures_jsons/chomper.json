@@ -7,7 +7,7 @@
 	"flying": false,
 	"startMoves": [
 		"Bite",
-		"Consume"
+		"SwapPos"
 	],
 	"levelMoves": [	
 		"Slash",
