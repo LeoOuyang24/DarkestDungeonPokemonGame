@@ -3,7 +3,7 @@ class_name Backstab extends GenericAttack
 
 # Called when the node enters the scene tree for the first time.
 func _init():
-	super("Backstab",0,1,"Deal %s damage to rearmost target")
+	super("Backstab",0,2,"Deal %s damage to rearmost target")
 	icon = load("res://sprites/icons/moves/move_stab.png")
 
 	pass # Replace with function body.

@@ -30,13 +30,12 @@ func changeStat(creature:Creature,statType:CreatureStats.STATS,amount:float,add:
 		creature.stats.getStatObj(statType).modStat(amount,add,source)
 		
 #unlike attacking, the source of healing could be from a move or a status effect or anything else
-signal healed(healer:Creature,receiver:Array,amount:int,source:Variant)
+signal healed(healer:Creature,receiver:Creature,amount:int,source:Variant)
 
-func heal(healer:Creature,targets:Array,amount:int,source:Variant):
-	if healer and targets:
-		for target in targets:
-			target.addHealth(amount)
-	healed.emit(healer,targets,amount,source)
+func heal(healer:Creature,target:Creature,amount:int,source:Variant):
+	if healer and target:
+		target.addHealth(amount)
+	healed.emit(healer,target,amount,source)
 		
 #signal and function for when a creature swaps position with another 
 signal swapped(swapper:Creature,swappee:Creature, source:Variant)

@@ -5,9 +5,9 @@ func _init():
 	super("Burn",load("res://sprites/statuses/burn.png"),"All stacks are consumed at end of turn and creature\
 	suffers damage equal to stacks. Doubled if 10 or more stacks.")
 		
-func newTurn() -> void:
+func endTurn() -> void:
 	if GameState.battleUI:
-		GameState.battleUI.requestNewTurnEvent(newTurnUI)		
+		GameState.battleUI.requestEndTurnEvent(newTurnUI)		
 		
 #what to actually do on new turn
 #this is run with the ui stuff
@@ -19,8 +19,10 @@ func applyBurn():
 	
 func newTurnUI():
 	if GameState.battleUI:
-		applyBurn()
-		await showStatusEffectFade(self,GameState.battleUI.getCreatureSlot(creature))		
+		var slot = GameState.battleUI.getCreatureSlot(creature)
+		if slot:
+			applyBurn()
+			await showStatusEffectFade(self,slot)		
 		setStacks(0)
 		
 		pass

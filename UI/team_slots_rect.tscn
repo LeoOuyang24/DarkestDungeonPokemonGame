@@ -1,36 +1,63 @@
-[gd_scene load_steps=10 format=3 uid="uid://mftrks2txgif"]
+[gd_scene load_steps=13 format=3 uid="uid://mftrks2txgif"]
 
 [ext_resource type="Script" uid="uid://d4gxg2ss6avom" path="res://UI/DraggableContainer.gd" id="1_pxd7g"]
 [ext_resource type="PackedScene" uid="uid://bqsfei63od030" path="res://Battle/UI/CreatureSlot.tscn" id="1_t0i4w"]
 [ext_resource type="Shader" uid="uid://cmtn21hvyxdmp" path="res://Battle/UI/CreatureSlot.gdshader" id="2_yhdon"]
 [ext_resource type="Script" uid="uid://dcyaps57e2cul" path="res://Menus/TeamViewSlot.gd" id="3_xwr6i"]
-[ext_resource type="SpriteFrames" uid="uid://c07gjo4ml3o0w" path="res://sprites/spritesheets/creatures/player.tres" id="5_2gvyt"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_wcy7y"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t80we"]
 resource_local_to_scene = true
 shader = ExtResource("2_yhdon")
 shader_parameter/outline_width = 3.0
 shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/isSpectral = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dpucv"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k1f68"]
+resource_local_to_scene = true
+shader = ExtResource("2_yhdon")
+shader_parameter/outline_width = 10.0
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/isSpectral = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f2kxa"]
 resource_local_to_scene = true
 shader = ExtResource("2_yhdon")
 shader_parameter/outline_width = 3.0
 shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/isSpectral = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_5a7lj"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_84yjb"]
+resource_local_to_scene = true
+shader = ExtResource("2_yhdon")
+shader_parameter/outline_width = 10.0
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/isSpectral = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h75pv"]
 resource_local_to_scene = true
 shader = ExtResource("2_yhdon")
 shader_parameter/outline_width = 3.0
 shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/isSpectral = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_hfjkr"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rhcep"]
+resource_local_to_scene = true
+shader = ExtResource("2_yhdon")
+shader_parameter/outline_width = 10.0
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/isSpectral = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_luks1"]
 resource_local_to_scene = true
 shader = ExtResource("2_yhdon")
 shader_parameter/outline_width = 3.0
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/isSpectral = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qiq5h"]
+resource_local_to_scene = true
+shader = ExtResource("2_yhdon")
+shader_parameter/outline_width = 10.0
 shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/isSpectral = false
 
@@ -44,51 +71,46 @@ alignment = 2
 script = ExtResource("1_pxd7g")
 
 [node name="Slot1" parent="." instance=ExtResource("1_t0i4w")]
-material = SubResource("ShaderMaterial_wcy7y")
+material = SubResource("ShaderMaterial_t80we")
 layout_mode = 2
 script = ExtResource("3_xwr6i")
-source = ExtResource("5_2gvyt")
 
-[node name="TextureButton" parent="Slot1" index="0"]
-texture_normal = null
+[node name="Button" parent="Slot1" index="1"]
+material = SubResource("ShaderMaterial_k1f68")
 
 [node name="Slot2" parent="." instance=ExtResource("1_t0i4w")]
-material = SubResource("ShaderMaterial_dpucv")
+material = SubResource("ShaderMaterial_f2kxa")
 layout_mode = 2
 script = ExtResource("3_xwr6i")
 
-[node name="TextureButton" parent="Slot2" index="0"]
-texture_normal = null
+[node name="Button" parent="Slot2" index="1"]
+material = SubResource("ShaderMaterial_84yjb")
 
 [node name="Slot3" parent="." instance=ExtResource("1_t0i4w")]
-material = SubResource("ShaderMaterial_5a7lj")
+material = SubResource("ShaderMaterial_h75pv")
 layout_mode = 2
 script = ExtResource("3_xwr6i")
 
-[node name="TextureButton" parent="Slot3" index="0"]
-texture_normal = null
-
-[node name="PendingMove" parent="Slot3/PendingMove" index="0"]
-offset_left = -37.0
-offset_right = 13.0
+[node name="Button" parent="Slot3" index="1"]
+material = SubResource("ShaderMaterial_rhcep")
 
 [node name="Slot4" parent="." instance=ExtResource("1_t0i4w")]
-material = SubResource("ShaderMaterial_hfjkr")
+material = SubResource("ShaderMaterial_luks1")
 layout_mode = 2
 script = ExtResource("3_xwr6i")
 
-[node name="TextureButton" parent="Slot4" index="0"]
-texture_normal = null
+[node name="Button" parent="Slot4" index="1"]
+material = SubResource("ShaderMaterial_qiq5h")
 
 [editable path="Slot1"]
-[editable path="Slot1/HealthBar"]
 [editable path="Slot1/PendingMove"]
+[editable path="Slot1/HealthBar"]
 [editable path="Slot2"]
-[editable path="Slot2/HealthBar"]
 [editable path="Slot2/PendingMove"]
+[editable path="Slot2/HealthBar"]
 [editable path="Slot3"]
-[editable path="Slot3/HealthBar"]
 [editable path="Slot3/PendingMove"]
+[editable path="Slot3/HealthBar"]
 [editable path="Slot4"]
-[editable path="Slot4/HealthBar"]
 [editable path="Slot4/PendingMove"]
+[editable path="Slot4/HealthBar"]

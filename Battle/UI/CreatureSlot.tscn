@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://bqsfei63od030"]
+[gd_scene load_steps=12 format=3 uid="uid://bqsfei63od030"]
 
 [ext_resource type="Script" uid="uid://bug0of7xlb33" path="res://Battle/UI/CreatureSlot.gd" id="1_kmmwv"]
 [ext_resource type="Shader" uid="uid://cmtn21hvyxdmp" path="res://Battle/UI/CreatureSlot.gdshader" id="1_v7n5r"]
 [ext_resource type="PackedScene" uid="uid://bjln7kkve4d5a" path="res://Battle/UI/health_bar.tscn" id="2_1ocdj"]
 [ext_resource type="PackedScene" uid="uid://bx3nvprq7ubqo" path="res://StatusEffects/statuseffectsui.tscn" id="3_2kmqv"]
-[ext_resource type="PackedScene" uid="uid://cpg5w77s8sbsw" path="res://Battle/UI/pending_move.tscn" id="5_kc8uo"]
+[ext_resource type="Script" uid="uid://dru77h1u6vjj0" path="res://sprites/UI/AnimatedButton.gd" id="4_yob5j"]
+[ext_resource type="PackedScene" uid="uid://cpg5w77s8sbsw" path="res://Battle/UI/pending_move_old.tscn" id="5_kc8uo"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t3clw"]
 resource_local_to_scene = true
@@ -70,6 +71,9 @@ _data = {
 [node name="VBoxContainer" type="VBoxContainer"]
 offset_right = 40.0
 offset_bottom = 40.0
+size_flags_horizontal = 4
+theme_override_constants/separation = 0
+script = ExtResource("1_kmmwv")
 
 [node name="PendingMove" parent="." instance=ExtResource("5_kc8uo")]
 unique_name_in_owner = true
@@ -85,9 +89,7 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 ignore_texture_size = true
 stretch_mode = 5
-script = ExtResource("1_kmmwv")
-testing = true
-onHoverOutline = false
+script = ExtResource("4_yob5j")
 
 [node name="TickerAnimation" type="AnimationPlayer" parent="Button"]
 unique_name_in_owner = true
@@ -113,7 +115,9 @@ theme_override_font_sizes/normal_font_size = 60
 bbcode_enabled = true
 text = "[color=red]-1[/color]"
 
-[node name="Control" type="ReferenceRect" parent="."]
+[node name="FlySpacer" type="ReferenceRect" parent="."]
+unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 

@@ -17,7 +17,6 @@ func getPreselectedTargets(user:Creature,battle:Battlefield) -> Array[int]:
 func fullMove(record:Move.MoveRecord,battle:BattleManager):
 	if battle and battle.BattleSim and record and record.user:
 		record.targets = getPreselectedTargets(record.user,battle.BattleSim)
-		print(record.targets)
 		for i in record.targets:
 			await record.move.runAnimation(record.user,[i],battle.UI,battle.BattleSim)
 			record.move.move(record.user,[i],battle.BattleSim)	

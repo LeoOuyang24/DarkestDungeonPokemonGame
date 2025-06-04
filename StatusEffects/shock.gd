@@ -5,9 +5,9 @@ func _init():
 	super("Shock",load("res://sprites/statuses/shock.png"),"All stacks are consumed at end of turn and creature.\
 	Half of stacks are dealt to neighbors as damage")
 		
-func newTurn() -> void:
+func endTurn() -> void:
 	if GameState.battleUI:
-		GameState.battleUI.requestNewTurnEvent(newTurnUI)		
+		GameState.battleUI.requestEndTurnEvent(newTurnUI)		
 		
 #what to actually do on new turn
 #this is run with the ui stuff

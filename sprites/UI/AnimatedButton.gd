@@ -3,6 +3,9 @@ class_name AnimatedButton extends TextureButton
 @export var onHoverOutline:bool = true #true if we want to show an outline when hovered over
 @export var source:SpriteFrames = null
 @export var lockSize:bool = false # if true, size will not be affected by sprite
+@export var nullTexture:Texture2D = null #texture to render if can't render spriteframe
+
+
 var sprite:Anime = Anime.new()
 
 func _init():
@@ -35,7 +38,7 @@ func _process(delta):
 	if sprite.getCurrentFrame():
 		set_texture_normal(sprite.getCurrentFrame())
 	else:
-		set_texture_normal(null)
+		set_texture_normal(nullTexture)
 	if onHoverOutline and not disabled:
 		Resources.highlight(self,Color.YELLOW if is_hovered() else Color(0,0,0,0))
 

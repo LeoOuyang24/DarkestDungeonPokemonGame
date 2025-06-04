@@ -25,5 +25,5 @@ func move(user, targets, battlefield):
 			var statuses = statusManager.getAllStatuses()
 			for statusName in statuses:
 				if statuses[statusName].getIsDebuff():
-					battlefield.events.removeStatus(user,creature,statuses[statusName])
+					battlefield.events.removeStatus(user,creature,statusName)
 					#statusManager.removeStatus(statuses[statusName])

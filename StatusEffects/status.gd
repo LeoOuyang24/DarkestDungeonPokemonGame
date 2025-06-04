@@ -36,7 +36,7 @@ func getIsDebuff() -> bool:
 	
 #what to do at end of turn
 #by default, remove one stack
-func newTurn() -> void:
+func endTurn() -> void:
 	addStacks(-1);
 	
 func addStacks(amount:int) -> void:
@@ -62,12 +62,12 @@ func onRemoveUI(slot:Control) -> void:
 	pass
 
 #show a status effect icon and have it fade out
-static func showStatusEffectFade(status:StatusEffect,control:Control) -> void:
+static func showStatusEffectFade(status:StatusEffect,control:CreatureSlot) -> void:
 	if control:
 		var spr :=  TextureRect.new()
 		spr.set_texture(status.icon)
 		spr.set_size(control.get_size())
-		control.add_child(spr);
+		control.Sprite.add_child(spr);
 		
 		await control.get_tree().create_timer(0.5*BattleUI.battleSpeed).timeout
 

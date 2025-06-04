@@ -17,9 +17,9 @@ func _ready():
 	Study.pressed.connect(done.bind(_on_study_pressed))
 
 func onSelect():
-	await playIntro("You approach a foul smelling well.")
+	await playIntro("You approach a foul smelling corpse. A suspicious liquid oozes out.")
 	var tween = create_tween()
-	tween.parallel().tween_property(ButtonsMenu,"position",Vector2(ButtonsMenu.get_position().x,size.y/2),0.5)
+	tween.tween_property(ButtonsMenu,"global_position",Vector2(ButtonsMenu.get_global_position().x,Menu.global_position.y - ButtonsMenu.size.y),0.5)
 	tween.play()
 	await tween.finished
 
@@ -33,7 +33,7 @@ func _on_drink_pressed():
 			i.stats.getStatObj(CreatureStats.STATS.HEALTH).modStat(i.stats.getCurStat(CreatureStats.STATS.HEALTH) + 0.25*i.stats.getBaseStat(CreatureStats.STATS.HEALTH))
 	
 	$Sparkles.visible = true
-	Menu.setMessage("You and your abominations feel rejuvinated.")
+	Menu.setMessage("You and your abominations feel rejuvenated.")
 	
 func _on_deep_drink_pressed():
 	var player = GameState.PlayerState.getPlayer()
@@ -44,7 +44,7 @@ func _on_deep_drink_pressed():
 
 func _on_study_pressed():
 	GameState.setDNA(GameState.getDNA() + 10)
-	Menu.setMessage("You feel the strange inscriptions along the well swim and squirm within your brain.")
+	Menu.setMessage("The creature's flesh provides some interesting insights.")
 
 #what to do when room is finished
 func done(callable:Callable):

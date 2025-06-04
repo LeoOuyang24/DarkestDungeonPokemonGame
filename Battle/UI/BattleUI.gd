@@ -47,19 +47,22 @@ var current:Move.MoveRecord = Move.MoveRecord.new() #current creature and move
 var MoveSummary:Control = null #summary of move currently being used
 
 #new turn ui stuff that we have to await for
-var newTurnEvents:Array = []
+var endTurnEvents:Array = []
 
 #multiplier of how fast we want animations
 static var battleSpeed := 1.0
 
-func requestNewTurnEvent(callable:Callable):
-	newTurnEvents.push_back(callable);
+func requestEndTurnEvent(callable:Callable):
+	endTurnEvents.push_back(callable);
+
+func endTurn():
+	for f in endTurnEvents:
+		await f.call()
+	endTurnEvents.clear()
 
 func newTurn(state:Battlefield):
-	for f in newTurnEvents:
-		await f.call()
+
 	
-	newTurnEvents.clear()
 	
 	current = Move.MoveRecord.new()
 	EndTurn.disabled = true
@@ -284,6 +287,7 @@ func choosingTargets(targets:Move.TARGETING_CRITERIA = Move.TARGETING_CRITERIA.O
 #adds a new slot
 func addSlot(isAlly:bool):
 	var slot = creatureSlot.instantiate();
+	#slot.testing = !isAlly
 	#slot.size_flags_vertical = SIZE_SHRINK_END
 	if isAlly:
 		AllyRow.add_child(slot)
@@ -329,9 +333,15 @@ func _unhandled_input(event):
 		
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	for i in range(Battlefield.maxAllies):
+	for i in range(4):
+		var p = Panel.new();
+		p.custom_minimum_size.x = 100;
+		#AllyRow.add_child(p)
 		addSlot(true)
 	for i in range(Battlefield.maxEnemies):
+		var p = Panel.new();
+		p.custom_minimum_size.x = 100;
+		#EnemyRow.add_child(p)
 		addSlot(false);
 	resetCreatureSlots()
 	for i in range(creatureSlots.size()):

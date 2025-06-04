@@ -1,36 +1,30 @@
-[gd_scene load_steps=5 format=3 uid="uid://ne4f5eakyuku"]
+[gd_scene load_steps=7 format=3 uid="uid://ne4f5eakyuku"]
 
 [ext_resource type="PackedScene" uid="uid://bvxv6kih6bx3" path="res://Map/Rooms/EventRoom.tscn" id="1_n2ro6"]
 [ext_resource type="Script" uid="uid://butmh1tgjsoxl" path="res://Map/Rooms/ShopRoom/ShopRoom.gd" id="1_s3ixk"]
 [ext_resource type="Texture2D" uid="uid://cfbm4jeefncvh" path="res://sprites/backgrounds/aman.png" id="2_apg55"]
 [ext_resource type="PackedScene" uid="uid://ln6v2ege33t7" path="res://Map/ApplyItem.tscn" id="4_u5o4p"]
 
-[node name="EventRoom" instance=ExtResource("1_n2ro6")]
-script = ExtResource("1_s3ixk")
-
-[node name="Background" parent="." index="0"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qwlas"]
 texture = ExtResource("2_apg55")
 
-[node name="Shop" type="ColorRect" parent="." index="2"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qwlas"]
+
+[node name="EventRoom" instance=ExtResource("1_n2ro6")]
+theme_override_styles/panel = SubResource("StyleBoxTexture_qwlas")
+script = ExtResource("1_s3ixk")
+
+[node name="Shop" type="PanelContainer" parent="." index="1"]
 unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -463.0
-offset_top = -1312.0
-offset_right = 537.0
-offset_bottom = -549.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.356863, 0.364706, 0.439216, 1)
+layout_mode = 2
+offset_left = 194.0
+offset_top = 1092.0
+offset_right = 1167.0
+offset_bottom = 1557.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_qwlas")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Shop" index="0"]
-layout_mode = 0
-offset_right = 1645.0
-offset_bottom = 507.0
+layout_mode = 2
 
 [node name="DNA" type="HBoxContainer" parent="Shop/VBoxContainer" index="0"]
 unique_name_in_owner = true
@@ -42,15 +36,14 @@ layout_mode = 2
 
 [node name="AddMoves" type="HBoxContainer" parent="Shop/VBoxContainer" index="2"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 
-[node name="ApplyItem" parent="." index="3" instance=ExtResource("4_u5o4p")]
+[node name="ApplyItem" parent="." index="2" instance=ExtResource("4_u5o4p")]
 unique_name_in_owner = true
 visible = false
-layout_mode = 0
-offset_left = 334.0
-offset_top = 253.0
-offset_right = 1603.0
-offset_bottom = 799.0
+layout_mode = 2
 
 [connection signal="selected" from="ApplyItem" to="." method="_on_apply_item_selected"]
+
+[editable path="MarginContainer/InputMenu"]

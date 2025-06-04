@@ -3,7 +3,6 @@ class_name EventRoom extends RoomBase
 #a common starting ground for event rooms, where no combat happens
 
 @onready var Menu := %InputMenu;
-@onready var Background := %Background
 
 
 # Called when the node enters the scene tree for the first time.
@@ -12,6 +11,7 @@ func _ready():
 
 #runs a little intro
 func playIntro(intro:String):
+	Menu.modulate = Color(0,0,0,0)
 	var tween = create_tween()
 	tween.tween_interval(1)
 	tween.tween_property(Menu,"modulate",Color.WHITE,1);

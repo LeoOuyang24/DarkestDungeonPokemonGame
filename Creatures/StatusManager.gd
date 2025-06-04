@@ -43,10 +43,10 @@ func getAllStatuses() -> Dictionary:
 	return statuses
 	
 	
-func newTurn() -> void:
+func endTurn() -> void:
 	var values := statuses.values()
 	#loop backwards so if a status gets removed there are no issues
 	for i in range(values.size() - 1, -1,-1):
 		if values[i]:
-			values[i].newTurn()
+			values[i].endTurn()
 			

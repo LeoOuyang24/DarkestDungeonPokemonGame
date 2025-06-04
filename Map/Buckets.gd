@@ -17,9 +17,13 @@ class BucketSlot:
 #"difficulty" is an int, the higher it is the harder the room. 0 spawns nothing
 #returns an array of enemies that can be added directly to a battlemanager
 static func createBattle(bucket:Array,difficulty:int) -> Array:
-	var money := difficulty*3 #how much money we have to spend
+	var money := difficulty #how much money we have to spend
 	
 	var enemies := []
+	#remove all creatures that are now too hard, even at level 1
+	bucket = bucket.filter(func(slot:BucketSlot):
+			return slot.difficulty <= money
+			)
 	if bucket.size() > 0:
 		#find the smallest difficulty
 		var min:BucketSlot = bucket.reduce(func(slot:BucketSlot,consider:BucketSlot):
@@ -59,7 +63,8 @@ static func createBattle(bucket:Array,difficulty:int) -> Array:
 
 var bucketBasic:Array = [
 	BucketSlot.new(1,"chomper"),
-	BucketSlot.new(3,"silent")
+	BucketSlot.new(1,"silent"),
+	BucketSlot.new(3,"priest")
 ]
 
 var bucketUtility:Array = [

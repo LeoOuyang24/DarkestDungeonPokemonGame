@@ -1,6 +1,6 @@
-extends ColorRect
+extends Control
 
-@onready var MessageBox := $Label
+@onready var MessageBox := %Label
 
 signal messages_empty #for when we run out of messages
 
@@ -15,6 +15,8 @@ func setMessage(message:String) -> void:
 	tween = create_tween()
 	tween.tween_property(MessageBox,"visible_characters",message.length(),1);
 	await tween.finished
+	if messages.size() == 0:
+		messages_empty.emit()
 	finished = true;
 	
 #add a message to be played
@@ -24,8 +26,7 @@ func pushMessage(message:String) -> void:
 func _input(event):
 	if finished and messages.size() > 0 and event is InputEventMouseButton and event.get_button_index() == MOUSE_BUTTON_LEFT and event.is_pressed():
 		setMessage(messages.pop_front())
-		if messages.size() == 0:
-			messages_empty.emit()
+
 	#MessageBox.set_visible_characters((runtime)/(1000/CharPS))
 	
 func _process(delta):
@@ -34,3 +35,7 @@ func _process(delta):
 			tween.set_speed_scale(2);
 		else:
 			tween.set_speed_scale(1);
+
+
+func _on_button_pressed() -> void:
+	pass # Replace with function body.

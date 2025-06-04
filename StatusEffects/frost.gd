@@ -27,5 +27,5 @@ func onRemove() -> void:
 	if creature:
 		creature.stats.getStatObj(CreatureStats.STATS.SPEED).removeSource(self)
 		
-func newTurn() -> void:
+func endTurn() -> void:
 	setStacks(0)

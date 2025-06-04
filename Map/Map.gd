@@ -14,16 +14,17 @@ var currentRoom = -1 #index in the column, -1 if no room selected
 const maxRowSize = 6;
 const minRowSize = 3;
 
-func addRoom(room:Room, row:int, column:int, rowSize:int):
+func addRoom(room:Room, column:int, columnNum:int, rowSize:int):
 
 	const maxRows = 5 + 1
 	var vertSpacing = Background.get_rect().size.y/maxRowSize;
 	var horizSpacing = Background.get_rect().size.x/maxRows;
-	
-	room.pressed.connect(setCurrentRoom.bind(row,column))
+	room.colNum = column
+	room.roomNum = columnNum
+	room.pressed.connect(setCurrentRoom.bind(column,columnNum))
 	add_child(room)
-	room.position = Vector2(100 + row*horizSpacing,
-			50 + column*vertSpacing + (maxRowSize - rowSize)*( vertSpacing/2) );
+	room.position = Vector2(100 + column*horizSpacing,
+			50 + columnNum*vertSpacing + (maxRowSize - rowSize)*( vertSpacing/2) );
 			
 
 func generate():
@@ -138,7 +139,7 @@ func setCurrentRoom(colNum:int,roomNum:int):
 		currentColumn = colNum;
 		
 		getCurrentRoom().changeState(Room.ROOM_STATE.CURRENT)
-			
+		
 		room_selected.emit(rooms[colNum][roomNum])
 
 #call a function on each room

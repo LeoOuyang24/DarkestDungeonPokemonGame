@@ -2,7 +2,7 @@ class_name Battlefield extends Node
 
 #general battle logic
 
-const maxAllies:int = Player.MAX_TEAM_SIZE + 1;
+const maxAllies:int = Player.MAX_TEAM_SIZE;
 const maxEnemies:int = 3;
 
 #the list of creatures
@@ -26,7 +26,7 @@ signal pop_move_queue(record:Move.MoveRecord);
 signal new_current_creature(creature:Creature)
 
 signal battle_ended();
-signal new_turn(); #new turn
+signal end_turn(); #end turn
 signal first_turn(); #first turn
 
 #emitted when creature order changes
@@ -86,7 +86,7 @@ func addCreature(creature:Creature, index:int):
 		creatures[index] = creature;
 		if creature:
 			creature.isFriendly = (index < maxAllies)
-			new_turn.connect(creature.newTurn)
+			end_turn.connect(creature.endTurn)
 			first_turn.connect(creature.firstTurn.bind(self))
 			#creature.traits.inBattle(self)
 			creature.stats.stat_changed.connect(func(stat:CreatureStats.STATS,amount:int):
@@ -240,8 +240,10 @@ func firstTurn() -> void:
 	
 	
 #what to run on every turn after the first
+func endTurn() -> void:
+	end_turn.emit(); #emit first to trigger any on-new-turn effects
+
 func newTurn() -> void:
-	new_turn.emit(); #emit first to trigger any on-new-turn effects
 	startTurn()
 
 func onBattleEnd() -> void:
@@ -250,14 +252,13 @@ func onBattleEnd() -> void:
 			i.statuses.clear()
 
 #returning the index of the first dead creature if any or -1 if none
-func checkForDeath() -> int:
-	#I have to pass this in as an Array otherwise the lambda captures it by
-	#value as opposed to by reference
-	var found = false
+func checkForDeath() -> Creature:
 	for i in range(creatures.size()):
+		if creatures[i]:
+			print(creatures[i],creatures[i].stats.getCurStat(CreatureStats.STATS.HEALTH))
 		if (creatures[i] && !creatures[i].isAlive()):
-			return i
-	return -1
+			return creatures[i]
+	return null
 
 #update creature's spot in queue
 func updateMoveQueue(creature:Creature) -> void:
@@ -265,12 +266,17 @@ func updateMoveQueue(creature:Creature) -> void:
 		moveQueue.updateSpot(creature)
 		queue_order_changed.emit(moveQueue.data);
 	
+#emitted when a move that targets friendly characters is added to queue
+signal targets_aquired(array:Array) 
 #add a move to the move queue
 func addMoveToQueue(record:Move.MoveRecord) -> void:
 	#if creature is already in queue, update what move it's gonna do
 	if record:
 		moveQueue.insert(record)
 		queue_order_changed.emit(moveQueue.data)
+		if record.targets.size() > 0 and record.user and !record.user.getIsFriendly():
+			targets_aquired.emit(record.targets)
+			
 
 
 func getNextMove() -> Move.MoveRecord:

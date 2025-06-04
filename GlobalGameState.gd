@@ -18,6 +18,9 @@ var battleUI:BattleUI = null
 
 func initiate() -> void:
 	#setDNA(20)
+	setDNA(0)
+	currentBattle = null
+	battleUI = null
 	PlayerState = Player.new()
 	PlayerState.getPlayer().stats.getStatObj(CreatureStats.STATS.HEALTH).stat_changed.connect(func(amount,val):
 		if !PlayerState.getPlayer().isAlive():

@@ -10,13 +10,15 @@ func _init():
 	summary = "Swap position with an ally"
 
 func move(user:Creature, targets:Array, battlefield):
-	battlefield.swapCreature(battlefield.getCreatureIndex(user),targets[0])
+	if targets.size() > 0:
+		battlefield.swapCreature(battlefield.getCreatureIndex(user),targets[0])
 #	await UI.AllyRow.sort_children
 
 
 func runAnimation(user:Creature, targets:Array, UI:BattleUI,battlefield:Battlefield):
-	var slot = UI.getCreatureSlot(user)
-	var enemySlot = UI.getCreatureSlot(targets[0])
-	
-	await UI.swapSlots(slot,enemySlot).finished
+	if targets.size() > 0:
+		var slot = UI.getCreatureSlot(user)
+		var enemySlot = UI.getCreatureSlot(targets[0])
+		
+		await UI.swapSlots(slot,enemySlot).finished
 	

@@ -1,58 +1,32 @@
-[gd_scene load_steps=7 format=3 uid="uid://c05vh7ktb4nte"]
+[gd_scene format=3 uid="uid://c05vh7ktb4nte"]
 
-[ext_resource type="Texture2D" uid="uid://dt2xwgcctiab0" path="res://sprites/icons/attack_up_icon.png" id="1_8t1ty"]
-[ext_resource type="Script" uid="uid://thkoy077g3y7" path="res://sprites/Anime.gd" id="2_fngvu"]
-[ext_resource type="SpriteFrames" uid="uid://bdjqp3vlld8qh" path="res://sprites/spritesheets/creatures/dreemer.tres" id="3_1j44t"]
-[ext_resource type="Script" uid="uid://bbgq3d8k31p4o" path="res://UI/BottomContainer.gd" id="4_wxyux"]
+[node name="Control" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[sub_resource type="Animation" id="Animation_1bo0a"]
-resource_name = "new_animation"
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 920.0
+offset_bottom = 246.0
+alignment = 1
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_5anqe"]
-_data = {
-&"new_animation": SubResource("Animation_1bo0a")
-}
-
-[node name="Node2D" type="Node2D"]
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(-155, 65)
-
-[node name="AttackUpIcon" type="Sprite2D" parent="."]
-position = Vector2(550, 344)
-texture = ExtResource("1_8t1ty")
-
-[node name="Anime" type="TextureRect" parent="."]
-offset_left = 4.0
-offset_top = -45.0
-offset_right = 44.0
-offset_bottom = -5.0
-script = ExtResource("2_fngvu")
-frames = ExtResource("3_1j44t")
-
-[node name="BoxContainer" type="Container" parent="."]
-offset_left = 3.0
-offset_top = 106.0
-offset_right = 591.0
-offset_bottom = 206.0
-size_flags_vertical = 8
-script = ExtResource("4_wxyux")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_5anqe")
-}
-
-[node name="MarginContainer" type="MarginContainer" parent="."]
-offset_right = 416.0
-offset_bottom = 310.0
-theme_override_constants/margin_left = 100
-theme_override_constants/margin_bottom = 100
-
-[node name="Button" type="Button" parent="MarginContainer"]
-custom_minimum_size = Vector2(100, 10)
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 
-[node name="Button2" type="Button" parent="MarginContainer"]
-custom_minimum_size = Vector2(100, 10)
+[node name="Panel" type="Panel" parent="HBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="Panel2" type="Panel" parent="HBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="HBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2

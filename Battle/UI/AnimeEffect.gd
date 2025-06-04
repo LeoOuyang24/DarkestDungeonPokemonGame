@@ -42,8 +42,13 @@ static func createEffect(sprite:SpriteFrames,scale:float = 1, flipped:bool = fal
 	return null;
 	
 #same as above but add an effect to the center of a control
-static func createEffectOnControl(sprite:SpriteFrames,control:Control,scale:float = 1,flipped:bool = false, speed=1.0 ) -> AnimeEffect:
+static func createEffectOnControl(sprite:SpriteFrames,control:Control,scale:float = 1,flipped:bool = false, speed:=1.0 ) -> AnimeEffect:
 	var effect := createEffect(sprite,scale,flipped,speed);
 	control.add_child(effect)
 	effect.set_position(0.5*control.size)
 	return effect
+
+static func createEffectOnCreatureSlot(sprite:SpriteFrames,control:CreatureSlot,scale:float = 1,flipped:bool = false, speed:=1.0 ) -> AnimeEffect:
+	if control:
+		return createEffectOnControl(sprite,control.Sprite,scale,flipped,speed)
+	return null

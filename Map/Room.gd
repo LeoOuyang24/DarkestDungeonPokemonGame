@@ -21,7 +21,8 @@ enum ROOM_TYPES
 {
 	BATTLE, #your standard fighting room
 	WELL,
-	COMBINE_MOVES,
+	FREE_DNA,
+	#COMBINE_MOVES,
 	SHOP,
 	ROOM_TYPES_SIZE, #number of enums in this enum, should always be after all random entries
 	BOSS,
@@ -43,8 +44,9 @@ static func getRoomIcon(roomType:ROOM_TYPES):
 		ROOM_TYPES.WELL:
 			spritePath = "res://sprites/map/well_room.png"
 		ROOM_TYPES.SHOP:
-			spritePath = "res://sprites/map/shop_room.png"
-		ROOM_TYPES.COMBINE_MOVES:
+			#spritePath = "res://sprites/map/shop_room.png"
+			spritePath = "res://sprites/map/enemy_room.png"
+		ROOM_TYPES.FREE_DNA:
 			spritePath = "res://sprites/map/lab_room.png"
 		ROOM_TYPES.BOSS:
 			spritePath="res://sprites/map/enemy_room.png"

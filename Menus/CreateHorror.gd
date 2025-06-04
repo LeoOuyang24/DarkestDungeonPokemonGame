@@ -6,6 +6,8 @@ signal horror_selected(creature:Creature)
 @onready var CreateButton = %Create
 @onready var Grid = %Grid;
 
+@export var testing:= false
+
 var TeamSlot = preload("res://Menus/CreateHorrorButton.tscn")
 #cost to create a creature, permanently increases every time a creature is made
 static var globalCost:int = 5; 
@@ -20,10 +22,16 @@ func _ready():
 	selected = null
 	createSlots()
 	GameState.PlayerState.added_scan.connect(addScan)
+	
+	if testing:
+		addScan("chomper")
+		addScan("siren")
+		addScan("priest")
+	
 	pass # Replace with function body.
 
 func addScan(name:String):
-	var creature:Creature = CreatureLoader.loadJSON(CreatureLoader.CreatureJSONDir + name + ".json")
+	var creature:Creature = CreatureLoader.loadJSON(name)
 	if creature:
 		var slot = TeamSlot.instantiate()
 		Grid.add_child(slot)

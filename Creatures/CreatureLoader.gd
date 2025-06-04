@@ -26,6 +26,12 @@ static func loadTrait(traitName:String) -> Trait:
 
 #load from json
 static func loadJSON(file_path:String, startingLevel:int = 1) -> Creature:
+	if file_path == "???":
+		return Banshee.new()
+	elif file_path == "Am0rph":
+		return Am0rph.new()
+	elif file_path == "AMORPH":
+		return Amorph.new()
 	var json = JSON.new()
 	var file = FileAccess.open(file_path,FileAccess.READ)
 	file = FileAccess.open(CreatureJSONDir + file_path,FileAccess.READ) if !file else file #if the file couldn't be found, maybe the path was only the filename and not the absolute path

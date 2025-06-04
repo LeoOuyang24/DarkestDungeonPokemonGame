@@ -1,4 +1,4 @@
-class_name CreatureSlot extends AnimatedButton
+class_name CreatureSlot extends Control
 
 #represents the visual representation of a creature on the battlefield
 
@@ -16,7 +16,8 @@ signal right_clicked()
 
 @onready var Ticker = %DamageTicker
 @onready var TickerAnimation = %TickerAnimation
-@onready var PendingMove = %PendingMove
+@onready var pendingMove = %PendingMove
+@onready var Sprite := %Button
 
 const MAX_DIMEN = 200 #max size in either dimension a sprite can be
 var tween = null
@@ -31,26 +32,27 @@ func _input(event):
 
 
 	
-func _pressed():
+func onPress():
 	creature_clicked.emit(getCreature())
 	
 func _ready():
+	Sprite.pressed.connect(onPress)
 	size_flags_vertical = SIZE_SHRINK_END
 	tween = getTween()
 	setCreature(null)
-	if testing:
-		setCreature(CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json"))
+	#if testing:
+	#	setCreature(CreatureLoader.loadJSON("res://Creatures/creatures_jsons/silent.json"))
 
 
 #set the sprite and also scale
-func setSpriteAndSize(spriteFrames:SpriteFrames,scale:float) -> void:
-	setSprite(spriteFrames)
+func setSpriteAndSize(spriteFrames:SpriteFrames,mult:float) -> void:
+	Sprite.setSprite(spriteFrames)
 	if spriteFrames:
 		#make sure sprite isnt' too big
-		var larger = scale*max(size.x,size.y);
+		var larger = mult*max(Sprite.size.x,Sprite.size.y);
 		if larger >= MAX_DIMEN:
-			scale = MAX_DIMEN/larger;
-		setSize(scale*size)
+			mult = MAX_DIMEN/larger;
+		Sprite.setSize(mult*Sprite.size)
 
 func removeCreature():
 	if creature:
@@ -60,7 +62,8 @@ func removeCreature():
 		creature.statuses.status_removed.disconnect(onRemoveStatus)
 		EffectsUI.clear()
 		creature = null
-		setSprite(null)
+		Sprite.setSprite(null)
+		%FlySpacer.visible = false
 
 func onAddStatus(status:StatusEffect):
 	status.onAddUI(self);
@@ -75,6 +78,7 @@ func updateHealth(stat:CreatureStats.STATS,amount:int):
 		if (amount < 0):
 			Animations.play("hurt")
 			#if an attack does over half a creature's health, shake more
+			@warning_ignore("integer_division")
 			if abs(amount) > creature.stats.getBaseStat(CreatureStats.STATS.HEALTH)/2:
 				Game.GameCamera.shake(100)
 			else:
@@ -92,37 +96,41 @@ func updateHealth(stat:CreatureStats.STATS,amount:int):
 func onHover():
 	pass
 
-func setCreature(creature:Creature):
+func setCreature(c:Creature):
 	removeCreature()
-	self.creature = creature;
-	PendingMove.PendingMove.creature = creature
-	if creature:
+	self.creature = c;
+	pendingMove.PendingMove.creature = c
+	if c:
 
-		var sprite = creature.spriteFrame
-		setSpriteAndSize(sprite,creature.scale)
+		var sprite = c.spriteFrame
+		setSpriteAndSize(sprite,c.scale)
 		if (HealthBar):
-			HealthBar.set_max(creature.stats.getBaseStat(CreatureStats.STATS.HEALTH))
+			HealthBar.set_max(c.stats.getBaseStat(CreatureStats.STATS.HEALTH))
 			HealthBar.setHealth(creature.stats.getCurStat(CreatureStats.STATS.HEALTH))
 		creature.stats.stat_changed.connect(updateHealth)
 		EffectsUI.update(creature.statuses)
 		creature.statuses.status_added.connect(onAddStatus)
 		creature.statuses.status_removed.connect(onRemoveStatus)
-		creature.traits.onAddUI(self)
-		EffectsUI.position.x = HealthBar.size.x if creature.getIsFriendly() else 0
+		c.traits.onAddUI(self)
+		EffectsUI.position.x = HealthBar.size.x if c.getIsFriendly() else 0
 
-		set_flip_h( creature.getIsFriendly())
-		EffectsUI.setIsOnEnemy(creature.getIsFriendly())
+		Sprite.set_flip_h( c.getIsFriendly())
+		EffectsUI.setIsOnEnemy(c.getIsFriendly())
 					
+		%FlySpacer.visible = c.flying
 	else:
-		Resources.highlight(self,Color(0,0,0,0));
-		setSpriteAndSize(null,0)
+		#there are weird complications with the BattleUI rows if we just make the
+		#creatureslot invisible. For example, all the invisible slots will be crammed into
+		#one space, which makes battlefield's debug controls weird.
+		setSpriteAndSize(null,1)
+		
 	if HealthBar:
-		HealthBar.visible = (creature != null)
+		HealthBar.visible = (c != null)
 
 		
 	
 func setAnimation(string:String) -> void:
-	changeAnimation(string)
+	Sprite.changeAnimation(string)
 
 func getCreature():
 	return self.creature

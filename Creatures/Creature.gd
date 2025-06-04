@@ -66,9 +66,12 @@ func _init( sprite:SpriteFrames, maxHealth_:int,baseAttack_:int,baseSpeed_:int, 
 	setMoves(moves_)
 
 func duplicate() -> Creature:
-	return Creature.new(spriteFrame,stats.getBaseStat(CreatureStats.STATS.HEALTH),\
+	var c :=  Creature.new(spriteFrame,stats.getBaseStat(CreatureStats.STATS.HEALTH),\
 	stats.getBaseStat(CreatureStats.STATS.ATTACK),\
 	stats.getBaseStat(CreatureStats.STATS.SPEED),getSpeciesName(),level.getLevel(),getMoves())
+	c.flying = flying
+	c.scale = scale
+	return c
 	
 func addBigBoost(stat:CreatureStats.STATS,num:int = 1) -> void:
 	level.appliedBigBoost(num)
@@ -107,10 +110,10 @@ func getName():
 func isAlive():
 	return stats.getCurStat(CreatureStats.STATS.HEALTH) > 0
 
-func newTurn() -> void:
+func endTurn() -> void:
 	tickMoves()
-	statuses.newTurn()
-	traits.newTurn()
+	statuses.endTurn()
+	traits.endTurn()
 	
 #called when acreature first enters battlefield
 func firstTurn(battlefield:Battlefield) -> void:

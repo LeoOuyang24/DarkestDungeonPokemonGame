@@ -1,10 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://qpa4j0a7ff6e"]
+[gd_scene load_steps=10 format=3 uid="uid://qpa4j0a7ff6e"]
 
 [ext_resource type="Texture2D" uid="uid://d11mkq8osi88k" path="res://sprites/backgrounds/well_background.png" id="1_3l7mv"]
 [ext_resource type="Script" uid="uid://bufmkknc5ifck" path="res://Map/Rooms/WellRoom.gd" id="1_v6qic"]
 [ext_resource type="PackedScene" uid="uid://bvxv6kih6bx3" path="res://Map/Rooms/EventRoom.tscn" id="1_vfwjy"]
 [ext_resource type="Script" uid="uid://csnwq4kecooi4" path="res://Map/Rooms/WellRoomButtons.gd" id="4_gxly4"]
 [ext_resource type="Texture2D" uid="uid://cif50pukqqc8c" path="res://sprites/effects/sparkle.png" id="5_fym8e"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5rc0w"]
+texture = ExtResource("1_3l7mv")
 
 [sub_resource type="Theme" id="Theme_7dp5o"]
 Button/font_sizes/font_size = 100
@@ -117,14 +120,10 @@ _data = {
 }
 
 [node name="Control" instance=ExtResource("1_vfwjy")]
+theme_override_styles/panel = SubResource("StyleBoxTexture_5rc0w")
 script = ExtResource("1_v6qic")
 
-[node name="Background" parent="." index="1"]
-z_index = -1
-mouse_filter = 2
-texture = ExtResource("1_3l7mv")
-
-[node name="ButtonsMenu" type="CenterContainer" parent="." index="2"]
+[node name="ButtonsMenu" type="CenterContainer" parent="." index="1"]
 layout_mode = 0
 offset_left = 317.0
 offset_top = 1087.0
@@ -167,7 +166,7 @@ text = "Study
 script = ExtResource("4_gxly4")
 tooltipColor = Color(1, 0, 1, 1)
 
-[node name="Sparkles" type="ReferenceRect" parent="." index="3"]
+[node name="Sparkles" type="ReferenceRect" parent="." index="2"]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = -1
@@ -185,7 +184,7 @@ mouse_filter = 2
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sparkles" index="0"]
 root_node = NodePath("../Sparkles2")
 libraries = {
-"": SubResource("AnimationLibrary_fni6g")
+&"": SubResource("AnimationLibrary_fni6g")
 }
 
 [node name="Sparkles5" type="Sprite2D" parent="Sparkles" index="1"]
@@ -222,3 +221,5 @@ texture = ExtResource("5_fym8e")
 position = Vector2(6.75, 9)
 scale = Vector2(0.25, 0.434401)
 texture = ExtResource("5_fym8e")
+
+[editable path="MarginContainer/InputMenu"]

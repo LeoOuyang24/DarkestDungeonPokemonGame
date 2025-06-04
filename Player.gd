@@ -22,7 +22,7 @@ var teamSize:int = 0
 #TODO
 var scans:Array = []
 
-var inventory:Array = []
+var inventory:Array = [Chomp.new(),Bite.new()]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

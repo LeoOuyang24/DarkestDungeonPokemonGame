@@ -62,7 +62,7 @@ func _on_accept_pressed():
 	if first and other:
 		first.setMoves(other.moves)
 		GameState.PlayerState.removeCreatureFromTeam(other)
-		Background.set_texture(load("res://sprites/map/lab_empty.png"))
+		#Background.set_texture(load("res://sprites/map/lab_empty.png"))
 		Active.visible = false
 		var tween = create_tween()
 		WhiteOut.color.a = 1

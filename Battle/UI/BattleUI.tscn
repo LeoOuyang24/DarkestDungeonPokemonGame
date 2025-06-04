@@ -39,22 +39,23 @@ offset_bottom = 200.0
 [node name="Rows" type="HBoxContainer" parent="."]
 layout_mode = 0
 offset_left = -12.0
-offset_top = 221.0
+offset_top = 260.0
 offset_right = 1919.0
-offset_bottom = 648.0
+offset_bottom = 687.0
 mouse_filter = 2
 theme = ExtResource("2_27lud")
 theme_override_constants/separation = 100
+alignment = 1
 
 [node name="AllyRow" type="HBoxContainer" parent="Rows"]
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 10
 mouse_filter = 2
-alignment = 2
+alignment = 1
 
 [node name="EnemyRow" type="HBoxContainer" parent="Rows"]
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 2
 mouse_filter = 2
 theme_override_constants/separation = 80
 
@@ -78,14 +79,6 @@ offset_left = 512.0
 offset_top = 71.0
 offset_right = 1562.0
 offset_bottom = 177.0
-
-[node name="EndScreen" parent="." instance=ExtResource("3_1dct8")]
-visible = false
-layout_mode = 0
-offset_left = 416.0
-offset_top = 192.0
-offset_right = 1447.0
-offset_bottom = 836.0
 
 [node name="TurnUI" parent="." instance=ExtResource("6_1dtmw")]
 unique_name_in_owner = true
@@ -132,5 +125,16 @@ theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxFlat_ytwnp")
 disabled = true
 text = "End Turn "
+
+[node name="EndScreen" parent="." instance=ExtResource("3_1dct8")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/EndTurn" to="." method="_on_end_turn_pressed"]

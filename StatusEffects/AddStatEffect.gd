@@ -51,7 +51,7 @@ func onAdd(creature:Creature) -> void:
 func onRemove() -> void:
 	creature.stats.getStatObj(stat).removeSource(self);
 
-func newTurn() -> void:
+func endTurn() -> void:
 	if turns > 0:
 		turns -= 1;
 	if turns == 0:

@@ -1,42 +1,39 @@
-[gd_scene load_steps=3 format=3 uid="uid://bvxv6kih6bx3"]
+[gd_scene load_steps=5 format=3 uid="uid://bvxv6kih6bx3"]
 
 [ext_resource type="Script" uid="uid://ulslhmvflld6" path="res://Map/Rooms/EventRoom.gd" id="1_f1b4w"]
+[ext_resource type="Theme" uid="uid://ctnx7oi2vcxu" path="res://UI/menu.tres" id="1_kvk5j"]
 [ext_resource type="PackedScene" uid="uid://cxvto5dpammsj" path="res://Map/Rooms/InputMenu.tscn" id="1_yfu8u"]
 
-[node name="Control" type="Control"]
-layout_mode = 3
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kvk5j"]
+
+[node name="Control" type="Panel"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_kvk5j")
+theme_override_styles/panel = SubResource("StyleBoxTexture_kvk5j")
 script = ExtResource("1_f1b4w")
 
-[node name="Background" type="TextureRect" parent="."]
-unique_name_in_owner = true
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = 12
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -310.0
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 300
+theme_override_constants/margin_right = 300
 
-[node name="InputMenu" parent="." instance=ExtResource("1_yfu8u")]
+[node name="InputMenu" parent="MarginContainer" instance=ExtResource("1_yfu8u")]
 unique_name_in_owner = true
-modulate = Color(1, 1, 1, 0)
-z_index = 1
-layout_mode = 1
-offset_top = -279.0
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
 
-[node name="Button" type="Button" parent="InputMenu"]
-layout_mode = 0
-offset_left = 1066.0
-offset_top = 133.0
-offset_right = 1434.0
-offset_bottom = 223.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 20
-text = "Leave
-"
+[connection signal="pressed" from="MarginContainer/InputMenu/MarginContainer/HBoxContainer/Button" to="." method="_on_button_pressed"]
 
-[connection signal="pressed" from="InputMenu/Button" to="." method="_on_button_pressed"]
+[editable path="MarginContainer/InputMenu"]

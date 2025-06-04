@@ -25,6 +25,7 @@ func _input(event):
 				#are actually closer to the back, which is opposite to how it is in Battlefield
 				creatures.reverse() 
 				GameState.PlayerState.updateTeam(creatures)
+				print(GameState.PlayerState.team)
 			queue_sort()
 				
 	elif event is InputEventMouseMotion:

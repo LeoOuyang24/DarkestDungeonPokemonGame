@@ -20,6 +20,7 @@ var creature:Creature = null:
 	set(value):
 		creature = value
 		button.setSprite(creature.getSprite())
+		button.setSize(Vector2(100,100))
 		updateDisabled()
 
 #update disabled based on whether or not the creature is already in the party

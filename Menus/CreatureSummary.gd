@@ -6,6 +6,9 @@ class_name CreatureSummary extends BaseCreatureSummary
 @onready var LevelUpButton = %LevelUp
 #@onready var Name:RichTextLabel = %CreatureStats.find_child("Name")
 
+#signal for when we swap to a different creature
+#CAN BE NULL
+signal swapped_current(current:Creature)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -13,23 +16,25 @@ func _ready():
 	Stats.forEachStat(func(s:StatBar):
 		s.setMaxWidth(Stats.size.x)
 		)
-	setCreature(CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json"))
+	#setCreature(CreatureLoader.loadJSON("res://Creatures/creatures_jsons/chomper.json"))
 	pass # Replace with function body.
 	#
 ##set the creature we are currently changing
+#"changing" is true if we can modify this creature (level it up, for example)
 func setCreature(creature:Creature) -> void:
 	setCurrentCreature(creature,true)
 	if creature:
 		##add moves to UI
-		if LearnNewMove:
-			LearnNewMove.setMoves(creature)
-			if LevelUpButton:
-				LevelUpButton.setCreature(creature)
-
+		LearnNewMove.setMoves(creature)
+		LevelUpButton.disabled = false
+		LevelUpButton.setCreature(creature)
 		creature.level.leveled_up.connect(updateCreature)
-		creature.stats.stat_changed.connect(func(_a,_b):
-				updateCreature())
+		creature.stats.stat_changed.connect(updateCreature.unbind(2))
 		updateCreature()
+	swapped_current.emit(creature)
+
+func _process(delta):
+	LevelUpButton.disabled = !creature or creature not in GameState.PlayerState.getTeam()
 
 func addBigBoost(stat:CreatureStats.STATS) -> void:
 	if creature:

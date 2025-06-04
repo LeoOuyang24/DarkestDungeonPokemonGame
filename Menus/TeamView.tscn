@@ -40,7 +40,10 @@ layout_mode = 2
 [node name="TabContainer" parent="MarginContainer/HBoxContainer" instance=ExtResource("6_vrw56")]
 layout_mode = 2
 
-[connection signal="swapped_current" from="." to="MarginContainer/HBoxContainer/TabContainer/ChooseMove" method="_on_team_view_swapped_current"]
+[connection signal="swapped_current" from="MarginContainer/HBoxContainer/VBoxContainer/CreatureSummary" to="MarginContainer/HBoxContainer/TabContainer/CreateHorror" method="_on_creature_summary_swapped_current"]
+[connection signal="swapped_current" from="MarginContainer/HBoxContainer/VBoxContainer/CreatureSummary" to="MarginContainer/HBoxContainer/TabContainer/ChooseMove" method="_on_creature_summary_swapped_current"]
+[connection signal="horror_created" from="MarginContainer/HBoxContainer/TabContainer/CreateHorror" to="." method="_on_create_horror_horror_created"]
+[connection signal="horror_selected" from="MarginContainer/HBoxContainer/TabContainer/CreateHorror" to="." method="_on_create_horror_horror_selected"]
 [connection signal="move_learned" from="MarginContainer/HBoxContainer/TabContainer/ChooseMove" to="." method="_on_choose_move_move_learned"]
 
 [editable path="MarginContainer/HBoxContainer/TabContainer"]

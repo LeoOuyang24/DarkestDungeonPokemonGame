@@ -55,15 +55,19 @@ static func getRandomMove(creature:Creature = null) -> Move:
 		printerr("getNextLevelUpMove ERROR: " + error_string(DirAccess.get_open_error()))
 	else:		
 		var fileNames := dir.get_files()
-		var blacklisted := [SwapPos.new(),PassTurn.new()] #moves that can not be selected
+		var blacklisted := [SwapPos.new(),PassTurn.new(),Scan.new(),Shoot.new()] #moves that can not be selected
 		var move:Move = blacklisted[0]
 		var counter = 100; #maximum searches
 		#search until we find amove that is not in blacklisted or already learned
-		while counter > 0 and (move in blacklisted or (creature and move in creature.getMoves())):
+		while (blacklisted.reduce(func(accum:bool, blacklisted:Move):
+			return accum or (move.getMoveName() == blacklisted.getMoveName())
+			,false) or (creature and move in creature.getMoves())):
 			var resource := load(movesFolder + "/" + fileNames[randi_range(0,fileNames.size() - 1)])
 			if resource:
 				move = resource.new()
-			counter -= 1;
+			counter -= 1;				
+			if counter <= 0:
+				return Slash.new() #default to slash
 		return move
 	return null
 	

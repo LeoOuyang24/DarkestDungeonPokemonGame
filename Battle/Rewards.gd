@@ -8,7 +8,7 @@ var moves:Array = []
 
 static func createReward():
 	var moves := []
-	if randi()%100 >= 50:
+	if randi()%100 >= 0:
 		moves.push_back(CreatureLevel.getRandomMove())
 	return Rewards.new(randi()%10 + 5,moves)
 

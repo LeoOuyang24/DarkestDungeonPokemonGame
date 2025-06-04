@@ -96,11 +96,14 @@ func _on_map_room_selected(room:Room):
 	var roomInfo = room.roomType
 	var newScene:RoomBase = null
 	match roomInfo:
-		Room.ROOM_TYPES.BATTLE:
+		#Room.ROOM_TYPES.SHOP:
+			#var shopRoom = load("res://Map/Rooms/ShopRoom/ShopRoom.tscn").instantiate()
+			#newScene = shopRoom
+		Room.ROOM_TYPES.BATTLE, Room.ROOM_TYPES.SHOP:
 			newScene = load("res://Battle/BattleManager.tscn").instantiate()
 			#var enemies = [CreatureLoader.loadJSON("silent.json"),CreatureLoader.loadJSON("dreemer.json"),CreatureLoader.loadJSON("beholder.json"),CreatureLoader.loadJSON("beholder.json")]
 			var bruh = Buckets.new()
-			var enemies := bruh.createBattle(bruh.bucketBasic,max(1,room.colNum/3))
+			var enemies := bruh.createBattle(bruh.bucketBasic,max(1,room.colNum))
 			#var size = randi()%(Battlefield.maxEnemies - 1) + 1
 			#for i in range(size):
 				#enemies.push_back(CreatureLoader.getRandCreature(["chomper","giant","masked","princess","siren","silent"],5))
@@ -108,11 +111,9 @@ func _on_map_room_selected(room:Room):
 		Room.ROOM_TYPES.WELL:
 			var wellRoom = load("res://Map/Rooms/WellRoom.tscn").instantiate()
 			newScene = wellRoom
-		Room.ROOM_TYPES.SHOP:
-			var shopRoom = load("res://Map/Rooms/ShopRoom/ShopRoom.tscn").instantiate()
-			newScene = shopRoom
-		Room.ROOM_TYPES.COMBINE_MOVES:
-			var labRoom = load("res://Map/Rooms/CombineMoveRoom/LabMovesRoom.tscn").instantiate()
+
+		Room.ROOM_TYPES.FREE_DNA:
+			var labRoom = load("res://Map/Rooms/FreeDNARoom.tscn").instantiate()
 			newScene = labRoom
 		Room.ROOM_TYPES.BOSS:
 			newScene = load("res://Battle/BattleManager.tscn").instantiate()
@@ -132,8 +133,9 @@ func room_finished():
 func loseGame():
 	GameOver.visible = true
 	await GameOverButton.pressed;
-	get_tree().change_scene_to_file("res://Menus/MainMenu.tscn")
 	GameState.reset()
+	get_tree().change_scene_to_file("res://Menus/MainMenu.tscn")
+
 	GameOver.visible = false
 #func battle_finished(won:bool):
 	#if !won:

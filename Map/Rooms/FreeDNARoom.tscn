@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3 uid="uid://ciwbo15tpvxcw"]
+
+[ext_resource type="PackedScene" uid="uid://bvxv6kih6bx3" path="res://Map/Rooms/EventRoom.tscn" id="1_dn8il"]
+[ext_resource type="Texture2D" uid="uid://b3mqnkbytui5" path="res://sprites/backgrounds/lab_room.png" id="2_kra3x"]
+[ext_resource type="Script" uid="uid://b7wftta5u48hf" path="res://Map/Rooms/FreeDNARoom.gd" id="3_u42td"]
+[ext_resource type="Script" uid="uid://dru77h1u6vjj0" path="res://sprites/UI/AnimatedButton.gd" id="4_nmtcm"]
+[ext_resource type="Shader" uid="uid://cmtn21hvyxdmp" path="res://Battle/UI/CreatureSlot.gdshader" id="4_u42td"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7tato"]
+texture = ExtResource("2_kra3x")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nmtcm"]
+shader = ExtResource("4_u42td")
+shader_parameter/outline_width = 10.0
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/isSpectral = false
+
+[node name="EventRoom" instance=ExtResource("1_dn8il")]
+theme_override_styles/panel = SubResource("StyleBoxTexture_7tato")
+script = ExtResource("3_u42td")
+
+[node name="CenterContainer" type="CenterContainer" parent="." index="1"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Creature" type="TextureButton" parent="CenterContainer" index="0"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_nmtcm")
+layout_mode = 2
+script = ExtResource("4_nmtcm")
+metadata/_custom_type_script = "uid://dru77h1u6vjj0"
+
+[node name="Flash" type="ColorRect" parent="." index="2"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[connection signal="pressed" from="CenterContainer/Creature" to="." method="_on_creature_pressed"]
+
+[editable path="MarginContainer/InputMenu"]

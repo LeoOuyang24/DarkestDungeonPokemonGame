@@ -1,6 +1,6 @@
 {
 	"sprite": "chomper",
-	"baseHealth": 100,
+	"baseHealth": 70,
 	"baseAttack": 30,
 	"baseSpeed": 10,
 	"name": "Chomper",

@@ -23,11 +23,12 @@ func loadMoves():
 		Moves.add_child(move)
 		move.move_selected.connect(move_learned.emit.bind(move).unbind(1))
 
-func _on_team_view_swapped_current(creature: Creature) -> void:
+func _on_creature_summary_swapped_current(creature: Creature) -> void:
 	if creature:
 		for i:MoveButton in Moves.get_children():
 			#disable moves this creature already knows
-			i.set_disabled(creature.moves.find_custom(func(slot:MoveSlot):
+			#or all moves if this creature is not in our team
+			i.set_disabled(creature not in GameState.PlayerState.getTeam() or creature.moves.find_custom(func(slot:MoveSlot):
 				return slot and i and slot.getMove() and \
 				slot.getMove().getMoveName() == i.getMove().getMoveName()
 				) != -1)

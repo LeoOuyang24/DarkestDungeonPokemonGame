@@ -1,51 +1,76 @@
-[gd_scene load_steps=7 format=3 uid="uid://6f7frt3ng1c8"]
+[gd_scene load_steps=10 format=3 uid="uid://6f7frt3ng1c8"]
 
 [ext_resource type="PackedScene" uid="uid://bvxv6kih6bx3" path="res://Map/Rooms/EventRoom.tscn" id="1_katkq"]
 [ext_resource type="Script" uid="uid://7fgp4ftjpyng" path="res://Map/Rooms/CombineMoveRoom/LabMovesRoom.gd" id="1_xsu3n"]
 [ext_resource type="Script" uid="uid://dru77h1u6vjj0" path="res://sprites/UI/AnimatedButton.gd" id="4_8wa73"]
-[ext_resource type="Texture2D" uid="uid://d2vcinknrg02f" path="res://sprites/map/lab.png" id="4_e7umc"]
+[ext_resource type="Script" uid="uid://thkoy077g3y7" path="res://sprites/Anime.gd" id="4_mtwra"]
+[ext_resource type="Texture2D" uid="uid://b3mqnkbytui5" path="res://sprites/backgrounds/lab_room.png" id="6_7tato"]
 [ext_resource type="PackedScene" uid="uid://1m34rwnl48vd" path="res://Battle/UI/moves_ui.tscn" id="6_wkuiw"]
 [ext_resource type="Theme" uid="uid://ctnx7oi2vcxu" path="res://UI/menu.tres" id="7_xtlvh"]
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7tato"]
+texture = ExtResource("6_7tato")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mtwra"]
+bg_color = Color(1, 1, 1, 0.576471)
+
 [node name="EventRoom" instance=ExtResource("1_katkq")]
+theme_override_styles/panel = SubResource("StyleBoxTexture_7tato")
 script = ExtResource("1_xsu3n")
 
-[node name="WhiteOut" type="ColorRect" parent="." index="0"]
-unique_name_in_owner = true
+[node name="tubes" type="MarginContainer" parent="." index="0"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -100.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_right = 100
+
+[node name="HBoxContainer" type="HBoxContainer" parent="tubes" index="0"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="tubes/HBoxContainer" index="0"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+size_flags_horizontal = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtwra")
+
+[node name="Anime" type="TextureRect" parent="tubes/HBoxContainer/Button" index="0"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
-color = Color(1, 1, 1, 0)
+script = ExtResource("4_mtwra")
+metadata/_custom_type_script = "uid://thkoy077g3y7"
 
-[node name="ResultRect" type="ReferenceRect" parent="." index="1"]
-layout_mode = 0
-offset_left = 903.0
-offset_top = 265.0
-offset_right = 1076.0
-offset_bottom = 460.0
-border_color = Color(1, 1, 0, 1)
-border_width = 5.0
-editor_only = false
+[node name="Button2" type="Button" parent="tubes/HBoxContainer" index="1"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+size_flags_horizontal = 10
 
-[node name="MovesUI" parent="ResultRect" index="0" instance=ExtResource("6_wkuiw")]
-unique_name_in_owner = true
+[node name="Anime" type="TextureRect" parent="tubes/HBoxContainer/Button2" index="0"]
 layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -63.5
-offset_top = 7.0
-offset_right = 63.5
-offset_bottom = 157.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
+script = ExtResource("4_mtwra")
+metadata/_custom_type_script = "uid://thkoy077g3y7"
 
-[node name="Accept" type="Button" parent="ResultRect/MovesUI" index="1"]
+[node name="MovesUI" parent="tubes/HBoxContainer" index="2" instance=ExtResource("6_wkuiw")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Accept" type="Button" parent="tubes/HBoxContainer/MovesUI" index="1"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 12
@@ -61,7 +86,14 @@ grow_vertical = 0
 theme = ExtResource("7_xtlvh")
 text = "Accept"
 
-[node name="Result" type="TextureButton" parent="ResultRect" index="1"]
+[node name="ResultRect" type="ReferenceRect" parent="tubes/HBoxContainer" index="3"]
+visible = false
+layout_mode = 2
+border_color = Color(1, 1, 0, 1)
+border_width = 5.0
+editor_only = false
+
+[node name="Result" type="TextureButton" parent="tubes/HBoxContainer/ResultRect" index="0"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -73,15 +105,14 @@ ignore_texture_size = true
 script = ExtResource("4_8wa73")
 lockSize = true
 
-[node name="Background" parent="." index="2"]
-mouse_filter = 2
-texture = ExtResource("4_e7umc")
+[node name="Button" type="Button" parent="tubes/HBoxContainer/ResultRect" index="1"]
+text = "asdfasdf"
 
-[node name="Active" type="Control" parent="." index="4"]
+[node name="Active" type="Control" parent="." index="1"]
 unique_name_in_owner = true
+visible = false
+layout_mode = 2
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
 
 [node name="TeamView" type="VBoxContainer" parent="Active" index="0"]
 unique_name_in_owner = true
@@ -127,4 +158,12 @@ ignore_texture_size = true
 script = ExtResource("4_8wa73")
 lockSize = true
 
-[connection signal="pressed" from="ResultRect/MovesUI/Accept" to="." method="_on_accept_pressed"]
+[node name="WhiteOut" type="ColorRect" parent="." index="2"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
+
+[connection signal="pressed" from="tubes/HBoxContainer/MovesUI/Accept" to="." method="_on_accept_pressed"]
+
+[editable path="MarginContainer/InputMenu"]

@@ -14,5 +14,3 @@ func onRemove():
 	if self.creature:
 		creature.active -= 1
 	
-func newTurn() -> void:
-	super()

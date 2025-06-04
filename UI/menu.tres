@@ -1,6 +1,3 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://ctnx7oi2vcxu"]
-
-[ext_resource type="FontFile" uid="uid://dgs200ax7el15" path="res://Fonts/Unutterable-rv3x8.ttf" id="1_rj03t"]
+[gd_resource type="Theme" format=3 uid="uid://ctnx7oi2vcxu"]
 
 [resource]
-default_font = ExtResource("1_rj03t")

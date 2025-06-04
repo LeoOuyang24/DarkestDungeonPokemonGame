@@ -22,7 +22,7 @@ func _ready():
 		var scanButt := ScanButtonScene.instantiate()
 		DNAItems.add_child(scan);
 		scan.setItem(scanButt,5)
-		
+				
 		scanButt.setCreature(placeholder[i])
 		
 		var traitItem := ShopItemScene.instantiate()
@@ -57,7 +57,7 @@ func onSelect():
 	Menu.pushMessage("\"Perhaps we can be of use to one another.\"")
 	await Menu.messages_empty
 	var tween = create_tween();
-	tween.tween_property(ShopWindow,"position",Vector2(ShopWindow.position.x,Menu.position.y - ShopWindow.size.y),1);
+	tween.tween_property(ShopWindow,"global_position",Vector2(ShopWindow.global_position.x,Menu.global_position.y - ShopWindow.size.y*1.3),1);
 	tween.play()
 	await tween.finished;
 

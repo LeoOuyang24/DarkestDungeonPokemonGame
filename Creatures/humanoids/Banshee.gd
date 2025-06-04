@@ -12,3 +12,5 @@ func _init(levels:int = 1, moves_:Array = [], pendingMoves_:Array = []) -> void:
 	stats.stats[CreatureStats.STATS.HEALTH] = BansheeHealth.new(self)
 	#stats.stats[]
 	#GameState.PlayerState.team_changed.connect(findTarget.bind(GameState.PlayerState.getTeam()))
+
+#TODO: currently banshee will cause a softlock if on the enemy team since it can't die
