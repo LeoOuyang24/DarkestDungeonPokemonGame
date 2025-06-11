@@ -15,7 +15,6 @@ static var globalCost:int = 5;
 var selected:Creature = null:
 	set(value):
 		selected = value
-		CreateButton.disable = value == null 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	CreateButton.cost = globalCost

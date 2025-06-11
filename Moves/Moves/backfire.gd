@@ -10,6 +10,8 @@ func _init():
 func getPreselectedTargets(user:Creature, battle:Battlefield):
 	return battle.getFrontMostCreatures(1,user.getIsFriendly())
 
+func getMult():
+	return 1.5;
 
 func move(user:Creature, targets:Array, battlefield):
 	super(user,targets,battlefield)

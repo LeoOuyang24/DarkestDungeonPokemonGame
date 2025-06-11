@@ -44,8 +44,8 @@ static func getRoomIcon(roomType:ROOM_TYPES):
 		ROOM_TYPES.WELL:
 			spritePath = "res://sprites/map/well_room.png"
 		ROOM_TYPES.SHOP:
-			#spritePath = "res://sprites/map/shop_room.png"
-			spritePath = "res://sprites/map/enemy_room.png"
+			spritePath = "res://sprites/map/shop_room.png"
+			#spritePath = "res://sprites/map/enemy_room.png"
 		ROOM_TYPES.FREE_DNA:
 			spritePath = "res://sprites/map/lab_room.png"
 		ROOM_TYPES.BOSS:

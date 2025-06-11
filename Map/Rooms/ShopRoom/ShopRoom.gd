@@ -12,10 +12,10 @@ extends EventRoom
 
 var item:ShopItem = null
 
-const maxItems:int = 5;
+const maxItems:int = 3;
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var placeholder := ["Beholder","Chomper","Silent","Dreemer","Siren"]
+	var placeholder := ["Am0rph","Giant","Silent"]
 	var placeholderTraits := [Spectral.new(),Small.new(),Big.new(),Regenerative.new(),Unwavering.new()]
 	for i in range(maxItems):
 		var scan := ShopItemScene.instantiate()
@@ -25,12 +25,12 @@ func _ready():
 				
 		scanButt.setCreature(placeholder[i])
 		
-		var traitItem := ShopItemScene.instantiate()
-		var traitButton := TraitButtonScene.instantiate()
-		TraitItems.add_child(traitItem)
-		traitItem.setItem(traitButton,15)
-		traitButton.setTrait(placeholderTraits[i])
-		traitButton.need_apply_item.connect(applyItem.bind(traitButton))
+		#var traitItem := ShopItemScene.instantiate()
+		#var traitButton := TraitButtonScene.instantiate()
+		#TraitItems.add_child(traitItem)
+		#traitItem.setItem(traitButton,15)
+		#traitButton.setTrait(placeholderTraits[i])
+		#traitButton.need_apply_item.connect(applyItem.bind(traitButton))
 		
 		var addMove := ShopItemScene.instantiate()
 		var moveButton = load("res://Map/Rooms/ShopRoom/InjectMove.tscn").instantiate()

@@ -10,8 +10,8 @@ var creature:Creature = null:
 			FreeDNA.setSprite(null)
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var array = [Banshee.new(),Amorph.new(),Am0rph.new()]
-	creature = array[randi()%3]
+	var array = ["???","AMORPH","Am0rph","siren","giant","princess"]
+	creature = CreatureLoader.getRandCreature(array)
 	onSelect()
 
 func onSelect() -> void:
@@ -26,8 +26,8 @@ func _on_creature_pressed() -> void:
 		%Flash.visible = true
 
 		#if creature is already in the team
-		if GameState.PlayerState.getTeam().reduce(func (accum:bool, creature2:Creature):
-				return accum || (creature2 and creature2.getName() == creature.getName())
+		if GameState.PlayerState.getScans().reduce(func (accum:bool, name:String):
+				return accum || (name == creature.getName())
 				,false):
 			GameState.increaseDNA(10);
 			Menu.pushMessage("You've seen this creature before, but a little extra data can't hurt.")

@@ -2,7 +2,7 @@ class_name Frostbite extends GenericAttack
 
 # Called when the node enters the scene tree for the first time.
 func _init():
-	super("Frostite",0,1,"Deal .75x damage to frontmost target and an additional .1x for each stack of Frost.")
+	super("Frostbite",0,1,"Deal .75x damage to frontmost target and an additional .1x for each stack of Frost.")
 
 func getPreselectedTargets(user:Creature, battle:Battlefield):
 	return battle.getFrontMostCreatures(1,user.getIsFriendly())

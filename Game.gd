@@ -96,10 +96,10 @@ func _on_map_room_selected(room:Room):
 	var roomInfo = room.roomType
 	var newScene:RoomBase = null
 	match roomInfo:
-		#Room.ROOM_TYPES.SHOP:
-			#var shopRoom = load("res://Map/Rooms/ShopRoom/ShopRoom.tscn").instantiate()
-			#newScene = shopRoom
-		Room.ROOM_TYPES.BATTLE, Room.ROOM_TYPES.SHOP:
+		Room.ROOM_TYPES.SHOP:
+			var shopRoom = load("res://Map/Rooms/ShopRoom/ShopRoom.tscn").instantiate()
+			newScene = shopRoom
+		Room.ROOM_TYPES.BATTLE:
 			newScene = load("res://Battle/BattleManager.tscn").instantiate()
 			#var enemies = [CreatureLoader.loadJSON("silent.json"),CreatureLoader.loadJSON("dreemer.json"),CreatureLoader.loadJSON("beholder.json"),CreatureLoader.loadJSON("beholder.json")]
 			var bruh = Buckets.new()
@@ -144,3 +144,8 @@ func loseGame():
 	#else:
 		#room_finished()
 		
+
+
+func _on_inventory_pressed() -> void:
+	showTeamView(!showTeam)
+	pass # Replace with function body.

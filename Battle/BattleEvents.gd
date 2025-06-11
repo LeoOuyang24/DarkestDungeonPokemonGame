@@ -51,7 +51,7 @@ func applyStatus(applier:Creature,target:Creature,effect:StatusEffect,stacks:int
 	
 signal removedStatus(remover:Creature,target:Creature,effect:StringName)
 func removeStatus(remover:Creature,target:Creature,effect:StringName):
-	var status = target.stauses[effect]
+	var status = target.statuses.getStatus(effect)
 	if status:
 		target.statuses.removeStatus(status);
 		removedStatus.emit(remover,target,effect)

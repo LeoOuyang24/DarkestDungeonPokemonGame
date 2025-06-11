@@ -6,8 +6,8 @@
 	"name": "Boss",
 	"flying": false,
 	"startMoves": [
-		"Brutalize",
-		"gigaimpact"
+		"backfire",
+		"maul"
 	],
 	"levelMoves": [	
 	]

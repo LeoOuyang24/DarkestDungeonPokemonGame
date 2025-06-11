@@ -34,7 +34,9 @@ func setCreature(creature:Creature) -> void:
 	swapped_current.emit(creature)
 
 func _process(delta):
-	LevelUpButton.disabled = !creature or creature not in GameState.PlayerState.getTeam()
+	LevelUpButton.disabled = !creature or \
+	creature not in GameState.PlayerState.getTeam() or\
+	LevelUpButton.cost > GameState.getDNA()
 
 func addBigBoost(stat:CreatureStats.STATS) -> void:
 	if creature:

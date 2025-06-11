@@ -74,5 +74,5 @@ var bucketUtility:Array = [
 ]
 
 var bucketHard:Array = [
-	BucketSlot.new(8,"giant")
+	BucketSlot.new(5,"giant")
 ]

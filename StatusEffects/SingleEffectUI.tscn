@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://jw7sqbc1imo4"]
+[gd_scene load_steps=3 format=3 uid="uid://c5dgwlarimvsu"]
 
 [ext_resource type="Texture2D" uid="uid://cdy30361egjk" path="res://sprites/statuses/sleep.png" id="1_ui1c6"]
 [ext_resource type="Script" uid="uid://c0i03ywfsl0bc" path="res://StatusEffects/singleeffectui.gd" id="2_kj4rx"]
